@@ -14,7 +14,7 @@
     },
     computed: {
       icon() {
-        return this.$scaife.skeleton.iconMap[this.name];
+        return this.$scaife.iconMap[this.name];
       },
     },
   };

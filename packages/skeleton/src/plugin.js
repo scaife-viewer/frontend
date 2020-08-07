@@ -1,22 +1,19 @@
+import Icon from '@scaife-viewer/commmon/Icon.vue';
+import LoaderBall from "@scaife-viewer/commmon/LoaderBall.vue";
+
 import FixedSkeleton from './FixedSkeleton.vue';
 import EditableSkeleton from './EditableSkeleton.vue';
-import TextLoader from './TextLoader.vue';
-import Icon from './icons/Icon.vue';
 
 import utils from './utils';
 import iconMap from './icons';
 
 class Skeleton {
-  constructor(widgets, additionIconMap) {
+  constructor(widgets) {
     this.widgets = widgets.reduce((map, obj) => {
       // eslint-disable-next-line no-param-reassign
       map[utils.displayName(obj.scaifeConfig.displayName)] = obj;
       return map;
     }, {});
-    this.iconMap = {
-      ...iconMap,
-      ...additionIconMap,
-    };
   }
 
   widgetOptions(location, mainWidget, leftWidgets, rightWidgets) {
@@ -58,16 +55,21 @@ const install = (Vue, options) => {
   // eslint-disable-next-line no-param-reassign
   Vue.prototype.$scaife = Vue.prototype.$scaife || {};
   // eslint-disable-next-line no-param-reassign
+  const additionalIconMap =  options.iconMap || {};
   Vue.prototype.$scaife = {
     ...Vue.prototype.$scaife,
-    skeleton: new Skeleton(options.widgets || [], options.iconMap || {}),
+    skeleton: new Skeleton(options.widgets || []),
     config: options.config || {},
+    iconMap: {
+      ...iconMap,
+      ...additionalIconMap,
+    },
   };
 
   Vue.component('FixedSkeleton', FixedSkeleton);
   Vue.component('EditableSkeleton', EditableSkeleton);
-  Vue.component('Icon', Icon);
-  Vue.component('TextLoader', TextLoader);
+  Vue.component("LoaderBall", LoaderBall);
+  Vue.component("Icon", Icon);
 };
 
 const SkeletonPlugin = { install };
