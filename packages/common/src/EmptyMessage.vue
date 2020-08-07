@@ -5,12 +5,10 @@
 </template>
 
 <style lang="scss" scoped>
-  @import '../styles/variables';
   .empty-message {
-    font-family: 'Noto Sans';
-    font-size: 14px;
+    font-size: var(--sv-error-message-font-size, 14px);
+    color: var(--sv-error-message-text-color, #495057);
     padding: 0 0 0.4rem;
-    color: $gray-700;
     font-style: italic;
     flex: 1;
   }

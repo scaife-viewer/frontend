@@ -1,9 +1,15 @@
 {
   "name": "@scaife-viewer/common",
   "version": "0.0.0",
+  "main": "src/index.js",
   "publishConfig": {
     "access": "public"
   },
   "author": "Eldarion",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/vue-fontawesome": "^0.1.8",
+    "lodash.debounce": "^4.0.8",
+    "vue": "^2.6.10"
+  }
 }

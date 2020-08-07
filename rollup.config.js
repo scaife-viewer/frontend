@@ -1,6 +1,12 @@
 // Ref https://medium.com/javascript-in-plain-english/bundling-monorepos-the-right-way-34116aa50433
 import path from "path";
 
+import vue from "rollup-plugin-vue";
+import buble from "rollup-plugin-buble";
+import commonjs from "rollup-plugin-commonjs";
+import replace from "rollup-plugin-replace";
+import { terser } from "rollup-plugin-terser";
+
 import { getPackages } from "@lerna/project";
 import filterPackages from "@lerna/filter-packages";
 import batchPackages from "@lerna/batch-packages";
@@ -33,14 +39,56 @@ async function main() {
     const input = path.join(basePath, 'src/index.js');
     /* "main" field from package.json file. */
     const { main } = pkg.toJSON();
+
     /* Push build config for this package. */
     config.push({
       input,
-      output: [{
-        file: path.join(basePath, main),
-        format: 'cjs',
-        sourcemap: true
-      }, /* Add any other configs (for esm or iife format?) */],
+      output: {
+        format: "esm",
+        file: path.join(basePath, main.replace('.js', '.esm.js')).replace('src/', 'dist/'),
+        sourcemap: true,
+        exports: "named",
+      },
+      plugins: [
+        replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+        commonjs(),
+        vue({ css: true, template: { isProduction: true } }),
+        buble({ objectAssign: true }),
+        terser({ output: { ecma: 6 } }),
+      ],
+    });
+    config.push({
+      input,
+      output: {
+        format: "cjs",
+        file: path.join(basePath, main.replace(".js", ".ssr.js")).replace('src/', 'dist/'),
+        sourcemap: true,
+        compact: true,
+        exports: "named",
+      },
+      plugins: [
+        replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+        commonjs(),
+        vue({ template: { isProduction: true, optimizeSSR: true } }),
+        buble({ objectAssign: true }),
+      ],
+    });
+    config.push({
+      input,
+      output: {
+        format: "iife",
+        file: path.join(basePath, main).replace(".js", ".min.js").replace('src/', 'dist/'),
+        sourcemap: true,
+        compact: true,
+        exports: "named",
+      },
+      plugins: [
+        replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+        commonjs(),
+        vue({ template: { isProduction: true } }),
+        buble({ objectAssign: true }),
+        terser({ output: { ecma: 5 } }),
+      ],
     });
   });
   return config;

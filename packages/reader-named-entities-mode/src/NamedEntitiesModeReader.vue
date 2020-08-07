@@ -38,9 +38,9 @@
 <script>
   import gql from 'graphql-tag';
 
+  import Reader from '@scaife-viewer/widget-reader/Reader.vue';
   import SelectableEntityMap from './SelectableEntityMap.vue';
   import EntityMapToolbar from './EntityMapToolbar.vue';
-  import Reader from './Reader.vue';
   import { MAP_STATE_NONE } from '@/constants';
 
   export default {

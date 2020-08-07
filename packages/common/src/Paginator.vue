@@ -1,9 +1,8 @@
 <template>
-  <nav class="paginator">
+  <nav class="paginator" :key="urnString">
     <router-link
       v-if="urn"
-      :key="urn.toString()"
-      :to="{ path: 'reader', query: { urn: urn.toString() } }"
+      :to="{ path: 'reader', query: { urn: urnString } }"
     >
       <Icon :name="icon" />
     </router-link>
@@ -12,7 +11,7 @@
 </template>
 
 <script>
-  import { Icon } from '@scaife-viewer/scaife-widgets';
+  import Icon from './Icon.vue';
 
   export default {
     name: 'Paginator',
@@ -21,6 +20,9 @@
     computed: {
       icon() {
         return `chevron-${this.direction}`;
+      },
+      urnString() {
+        return this.urn.toString();
       },
     },
   };
@@ -42,14 +44,16 @@
       height: calc(100vh - 30px);
       align-items: center;
       font-size: 36px;
-      color: $gray-500;
+    }
+    a {
+      color: var(--sv-paginator-link-text-color, #adb5bd);
     }
     a:hover {
-      color: $gray-800;
-      background: $gray-100;
+      color: var(--sv-paginator-link-hover-text-color, #343a40);
+      background: var(--sv-paginator-link-hover-background-color, #f8f9fa);
     }
     .disabled {
-      color: $gray-300;
+      color: var(--sv-paginator-disabled-text-color, #dee2e6);
     }
   }
 </style>

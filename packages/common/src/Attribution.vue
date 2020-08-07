@@ -5,11 +5,8 @@
 </template>
 
 <style lang="scss" scoped>
-  @import '../styles/variables';
-
   .attribution {
-    font-family: 'Noto Sans';
-    font-size: 14px;
-    color: $gray-600;
+    font-size: var(--sv-attribution-font-size, 14px);
+    color: var(--sv-attribution-text-color, #868e96);
   }
 </style>
