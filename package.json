@@ -5,9 +5,16 @@
   "repository": "git@github.com:scaife-viewer/frontend.git",
   "author": "Patrick Altman <paltman@gmail.com>",
   "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
   "private": true,
   "dependencies": {
+    "@lerna/batch-packages": "^3.16.0",
+    "@lerna/filter-packages": "^3.18.0",
+    "@lerna/project": "^3.21.0",
     "lerna": "^3.22.1",
+    "minimist": "^1.2.5",
     "rollup": "^2.23.0",
     "rollup-plugin-buble": "^0.19.8",
     "rollup-plugin-commonjs": "^10.1.0",

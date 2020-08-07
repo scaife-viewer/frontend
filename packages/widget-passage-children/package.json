@@ -1,29 +1,9 @@
 {
-  "name": "widget-passage-children",
+  "name": "@scaife-viewer/widget-passage-children",
   "version": "0.0.0",
-  "description": "> TODO: description",
-  "author": "Patrick Altman <paltman@gmail.com>",
-  "homepage": "https://github.com/scaife-viewer/frontend#readme",
-  "license": "MIT",
-  "main": "lib/widget-passage-children.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
-  "files": [
-    "lib"
-  ],
   "publishConfig": {
-    "registry": "https://registry.yarnpkg.com"
+    "access": "public"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/scaife-viewer/frontend.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
-  },
-  "bugs": {
-    "url": "https://github.com/scaife-viewer/frontend/issues"
-  }
+  "author": "Eldarion",
+  "license": "MIT"
 }
