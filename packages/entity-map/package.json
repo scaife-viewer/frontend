@@ -1,0 +1,14 @@
+{
+  "name": "@scaife-viewer/entity-map",
+  "version": "0.0.0",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eldarion",
+  "license": "MIT",
+  "dependencies": {
+    "mapbox-gl": "^1.11.0",
+    "vue-mapbox": "^0.4.1"
+  }
+}

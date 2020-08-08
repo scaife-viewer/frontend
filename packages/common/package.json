@@ -9,7 +9,6 @@
   "license": "MIT",
   "dependencies": {
     "@fortawesome/vue-fontawesome": "^0.1.8",
-    "lodash.debounce": "^4.0.8",
-    "vue": "^2.6.10"
+    "lodash.debounce": "^4.0.8"
   }
 }

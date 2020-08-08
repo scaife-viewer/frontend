@@ -6,7 +6,8 @@
   "author": "Patrick Altman <paltman@gmail.com>",
   "license": "MIT",
   "workspaces": [
-    "packages/common"
+    "packages/common",
+    "packages/entity-map"
   ],
   "private": true,
   "scripts": {
