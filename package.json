@@ -11,6 +11,8 @@
     "packages/skeleton",
     "packages/reader-alignments-mode",
     "packages/reader-image-mode",
+    "packages/reader-interlinear-mode",
+    "packages/reader-metrical-mode",
     "packages/widget-reader"
   ],
   "private": true,

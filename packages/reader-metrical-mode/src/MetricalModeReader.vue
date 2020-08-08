@@ -24,15 +24,17 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { ApolloQuery } from 'vue-apollo';
 
-  import Reader from '@scaife-viewer/widget-reader/Reader.vue';
+  import Reader from '@scaife-viewer/widget-reader';
+  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
 
   export default {
     readerConfig: {
       label: 'Metrical Annotations',
       textWidth: 'wide',
     },
-    components: { Reader },
+    components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage, Reader },
     props: {
       queryVariables: Object,
       textSize: String,
@@ -109,7 +111,7 @@
     flex: 1;
   }
   .text {
-    font-family: $font-family-serif;
+    font-family: var(--sv-reader-metrical-mode-text-font-family, 'Noto Serif');
     margin: 1em 0;
 
     &.text-xs {
