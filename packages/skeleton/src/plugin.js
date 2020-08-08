@@ -67,8 +67,8 @@ const install = (Vue, options) => {
 
   Vue.component('FixedSkeleton', FixedSkeleton);
   Vue.component('EditableSkeleton', EditableSkeleton);
-  Vue.component("LoaderBall", LoaderBall);
-  Vue.component("Icon", Icon);
+  Vue.component('LoaderBall', LoaderBall);
+  Vue.component('Icon', Icon);
 };
 
 const SkeletonPlugin = { install };

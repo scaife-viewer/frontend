@@ -8,7 +8,8 @@
   "workspaces": [
     "packages/common",
     "packages/entity-map",
-    "packages/skeleton"
+    "packages/skeleton",
+    "packages/reader-alignments-mode"
   ],
   "private": true,
   "scripts": {

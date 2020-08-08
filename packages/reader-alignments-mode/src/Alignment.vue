@@ -24,7 +24,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/variables';
   .alignment {
     margin-bottom: 20px;
     .columns {
@@ -45,7 +44,7 @@
   .alignment-ref {
     text-align: center;
     font-size: 12pt;
-    color: #69c;
+    color: var(--sv-alignments-alignment-ref-text-color, #69c);
     font-family: 'Noto Sans';
     margin-bottom: 5px;
   }
@@ -54,7 +53,7 @@
     align-items: baseline;
     .line-ref {
       font-size: 10pt;
-      color: #69c;
+      color: var(--sv-alignments-line-ref-text-color,#69c);
       font-family: 'Noto Sans';
       min-width: 4em;
       text-align: right;
@@ -64,7 +63,7 @@
     }
   }
   .line {
-    font-family: $font-family-serif;
+    font-family: var(--sv-alignments-line-font-family, 'Noto Serif');
   }
 
   .text-xs .line {

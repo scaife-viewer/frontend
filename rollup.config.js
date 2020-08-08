@@ -51,24 +51,23 @@ async function main() {
     /* 'main' field from package.json file. */
     const { main } = pkg.toJSON();
 
-    const external = [
-      '@scaife-viewer/commmon',
-      '@fortawesome/free-solid-svg-icons',
-      '@fortawesome/vue-fontawesome',
-      'portal-vue',
-      'mapbox-gl',
-      'vue-mapbox',
-      'lodash.debounce',
-    ];
-    const globals = {
-      '@scaife-viewer/commmon': 'common',
-      '@fortawesome/free-solid-svg-icons': 'svgIcons',
-      '@fortawesome/vue-fontawesome': 'vueFontawesome',
-      'portal-vue': 'portalVue',
-      'mapbox-gl': 'mapboxGl',
-      'vue-mapbox': 'vueMapbox',
-      'lodash.debounce': 'debounce',
-    };
+    const external = Object.keys(pkg.dependencies);
+    const globals = external.reduce((map, key) => {
+      return {
+        ...map,
+        [key]: IIFEOutputName(key),
+      }
+    }, {});
+
+    const replacePlugin = replace({
+      "process.env.NODE_ENV": JSON.stringify("production"),
+    });
+    const bublePlugin = buble({
+      objectAssign: true,
+      transforms: { forOf: false, templateString: false },
+    });
+
+    console.log(pkg.name, external, globals);
 
     /* Push build config for this package. */
     config.push({
@@ -81,10 +80,10 @@ async function main() {
         exports: 'named',
       },
       plugins: [
-        replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+        replacePlugin,
         commonjs(),
         vue({ css: true, template: { isProduction: true } }),
-        buble({ objectAssign: true, transforms: { forOf: false } }),
+        bublePlugin,
         terser({ output: { ecma: 6 } }),
       ],
     });
@@ -99,10 +98,10 @@ async function main() {
         exports: 'named',
       },
       plugins: [
-        replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+        replacePlugin,
         commonjs(),
         vue({ template: { isProduction: true, optimizeSSR: true } }),
-        buble({ objectAssign: true, transforms: { forOf: false } }),
+        bublePlugin,
       ],
     });
     config.push({
@@ -118,10 +117,10 @@ async function main() {
         globals,
       },
       plugins: [
-        replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
+        replacePlugin,
         commonjs(),
         vue({ template: { isProduction: true } }),
-        buble({ objectAssign: true, transforms: { forOf: false } }),
+        bublePlugin,
         terser({ output: { ecma: 5 } }),
       ],
     });

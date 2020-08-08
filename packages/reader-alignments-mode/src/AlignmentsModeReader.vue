@@ -26,6 +26,7 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
 
   import Alignments from './Alignments.vue';
 
@@ -41,6 +42,9 @@
     },
     components: {
       Alignments,
+      LoaderBall,
+      ErrorMessage,
+      EmptyMessage,
     },
     computed: {
       query() {
