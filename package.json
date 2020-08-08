@@ -17,6 +17,7 @@
     "@lerna/batch-packages": "^3.16.0",
     "@lerna/filter-packages": "^3.18.0",
     "@lerna/project": "^3.21.0",
+    "@rollup/plugin-node-resolve": "^8.4.0",
     "@vue/compiler-sfc": "^3.0.0-rc.5",
     "lerna": "^3.22.1",
     "minimist": "^1.2.5",

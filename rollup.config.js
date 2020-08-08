@@ -6,11 +6,23 @@ import buble from "rollup-plugin-buble";
 import commonjs from "rollup-plugin-commonjs";
 import replace from "rollup-plugin-replace";
 import { terser } from "rollup-plugin-terser";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 
 import { getPackages } from "@lerna/project";
 import filterPackages from "@lerna/filter-packages";
 import batchPackages from "@lerna/batch-packages";
 import minimist from "minimist";
+
+var IIFEOutputName = s => {
+  const camel = s
+    .replace('@', '')
+    .replace('/', '-')
+    .replace(
+      /-([a-z])/gi,
+      ($0, $1) => $1.toUpperCase(),
+    );
+  return `${camel.charAt(0).toUpperCase()}${camel.slice(1)}`;
+};
 
 /**
  * @param {string}[scope] - packages to only build (if you don't
@@ -50,10 +62,11 @@ async function main() {
         exports: "named",
       },
       plugins: [
+        nodeResolve(),
         replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
         commonjs(),
         vue({ css: true, template: { isProduction: true } }),
-        buble({ objectAssign: true }),
+        buble({ objectAssign: true, transforms: { forOf: false } }),
         terser({ output: { ecma: 6 } }),
       ],
     });
@@ -67,10 +80,11 @@ async function main() {
         exports: "named",
       },
       plugins: [
+        nodeResolve(),
         replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
         commonjs(),
         vue({ template: { isProduction: true, optimizeSSR: true } }),
-        buble({ objectAssign: true }),
+        buble({ objectAssign: true, transforms: { forOf: false } }),
       ],
     });
     config.push({
@@ -81,12 +95,14 @@ async function main() {
         sourcemap: true,
         compact: true,
         exports: "named",
+        name: IIFEOutputName(pkg.name),
       },
       plugins: [
+        nodeResolve(),
         replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
         commonjs(),
         vue({ template: { isProduction: true } }),
-        buble({ objectAssign: true }),
+        buble({ objectAssign: true, transforms: { forOf: false } }),
         terser({ output: { ecma: 5 } }),
       ],
     });
