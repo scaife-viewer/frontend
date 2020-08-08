@@ -37,11 +37,14 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { ApolloQuery } from 'vue-apollo';
 
-  import Reader from '@scaife-viewer/widget-reader/Reader.vue';
+  import Reader from '@scaife-viewer/widget-reader';
+  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+
   import SelectableEntityMap from './SelectableEntityMap.vue';
   import EntityMapToolbar from './EntityMapToolbar.vue';
-  import { MAP_STATE_NONE } from '@/constants';
+  import { MAP_STATE_NONE } from './constants';
 
   export default {
     readerConfig: {
@@ -56,6 +59,10 @@
       SelectableEntityMap,
       EntityMapToolbar,
       Reader,
+      LoaderBall,
+      ErrorMessage,
+      EmptyMessage,
+      ApolloQuery,
     },
     data() {
       return {

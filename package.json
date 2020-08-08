@@ -13,6 +13,7 @@
     "packages/reader-image-mode",
     "packages/reader-interlinear-mode",
     "packages/reader-metrical-mode",
+    "packages/reader-named-entities-mode-mode",
     "packages/widget-reader"
   ],
   "private": true,

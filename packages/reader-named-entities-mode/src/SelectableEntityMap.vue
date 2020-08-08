@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import EntityMap from '@scaife-viewer/entity-map/EntityMap.vue';
+  import EntityMap from '@scaife-viewer/entity-map';
 
   export default {
     props: ['coordinatesList', 'selectedEntities'],

@@ -17,7 +17,7 @@
     MAP_STATE_HORIZONTAL,
     MAP_STATE_VERTICAL,
     MAP_STATE_NONE,
-  } from '@/constants';
+  } from './constants';
 
   export default {
     props: ['mapState'],
@@ -57,12 +57,12 @@
       border: 1px solid transparent;
     }
     a:hover {
-      border-color: $explorehomer-brand;
+      border-color: var(--sv-reader-named-entities-mode-toolbar-hover-link-border-color, #b45141);
     }
     a.active {
       font-weight: 700;
-      background: $explorehomer-brand;
-      color: $white;
+      background: var(--sv-reader-named-entities-mode-toolbar-active-link-background-color, #b45141);
+      color: var(--sv-reader-named-entities-mode-toolbar-active-link-text-color, #FFF);
       border-color: transparent;
     }
   }
