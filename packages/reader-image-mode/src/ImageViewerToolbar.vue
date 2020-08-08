@@ -18,7 +18,7 @@
     IMAGE_VIEWER_STATE_TEXT,
     IMAGE_VIEWER_STATE_IMAGE,
     IMAGE_VIEWER_STATE_BOTH,
-  } from '@/constants';
+  } from './constants';
 
   export default {
     props: ['show'],
@@ -58,12 +58,12 @@
       border: 1px solid transparent;
     }
     a:hover {
-      border-color: $explorehomer-brand;
+      border-color: var(--sv-reader-image-mode-toolbar-link-hover-border-color, #b45141);
     }
     a.active {
       font-weight: 700;
-      background: $explorehomer-brand;
-      color: $white;
+      background: var(--sv-reader-image-mode-toolbar-link-background-color, #b45141);
+      color: var(--sv-reader-image-mode-toolbar-link-text-color, #FFF);
       border-color: transparent;
     }
   }

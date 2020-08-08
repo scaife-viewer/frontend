@@ -5,7 +5,7 @@
     </section>
     <div class="line u-flex" v-else>
       <div class="line-ref" @click="onLineSelect">
-        <icon v-if="playingAudio" name="volume-up" />
+        <Icon v-if="playingAudio" name="volume-up" />
         {{ line.ref }}
       </div>
       <div
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-  import { URN } from '@scaife-viewer/scaife-widgets';
-  import { SELECT_LINE } from '@/constants';
+  import URN, { Icon } from '@scaife-viewer/common';
+  import { SELECT_LINE } from './constants';
   import ReaderToken from './ReaderToken.vue';
 
   export default {
     props: ['line'],
-    components: { ReaderToken },
+    components: { Icon, ReaderToken },
     methods: {
       onLineSelect() {
         this.$store.dispatch(SELECT_LINE, {
@@ -75,15 +75,15 @@
 
 <style lang="scss" scoped>
   .playing-audio {
-    background: $gray-200;
+    background: var(--sv-widget-reader-playing-audio-background, #e9ecef);
   }
   .line {
     display: flex;
     align-items: baseline;
     .line-ref {
       font-size: 10pt;
-      color: #69c;
-      font-family: 'Noto Sans';
+      color: var(--sv-widget-reader-line-ref-text-color, #69c);
+      font-family: var(--sv-widget-reader-line-ref-font-family, 'Noto Sans');
       min-width: 4em;
       margin-left: 1em;
       text-align: right;
@@ -91,7 +91,7 @@
       > svg {
         margin-left: -10px;
         margin-right: 10px;
-        color: $gray-700;
+        color: var(--sv-widget-reader-line-ref-svg-color, #495057);
       }
     }
     .line-text {
@@ -122,24 +122,24 @@
       padding: 1px 3px;
     }
     span.syll:first-child {
-      border-left: 2px solid black;
+      border-left: 2px solid var(--sv-widget-reader-metrical-syll-first-border-color, black);
     }
     span.syll.caesura:first-child {
-      border-left: 3px solid blue;
+      border-left: 3px solid var(--sv-widget-reader-metrical-syll-caesura-first-border-color, blue);
     }
     span.syll:not(:first-child) {
-      border-left: 1px dotted black;
+      border-left: 1px dotted var(--sv-widget-reader-metrical-syll-first-border-color, black);
     }
     span.syll.caesura:not(:first-child) {
-      border-left: 3px dotted blue;
+      border-left: 3px dotted var(--sv-widget-reader-metrical-syll-caesura-first-border-color, blue);
     }
 
     /* show syllable length */
     span.syll.long {
-      background-color: #ccc;
+      background-color: var(--sv-widget-reader-metrical-syll-long-border-color, #ccc);
     }
     span.syll:not(.long) {
-      background-color: #eee;
+      background-color: var(--sv-widget-reader-metrical-syll-not-long-border-color, #eee);
     }
   }
 </style>

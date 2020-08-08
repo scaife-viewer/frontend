@@ -20,11 +20,11 @@
 </template>
 
 <script>
-  import Attribution from '@scaife-viewer/common/Attribution.vue';
+  import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import ReaderLine from './ReaderLine.vue';
 
   export default {
-    components: { Attribution, ReaderLine },
+    components: { Attribution, EmptyMessage, ReaderLine },
     props: ['lines', 'textSize', 'textWidth'],
     computed: {
       metricalMode() {
@@ -67,7 +67,7 @@
     flex: 1;
   }
   .text {
-    font-family: $font-family-serif;
+    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
     margin: 1em 0;
 
     &.text-xs {

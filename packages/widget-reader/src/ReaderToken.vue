@@ -25,15 +25,17 @@
 </template>
 
 <script>
-  import { SELECT_TOKEN, MODULE_NS } from '@/reader/constants';
-  import { CLEAR_NAMED_ENTITIES, SELECT_NAMED_ENTITIES } from '@/constants';
+  import { SELECT_TOKEN, MODULE_NS } from './constants';
+  // import { CLEAR_NAMED_ENTITIES, SELECT_NAMED_ENTITIES } from './constants';
 
   export default {
     props: ['token'],
     methods: {
       onSelect() {
         if (this.selected) {
-          this.$store.dispatch(CLEAR_NAMED_ENTITIES);
+          // @@@ refactor this logic to move the NAMED_ENTITIES dispatches coordinated
+          //     at the site level config, should pass in the value of this.selected and this.isEntity
+          // this.$store.dispatch(CLEAR_NAMED_ENTITIES);
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: null,
           });
@@ -41,9 +43,9 @@
           (this.namedEntitiesMode && this.isEntity) ||
           !this.namedEntitiesMode
         ) {
-          this.$store.dispatch(SELECT_NAMED_ENTITIES, {
-            entities: this.entities,
-          });
+          // this.$store.dispatch(SELECT_NAMED_ENTITIES, {
+          //   entities: this.entities,
+          // });
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: this.token,
           });
@@ -95,21 +97,22 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/variables';
+  $interlinear-font-family: 'Lucida Console', Monaco, monospace;
+
   .token .text {
     cursor: pointer;
   }
   .token.selected .text {
-    @include highlight($selected-token);
+    box-shadow: 0 -10px 0px var(--sv-widget-reader-token-selected-shadow-color, #6FF) inset;
   }
   .token.entity-mode:not(.entity) .text {
     cursor: inherit;
   }
   .token.entity .text {
-    @include highlight($entity);
+    box-shadow: 0 -10px 0px var(--sv-widget-reader-token-entity-shadow-color, #FF6) inset;
   }
   .token.selected-entity .text {
-    @include highlight($selected-entity);
+    box-shadow: 0 -10px 0px var(--sv-widget-reader-token-selected-entity-shadow-color, #9F9) inset;
   }
   .token.interlinear {
     display: inline-block;
@@ -119,31 +122,31 @@
       display: block;
     }
     .ref {
-      font-family: 'Lucida Console', Monaco, monospace;
+      font-family: var(--sv-widget-reader-interlinear-ref-font-family, $interlinear-font-family);
       font-size: 0.55em;
-      color: #999;
+      color: var(--sv-widget-reader-interlinear-ref-text-color, #999);
     }
     .text {
       font-size: 1em;
       font-weight: 700;
-      color: #000;
+      color: var(--sv-widget-reader-interlinear-text-color, #000);
     }
     .lemma {
       font-size: 0.88em;
-      color: #333;
+      color: var(--sv-widget-reader-interlinear-lemma-text-color, #333);
     }
     .pos {
       font-size: 0.77em;
-      color: #999;
+      color: var(--sv-widget-reader-interlinear-pos-text-color, #999);
     }
     .analysis {
-      font-family: 'Lucida Console', Monaco, monospace;
+      font-family: var(--sv-widget-reader-interlinear-analysis-font-family, $interlinear-font-family);
       font-size: 0.66em;
-      color: #999;
+      color: var(--sv-widget-reader-interlinear-analysis-text-color, #999);
     }
     .gloss {
       font-size: 0.88em;
-      color: #333;
+      color: var(--sv-widget-reader-interlinear-gloss-text-color, #333);
       font-style: italic;
     }
   }

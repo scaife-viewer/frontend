@@ -34,7 +34,7 @@
 
 <script>
   import OpenSeadragon from 'openseadragon';
-  import Attribution from '@scaife-viewer/common/Attribution.vue';
+  import { Attribution } from '@scaife-viewer/common';
 
   export default {
     props: ['imageIdentifier'],
@@ -106,8 +106,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/variables.scss';
-
   .open-seadragon {
     flex: 1;
     .viewer {
@@ -123,15 +121,15 @@
       border-radius: 3px;
     }
     .link:hover {
-      color: $white;
-      background: $explorehomer-brand;
+      color: var(--sv-reader-image-mode-openseadragon-hover-link-text-color, #FFF);
+      background: var(--sv-reader-image-mode-openseadragon-hover-link-background-color, #b45141);
     }
 
     .error {
       margin: 10px 0px;
       padding: 12px;
-      color: #d8000c;
-      background-color: #ffd2d2;
+      color: var(--sv-reader-image-mode-error-text-color, #d8000c);
+      background-color: var(--sv-reader-image-mode-error-background-color, #ffd2d2);
       vertical-align: middle;
       max-width: 40em;
     }

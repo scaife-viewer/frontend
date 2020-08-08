@@ -24,6 +24,8 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { ApolloQuery } from 'vue-apollo';
+  import { LoaderBall, EmptyMessage, ErrorMessage } from '@scaife-viewer/common';
 
   import Reader from './Reader.vue';
 
@@ -31,7 +33,7 @@
     readerConfig: {
       label: 'Default',
     },
-    components: { Reader },
+    components: { ApolloQuery, LoaderBall, EmptyMessage, ErrorMessage, Reader },
     props: {
       queryVariables: Object,
       textSize: String,
@@ -91,7 +93,7 @@
     flex: 1;
   }
   .text {
-    font-family: $font-family-serif;
+    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
     margin: 1em 0;
 
     &.text-xs {

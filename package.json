@@ -9,7 +9,9 @@
     "packages/common",
     "packages/entity-map",
     "packages/skeleton",
-    "packages/reader-alignments-mode"
+    "packages/reader-alignments-mode",
+    "packages/reader-image-mode",
+    "packages/widget-reader"
   ],
   "private": true,
   "scripts": {

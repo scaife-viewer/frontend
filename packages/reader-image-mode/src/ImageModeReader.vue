@@ -43,12 +43,14 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { ApolloQuery } from 'vue-apollo';
 
-  import Reader from '@scaife-viewer/widget-reader/Reader.vue';
+  import Reader from '@scaife-viewer/widget-reader';
+  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
 
   import ImageViewer from './ImageViewer.vue';
   import ImageViewerToolbar from './ImageViewerToolbar.vue';
-  import { IMAGE_VIEWER_STATE_BOTH } from '@/constants';
+  import { IMAGE_VIEWER_STATE_BOTH } from './constants';
 
   export default {
     readerConfig: {
@@ -61,6 +63,10 @@
       textWidth: String,
     },
     components: {
+      ApolloQuery,
+      EmptyMessage,
+      ErrorMessage,
+      LoaderBall,
       ImageViewer,
       ImageViewerToolbar,
       Reader,
