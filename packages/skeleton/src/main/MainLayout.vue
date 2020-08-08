@@ -58,8 +58,6 @@
 </script>
 
 <style lang="scss">
-  @import '../../variables.scss';
-
   .main-layout-flex-2 {
     flex: 2;
   }

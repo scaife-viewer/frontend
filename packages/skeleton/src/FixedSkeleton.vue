@@ -90,13 +90,4 @@
   };
 </script>
 
-<style lang="scss">
-  @import '../variables.scss';
-
-  .skeleton {
-    display: flex;
-    height: 100vh;
-    background: $gray-200;
-    position: relative;
-  }
-</style>
+<style lang="scss" src="./skeleton.scss"></style>

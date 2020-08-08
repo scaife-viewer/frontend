@@ -64,19 +64,17 @@
 </script>
 
 <style lang="scss">
-  @import '../../variables.scss';
-
   .remove-link {
-    color: red;
+    color: var(--sv-sidebar-widget-remove-link-text-color, red);
   }
 
   .widget {
-    background: $white;
+    background: var(--sv-widget-background-color, #FFF);
     position: relative;
     padding: 0 8px 8px 8px;
-    border-bottom: 1px solid $gray-200;
+    border-bottom: 1px solid var(--sv-widget-bottom-border-color, #e9ecef);
     &:first-of-type {
-      border-top: 1px solid $gray-200;
+      border-top: 1px solid var(--sv-widget-top-border-color, #e9ecef);
     }
     .sticky-block {
       background: inherit;
@@ -85,12 +83,12 @@
       z-index: 1000;
     }
     h2 {
-      background: $white;
+      background: var(--sv-widget-h2-background-color, #FFF);
       padding: 15px 0 5px;
       display: flex;
       justify-content: space-between;
       margin: 0;
-      color: $gray-700;
+      color: var(--sv-widget-h2-text-color, #495057);
       text-transform: uppercase;
       letter-spacing: 0.2em;
       font-size: 16px;
@@ -102,20 +100,20 @@
         .open-toggle {
           text-align: center;
           min-width: 2em;
-          color: $gray-400;
+          color: var(--sv-widget-open-toggle-text-color, #ced4da);
         }
         &:hover .open-toggle {
-          color: $gray-700;
+          color: var(--sv-widget-open-toggle-hover-text-color, #495057);
         }
       }
       .fixed-toggle {
         opacity: 0;
         font-size: 0.9rem;
         max-width: 2em;
-        color: $gray-400;
+        color: var(--sv-widget-fixed-toggle-text-color, #ced4da);
         text-align: right;
         &:hover {
-          color: $gray-600;
+          color: var(--sv-widget-fixed-toggle-hover-text-color, #495057);
         }
       }
     }
@@ -123,7 +121,7 @@
       opacity: 1;
     }
     div.sticky-body {
-      background: $white;
+      background: var(--sv-widget-sticky-body-background-color, #FFF);
     }
     div.body {
       position: relative;
@@ -136,15 +134,5 @@
   }
   .widget.widget-sidebar h2 {
     cursor: pointer;
-  }
-
-  /* <div class="widget-body-blur"></div> */
-  .widget-body-blur {
-    background: linear-gradient(0deg, #fff, hsla(0, 0%, 100%, 0));
-    height: 32px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
   }
 </style>

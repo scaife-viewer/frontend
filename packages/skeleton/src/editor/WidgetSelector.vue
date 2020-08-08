@@ -33,29 +33,28 @@
 </script>
 
 <style lang="scss">
-  @import '../../variables.scss';
-
   .widget-option {
     display: flex;
     justify-content: flex-start;
     cursor: pointer;
     padding: 0.75rem 1.25rem;
     margin: 0.5rem 0.375rem;
-    border: 1px solid $gray-100;
-    background: $gray-200;
+    border: 1px solid var(--sv-widget-option-border-color, #f8f9fa);
+    background: var(--sv-widget-option-background-color, #e9ecef);
+    color: var(--sv-widget-option-text-color, #495057);
+
     span:first-of-type {
       margin-right: 8px;
     }
     &:hover,
     &.selected {
-      background: $gray-300;
-      color: $black;
+      background: var(--sv-widget-option-selected-background-color, #dee2e6);
+      color: var(--sv-widget-option-selected-text-color, #000);
       span svg {
-        color: #0a0;
+        color: var(--sv-widget-option-selected-svg-color, #0a0);
       }
     }
 
-    color: $gray-700;
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-size: 16px;

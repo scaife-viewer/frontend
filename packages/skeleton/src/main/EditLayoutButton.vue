@@ -15,23 +15,21 @@
   };
 </script>
 <style lang="scss">
-  @import '../../variables.scss';
-
   .edit-layout-button {
-    color: $gray-300;
+    color: var(--sv-edit-layout-button-text-color, #dee2e6);
     border: none;
     font-size: 14px;
     &:hover {
-      color: $gray-700;
+      color: var(--sv-edit-layout-button-hover-text-color, #495057);
     }
     &.editing {
-      background: $gray-200;
-      color: $gray-700;
+      background:  var(--sv-edit-layout-button-editing-background-color, #dee2e6);
+      color: var(--sv-edit-layout-button-editing-text-color, #495057);
       text-decoration: none;
       margin-top: -5px; // to make DONE line up with heading
       padding: 5px 10px;
       &:hover {
-        background: $gray-400;
+        background: var(--sv-edit-layout-button-editing-hover-background-color, #ced4da);
       }
     }
   }

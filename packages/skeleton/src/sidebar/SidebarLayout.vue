@@ -48,15 +48,13 @@
 </script>
 
 <style lang="scss">
-  @import '../../variables.scss';
-
   .sidebar-wrapper {
     flex: 1;
     position: relative;
     display: flex;
     flex-direction: column;
     max-width: 600px;
-    background: $white;
+    background: var(--sv-sidebar-wrapper-background-color, #FFF);
   }
 
   .left .button-container {
@@ -66,18 +64,18 @@
   button.toggle-open {
     border: none;
     font-size: 18px;
-    color: $gray-600;
+    color: var(--sv-toggle-open-text-color, #868e96);
     outline: none;
-    background: transparent;
+    background: var(--sv-toggle-open-background-color, transparent);
     margin: 4px;
     padding: 3px 2px 1px 2px;
   }
 
   .left.sidebar-wrapper {
-    border-right: 1px solid $gray-300;
+    border-right: 1px solid var(--sv-sidebar-wrapper-border-left-color, #dee2e6);
   }
   .right.sidebar-wrapper {
-    border-left: 1px solid $gray-300;
+    border-left: 1px solid var(--sv-sidebar-wrapper-border-right-color, #dee2e6);
   }
   .left.sidebar-wrapper.sidebar-left--closed,
   .right.sidebar-wrapper.sidebar-right--closed {
