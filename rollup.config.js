@@ -1,17 +1,16 @@
 // Ref https://medium.com/javascript-in-plain-english/bundling-monorepos-the-right-way-34116aa50433
-import path from "path";
+import path from 'path';
 
-import vue from "rollup-plugin-vue";
-import buble from "rollup-plugin-buble";
-import commonjs from "rollup-plugin-commonjs";
-import replace from "rollup-plugin-replace";
-import { terser } from "rollup-plugin-terser";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
+import vue from 'rollup-plugin-vue';
+import buble from 'rollup-plugin-buble';
+import commonjs from 'rollup-plugin-commonjs';
+import replace from 'rollup-plugin-replace';
+import { terser } from 'rollup-plugin-terser';
 
-import { getPackages } from "@lerna/project";
-import filterPackages from "@lerna/filter-packages";
-import batchPackages from "@lerna/batch-packages";
-import minimist from "minimist";
+import { getPackages } from '@lerna/project';
+import filterPackages from '@lerna/filter-packages';
+import batchPackages from '@lerna/batch-packages';
+import minimist from 'minimist';
 
 var IIFEOutputName = s => {
   const camel = s
@@ -49,20 +48,39 @@ async function main() {
     const basePath = path.relative(__dirname, pkg.location);
     /* Absolute path to input file */
     const input = path.join(basePath, 'src/index.js');
-    /* "main" field from package.json file. */
+    /* 'main' field from package.json file. */
     const { main } = pkg.toJSON();
+
+    const external = [
+      '@scaife-viewer/commmon',
+      '@fortawesome/free-solid-svg-icons',
+      '@fortawesome/vue-fontawesome',
+      'portal-vue',
+      'mapbox-gl',
+      'vue-mapbox',
+      'lodash.debounce',
+    ];
+    const globals = {
+      '@scaife-viewer/commmon': 'common',
+      '@fortawesome/free-solid-svg-icons': 'svgIcons',
+      '@fortawesome/vue-fontawesome': 'vueFontawesome',
+      'portal-vue': 'portalVue',
+      'mapbox-gl': 'mapboxGl',
+      'vue-mapbox': 'vueMapbox',
+      'lodash.debounce': 'debounce',
+    };
 
     /* Push build config for this package. */
     config.push({
+      external,
       input,
       output: {
-        format: "esm",
+        format: 'esm',
         file: path.join(basePath, main.replace('.js', '.esm.js')).replace('src/', 'dist/'),
         sourcemap: true,
-        exports: "named",
+        exports: 'named',
       },
       plugins: [
-        nodeResolve(),
         replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
         commonjs(),
         vue({ css: true, template: { isProduction: true } }),
@@ -71,16 +89,16 @@ async function main() {
       ],
     });
     config.push({
+      external,
       input,
       output: {
-        format: "cjs",
-        file: path.join(basePath, main.replace(".js", ".ssr.js")).replace('src/', 'dist/'),
+        format: 'cjs',
+        file: path.join(basePath, main.replace('.js', '.ssr.js')).replace('src/', 'dist/'),
         sourcemap: true,
         compact: true,
-        exports: "named",
+        exports: 'named',
       },
       plugins: [
-        nodeResolve(),
         replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
         commonjs(),
         vue({ template: { isProduction: true, optimizeSSR: true } }),
@@ -88,17 +106,18 @@ async function main() {
       ],
     });
     config.push({
+      external,
       input,
       output: {
-        format: "iife",
-        file: path.join(basePath, main).replace(".js", ".min.js").replace('src/', 'dist/'),
+        format: 'iife',
+        file: path.join(basePath, main).replace('.js', '.min.js').replace('src/', 'dist/'),
         sourcemap: true,
         compact: true,
-        exports: "named",
+        exports: 'named',
         name: IIFEOutputName(pkg.name),
+        globals,
       },
       plugins: [
-        nodeResolve(),
         replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
         commonjs(),
         vue({ template: { isProduction: true } }),
