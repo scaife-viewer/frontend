@@ -67,8 +67,6 @@ async function main() {
       transforms: { forOf: false, templateString: false },
     });
 
-    console.log(pkg.name, external, globals);
-
     /* Push build config for this package. */
     config.push({
       external,

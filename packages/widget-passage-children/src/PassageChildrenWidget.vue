@@ -10,7 +10,7 @@
 
 <script>
   import gql from 'graphql-tag';
-  import { WIDGETS_NS } from '@scaife-viewer/scaife-common';
+  import { WIDGETS_NS } from '@scaife-viewer/common';
 
   export default {
     name: 'PassageChildrenWidget',

@@ -1,4 +1,4 @@
-import { Icon, LoaderBall } from '@scaife-viewer/commmon';
+import { Icon, LoaderBall } from '@scaife-viewer/common';
 
 import FixedSkeleton from './FixedSkeleton.vue';
 import EditableSkeleton from './EditableSkeleton.vue';
