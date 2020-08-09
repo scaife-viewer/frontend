@@ -24,14 +24,15 @@
 <script>
   import gql from 'graphql-tag';
 
-  import { PLAY_AUDIO, STOP_AUDIO } from '@/constants';
-  import Attribution from '@/components/Attribution.vue';
+  import { Attribution, EmptyMessage } from '@scaife-viewer/common';
+
+  import { PLAY_AUDIO, STOP_AUDIO } from './constants';
 
   export default {
     scaifeConfig: {
       displayName: 'Audio',
     },
-    components: { Attribution },
+    components: { Attribution, EmptyMessage },
     data() {
       return {
         nowPlayingIndex: 0,
@@ -162,7 +163,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/variables';
   .audio-widget {
     margin: 0 2rem;
     flex: 1;
@@ -177,26 +177,26 @@
     display: block;
     width: 100%;
     outline: none;
-    background: $gray-100;
-    border: 1px solid $gray-300;
+    background: var(--sv-audio-widget-button-background-color, #f8f9fa);
+    border: 1px solid var(--sv-audio-widget-button-border-color, #dee2e6);
+    color: var(--sv-audio-widget-button-text-color, #495057);
     cursor: pointer;
     border-radius: 3px;
     font-size: 14px;
     padding: 0.5rem;
-    color: $gray-700;
     &:hover {
-      background: $gray-200;
-      color: $gray-800;
+      background: var(--sv-audio-widget-button-hover-background-color, #e9ecef);
+      color: var(--sv-audio-widget-button-hover-text-color, #343a40);
     }
   }
   .audio-on {
     button {
-      background: $explorehomer-brand;
-      border-color: $explorehomer-darker-brand;
-      color: $gray-100;
+      background: var(--sv-audio-widget-audio-on-button-background-color #b45141);
+      border-color: var(--sv-audio-widget-audio-on-button-border-color, #9b4436);
+      color: var(--sv-audio-widget-audio-on-button-text-color, #f8f9fa);
       &:hover {
-        background: $explorehomer-darker-brand;
-        color: $white;
+        background: var(--sv-audio-widget-audio-on-button-hover-background-color, #9b4436);
+        color: var(--sv-audio-widget-audio-on-button-hover-text-color, #FFF);
       }
     }
   }

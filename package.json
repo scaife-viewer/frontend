@@ -14,6 +14,7 @@
     "packages/reader-interlinear-mode",
     "packages/reader-metrical-mode",
     "packages/reader-named-entities-mode-mode",
+    "packages/widget-audio",
     "packages/widget-reader"
   ],
   "private": true,
