@@ -26,7 +26,7 @@
   import gql from 'graphql-tag';
   import { ApolloQuery } from 'vue-apollo';
 
-  import Reader from '@scaife-viewer/widget-reader';
+  import { Reader } from '@scaife-viewer/widget-reader';
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
 
   export default {

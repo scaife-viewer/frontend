@@ -10,6 +10,8 @@ import {
   WIDGETS_NS,
   SELECT_NAMED_ENTITIES,
   CLEAR_NAMED_ENTITIES,
+  SET_TEXT_SIZE,
+  SET_TEXT_WIDTH,
 } from './constants';
 
 export default URN;
@@ -25,4 +27,6 @@ export {
   WIDGETS_NS,
   SELECT_NAMED_ENTITIES,
   CLEAR_NAMED_ENTITIES,
+  SET_TEXT_SIZE,
+  SET_TEXT_WIDTH,
 };

@@ -22,7 +22,7 @@
         return `chevron-${this.direction}`;
       },
       urnString() {
-        return this.urn.toString();
+        return this.urn && this.urn.toString();
       },
     },
   };

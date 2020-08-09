@@ -10,7 +10,8 @@
   ],
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production rollup -c ./build/rollup.config.js"
+    "build": "NODE_ENV=production rollup -c ./build/rollup.config.js",
+    "serve": "vue-cli-service serve"
   },
   "dependencies": {
     "@lerna/batch-packages": "^3.16.0",
@@ -28,5 +29,11 @@
     "rollup-plugin-vue": "^5.1.9",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.11"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^4.4.6",
+    "apollo-boost": "^0.4.7",
+    "sass-loader": "^9.0.3",
+    "vuex": "^3.5.1"
   }
 }
