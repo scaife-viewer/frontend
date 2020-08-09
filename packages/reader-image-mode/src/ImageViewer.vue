@@ -105,6 +105,20 @@
   };
 </script>
 
+<style lang="scss">
+  .main-layout.main-layout-wide {
+    flex: 4;
+    .open-seadragon {
+      padding-left: 1rem;
+      border-left: 1px solid var(--sv-reader-image-mode-wide-layout-openseadragon-border-color, #dee2e6);
+    }
+    .image .open-seadragon {
+      border: none;
+      padding-left: 0;
+    }
+  }
+</style>
+
 <style lang="scss" scoped>
   .open-seadragon {
     flex: 1;

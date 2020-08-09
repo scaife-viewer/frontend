@@ -15,7 +15,7 @@
 
 <script>
   import gql from 'graphql-tag';
-  import Attribution from '@scaife-viewer/common/Attribution.vue';
+  import { Attribution } from '@scaife-viewer/common';
 
   export default {
     scaifeConfig: {
@@ -70,7 +70,7 @@
     margin: 0 2em;
   }
   .line {
-    font-family: $font-family-serif;
+    font-family: var(--sv-widget-scholia-line-font-family, 'Noto Serif');
     font-size: 14px;
     .lemma {
       font-weight: 700;

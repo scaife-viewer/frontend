@@ -38,10 +38,10 @@
     }
     .metadata-row {
       > .label {
-        color: $gray-600;
+        color: var(--sv-widget-metadata-label-text-color, #868e96);
       }
       > .value {
-        font-family: $font-family-serif;
+        font-family: var(--sv-widget-metadata-value-font-family, 'Noto Serif');
       }
       > .version-urn,
       .value {

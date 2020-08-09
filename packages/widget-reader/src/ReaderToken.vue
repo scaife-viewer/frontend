@@ -25,17 +25,19 @@
 </template>
 
 <script>
+  import {
+    CLEAR_NAMED_ENTITIES,
+    SELECT_NAMED_ENTITIES,
+  } from '@scaife-viewer/common';
+
   import { SELECT_TOKEN, MODULE_NS } from './constants';
-  // import { CLEAR_NAMED_ENTITIES, SELECT_NAMED_ENTITIES } from './constants';
 
   export default {
     props: ['token'],
     methods: {
       onSelect() {
         if (this.selected) {
-          // @@@ refactor this logic to move the NAMED_ENTITIES dispatches coordinated
-          //     at the site level config, should pass in the value of this.selected and this.isEntity
-          // this.$store.dispatch(CLEAR_NAMED_ENTITIES);
+          this.$store.dispatch(CLEAR_NAMED_ENTITIES);
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: null,
           });
@@ -43,9 +45,9 @@
           (this.namedEntitiesMode && this.isEntity) ||
           !this.namedEntitiesMode
         ) {
-          // this.$store.dispatch(SELECT_NAMED_ENTITIES, {
-          //   entities: this.entities,
-          // });
+          this.$store.dispatch(SELECT_NAMED_ENTITIES, {
+            entities: this.entities,
+          });
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: this.token,
           });

@@ -23,14 +23,14 @@
 
 <style lang="scss" scoped>
   .text-width-control {
-    font-family: $font-family-serif;
     cursor: pointer;
-    color: $gray-500;
+    font-family: var(--sv-widget-text-width-font-family, 'Noto Serif');
+    color: var(--sv-widget-text-width-text-color, #adb5bd);
     font-size: 14px;
     padding-right: 5px;
   }
 
   .text-width-control.active {
-    color: $gray-800;
+    color: var(--sv-widget-text-width-selected-text-color, #343a40);
   }
 </style>

@@ -12,8 +12,7 @@
 </template>
 
 <script>
-  import WIDGETS_NS from '@scaife-viewer/scaife-widgets';
-  import { SET_DISPLAY_MODE } from '@/constants';
+  import { SET_DISPLAY_MODE, MODULE_NS } from './constants';
 
   export default {
     scaifeConfig: {
@@ -58,36 +57,21 @@
   };
 </script>
 
-<style lang="scss">
-  .main-layout.main-layout-wide {
-    flex: 4;
-    .open-seadragon {
-      padding-left: 1rem;
-      border-left: 1px solid $gray-300;
-    }
-    .image .open-seadragon {
-      border: none;
-      padding-left: 0;
-    }
-  }
-</style>
-
 <style lang="scss" scoped>
-  @import '../styles/variables';
   // TODO: Mimic TextWidth further
   .active {
-    color: $gray-800;
+    color: var(--sv-widget-display-mode-active-text-color, #343a40);
   }
   .display-mode-widget {
     margin: 0 2em;
     flex: 1;
-    color: $gray-500;
+    color: var(--sv-widget-display-mode-text-color, #adb5bd);
 
     div {
       padding-right: 20px;
       cursor: pointer;
       // @@@ this should be standard across all widgets
-      font-family: $font-family-serif;
+      font-family: var(--sv-widget-display-mode-font-family, 'Noto Serif');
       font-size: 14px;
     }
   }

@@ -20,7 +20,7 @@
 
 <script>
   import gql from 'graphql-tag';
-  import WIDGETS_NS from '@scaife-viewer/scaife-widgets';
+  import { WIDGETS_NS } from '@scaife-viewer/scaife-common';
 
   export default {
     name: 'PassageSiblingsWidget',
@@ -76,7 +76,7 @@
   }
   .active-sibling {
     font-weight: bold;
-    color: $white;
-    background: var(--scaife-brand-color, $gray-800);
+    color: var(--sv-widget-passage-siblings-active-text-color, #FFF);
+    background: var(--sv-widget-passage-siblings-active-background-color, #343a40);
   }
 </style>

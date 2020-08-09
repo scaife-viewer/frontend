@@ -21,10 +21,15 @@
 
 <script>
   import gql from 'graphql-tag';
-  // eslint-disable-next-line max-len
-  import Lookahead from '@scaife-viewer/common/Lookahead.vue';
-  import { MODULE_NS } from '@/reader/constants';
-  import { SELECT_NAMED_ENTITIES, CLEAR_NAMED_ENTITIES } from '../../constants';
+  import {
+    Lookahead,
+    LoaderBall,
+    EmptyMessage,
+    SELECT_NAMED_ENTITIES,
+    CLEAR_NAMED_ENTITIES,
+  } from '@scaife-viewer/common';
+  import { MODULE_NS as READER_MODULE_NS } from '@scaife-viewer/widget-reader';
+
   import NamedEntity from './NamedEntity.vue';
 
   export default {
@@ -39,6 +44,8 @@
     },
     components: {
       Lookahead,
+      LoaderBall,
+      EmptyMessage,
       NamedEntity,
     },
     methods: {
@@ -76,7 +83,7 @@
         return this.$store.state.selectedNamedEntities;
       },
       selectedToken() {
-        return this.$store.state[MODULE_NS].selectedToken;
+        return this.$store.state[READER_MODULE_NS].selectedToken;
       },
     },
     apollo: {
@@ -111,10 +118,7 @@
   };
 </script>
 
-<style src="mapbox-gl/dist/mapbox-gl.css"></style>
-
 <style lang="scss" scoped>
-  @import '../../styles/variables';
   .named-entities {
     margin: 0 2rem;
     font-size: 12px;

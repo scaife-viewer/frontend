@@ -6,8 +6,10 @@
 </template>
 
 <script>
-  import WIDGETS_NS, { WordList } from '@scaife-viewer/scaife-widgets';
-  import { MODULE_NS } from '@/reader/constants';
+  import { WIDGETS_NS } from '@scaife-viewer/common';
+  import { MODULE_NS as READER_MODULE_NS } from '@scaife-viewer/widget-reader';
+
+  import WordList from './WordList.vue';
 
   export default {
     name: 'WordListWidget',
@@ -32,7 +34,7 @@
     },
     computed: {
       selectedToken() {
-        return this.$store.state[MODULE_NS].selectedToken;
+        return this.$store.state[READER_MODULE_NS].selectedToken;
       },
       filteredWordList() {
         if (this.selectedToken === null) {

@@ -9,8 +9,12 @@
 </template>
 
 <script>
+  import {
+    WIDGETS_NS,
+    SET_TEXT_SIZE,
+    SET_TEXT_WIDTH,
+  } from '@scaife-viewer/common';
   import TextSize from './TextSize.vue';
-  import { WIDGETS_NS, SET_TEXT_SIZE, SET_TEXT_WIDTH } from '@/store/constants';
 
   export default {
     name: 'TextSizeWidget',

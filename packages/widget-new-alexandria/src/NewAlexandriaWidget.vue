@@ -6,9 +6,9 @@
 
 <script>
   import qs from 'query-string';
+  import { WIDGETS_NS } from '@scaife-viewer/common';
 
   import NewAlexandria from './NewAlexandria.vue';
-  import { WIDGETS_NS } from '@/store/constants';
 
   export default {
     name: 'NewAlexandriaWidget',

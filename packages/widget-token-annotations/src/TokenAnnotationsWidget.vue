@@ -16,7 +16,11 @@
 
 <script>
   import gql from 'graphql-tag';
-  import { MODULE_NS, CLEAR_TOKEN } from '@/reader/constants';
+  import { EmptyMessage } from '@scaife-viewer/common';
+  import {
+    MODULE_NS as READER_MODULE_NS,
+    CLEAR_TOKEN,
+  } from '@scaife-viewer/widget-reader';
 
   export default {
     scaifeConfig: {
@@ -24,12 +28,13 @@
     },
     methods: {
       onClear() {
-        this.$store.dispatch(`${MODULE_NS}/${CLEAR_TOKEN}`);
+        this.$store.dispatch(`${READER_MODULE_NS}/${CLEAR_TOKEN}`);
       },
     },
+    components: { EmptyMessage },
     computed: {
       selectedToken() {
-        return this.$store.state[MODULE_NS].selectedToken;
+        return this.$store.state[READER_MODULE_NS].selectedToken;
       },
       urn() {
         return this.$store.getters.urn;
@@ -104,10 +109,9 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../styles/variables';
   .selected-tokens {
     margin: 0 2rem;
-    color: $gray-700;
+    color: var(--sv-widget-token-annotations-selected-text-color, #495057);
     font-size: 12px;
     width: calc(100% - 4rem);
     td {
@@ -119,7 +123,7 @@
 
     .parse {
       font-family: monospace;
-      color: $gray-600;
+      color: var(--sv-widget-token-annotations-selected-parse-text-color, #343a40);
     }
   }
 </style>

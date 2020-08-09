@@ -28,14 +28,14 @@
     width: 100%;
   }
   .word-list > p {
-    font-family: $font-family-serif;
+    font-family: var(--sv-widget-word-list-font-family, 'Noto Serif');
     font-size: 0.85rem;
     margin: 0.165em 0;
     span.w {
       font-weight: 700;
     }
     span.df {
-      color: $gray-600;
+      color: var(--sv-widget-word-list-df-text-color, #868e96);
       margin-left: 0.66em;
       margin-right: 0.66em;
     }

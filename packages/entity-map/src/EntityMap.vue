@@ -90,3 +90,5 @@
     },
   };
 </script>
+
+<style src="mapbox-gl/dist/mapbox-gl.css"></style>

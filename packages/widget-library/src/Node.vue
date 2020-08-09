@@ -91,10 +91,10 @@
   span {
     text-decoration: none;
     &.open-toggle {
-      color: $gray-400;
+      color: var(--sv-widget-library-open-toggle-text-color, #ced4da);
       padding: 0 0.33em 0 0;
       &:hover {
-        color: $gray-700;
+        color: var(--sv-widget-library-open-toggle-hover-text-color, #495057);
       }
     }
   }

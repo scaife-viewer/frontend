@@ -26,9 +26,9 @@
 </template>
 
 <script>
-  import Lookahead from '@scaife-viewer/common/Lookahead.vue';
+  import { Icon, Lookahead, WIDGETS_NS } from '@scaife-viewer/common';
+
   import TOC from './TOC.vue';
-  import { WIDGETS_NS } from '@/store/constants';
   import reducers from './reducers';
 
   export default {
@@ -148,7 +148,7 @@
     }
   }
   .icon {
-    color: black;
+    color: var(--sv-widget-toc-icon-text-color, black);
     margin-left: 0.66em;
     &.urn {
       cursor: pointer;

@@ -22,10 +22,10 @@
 <style lang="scss" scoped>
   .text-size-control {
     cursor: pointer;
-    font-family: $font-family-serif;
-    color: $gray-500;
+    font-family: var(--sv-widget-text-size-font-family, 'Noto Serif');
+    color: var(--sv-widget-text-size-text-color, #adb5bd);
   }
   .text-size-control.selected {
-    color: $gray-800;
+    color: var(--sv-widget-text-size-selected-text-color, #343a40);
   }
 </style>

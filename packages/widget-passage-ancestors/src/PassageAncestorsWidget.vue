@@ -15,7 +15,7 @@
 
 <script>
   import gql from 'graphql-tag';
-  import WIDGETS_NS from '@scaife-viewer/scaife-widgets';
+  import { WIDGETS_NS } from '@scaife-viewer/scaife-common';
 
   export default {
     name: 'PassageAncestorsWidget',

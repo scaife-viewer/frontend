@@ -9,6 +9,7 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { LoaderBall } from '@scaife-viewer/common';
 
   import Node from './Node.vue';
 
@@ -32,6 +33,7 @@
       },
     },
     components: {
+      LoaderBall,
       Node,
     },
     scaifeConfig: {

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import EntityMap from '@scaife-viewer/entity-map/EntityMap.vue';
+  import EntityMap from '@scaife-viewer/entity-map';
 
   const iconMap = {
     PERSON: 'user',
@@ -61,24 +61,23 @@
 </script>
 
 <style lang="scss" scoped>
-  @import '../../styles/variables';
   .map {
     height: 250px;
   }
   .named-entity.selected {
-    background: $gray-100;
+    background: var(--sv-widget-named-entities-selected-background-color, #f8f9fa);
     margin-left: -10px;
     padding: 3px 7px;
-    border-left: 3px solid $gray-800;
+    border-left: 3px solid var(--sv-widget-named-entities-selected-border-color, #343a40);
     .named-entity-description {
-      color: $gray-700;
+      color: var(--sv-widget-named-entities-selected-description-text-color, #495057);
     }
     .icon {
-      color: $gray-800;
+      color: var(--sv-widget-named-entities-selected-icon-text-color, #343a40);
     }
   }
   .icon {
-    color: $gray-600;
+    color: var(--sv-widget-named-entities-icon-text-color, #868e96);
   }
   .named-entity {
     margin: 0.375rem 0;
@@ -87,7 +86,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 14px;
-    color: $gray-800;
+    color: var(--sv-widget-named-entities-title-text-color, #343a40);
     cursor: pointer;
     &:hover {
       font-weight: 600;

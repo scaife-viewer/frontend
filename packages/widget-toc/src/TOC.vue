@@ -69,8 +69,8 @@
   }
   span.ref {
     font-size: 10pt;
-    color: #69c;
-    font-family: 'Noto Sans';
+    color: var(--sv-widget-toc-ref-text-color, #69c);
+    font-family: var(--sv-widget-toc-ref-font-family, 'Noto Sans');
     text-align: left;
   }
   .item {

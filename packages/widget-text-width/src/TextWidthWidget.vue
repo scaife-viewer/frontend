@@ -8,8 +8,11 @@
 </template>
 
 <script>
+  import {
+    WIDGETS_NS,
+    SET_TEXT_WIDTH,
+  } from '@scaife-viewer/common';
   import TextWidth from './TextWidth.vue';
-  import { WIDGETS_NS, SET_TEXT_WIDTH } from '@/store/constants';
 
   export default {
     name: 'TextWidthWidget',

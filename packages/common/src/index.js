@@ -6,6 +6,11 @@ import LoaderBall from './LoaderBall.vue';
 import Lookahead from './Lookahead.vue';
 import Paginator from './Paginator.vue';
 import URN from './URN';
+import {
+  WIDGETS_NS,
+  SELECT_NAMED_ENTITIES,
+  CLEAR_NAMED_ENTITIES,
+} from './constants';
 
 export default URN;
 
@@ -17,4 +22,7 @@ export {
   LoaderBall,
   Lookahead,
   Paginator,
+  WIDGETS_NS,
+  SELECT_NAMED_ENTITIES,
+  CLEAR_NAMED_ENTITIES,
 };

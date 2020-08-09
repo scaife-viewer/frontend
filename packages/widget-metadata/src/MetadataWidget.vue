@@ -5,8 +5,8 @@
 </template>
 
 <script>
+  import { WIDGETS_NS } from '@scaife-viewer/common';
   import Metadata from './Metadata.vue';
-  import { WIDGETS_NS } from '@/store/constants';
 
   export default {
     name: 'MetadataWidget',

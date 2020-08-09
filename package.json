@@ -15,7 +15,21 @@
     "packages/reader-metrical-mode",
     "packages/reader-named-entities-mode-mode",
     "packages/widget-audio",
-    "packages/widget-reader"
+    "packages/widget-display-mode",
+    "packages/widget-library",
+    "packages/widget-metadata",
+    "packages/widget-named-entities",
+    "packages/widget-new-alexandria",
+    "packages/widget-passage-ancestors",
+    "packages/widget-passage-children",
+    "packages/widget-passage-siblings",
+    "packages/widget-reader",
+    "packages/widget-scholia",
+    "packages/widget-text-size",
+    "packages/widget-text-width",
+    "packages/widget-toc",
+    "packages/widget-token-annotations",
+    "packages/widget-word-list"
   ],
   "private": true,
   "scripts": {
