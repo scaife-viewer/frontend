@@ -10,7 +10,7 @@
   ],
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production rollup -c rollup.config.js"
+    "build": "NODE_ENV=production rollup -c ./build/rollup.config.js"
   },
   "dependencies": {
     "@lerna/batch-packages": "^3.16.0",

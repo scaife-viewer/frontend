@@ -7,36 +7,9 @@ import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import { terser } from 'rollup-plugin-terser';
 
-import { getPackages } from '@lerna/project';
-import filterPackages from '@lerna/filter-packages';
-import batchPackages from '@lerna/batch-packages';
 import minimist from 'minimist';
 
-var IIFEOutputName = s => {
-  const camel = s
-    .replace('@', '')
-    .replace('/', '-')
-    .replace(
-      /-([a-z])/gi,
-      ($0, $1) => $1.toUpperCase(),
-    );
-  return `${camel.charAt(0).toUpperCase()}${camel.slice(1)}`;
-};
-
-/**
- * @param {string}[scope] - packages to only build (if you don't
- *    want to build everything)
- * @param {string}[ignore] - packages to not build
- *
- * @returns {string[]} - sorted list of Package objects that
- *    represent packages to be built.
- */
-async function getSortedPackages(scope, ignore) {
-  const packages = await getPackages(__dirname);
-  const filtered = filterPackages(packages, scope, ignore, false);
-
-  return batchPackages(filtered).reduce((arr, batch) => arr.concat(batch), []);
-}
+import { IIFEOutputName, getSortedPackages } from './utils';
 
 async function main() {
   const config = [];
@@ -44,11 +17,8 @@ async function main() {
   const { scope, ignore } = minimist(process.argv.slice(2));
   const packages = await getSortedPackages(scope, ignore);
   packages.forEach(pkg => {
-    /* Absolute path to package directory */
-    const basePath = path.relative(__dirname, pkg.location);
-    /* Absolute path to input file */
+    const basePath = pkg.location;
     const input = path.join(basePath, 'src/index.js');
-    /* 'main' field from package.json file. */
     const { main } = pkg.toJSON();
 
     const external = Object.keys(pkg.dependencies);
