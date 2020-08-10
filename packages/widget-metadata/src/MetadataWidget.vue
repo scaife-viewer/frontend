@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { WIDGETS_NS } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
   import Metadata from './Metadata.vue';
 
   export default {
@@ -18,13 +18,13 @@
     },
     computed: {
       passage() {
-        return this.$store.getters[`${WIDGETS_NS}/passage`];
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
       versionUrn() {
         return this.passage.version;
       },
       metadata() {
-        return this.$store.getters[`${WIDGETS_NS}/metadata`];
+        return this.$store.getters[`${MODULE_NS}/metadata`];
       },
     },
   };

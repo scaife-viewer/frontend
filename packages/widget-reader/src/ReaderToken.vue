@@ -26,18 +26,18 @@
 
 <script>
   import {
+    MODULE_NS,
+    SELECT_TOKEN,
     CLEAR_NAMED_ENTITIES,
     SELECT_NAMED_ENTITIES,
-  } from '@scaife-viewer/common';
-
-  import { SELECT_TOKEN, MODULE_NS } from './constants';
+  } from '@scaife-viewer/store';
 
   export default {
     props: ['token'],
     methods: {
       onSelect() {
         if (this.selected) {
-          this.$store.dispatch(CLEAR_NAMED_ENTITIES);
+          this.$store.dispatch(`${MODULE_NS}/${CLEAR_NAMED_ENTITIES}`);
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: null,
           });
@@ -45,7 +45,7 @@
           (this.namedEntitiesMode && this.isEntity) ||
           !this.namedEntitiesMode
         ) {
-          this.$store.dispatch(SELECT_NAMED_ENTITIES, {
+          this.$store.dispatch(`${MODULE_NS}/${SELECT_NAMED_ENTITIES}`, {
             entities: this.entities,
           });
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
@@ -56,13 +56,13 @@
     },
     computed: {
       selectedEntities() {
-        return this.$store.state.selectedNamedEntities;
+        return this.$store.state[MODULE_NS].selectedNamedEntities;
       },
       interlinearMode() {
-        return this.$store.getters.interlinearMode;
+        return this.$store.getters[`${MODULE_NS}/interlinearMode`];
       },
       namedEntitiesMode() {
-        return this.$store.getters.namedEntitiesMode;
+        return this.$store.getters[`${MODULE_NS}/namedEntitiesMode`];
       },
       entities() {
         return (this.token && this.token.entities) || [];

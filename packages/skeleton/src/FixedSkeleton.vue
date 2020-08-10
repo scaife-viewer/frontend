@@ -27,10 +27,10 @@
 </template>
 
 <script>
+  import { MODULE_NS, TOGGLE_LEFT_SIDEBAR, TOGGLE_RIGHT_SIDEBAR } from '@scaife-viewer/store';
+
   import MainLayout from './main/MainLayout.vue';
   import SidebarLayout from './sidebar/SidebarLayout.vue';
-
-  import { TOGGLE_LEFT_SIDEBAR, TOGGLE_RIGHT_SIDEBAR } from './constants';
 
   export default {
     props: ['mainWidget', 'leftWidgets', 'rightWidgets'],
@@ -44,25 +44,25 @@
     methods: {
       onLeftToggle() {
         this.$emit('leftToggle');
-        this.$store.dispatch(`scaifeSkeleton/${TOGGLE_LEFT_SIDEBAR}`);
+        this.$store.dispatch(`${MODULE_NS}/${TOGGLE_LEFT_SIDEBAR}`);
       },
       onRightToggle() {
         this.$emit('rightToggle');
-        this.$store.dispatch(`scaifeSkeleton/${TOGGLE_RIGHT_SIDEBAR}`);
+        this.$store.dispatch(`${MODULE_NS}/${TOGGLE_RIGHT_SIDEBAR}`);
       },
     },
     computed: {
       leftOpen() {
-        return this.$store.state.scaifeSkeleton.leftOpen;
+        return this.$store.state[MODULE_NS].leftOpen;
       },
       rightOpen() {
-        return this.$store.state.scaifeSkeleton.rightOpen;
+        return this.$store.state[MODULE_NS].rightOpen;
       },
       leftVisible() {
-        return this.$store.state.scaifeSkeleton.leftVisible;
+        return this.$store.state[MODULE_NS].leftVisible;
       },
       rightVisible() {
-        return this.$store.state.scaifeSkeleton.rightVisible;
+        return this.$store.state[MODULE_NS].rightVisible;
       },
       sidebarClasses() {
         return [

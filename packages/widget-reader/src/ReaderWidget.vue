@@ -32,8 +32,8 @@
   import gql from 'graphql-tag';
   import { ApolloQuery } from 'vue-apollo';
 
-  import URN, { WIDGETS_NS, Paginator } from '@scaife-viewer/common';
-  import { MODULE_NS, SET_PASSAGE, UPDATE_METADATA } from './constants';
+  import URN, { Paginator } from '@scaife-viewer/common';
+  import { MODULE_NS, SET_PASSAGE, UPDATE_METADATA } from '@scaife-viewer/store';
 
   export default {
     components: {
@@ -47,7 +47,7 @@
           return;
         }
         this.$store.dispatch(
-          UPDATE_METADATA,
+          `${MODULE_NS}/${UPDATE_METADATA}`,
           { urn: this.urn.version },
           { root: true },
         );
@@ -71,7 +71,7 @@
           });
           if (this.urn) {
             this.$store.dispatch(
-              SET_PASSAGE,
+              `${MODULE_NS}/${SET_PASSAGE}`,
               { urn: this.urn.toString() },
               { root: true },
             );
@@ -102,7 +102,7 @@
     },
     computed: {
       readerComponent() {
-        const { displayMode } = this.$store.state;
+        const { displayMode } = this.$store.state[MODULE_NS];
         return this.$scaife.config.readerComponents[displayMode];
       },
       query() {
@@ -125,10 +125,10 @@
         return { urn: this.urn === null ? '' : this.urn.absolute };
       },
       namedEntitiesMode() {
-        return this.$store.getters.namedEntitiesMode;
+        return this.$store.getters[`${MODULE_NS}/namedEntitiesMode`];
       },
       urn() {
-        return this.$store.getters.urn;
+        return this.$store.getters[`${MODULE_NS}/urn`];
       },
       version() {
         return this.$store.getters[`${MODULE_NS}/firstPassageUrn`].version;
@@ -137,13 +137,13 @@
         return this.$store.getters[`${MODULE_NS}/workTitle`];
       },
       textSize() {
-        return this.$store.getters[`${WIDGETS_NS}/readerTextSize`];
+        return this.$store.getters[`${MODULE_NS}/readerTextSize`];
       },
       textWidth() {
-        return this.$store.getters[`${WIDGETS_NS}/readerTextWidth`];
+        return this.$store.getters[`${MODULE_NS}/readerTextWidth`];
       },
       versionMetadata() {
-        return this.$store.state.metadata;
+        return this.$store.state[MODULE_NS].metadata;
       },
       passageTitle() {
         return this.versionMetadata ? this.versionMetadata.label : null;

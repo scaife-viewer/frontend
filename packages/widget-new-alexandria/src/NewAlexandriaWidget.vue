@@ -6,7 +6,7 @@
 
 <script>
   import qs from 'query-string';
-  import { WIDGETS_NS } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   import NewAlexandria from './NewAlexandria.vue';
 
@@ -36,7 +36,7 @@
         return this.passage ? true : false;
       },
       passage() {
-        return this.$store.getters[`${WIDGETS_NS}/passage`];
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
       endpoint() {
         return 'https://commentary-api.chs.harvard.edu/graphql';

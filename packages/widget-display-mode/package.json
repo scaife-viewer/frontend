@@ -7,5 +7,7 @@
   },
   "author": "Eldarion",
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "@scaife-viewer/store": "^0.0.0"
+  }
 }

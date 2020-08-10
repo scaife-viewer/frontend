@@ -20,7 +20,7 @@
 
 <script>
   import gql from 'graphql-tag';
-  import { WIDGETS_NS } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
     name: 'PassageSiblingsWidget',
@@ -29,7 +29,7 @@
     },
     computed: {
       passage() {
-        return this.$store.getters[`${WIDGETS_NS}/passage`];
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
     },
     apollo: {

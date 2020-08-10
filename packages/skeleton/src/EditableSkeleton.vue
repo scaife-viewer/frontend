@@ -57,6 +57,7 @@
   import MainLayout from './main/MainLayout.vue';
   import SidebarLayout from './sidebar/SidebarLayout.vue';
   import {
+    MODULE_NS,
     TOGGLE_LEFT_SIDEBAR,
     TOGGLE_RIGHT_SIDEBAR,
     ADD_LEFT_WIDGET,
@@ -64,7 +65,12 @@
     REMOVE_LEFT_WIDGET,
     REMOVE_RIGHT_WIDGET,
     CHANGE_MAIN_WIDGET,
-  } from './constants';
+  } from '@scaife-viewer/store';
+
+  const removeActions = {
+    left: REMOVE_LEFT_WIDGET,
+    right: REMOVE_RIGHT_WIDGET,
+  };
 
   export default {
     components: { MainLayout, SidebarLayout },
@@ -77,26 +83,26 @@
     methods: {
       onLeftToggle() {
         this.$emit('leftToggle');
-        this.$store.dispatch(`scaifeSkeleton/${TOGGLE_LEFT_SIDEBAR}`);
+        this.$store.dispatch(`${MODULE_NS}/${TOGGLE_LEFT_SIDEBAR}`);
       },
       onRightToggle() {
         this.$emit('rightToggle');
-        this.$store.dispatch(`scaifeSkeleton/${TOGGLE_RIGHT_SIDEBAR}`);
+        this.$store.dispatch(`${MODULE_NS}/${TOGGLE_RIGHT_SIDEBAR}`);
       },
       addWidget(name, widget) {
         this.$emit('addWidget', name, widget);
         switch (name) {
           case 'left':
-            this.$store.dispatch(`scaifeSkeleton/${ADD_LEFT_WIDGET}`, { widget });
+            this.$store.dispatch(`${MODULE_NS}/${ADD_LEFT_WIDGET}`, { widget });
             break;
           case 'right':
-            this.$store.dispatch(`scaifeSkeleton/${ADD_RIGHT_WIDGET}`, { widget });
+            this.$store.dispatch(`${MODULE_NS}/${ADD_RIGHT_WIDGET}`, { widget });
             break;
         }
       },
       changeWidget(mainWidget) {
         this.$emit('changeWidget', mainWidget);
-        this.$store.dispatch(`scaifeSkeleton/${CHANGE_MAIN_WIDGET}`, {
+        this.$store.dispatch(`${MODULE_NS}/${CHANGE_MAIN_WIDGET}`, {
           widget: mainWidget,
         });
       },
@@ -110,16 +116,13 @@
     },
     computed: {
       leftOpen() {
-        return this.$store.state.scaifeSkeleton.leftOpen;
+        return this.$store.state[MODULE_NS].leftOpen;
       },
       rightOpen() {
-        return this.$store.state.scaifeSkeleton.rightOpen;
+        return this.$store.state[MODULE_NS].rightOpen;
       },
       widgets() {
-        return this.$store.state.scaifeSkeleton.widgets;
-      },
-      state() {
-        return this.$store.state;
+        return this.$store.state[MODULE_NS].widgets;
       },
       scaifeSkeleton() {
         return this.$scaife.skeleton;

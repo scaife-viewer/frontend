@@ -41,6 +41,7 @@
 
   import { Reader } from '@scaife-viewer/widget-reader';
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   import SelectableEntityMap from './SelectableEntityMap.vue';
   import EntityMapToolbar from './EntityMapToolbar.vue';
@@ -129,7 +130,7 @@
       },
       sidebars() {
         // used for keys to force map redraw on sidebar changes
-        const { leftOpen, rightOpen } = this.$store.state.scaifeSkeleton;
+        const { leftOpen, rightOpen } = this.$store.state[MODULE_NS];
         if (leftOpen && rightOpen) {
           return 'both';
         }

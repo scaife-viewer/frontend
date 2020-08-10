@@ -26,7 +26,8 @@
 </template>
 
 <script>
-  import { Icon, Lookahead, WIDGETS_NS } from '@scaife-viewer/common';
+  import { Icon, Lookahead } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   import TOC from './TOC.vue';
   import reducers from './reducers';
@@ -63,10 +64,10 @@
         return 'Filter this table of contents...';
       },
       passage() {
-        return this.$store.getters[`${WIDGETS_NS}/passage`];
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
       metadata() {
-        return this.$store.getters[`${WIDGETS_NS}/metadata`];
+        return this.$store.getters[`${MODULE_NS}/metadata`];
       },
       reducer() {
         return reducers.tocReducer;

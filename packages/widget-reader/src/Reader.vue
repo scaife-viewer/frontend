@@ -21,6 +21,7 @@
 
 <script>
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
   import ReaderLine from './ReaderLine.vue';
 
   export default {
@@ -28,7 +29,7 @@
     props: ['lines', 'textSize', 'textWidth'],
     computed: {
       metricalMode() {
-        return this.$store.getters.metricalMode;
+        return this.$store.getters[`${MODULE_NS}/metricalMode`];
       },
       showMetricalCredit() {
         if (!this.metricalModel) {

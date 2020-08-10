@@ -31,11 +31,12 @@
 </template>
 
 <script>
+  import { MODULE_NS } from '@scaife-viewer/store';
+
   import utils from '../utils';
   import EditLayoutButton from './EditLayoutButton.vue';
   import MainWidget from './MainWidget.vue';
   import WidgetEditor from '../editor/WidgetEditor.vue';
-  import { SKELETON_NAMESPACE } from '../constants';
 
   export default {
     props: ['editing', 'widget', 'widgetOptions', 'fixed', 'isEditable'],
@@ -51,7 +52,7 @@
           : '';
       },
       flexSize() {
-        return this.$store.state[SKELETON_NAMESPACE].mainLayoutFlexClass;
+        return this.$store.state[MODULE_NS].mainLayoutFlexClass;
       },
     },
   };

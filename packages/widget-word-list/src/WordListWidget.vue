@@ -7,7 +7,7 @@
 
 <script>
   import { WIDGETS_NS } from '@scaife-viewer/common';
-  import { MODULE_NS as READER_MODULE_NS } from '@scaife-viewer/widget-reader';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   import WordList from './WordList.vue';
 
@@ -34,7 +34,7 @@
     },
     computed: {
       selectedToken() {
-        return this.$store.state[READER_MODULE_NS].selectedToken;
+        return this.$store.state[MODULE_NS].selectedToken;
       },
       filteredWordList() {
         if (this.selectedToken === null) {
@@ -48,10 +48,10 @@
         return this.passage;
       },
       metadata() {
-        return this.$store.getters[`${WIDGETS_NS}/metadata`];
+        return this.$store.getters[`${MODULE_NS}/metadata`];
       },
       passage() {
-        return this.$store.getters[`${WIDGETS_NS}/passage`];
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
       endpoint() {
         return 'https://vocab.perseus.org/word-list';

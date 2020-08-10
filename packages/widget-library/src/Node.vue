@@ -26,6 +26,8 @@
 </template>
 
 <script>
+  import { MODULE_NS } from '@scaife-viewer/store';
+
   export default {
     name: 'Node',
     props: ['node'],
@@ -54,7 +56,7 @@
         );
       },
       readerUrn() {
-        return this.$store.getters.urn;
+        return this.$store.getters[`${MODULE_NS}/urn`];
       },
       urn() {
         // TODO: Cast to URN post-refactor.

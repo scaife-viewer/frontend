@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
-import ApolloClient from 'apollo-boost';
+import { sync } from 'vuex-router-sync';
 
 import {
   faChevronLeft,
@@ -19,11 +19,15 @@ import {
   faWindowMaximize,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { DISPLAY_MODE_DEFAULT } from '@scaife-viewer/store';
 import { SkeletonPlugin } from '@scaife-viewer/skeleton';
-import { DefaultModeReader, DISPLAY_MODE_DEFAULT } from '@scaife-viewer/widget-reader';
+import { DefaultModeReader } from '@scaife-viewer/widget-reader';
 
 import App from './App.vue';
-import store from './store';
+import store, { apolloProvider } from './store';
+import router from './router';
+
+sync(store, router);
 
 const iconMap = [
   faChevronLeft,
@@ -56,17 +60,10 @@ Vue.use(SkeletonPlugin, {
   },
 });
 Vue.use(VueApollo);
-const client = new ApolloClient({
-  uri:
-    process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
-    'https://explorehomer-atlas-dev.scaife-viewer.org/graphql/',
-});
-const apolloProvider = new VueApollo({
-  defaultClient: client,
-});
 
 new Vue({
   store,
+  router,
   apolloProvider,
   render: (h) => h(App), // eslint-disable-line arrow-parens
 }).$mount("#app");

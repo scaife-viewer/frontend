@@ -25,8 +25,7 @@
   import gql from 'graphql-tag';
 
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
-
-  import { PLAY_AUDIO, STOP_AUDIO } from './constants';
+  import { MODULE_NS, PLAY_AUDIO, STOP_AUDIO } from '@scaife-viewer/store';
 
   export default {
     scaifeConfig: {
@@ -67,10 +66,10 @@
       },
       onStarted() {
         const ref = this.audios[this.nowPlayingIndex].data.references[0];
-        this.$store.dispatch(PLAY_AUDIO, { ref });
+        this.$store.dispatch(`${MODULE_NS}/${PLAY_AUDIO}`, { ref });
       },
       onEnded() {
-        this.$store.dispatch(STOP_AUDIO);
+        this.$store.dispatch(`${MODULE_NS}/${STOP_AUDIO}`);
         if (this.nowPlayingIndex < this.audios.length - 1) {
           this.nowPlayingIndex += 1;
           this.$nextTick(() => {
@@ -93,7 +92,7 @@
     },
     computed: {
       currentSelection() {
-        return this.$store.state.selectedLine;
+        return this.$store.state[MODULE_NS].selectedLine;
       },
       audio() {
         if (this.nowPlayingIndex >= this.audios.length) {
@@ -111,7 +110,7 @@
         return this.$refs.sound;
       },
       urn() {
-        return this.$store.getters.urn;
+        return this.$store.getters[`${MODULE_NS}/urn`];
       },
       audios() {
         return this.audioData ? this.audioData : [];

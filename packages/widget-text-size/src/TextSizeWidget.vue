@@ -10,10 +10,10 @@
 
 <script>
   import {
-    WIDGETS_NS,
+    MODULE_NS,
     SET_TEXT_SIZE,
     SET_TEXT_WIDTH,
-  } from '@scaife-viewer/common';
+  } from '@scaife-viewer/store';
   import TextSize from './TextSize.vue';
 
   export default {
@@ -24,13 +24,13 @@
     },
     computed: {
       textSize() {
-        return this.$store.getters[`${WIDGETS_NS}/readerTextSize`];
+        return this.$store.getters[`${MODULE_NS}/readerTextSize`];
       },
     },
     methods: {
       changeTextSize(size) {
-        this.$store.dispatch(`${WIDGETS_NS}/${SET_TEXT_SIZE}`, { size });
-        this.$store.dispatch(`${WIDGETS_NS}/${SET_TEXT_WIDTH}`, {
+        this.$store.dispatch(`${MODULE_NS}/${SET_TEXT_SIZE}`, { size });
+        this.$store.dispatch(`${MODULE_NS}/${SET_TEXT_WIDTH}`, {
           width: 'normal',
         });
       },

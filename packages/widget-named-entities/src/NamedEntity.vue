@@ -19,11 +19,13 @@
 
 <script>
   import EntityMap from '@scaife-viewer/entity-map';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   const iconMap = {
     PERSON: 'user',
     PLACE: 'map-marker-alt',
   };
+
   export default {
     props: {
       entity: {
@@ -51,7 +53,7 @@
       },
       selected() {
         return (
-          this.$store.state.selectedNamedEntities.filter(
+          this.$store.state[MODULE_NS].selectedNamedEntities.filter(
             id => this.entity.id === id,
           ).length > 0
         );

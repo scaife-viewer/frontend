@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <FixedSkeleton :left-widgets="left" :right-widgets="right" :main-widget="main" />
+    <FixedSkeleton v-if="metaLoaded" :left-widgets="left" :right-widgets="right" :main-widget="main" />
+    <LoaderBall v-else />
   </div>
 </template>
 
@@ -10,8 +11,18 @@
   import TextSizeWidget from '@scaife-viewer/widget-text-size';
   import TextWidthWidget from '@scaife-viewer/widget-text-width';
 
+  import { MODULE_NS, FETCH_METADATA, FETCH_LIBRARY } from '@scaife-viewer/store';
+  import { LoaderBall } from '@scaife-viewer/common';
+
   export default {
-    components: { FixedSkeleton },
+    components: { FixedSkeleton, LoaderBall },
+    beforeCreate() {
+      if (!this.$route.query.urn) {
+        // load the first version returned from ATLAS
+        this.$store.dispatch(`${MODULE_NS}/${FETCH_METADATA}`);
+      }
+      this.$store.dispatch(`${MODULE_NS}/${FETCH_LIBRARY}`);
+    },
     computed: {
       left() {
         return [TextSizeWidget];
@@ -22,6 +33,10 @@
       main() {
         return ReaderWidget;
       },
+      metaLoaded() {
+        return this.$store.state[MODULE_NS].libraryTree !== null;
+          // && this.$store.state[MODULE_NS].metadata !== null;
+      }
     }
   };
 </script>

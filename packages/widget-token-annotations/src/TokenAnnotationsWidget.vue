@@ -17,10 +17,7 @@
 <script>
   import gql from 'graphql-tag';
   import { EmptyMessage } from '@scaife-viewer/common';
-  import {
-    MODULE_NS as READER_MODULE_NS,
-    CLEAR_TOKEN,
-  } from '@scaife-viewer/widget-reader';
+  import { MODULE_NS, CLEAR_TOKEN } from '@scaife-viewer/store';
 
   export default {
     scaifeConfig: {
@@ -28,16 +25,16 @@
     },
     methods: {
       onClear() {
-        this.$store.dispatch(`${READER_MODULE_NS}/${CLEAR_TOKEN}`);
+        this.$store.dispatch(`${MODULE_NS}/${CLEAR_TOKEN}`);
       },
     },
     components: { EmptyMessage },
     computed: {
       selectedToken() {
-        return this.$store.state[READER_MODULE_NS].selectedToken;
+        return this.$store.state[MODULE_NS].selectedToken;
       },
       urn() {
-        return this.$store.getters.urn;
+        return this.$store.getters[`${MODULE_NS}/urn`];
       },
       tokens() {
         const selectedFilter = edge => {

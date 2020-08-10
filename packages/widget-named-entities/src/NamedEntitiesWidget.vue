@@ -25,10 +25,12 @@
     Lookahead,
     LoaderBall,
     EmptyMessage,
+  } from '@scaife-viewer/common';
+  import {
+    MODULE_NS,
     SELECT_NAMED_ENTITIES,
     CLEAR_NAMED_ENTITIES,
-  } from '@scaife-viewer/common';
-  import { MODULE_NS as READER_MODULE_NS } from '@scaife-viewer/widget-reader';
+  } from '@scaife-viewer/store';
 
   import NamedEntity from './NamedEntity.vue';
 
@@ -51,9 +53,9 @@
     methods: {
       onSelect(entity) {
         if (this.selectedEntities.filter(id => entity.id === id).length > 0) {
-          this.$store.dispatch(CLEAR_NAMED_ENTITIES);
+          this.$store.dispatch(`${MODULE_NS}/${CLEAR_NAMED_ENTITIES}`);
         } else {
-          this.$store.dispatch(SELECT_NAMED_ENTITIES, {
+          this.$store.dispatch(`${MODULE_NS}/${SELECT_NAMED_ENTITIES}`, {
             entities: [entity.id],
           });
         }
@@ -77,13 +79,13 @@
     },
     computed: {
       urn() {
-        return this.$store.getters.urn;
+        return this.$store.getters[`${MODULE_NS}/urn`];
       },
       selectedEntities() {
-        return this.$store.state.selectedNamedEntities;
+        return this.$store.state[MODULE_NS].selectedNamedEntities;
       },
       selectedToken() {
-        return this.$store.state[READER_MODULE_NS].selectedToken;
+        return this.$store.state[MODULE_NS].selectedToken;
       },
     },
     apollo: {

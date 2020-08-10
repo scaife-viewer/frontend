@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@scaife-viewer/common": "^0.0.0",
+    "@scaife-viewer/store": "^0.0.0",
     "graphql-tag": "^2.10.3"
   }
 }

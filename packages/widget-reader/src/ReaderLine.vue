@@ -26,7 +26,7 @@
 
 <script>
   import URN, { Icon } from '@scaife-viewer/common';
-  import { SELECT_LINE } from './constants';
+  import { MODULE_NS, SELECT_LINE } from '@scaife-viewer/store';
   import ReaderToken from './ReaderToken.vue';
 
   export default {
@@ -34,7 +34,7 @@
     components: { Icon, ReaderToken },
     methods: {
       onLineSelect() {
-        this.$store.dispatch(SELECT_LINE, {
+        this.$store.dispatch(`${MODULE_NS}/${SELECT_LINE}`, {
           ref: `${this.urn.version}${this.line.ref}`,
         });
       },
@@ -44,10 +44,10 @@
         return this.$route.query.urn ? new URN(this.$route.query.urn) : null;
       },
       playingAudio() {
-        if (this.$store.state.nowPlaying === null) {
+        if (this.$store.state[MODULE_NS].nowPlaying === null) {
           return false;
         }
-        const parts = this.$store.state.nowPlaying.split(':');
+        const parts = this.$store.state[MODULE_NS].nowPlaying.split(':');
         const ref = parts[parts.length - 1];
         return this.line.ref === ref;
       },
@@ -55,7 +55,7 @@
         return this.line.tokens;
       },
       interlinearMode() {
-        return this.$store.getters.interlinearMode;
+        return this.$store.getters[`${MODULE_NS}/interlinearMode`];
       },
       metricalHtml() {
         return (
@@ -64,7 +64,7 @@
         );
       },
       metricalMode() {
-        return this.$store.getters.metricalMode;
+        return this.$store.getters[`${MODULE_NS}/metricalMode`];
       },
       metrical() {
         return this.metricalMode && this.metricalHtml;

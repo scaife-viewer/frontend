@@ -8,10 +8,7 @@
 </template>
 
 <script>
-  import {
-    WIDGETS_NS,
-    SET_TEXT_WIDTH,
-  } from '@scaife-viewer/common';
+  import { MODULE_NS, SET_TEXT_WIDTH } from '@scaife-viewer/store';
   import TextWidth from './TextWidth.vue';
 
   export default {
@@ -22,12 +19,12 @@
     },
     computed: {
       textWidth() {
-        return this.$store.getters[`${WIDGETS_NS}/readerTextWidth`];
+        return this.$store.getters[`${MODULE_NS}/readerTextWidth`];
       },
     },
     methods: {
       changeTextWidth(width) {
-        this.$store.dispatch(`${WIDGETS_NS}/${SET_TEXT_WIDTH}`, { width });
+        this.$store.dispatch(`${MODULE_NS}/${SET_TEXT_WIDTH}`, { width });
       },
     },
   };

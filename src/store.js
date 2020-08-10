@@ -1,20 +1,26 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VueApollo from 'vue-apollo';
+import ApolloClient from 'apollo-boost';
 
-import { createStore as skeletonCreateStore } from '@scaife-viewer/skeleton';
+import createStore from '@scaife-viewer/store';
+
+const client = new ApolloClient({
+  uri:
+    process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
+    "https://explorehomer-atlas-dev.scaife-viewer.org/graphql/",
+});
+const apolloProvider = new VueApollo({
+  defaultClient: client,
+});
+
+const scaifeStore = createStore(client);
 
 Vue.use(Vuex);
 
-const skeletonStore = skeletonCreateStore();
-
 export default new Vuex.Store({
-  state: {},
-  getters: {
-    urn: () => null,
-  },
-  mutations: {},
-  actions: {},
   modules: {
-    [skeletonStore.namespace]: skeletonStore.store,
+    [scaifeStore.namespace]: scaifeStore.store,
   },
 });
+export { apolloProvider };
