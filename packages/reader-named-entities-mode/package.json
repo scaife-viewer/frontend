@@ -10,6 +10,7 @@
   "dependencies": {
     "@scaife-viewer/common": "^0.0.0",
     "@scaife-viewer/entity-map": "^0.0.0",
+    "@scaife-viewer/store": "^0.0.0",
     "@scaife-viewer/widget-reader": "^0.0.0",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.3"

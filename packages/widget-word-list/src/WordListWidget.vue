@@ -6,7 +6,6 @@
 </template>
 
 <script>
-  import { WIDGETS_NS } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import WordList from './WordList.vue';

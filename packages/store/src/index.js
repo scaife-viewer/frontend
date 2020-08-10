@@ -217,7 +217,9 @@ const createStore = client => {
         [CHANGE_SIDEBAR_VISIBILITY]: ({ commit }, { side, bool }) => {
           commit(CHANGE_SIDEBAR_VISIBILITY, { side, bool });
         },
-        [CLEAR_TOKEN]: ({ commit }) => commit(CLEAR_TOKEN),
+        [CLEAR_TOKEN]: ({ commit }) => {
+          commit(CLEAR_TOKEN);
+        },
         [SELECT_TOKEN]: ({ commit }, { token }) => {
           commit(SELECT_TOKEN, token);
         },
@@ -303,7 +305,9 @@ const createStore = client => {
               commit(FETCH_LIBRARY, textGroupsTree);
             });
         },
-        [SET_PASSAGE]: ({ commit }, { urn }) => commit(SET_PASSAGE, urn),
+        [SET_PASSAGE]: ({ commit }, { urn }) => {
+          commit(SET_PASSAGE, urn);
+        },
       },
     },
   };
