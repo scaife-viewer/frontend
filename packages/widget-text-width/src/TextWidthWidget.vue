@@ -19,7 +19,7 @@
     },
     computed: {
       textWidth() {
-        return this.$store.getters[`${MODULE_NS}/readerTextWidth`];
+        return this.$store.state[MODULE_NS].readerTextWidth;
       },
     },
     methods: {

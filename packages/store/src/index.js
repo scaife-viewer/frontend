@@ -51,11 +51,13 @@ const getDefaultState = () => ({
     right: [],
     left: [],
   },
-  mainLayoutFlexClass: "main-layout-flex-2",
+  mainLayoutFlexClass: 'main-layout-flex-2',
   metadata: null,
   passage: null,
   libraryTree: null,
-  displayMode: "default",
+  displayMode: 'default',
+  readerTextSize: 'md',
+  readerTextWidth: 'normal',
   nowPlaying: null,
   selectedLine: null,
   selectedToken: null,
@@ -182,6 +184,12 @@ const createStore = client => {
         [SET_PASSAGE]: (state, urn) => {
           state.passage = urn;
         },
+        [SET_TEXT_SIZE]: (state, size) => {
+          state.readerTextSize = size;
+        },
+        [SET_TEXT_WIDTH]: (state, width) => {
+          state.readerTextWidth = width;
+        },
       },
       actions: {
         [SET_MAIN_LAYOUT_WIDTH_NORMAL]: ({ commit }) => {
@@ -307,6 +315,12 @@ const createStore = client => {
         },
         [SET_PASSAGE]: ({ commit }, { urn }) => {
           commit(SET_PASSAGE, urn);
+        },
+        [SET_TEXT_SIZE]: ({ commit }, { size }) => {
+          commit(SET_TEXT_SIZE, size);
+        },
+        [SET_TEXT_WIDTH]: ({ commit }, { width }) => {
+          commit(SET_TEXT_WIDTH, width);
         },
       },
     },

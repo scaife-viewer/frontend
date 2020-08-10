@@ -24,7 +24,7 @@
     },
     computed: {
       textSize() {
-        return this.$store.getters[`${MODULE_NS}/readerTextSize`];
+        return this.$store.state[MODULE_NS].readerTextSize;
       },
     },
     methods: {

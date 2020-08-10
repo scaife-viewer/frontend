@@ -5,7 +5,7 @@
         {{ passageTitle }}
       </h2>
       <ApolloQuery
-        class="reader-container u-flex"
+        class="reader-container"
         :query="query"
         :variables="queryVariables"
         :update="queryUpdate"
@@ -170,6 +170,7 @@
     flex: 1;
   }
   .reader-container {
+    display: flex;
     align-items: baseline;
     justify-content: left;
     & nav:last-child {
