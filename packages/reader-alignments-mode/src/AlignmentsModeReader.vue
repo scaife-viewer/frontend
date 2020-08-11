@@ -27,6 +27,7 @@
 <script>
   import gql from 'graphql-tag';
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   import Alignments from './Alignments.vue';
 
@@ -37,8 +38,6 @@
     },
     props: {
       queryVariables: Object,
-      textSize: String,
-      textWidth: String,
     },
     components: {
       Alignments,
@@ -47,6 +46,12 @@
       EmptyMessage,
     },
     computed: {
+      textSize() {
+        return this.$store.state[MODULE_NS].readerTextSize;
+      },
+      textWidth() {
+        return this.$store.state[MODULE_NS].readerTextWidth;
+      },
       query() {
         return gql`
           query TextParts($urn: String!) {

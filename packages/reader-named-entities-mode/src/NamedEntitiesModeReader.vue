@@ -17,12 +17,7 @@
           @show="onShowMap"
         />
         <div class="entity-mode-container">
-          <Reader
-            class="entity-reader"
-            :lines="data.lines"
-            :textSize="textSize"
-            :textWidth="textWidth"
-          />
+          <Reader class="entity-reader" :lines="data.lines" />
           <div class="map" v-if="showMap && data.coordinatesList.length > 0">
             <SelectableEntityMap
               :key="`${mapState}-${sidebars}`"
@@ -52,9 +47,7 @@
       label: 'Named Entities',
     },
     props: {
-      queryVariables: Object,
-      textSize: String,
-      textWidth: String,
+      queryVariables: Object
     },
     components: {
       SelectableEntityMap,

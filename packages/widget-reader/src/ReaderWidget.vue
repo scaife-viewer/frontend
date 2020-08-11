@@ -17,8 +17,6 @@
           <component
             :is="readerComponent"
             :query-variables="queryVariables"
-            :text-size="textSize"
-            :text-width="textWidth"
           />
 
           <Paginator :urn="data && data.next" direction="right" />
@@ -135,12 +133,6 @@
       },
       workTitle() {
         return this.$store.getters[`${MODULE_NS}/workTitle`];
-      },
-      textSize() {
-        return this.$store.getters[`${MODULE_NS}/readerTextSize`];
-      },
-      textWidth() {
-        return this.$store.getters[`${MODULE_NS}/readerTextWidth`];
       },
       versionMetadata() {
         return this.$store.state[MODULE_NS].metadata;

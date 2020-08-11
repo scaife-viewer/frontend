@@ -14,23 +14,14 @@
       <template v-else>
         <ImageViewerToolbar :show="showImage" @show="onShowImage" />
         <div class="image-mode-container" v-if="showImage === 'both'">
-          <Reader
-            :lines="data.lines"
-            :textSize="textSize"
-            :textWidth="textWidth"
-          />
+          <Reader :lines="data.lines" />
           <ImageViewer
             v-if="data.imageIdentifier"
             :imageIdentifier="data.imageIdentifier"
           />
           <EmptyMessage class="reader-empty-annotations" v-else />
         </div>
-        <Reader
-          v-else-if="showImage === 'text'"
-          :lines="data.lines"
-          :textSize="textSize"
-          :textWidth="textWidth"
-        />
+        <Reader v-else-if="showImage === 'text'" :lines="data.lines" />
         <ImageViewer
           v-else-if="showImage === 'image' && data.imageIdentifier"
           :imageIdentifier="data.imageIdentifier"
@@ -59,8 +50,6 @@
     },
     props: {
       queryVariables: Object,
-      textSize: String,
-      textWidth: String,
     },
     components: {
       ApolloQuery,

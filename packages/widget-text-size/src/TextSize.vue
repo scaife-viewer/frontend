@@ -28,4 +28,20 @@
   .text-size-control.selected {
     color: var(--sv-widget-text-size-selected-text-color, #343a40);
   }
+
+  .text-xs {
+    font-size: 12px;
+  }
+  .text-sm {
+    font-size: 14px;
+  }
+  .text-md {
+    font-size: 16px;
+  }
+  .text-lg {
+    font-size: 20px;
+  }
+  .text-xl {
+    font-size: 24px;
+  }
 </style>

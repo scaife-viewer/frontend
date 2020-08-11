@@ -12,11 +12,7 @@
       </ErrorMessage>
       <EmptyMessage v-else-if="data.lines.length === 0" />
       <template v-else>
-        <Reader
-          :lines="data.lines"
-          :text-size="textSize"
-          :text-width="textWidth"
-        />
+        <Reader :lines="data.lines" />
       </template>
     </template>
   </ApolloQuery>
@@ -35,9 +31,7 @@
     },
     components: { ApolloQuery, LoaderBall, EmptyMessage, ErrorMessage, Reader },
     props: {
-      queryVariables: Object,
-      textSize: String,
-      textWidth: String,
+      queryVariables: Object
     },
     computed: {
       query() {

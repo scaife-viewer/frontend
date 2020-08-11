@@ -26,8 +26,14 @@
 
   export default {
     components: { Attribution, EmptyMessage, ReaderLine },
-    props: ['lines', 'textSize', 'textWidth'],
+    props: ['lines'],
     computed: {
+      textSize() {
+        return this.$store.state[MODULE_NS].readerTextSize;
+      },
+      textWidth() {
+        return this.$store.state[MODULE_NS].readerTextWidth;
+      },
       metricalMode() {
         return this.$store.getters[`${MODULE_NS}/metricalMode`];
       },
