@@ -2,7 +2,7 @@
   <aside class="toc-container">
     <h3>{{ toc.title }}</h3>
     <p class="u-legend">{{ toc.description }}</p>
-    <div class="u-grid toc-grid" v-if="toc.items.length">
+    <div class="toc-grid" v-if="toc.items.length">
       <template v-for="(item, index) in toc.items">
         <span :key="`index-${index}`" class="ref">{{ index + 1 }}.</span>
         <div :key="`item-${index}`" class="item u-flex">
@@ -57,6 +57,7 @@
     width: 100%;
   }
   .toc-grid {
+    display: grid;
     align-items: baseline;
     grid-template-columns: auto 9.25fr;
     grid-column-gap: 1em;

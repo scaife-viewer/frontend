@@ -1,5 +1,5 @@
 <template v-if="siblings">
-  <div class="passage-siblings-widget u-widget u-grid">
+  <div class="passage-siblings-widget u-widget">
     <div
       class="grid-cell-square"
       v-for="sibling in siblings"
@@ -61,6 +61,7 @@
   }
   .passage-siblings-widget {
     width: 100%;
+    display: grid;
     grid-auto-rows: 1fr;
     grid-template-columns: repeat(auto-fill, minmax(1.6em, 1fr));
   }

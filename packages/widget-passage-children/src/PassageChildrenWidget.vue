@@ -1,5 +1,5 @@
 <template v-if="children">
-  <div class="passage-children-widget u-widget u-grid">
+  <div class="passage-children-widget u-widget">
     <div class="grid-cell-square" v-for="child in children" :key="child.urn">
       <router-link :to="{ path: 'reader', query: { urn: `${child.urn}` } }">
         {{ child.lcp }}
@@ -51,6 +51,7 @@
   }
   .passage-children-widget {
     width: 100%;
+    display: grid;
     grid-auto-rows: 1fr;
     grid-template-columns: repeat(auto-fill, minmax(1.6em, 1fr));
   }
