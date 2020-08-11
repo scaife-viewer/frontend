@@ -1,9 +1,9 @@
 <template>
   <li>
-    <div class="node-container u-flex" :class="{ highlight }">
+    <div class="node-container" :class="{ highlight }">
       <template v-if="hasChildren">
         <span class="open-toggle" @click.prevent="toggle">
-          <icon :name="icon" class="fa-xs" />
+          <Icon :name="icon" class="fa-xs" />
         </span>
       </template>
 
@@ -102,6 +102,9 @@
   }
   .highlight {
     font-weight: 700;
+  }
+  .node-container {
+    display: flex;
   }
   .node {
     &.version {

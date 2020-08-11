@@ -1,5 +1,5 @@
 <template>
-  <div class="library-widget u-widget u-flex">
+  <div class="library-widget">
     <LoaderBall v-if="$apolloData.queries.libraryTree.loading" />
     <ul class="node-tree root" v-else-if="libraryTree">
       <Node v-for="node in libraryTree" :key="node.data.urn" :node="node" />
@@ -43,7 +43,7 @@
 </script>
 
 <style lang="scss">
-  .u-widget.library-widget {
+  .library-widget {
     margin: 0 auto 0 2em;
     width: 100%;
     overflow: auto;
@@ -52,6 +52,7 @@
     padding: 0;
     flex-wrap: nowrap;
     margin-left: 1em;
+    list-style: none;
     &.root {
       margin: 0 0 0.92em 0;
     }
