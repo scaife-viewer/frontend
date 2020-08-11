@@ -31,10 +31,10 @@ import {
   DISPLAY_MODE_INTERLINEAR,
   DISPLAY_MODE_METRICAL,
   DISPLAY_MODE_NAMED_ENTITIES,
-} from "./constants";
+} from './constants';
 
 const displayName = (name) => {
-  const isCallable = typeof name === "function";
+  const isCallable = typeof name === 'function';
   return isCallable ? name() : name;
 };
 
