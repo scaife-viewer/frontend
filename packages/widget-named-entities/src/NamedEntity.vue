@@ -11,7 +11,10 @@
       <div class="named-entity-description">{{ entity.description }}</div>
       <a :href="entity.url" target="_blank">Read More</a>
       <div class="map" v-if="place && hasCoordinates">
-        <EntityMap :coordinates-list="[center]" />
+        <EntityMap
+          :coordinates-list="[center]"
+          :selected-entities="selectedEntities"
+        />
       </div>
     </div>
   </div>
@@ -32,6 +35,10 @@
         type: Object,
         required: true,
       },
+      selectedEntities: {
+        type: Array,
+        required: true,
+      }
     },
     components: { EntityMap },
     computed: {
@@ -53,7 +60,7 @@
       },
       selected() {
         return (
-          this.$store.state[MODULE_NS].selectedNamedEntities.filter(
+          this.selectedEntities.filter(
             id => this.entity.id === id,
           ).length > 0
         );

@@ -13,6 +13,7 @@
         v-for="entity in filteredEntities"
         :key="entity.id"
         :entity="entity"
+        :selected-entities="selectedEntities"
         @select="onSelect"
       />
     </template>

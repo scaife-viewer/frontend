@@ -22,6 +22,7 @@
             <SelectableEntityMap
               :key="`${mapState}-${sidebars}`"
               :coordinates-list="data.coordinatesList"
+              :selected-entities="selectedEntities"
             />
           </div>
         </div>
@@ -118,6 +119,9 @@
       },
     },
     computed: {
+      selectedEntities() {
+        return this.$store.state[MODULE_NS].selectedNamedEntities;
+      },
       showMap() {
         return this.mapState !== MAP_STATE_NONE;
       },
@@ -184,13 +188,13 @@
 <style lang="scss" scoped>
   .entity-mode {
     flex: 1;
-    &.map-direction-horizontal {
+    &.map-direction-mapStateHorizontal {
       .entity-mode-container {
         grid-template-columns: 1fr 1fr;
         column-gap: 0.75rem;
       }
     }
-    &.map-direction-vertical {
+    &.map-direction-mapStateVertical {
       .entity-mode-container {
         grid-template-rows: 1fr 1fr;
         row-gap: 0.75rem;

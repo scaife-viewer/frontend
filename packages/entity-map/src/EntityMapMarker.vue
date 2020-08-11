@@ -21,6 +21,10 @@
       lng: Number,
       placeId: String,
       placeLabel: String,
+      selected: {
+        type: Boolean,
+        default: false,
+      },
     },
     methods: {
       onMarkerClick() {
