@@ -6,6 +6,7 @@
 </template>
 
 <script>
+  import { EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import WordList from './WordList.vue';
@@ -16,6 +17,7 @@
       displayName: 'Word List',
     },
     components: {
+      EmptyMessage,
       WordList,
     },
     created() {

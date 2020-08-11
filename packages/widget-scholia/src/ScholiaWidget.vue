@@ -15,7 +15,7 @@
 
 <script>
   import gql from 'graphql-tag';
-  import { Attribution } from '@scaife-viewer/common';
+  import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
@@ -24,7 +24,7 @@
       location: 'sidebar',
       singleton: true,
     },
-    components: { Attribution },
+    components: { Attribution, EmptyMessage },
     computed: {
       urn() {
         return this.$store.getters[`${MODULE_NS}/urn`];
