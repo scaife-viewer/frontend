@@ -4,7 +4,7 @@
       <li class="ancestor" v-for="ancestor in ancestors" :key="ancestor.urn">
         <router-link
           :key="ancestor.urn"
-          :to="{ path: 'reader', query: { urn: ancestor.urn } }"
+          :to="{ name: 'reader', query: { urn: ancestor.urn } }"
         >
           {{ ancestor.ref }}
         </router-link>
