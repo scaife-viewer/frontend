@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-reader",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,10 +8,10 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.0.0",
-    "@scaife-viewer/store": "^0.0.0",
-    "graphql-tag": "^2.10.3",
+    "@scaife-viewer/common": "^0.0.1",
+    "@scaife-viewer/store": "^0.0.1",
     "graphql": "^15.0.0",
+    "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.3"
   }
 }
