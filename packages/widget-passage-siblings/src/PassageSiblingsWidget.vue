@@ -78,6 +78,6 @@
   .active-sibling {
     font-weight: bold;
     color: var(--sv-widget-passage-siblings-active-text-color, #FFF);
-    background: var(--sv-widget-passage-siblings-active-background-color, #343a40);
+    background: var(--sv-widget-passage-siblings-active-background-color, #b45141);
   }
 </style>

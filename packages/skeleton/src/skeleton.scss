@@ -4,3 +4,12 @@
   background: var(--sv-skeleton-background-color, #e9ecef);
   position: relative;
 }
+
+a {
+  color: var(--sv-link-text-color, #b45141);
+  text-decoration: none;
+}
+
+.widget-sidebar .body > div {
+  margin: 0 2em;
+}
