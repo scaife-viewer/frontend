@@ -2,7 +2,7 @@
   <div id="app">
     <div class="menu" v-if="$route.name === 'home'">
       <h1>Scaife Viewer Demos</h1>
-      <router-link :to="{ name: 'homer' }">Explore Homer</router-link>
+      <router-link :to="{ name: 'reader' }">Explore Homer</router-link>
     </div>
     <router-view v-else></router-view>
   </div>

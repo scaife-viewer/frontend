@@ -78,7 +78,7 @@
       returnToRootPayload() {
         return this.context == 'tocs'
           ? { path: 'tocs' }
-          : { path: 'reader', query: { urn: this.passage.absolute } };
+          : { name: 'reader', query: { urn: this.passage.absolute } };
       },
       showingRootToc() {
         if (this.context == 'tocs') {
