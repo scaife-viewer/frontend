@@ -10,7 +10,7 @@
       </a>
       <router-link
         v-else
-        :to="{ path: 'reader', query: { urn: `${sibling.urn}` } }"
+        :to="{ name: 'reader', query: { urn: `${sibling.urn}` } }"
       >
         {{ sibling.lcp }}
       </router-link>
