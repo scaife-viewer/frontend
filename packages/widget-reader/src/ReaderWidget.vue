@@ -131,9 +131,6 @@
       version() {
         return this.$store.getters[`${MODULE_NS}/firstPassageUrn`].version;
       },
-      workTitle() {
-        return this.$store.getters[`${MODULE_NS}/workTitle`];
-      },
       versionMetadata() {
         return this.$store.state[MODULE_NS].metadata;
       },
