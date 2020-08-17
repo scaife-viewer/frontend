@@ -63,7 +63,6 @@
     color: var(--sv-widget-display-mode-active-text-color, #343a40);
   }
   .display-mode-widget {
-    margin: 0 2em;
     flex: 1;
     color: var(--sv-widget-display-mode-text-color, #adb5bd);
 

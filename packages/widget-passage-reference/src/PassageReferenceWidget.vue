@@ -67,7 +67,6 @@
 
 <style lang="scss" scoped>
   .passage-reference-widget {
-    margin: 0 2em;
     flex: 1;
     overflow-y: unset;
   }

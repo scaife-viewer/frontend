@@ -40,7 +40,6 @@
 
 <style lang="scss" scoped>
   .text-size-widget {
-    margin: 0 2em;
     flex: 1;
   }
 </style>

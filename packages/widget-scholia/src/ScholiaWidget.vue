@@ -67,9 +67,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .scholia {
-    margin: 0 2em;
-  }
   .line {
     font-family: var(--sv-widget-scholia-line-font-family, 'Noto Serif');
     font-size: 14px;
