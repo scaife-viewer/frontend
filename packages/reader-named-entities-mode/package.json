@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/reader-named-entities-mode",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,10 +8,10 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.0.1",
-    "@scaife-viewer/entity-map": "^0.0.1",
-    "@scaife-viewer/store": "^0.0.1",
-    "@scaife-viewer/widget-reader": "^0.0.1",
+    "@scaife-viewer/common": "^0.0.2",
+    "@scaife-viewer/entity-map": "^0.0.2",
+    "@scaife-viewer/store": "^0.0.2",
+    "@scaife-viewer/widget-reader": "^0.0.2",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.3"
   }
