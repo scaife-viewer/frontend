@@ -70,7 +70,7 @@
     flex: 1;
     overflow-y: unset;
     input {
-      width: calc(calc(100% - 1rem) - 2px);
+      box-sizing: border-box;
     }
   }
 </style>
