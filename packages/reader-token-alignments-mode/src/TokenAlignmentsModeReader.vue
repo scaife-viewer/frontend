@@ -1,0 +1,112 @@
+<template>
+  <ApolloQuery
+    class="token-alignments-mode-reader"
+    :query="query"
+    :variables="variables"
+    :update="queryUpdate"
+  >
+    <template v-slot="{ result: { error, data }, isLoading }">
+      <LoaderBall v-if="isLoading" />
+      <ErrorMessage v-else-if="error">
+        There was an error loading the requested data.
+      </ErrorMessage>
+      <EmptyMessage
+        v-else-if="data.alignments.length === 0"
+        class="empty-annotations"
+      />
+      <Alignments
+        v-else
+        :references="data.references"
+        :alignments="data.alignments"
+        :textSize="textSize"
+        :textWidth="textWidth"
+      />
+    </template>
+  </ApolloQuery>
+</template>
+
+<script>
+  import gql from 'graphql-tag';
+  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
+
+  import Alignments from './Alignments.vue';
+
+  export default {
+    readerConfig: {
+      label: 'Token Alignments',
+      layout: 'wide',
+    },
+    props: {
+      queryVariables: Object,
+    },
+    components: {
+      Alignments,
+      LoaderBall,
+      ErrorMessage,
+      EmptyMessage,
+    },
+    computed: {
+      textSize() {
+        return this.$store.state[MODULE_NS].readerTextSize;
+      },
+      textWidth() {
+        return this.$store.state[MODULE_NS].readerTextWidth;
+      },
+      variables() {
+        return {
+          ...this.queryVariables,
+          urn: 'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:1.1-1.10', // hard code this for testing
+          alignmentsSlug: 'iliad-word-alignment',  // hard coded for now
+        }
+      },
+      query() {
+        return gql`
+          query TextParts($urn: String!, $alignmentSlug: ID) {
+            textAlignmentChunks(reference: $urn, alignment_Slug: $alignmentSlug) {
+              metadata {
+                passageReferences
+              }
+              edges {
+                node {
+                  id
+                  relations {
+                    edges {
+                      node {
+                        id
+                        tokens {
+                          edges {
+                            node {
+                              id
+                              veRef
+                              wordValue
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `;
+      },
+    },
+    methods: {
+      queryUpdate(data) {
+        return {
+          alignments: data.textAlignmentChunks.edges.map(e => e.node),
+          references: data.textAlignmentChunks.metadata.passageReferences,
+        };
+      },
+    },
+  };
+</script>
+
+<style lang="scss" scoped>
+  .empty-annotations {
+    text-align: center;
+    margin-top: 1rem;
+  }
+</style>
