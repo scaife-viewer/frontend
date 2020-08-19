@@ -249,6 +249,7 @@ const createStore = client => {
                   versions(first: 1) {
                     edges {
                       node {
+                        id
                         metadata
                       }
                     }
@@ -271,6 +272,7 @@ const createStore = client => {
             versions(urn: "${urn}") {
               edges {
                 node {
+                  id
                   metadata
                 }
               }

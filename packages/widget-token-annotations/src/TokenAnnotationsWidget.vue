@@ -79,6 +79,7 @@
                   tokens {
                     edges {
                       node {
+                        id
                         veRef
                         wordValue
                         lemma
