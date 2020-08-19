@@ -45,6 +45,7 @@
                   tokens {
                     edges {
                       node {
+                        id
                         veRef
                         value
                         lemma

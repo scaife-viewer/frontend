@@ -37,6 +37,7 @@
             textAnnotations(reference: $urn) {
               edges {
                 node {
+                  id
                   idx
                   data
                 }

@@ -79,6 +79,7 @@
                   tokens {
                     edges {
                       node {
+                        id
                         veRef
                         value
                         lemma
@@ -91,11 +92,13 @@
             imageAnnotations(reference: $urn) {
               edges {
                 node {
+                  id
                   idx
                   imageIdentifier
                   textParts {
                     edges {
                       node {
+                        id
                         ref
                       }
                     }

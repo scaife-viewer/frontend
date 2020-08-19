@@ -58,6 +58,7 @@
             textAlignmentChunks(reference: $urn) {
               edges {
                 node {
+                  id
                   items
                 }
               }

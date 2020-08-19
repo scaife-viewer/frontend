@@ -76,6 +76,7 @@
                   metricalAnnotations {
                     edges {
                       node {
+                        id
                         metricalPattern
                         htmlContent
                       }
@@ -84,6 +85,7 @@
                   tokens {
                     edges {
                       node {
+                        id
                         veRef
                         value
                         lemma
