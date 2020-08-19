@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-named-entities",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -10,7 +10,7 @@
   "dependencies": {
     "@scaife-viewer/common": "^0.0.2",
     "@scaife-viewer/entity-map": "^0.0.2",
-    "@scaife-viewer/store": "^0.0.3",
+    "@scaife-viewer/store": "^0.0.4",
     "graphql-tag": "^2.10.3"
   }
 }
