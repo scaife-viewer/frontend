@@ -95,8 +95,11 @@
     },
     methods: {
       queryUpdate(data) {
+        const alignments = data.textAlignmentChunks.edges
+          .map(e => e.node.relations.edges.map(e2 => e2.node.tokens.edges.map(e3 => e3.node)));
+
         return {
-          alignments: data.textAlignmentChunks.edges.map(e => e.node),
+          alignments,
           references: data.textAlignmentChunks.metadata.passageReferences,
         };
       },

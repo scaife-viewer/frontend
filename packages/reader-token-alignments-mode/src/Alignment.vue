@@ -3,21 +3,18 @@
     <div class="line" v-for="line in content" :key="line.ref">
       <div class="alignment-ref">{{ line.ref }}</div>
       <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
-          <span v-for="token in line.tokens" :key="token.id" class="token">
-            {{ token.wordValue }}
-          </span>
-        </div>
+        <AlignmentToken v-for="token in line.tokens" :key="token.id" :token="token" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    props: ['content', 'alignments', 'textSize', 'textWidth'],
-    computed: {
+  import AlignmentToken from './AlignmentToken.vue';
 
-    }
+  export default {
+    props: ['content', 'textSize', 'textWidth'],
+    components: { AlignmentToken },
   };
 </script>
 
