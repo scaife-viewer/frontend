@@ -1,10 +1,12 @@
 <template>
   <div class="passage-reference-widget u-widget">
-    <div class="healed" v-if="healed">
-      Passage reference <strong>{{ requested }}</strong> could not be resolved.
-      Instead, we are showing you <strong>{{ healed }}</strong>.
+    <div class="healed" v-if="healedUrn">
+      Passage reference <strong>{{ requestedUrn.reference }}</strong> could not
+      be resolved. Instead, we are showing you
+      <strong>{{ healedUrn.reference }}</strong
+      >.
     </div>
-    <div class="human" v-if="human">{{ human }}</div>
+    <div class="human" v-if="humanRef">{{ humanRef }}</div>
     <input
       v-model="reference"
       v-on:keyup.enter="handleEnter"
@@ -39,33 +41,35 @@
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
+      preferredUrn() {
+        return this.healedUrn || this.requestedUrn;
+      },
     },
     data() {
       return {
         reference: '',
-        requested: '',
-        healed: '',
-        human: '',
+        requestedUrn: null,
+        healedUrn: null,
+        humanRef: '',
       };
     },
     methods: {
+      shouldFetchData() {
+        if (!this.preferredUrn) {
+          return true;
+        }
+        return this.passage.absolute != this.preferredUrn.absolute;
+      },
       setInputRef() {
         if (this.passage) {
           this.reference = this.passage.reference;
-          if (!this.requested) {
-            // we have a passage, but haven't yet
-            // tried to validate it.
+          if (this.shouldFetchData()) {
             this.fetchData();
           }
         }
       },
       fetchData() {
         const urn = `${this.passage.version}${this.reference}`;
-        if (urn === this.passage.absolute && this.requested) {
-          // short circuit because the URN hasn't changed
-          // from the last time the user provided a reference
-          return;
-        }
         this.$apollo
           .query({
             query: gql`
@@ -86,17 +90,22 @@
               healedPassage,
               humanReference,
             } = data.data.passageTextParts.metadata;
-            this.human = humanReference;
-            this.requested = this.reference;
+            this.requestedUrn = new URN(urn);
+
+            this.humanRef = humanReference;
             if (healedPassage) {
-              // eslint-disable-next-line prefer-destructuring
-              this.healed = new URN(healedPassage).reference;
+              this.healedUrn = new URN(healedPassage)
+              this.reference = this.healedUrn.reference;
             } else {
-              this.healed = '';
+              this.healedUrn = null;
+              this.reference = this.requestedUrn.reference;
             }
-            const ref = healedPassage || urn;
-            if (ref !== this.$route.query.urn) {
-              this.$router.push({ to: 'reader', query: { urn: ref } });
+
+            if (this.preferredUrn.absolute !== this.$route.query.urn) {
+              this.$router.push({
+                to: 'reader',
+                query: { urn: this.preferredUrn.absolute },
+              });
             }
           });
       },
