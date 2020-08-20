@@ -57,6 +57,11 @@
       },
       fetchData() {
         const urn = `${this.passage.version}${this.reference}`;
+        if (urn === this.passage.absolute && this.requested) {
+          // short circuit because the URN hasn't changed
+          // from the last time the user provided a reference
+          return;
+        }
         this.$apollo
           .query({
             query: gql`
