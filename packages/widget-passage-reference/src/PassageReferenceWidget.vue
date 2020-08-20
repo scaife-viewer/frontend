@@ -7,7 +7,7 @@
     <div class="human" v-if="human">{{ human }}</div>
     <input
       v-model="reference"
-      v-on:keyup="handleEnter"
+      v-on:keyup.enter="handleEnter"
       v-on:click="handleClick"
       type="text"
       class="form-control form-control-sm"
