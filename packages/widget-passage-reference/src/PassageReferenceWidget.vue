@@ -52,7 +52,11 @@
       setInputRef() {
         if (this.passage) {
           this.reference = this.passage.reference;
-          this.fetchData();
+          if (!this.requested) {
+            // we have a passage, but haven't yet
+            // tried to validate it.
+            this.fetchData();
+          }
         }
       },
       fetchData() {
