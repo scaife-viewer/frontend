@@ -4,7 +4,7 @@
       <div class="alignment-ref">{{ line.ref }}</div>
       <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
         <template v-for="token in line.tokens">
-          <span :key="token.id" class="token" :class="{ selected: hoveringOn.indexOf(token.id) > -1 }" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
+          <span :key="token.id" class="token" :class="{ selected: selected(token) }" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
             <span class="word-value">
               {{ token.wordValue }}
             </span>
@@ -26,15 +26,25 @@
 <script>
   export default {
     props: ['content', 'hoveringOn', 'textSize', 'textWidth'],
+    data() {
+      return {
+        hoveringToken: null,
+      };
+    },
     methods: {
+      selected(token) {
+        return token.id === this.hoveringToken || this.hoveringOn.indexOf(token.id) > -1
+      },
       onHover(alignment) {
         this.$emit('hovered', alignment);
       },
       onTokenEnter(token) {
-        this.$emit('hovered', token.tokenAlignments[0] || null);
+        this.hoveringToken = token.id;
+        this.$emit('hovered', token.tokenAlignments[0] || []);
       },
       onTokenExit() {
-        this.$emit('hovered', null);
+        this.hoveringToken = null;
+        this.$emit('hovered', []);
       },
     },
   };

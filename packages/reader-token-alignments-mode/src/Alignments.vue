@@ -1,7 +1,7 @@
 <template>
   <div class="alignments">
-    <Alignment ref="left" :content="leftContent" :textSize="textSize" :textWidth="textWidth" :hoveringOn="hoveredAlignment" @hovered="onHover" />
-    <Alignment ref="right" :content="rightContent" :textSize="textSize" :textWidth="textWidth" :hoveringOn="hoveredAlignment" @hovered="onHover" />
+    <Alignment ref="left" :content="leftContent" :textSize="textSize" :textWidth="textWidth" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <Alignment ref="right" :content="rightContent" :textSize="textSize" :textWidth="textWidth" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
   </div>
 </template>
 
@@ -79,12 +79,12 @@
     },
     data() {
       return {
-        hoveredAlignment: null,
+        hoveredAlignmentTokens: [],
       };
     },
     methods: {
-      onHover(alignment) {
-        this.hoveredAlignment = alignment;
+      onHover(alignmentTokens) {
+        this.hoveredAlignmentTokens = alignmentTokens;
       },
     },
     computed: {
