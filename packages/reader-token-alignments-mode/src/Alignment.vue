@@ -3,27 +3,38 @@
     <div class="line" v-for="line in content" :key="line.ref">
       <div class="alignment-ref">{{ line.ref }}</div>
       <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
-        <AlignmentToken
-          v-for="token in line.tokens"
-          :key="token.id"
-          :token="token"
-          :hoveringOn="hoveringOn"
-          @hovered="onHover"
-        />
+        <template v-for="token in line.tokens">
+          <span :key="token.id" class="token" :class="{ selected: hoveringOn.indexOf(token.id) > -1 }" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
+            <span class="word-value">
+              {{ token.wordValue }}
+            </span>
+            <span class="alignments-container" v-if="false">
+              <span
+                v-for="(alignment, index) in token.tokenAlignments"
+                :key="`${token.id}-${index}`"
+                :class="`a${index}`"
+                @mouseover="onHover(alignment)"
+              >&#x2B24;</span>
+            </span>
+          </span>{{ ' ' }}
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import AlignmentToken from './AlignmentToken.vue';
-
   export default {
     props: ['content', 'hoveringOn', 'textSize', 'textWidth'],
-    components: { AlignmentToken },
     methods: {
       onHover(alignment) {
         this.$emit('hovered', alignment);
+      },
+      onTokenEnter(token) {
+        this.$emit('hovered', token.tokenAlignments[0] || null);
+      },
+      onTokenExit() {
+        this.$emit('hovered', null);
       },
     },
   };
@@ -49,6 +60,34 @@
   }
   .line {
     font-family: var(--sv-alignments-line-font-family, 'Noto Serif');
+  }
+
+  .token:hover > .alignments-container {
+    display: block;
+    opacity: 1;
+  }
+  .token {
+    display: inline-block;
+  }
+  .token.selected {
+    color: #F00;
+  }
+  .alignments-container {
+    font-size: 10pt;
+    display: block;
+    opacity: 0;
+    color: transparent;
+    cursor: pointer;
+
+    .a0 {
+      color: #F00;
+    }
+    .a1 {
+      color: #0C0;
+    }
+    .a2 {
+      color: #00F;
+    }
   }
 
   .text-xs .line {
