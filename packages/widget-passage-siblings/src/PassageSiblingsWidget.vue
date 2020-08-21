@@ -96,8 +96,7 @@
     background: var(--sv-widget-passage-siblings-sibling-hover-background, #e9ecef);
   }
   .active-sibling {
-    font-weight: bold;
-    color: var(--sv-widget-passage-siblings-active-text-color, #FFF);
-    background: var(--sv-widget-passage-siblings-active-background-color, #b45141);
+    color: var(--sv-widget-passage-siblings-active-text-color, #000000);
+    background: var(--sv-widget-passage-siblings-active-background-color, #dee2e6);
   }
 </style>
