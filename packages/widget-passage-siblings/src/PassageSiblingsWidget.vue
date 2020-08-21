@@ -5,9 +5,13 @@
       v-for="sibling in siblings"
       :key="sibling.urn"
     >
-      <a v-if="sibling.selected" class="active-sibling">
+      <router-link
+        v-if="sibling.selected"
+        class="active-sibling"
+        :to="{ name: 'reader', query: { urn: `${sibling.urn}` } }"
+      >
         {{ sibling.lcp }}
-      </a>
+      </router-link>
       <router-link
         v-else
         :to="{ name: 'reader', query: { urn: `${sibling.urn}` } }"
