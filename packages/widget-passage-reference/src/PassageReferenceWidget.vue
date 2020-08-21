@@ -1,8 +1,15 @@
 <template>
   <div class="passage-reference-widget u-widget">
+    <div class="healed" v-if="healedUrn">
+      Passage reference <strong>{{ requestedUrn.reference }}</strong> could not
+      be resolved. Instead, we are showing you
+      <strong>{{ healedUrn.reference }}</strong
+      >.
+    </div>
+    <div class="human" v-if="humanRef">{{ humanRef }}</div>
     <input
       v-model="reference"
-      v-on:keyup="handleKeyUp"
+      v-on:keyup.enter="handleEnter"
       v-on:click="handleClick"
       type="text"
       class="form-control form-control-sm"
@@ -11,6 +18,9 @@
 </template>
 
 <script>
+  import gql from 'graphql-tag';
+
+  import URN from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
@@ -31,31 +41,76 @@
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
+      preferredUrn() {
+        return this.healedUrn || this.requestedUrn;
+      },
     },
     data() {
       return {
         reference: '',
+        requestedUrn: null,
+        healedUrn: null,
+        humanRef: '',
       };
     },
     methods: {
+      shouldFetchData() {
+        if (!this.preferredUrn) {
+          return true;
+        }
+        return this.passage.absolute != this.preferredUrn.absolute;
+      },
       setInputRef() {
         if (this.passage) {
           this.reference = this.passage.reference;
+          if (this.shouldFetchData()) {
+            this.fetchData();
+          }
         }
       },
-      handleKeyUp(e) {
-        if (e.keyCode === 13) {
-          this.$router.push({
-            to: 'reader',
-            query: {
-              urn: this.reference
-                ? `${this.passage.version}${this.reference}`
-                : this.firstPassageUrn.toString(),
-            },
+      fetchData() {
+        const urn = `${this.passage.version}${this.reference}`;
+        this.$apollo
+          .query({
+            query: gql`
+              query ValidateReference($urn: String!) {
+                passageTextParts(reference: $urn) {
+                  metadata {
+                    healedPassage
+                    humanReference
+                  }
+                }
+              }
+            `,
+            variables: { urn },
+            skip: this.reference === '',
+          })
+          .then(data => {
+            const {
+              healedPassage,
+              humanReference,
+            } = data.data.passageTextParts.metadata;
+            this.requestedUrn = new URN(urn);
+
+            this.humanRef = humanReference;
+            if (healedPassage) {
+              this.healedUrn = new URN(healedPassage)
+              this.reference = this.healedUrn.reference;
+            } else {
+              this.healedUrn = null;
+              this.reference = this.requestedUrn.reference;
+            }
+
+            if (this.preferredUrn.absolute !== this.$route.query.urn) {
+              this.$router.push({
+                to: 'reader',
+                query: { urn: this.preferredUrn.absolute },
+              });
+            }
           });
-        } else {
-          e.stopPropagation();
-        }
+      },
+      handleEnter() {
+        this.fetchData();
       },
       handleClick(e) {
         const el = e.currentTarget;
@@ -71,6 +126,17 @@
     overflow-y: unset;
     input {
       box-sizing: border-box;
+      outline: none;
+    }
+
+    .healed {
+       color: var(--sv-passage-reference-healed-text-color, #B45141);
+       border: 1px solid var(--sv-passage-reference-healed-border-color, #D9A8A0);
+       padding: 0.5rem 0.75rem;
+       font-size: 80%;
+    }
+    .human {
+      margin: 0.5rem 0;
     }
   }
 </style>

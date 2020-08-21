@@ -5,9 +5,13 @@
       v-for="sibling in siblings"
       :key="sibling.urn"
     >
-      <a v-if="sibling.lcp === passage.lcp" class="active-sibling">
+      <router-link
+        v-if="sibling.selected"
+        class="active-sibling"
+        :to="{ name: 'reader', query: { urn: `${sibling.urn}` } }"
+      >
         {{ sibling.lcp }}
-      </a>
+      </router-link>
       <router-link
         v-else
         :to="{ name: 'reader', query: { urn: `${sibling.urn}` } }"
@@ -31,13 +35,30 @@
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
+      siblings() {
+        if (this.siblingsData === undefined) {
+           return [];
+         }
+         const { selected } = this.siblingsData;
+         return this.siblingsData.all.map(s => {
+           return {
+             ...s,
+             selected: selected.filter(s2 => s2.urn === s.urn).length > 0,
+           };
+         });
+      },
     },
     apollo: {
-      siblings: {
+      siblingsData: {
         query: gql`
           query Siblings($urn: String!) {
             passageTextParts(reference: $urn) {
-              metadata
+              metadata {
+                siblings {
+                  all
+                  selected
+                }
+              }
             }
           }
         `,
@@ -45,7 +66,8 @@
           return { urn: this.passage.absolute };
         },
         update(data) {
-          return data.passageTextParts.metadata.siblings;
+          const { all, selected } = data.passageTextParts.metadata.siblings;
+          return { all, selected };
         },
         skip() {
           return !this.passage;
@@ -66,18 +88,19 @@
     grid-template-columns: repeat(auto-fill, minmax(1.6em, 1fr));
   }
   .passage-siblings-widget * {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
+    text-align: center;
     font-size: 0.7rem;
-    padding: 0.1rem 0.3rem;
+    padding: 0.15rem 0;
   }
   .passage-siblings-widget a {
     border: none;
   }
+  a:not(.active-sibling):hover {
+    background: var(--sv-widget-passage-siblings-sibling-hover-background, #e9ecef);
+  }
   .active-sibling {
-    font-weight: bold;
-    color: var(--sv-widget-passage-siblings-active-text-color, #FFF);
-    background: var(--sv-widget-passage-siblings-active-background-color, #b45141);
+    color: var(--sv-widget-passage-siblings-active-text-color, #000000);
+    background: var(--sv-widget-passage-siblings-active-background-color, #dee2e6);
   }
 </style>
