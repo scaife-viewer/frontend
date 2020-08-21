@@ -8,7 +8,7 @@ import createStore from '@scaife-viewer/store';
 const client = new ApolloClient({
   uri:
     process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
-    'https://explorehomer-spike-duca-8mwdty.herokuapp.com/graphql/',
+    'https://explorehomer-atlas-dev.scaife-viewer.org/graphql/',
 });
 const apolloProvider = new VueApollo({
   defaultClient: client,
