@@ -52,7 +52,8 @@
       },
       queryUpdate(data) {
         const {
-          metadata: { next, previous },
+          nextPassage: next,
+          previousPassage: previous
         } = data.passageTextParts;
         return {
           next: next ? new URN(next) : null,
@@ -107,7 +108,10 @@
         return gql`
           query TextParts($urn: String!) {
             passageTextParts(reference: $urn) {
-              metadata
+              metadata {
+                previousPassage
+                nextPassage
+              }
             }
             textAlignmentChunks(reference: $urn) {
               edges {
