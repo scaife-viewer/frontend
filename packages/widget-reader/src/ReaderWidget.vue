@@ -54,7 +54,7 @@
         const {
           nextPassage: next,
           previousPassage: previous
-        } = data.passageTextParts;
+        } = data.passageTextParts.metadata;
         return {
           next: next ? new URN(next) : null,
           previous: previous ? new URN(previous) : null,
@@ -111,14 +111,6 @@
               metadata {
                 previousPassage
                 nextPassage
-              }
-            }
-            textAlignmentChunks(reference: $urn) {
-              edges {
-                node {
-                  id
-                  items
-                }
               }
             }
           }
