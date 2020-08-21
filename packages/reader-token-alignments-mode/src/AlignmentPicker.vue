@@ -30,5 +30,7 @@
     color: transparent;
     cursor: pointer;
     display: block;
+    height: 20px;
+    min-width: 1px;
   }
 </style>

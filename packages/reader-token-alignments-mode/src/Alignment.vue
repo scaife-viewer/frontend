@@ -69,7 +69,6 @@
   }
 
   .token:hover > ::v-deep.alignments-picker {
-    display: block;
     opacity: 1;
   }
   .token {
