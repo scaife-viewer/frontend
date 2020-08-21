@@ -3,7 +3,13 @@
     <div class="line" v-for="line in content" :key="line.ref">
       <div class="alignment-ref">{{ line.ref }}</div>
       <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
-        <AlignmentToken v-for="token in line.tokens" :key="token.id" :token="token" />
+        <AlignmentToken
+          v-for="token in line.tokens"
+          :key="token.id"
+          :token="token"
+          :hoveringOn="hoveringOn"
+          @hovered="onHover"
+        />
       </div>
     </div>
   </div>
@@ -13,8 +19,13 @@
   import AlignmentToken from './AlignmentToken.vue';
 
   export default {
-    props: ['content', 'textSize', 'textWidth'],
+    props: ['content', 'hoveringOn', 'textSize', 'textWidth'],
     components: { AlignmentToken },
+    methods: {
+      onHover(alignment) {
+        this.$emit('hovered', alignment);
+      },
+    },
   };
 </script>
 

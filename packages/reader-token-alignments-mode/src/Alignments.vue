@@ -1,7 +1,7 @@
 <template>
   <div class="alignments">
-    <Alignment ref="left" :content="leftContent" :textSize="textSize" :textWidth="textWidth" />
-    <Alignment ref="right" :content="rightContent" :textSize="textSize" :textWidth="textWidth" />
+    <Alignment ref="left" :content="leftContent" :textSize="textSize" :textWidth="textWidth" :hoveringOn="hoveredAlignment" @hovered="onHover" />
+    <Alignment ref="right" :content="rightContent" :textSize="textSize" :textWidth="textWidth" :hoveringOn="hoveredAlignment" @hovered="onHover" />
   </div>
 </template>
 
@@ -33,23 +33,10 @@
       tokens: e.node.tokens.edges.map(te => te.node),
     }
   });
-  const shapeContent = (lines, alignments) => {
+  const shapeContent = (lines, alignmentMap) => {
     return lines && lines.map(line => {
       const tokens = line.tokens.map(t => {
-        let tokenAlignments = [];
-        alignments.forEach(relation => {
-          const [left, right] = relation;
-          left.forEach(token => {
-            if (token.id === t.id && right) {
-              tokenAlignments = right.map(t => t.id);
-            }
-          });
-          right && right.forEach(token => {
-            if (token.id === t.id) {
-              tokenAlignments = left.map(t => t.id);
-            }
-          });
-        });
+        const tokenAlignments = alignmentMap[t.id] || [];
         return {
           id: t.id,
           wordValue: t.wordValue,
@@ -64,7 +51,7 @@
   };
 
   export default {
-    props: ['alignments', 'references', 'textSize', 'textWidth'],
+    props: ['alignmentMap', 'references', 'textSize', 'textWidth'],
     components: { Alignment },
     apollo: {
       left: {
@@ -90,12 +77,22 @@
         },
       },
     },
+    data() {
+      return {
+        hoveredAlignment: null,
+      };
+    },
+    methods: {
+      onHover(alignment) {
+        this.hoveredAlignment = alignment;
+      },
+    },
     computed: {
       leftContent() {
-        return shapeContent(this.left, this.alignments);
+        return shapeContent(this.left, this.alignmentMap);
       },
       rightContent() {
-        return shapeContent(this.right, this.alignments);
+        return shapeContent(this.right, this.alignmentMap);
       },
     }
   };
