@@ -8,7 +8,7 @@
             <span class="word-value">
               {{ token.wordValue }}
             </span>
-            <AlignmentPicker :chunks="tokenMap[token.id]" @hovered="onPickerHover" />
+            <AlignmentPicker :chunks="tokenMap[token.id] || []" @hovered="onPickerHover" />
           </span>{{ ' ' }}
         </template>
       </div>

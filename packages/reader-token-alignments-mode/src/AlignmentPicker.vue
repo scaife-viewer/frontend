@@ -6,6 +6,7 @@
       :number="index"
       @hovered="onHover"
     />
+    <span class="placeholder-chunk" v-if="chunks.length === 0"></span>
   </span>
 </template>
 
@@ -32,5 +33,12 @@
     display: block;
     height: 20px;
     min-width: 1px;
+  }
+  .placeholder-chunk {
+    display: inline-block;
+    width: 20px;
+    height: 8px;
+    border-radius: 2px;
+    margin-right: 4px;
   }
 </style>
