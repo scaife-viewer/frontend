@@ -80,7 +80,7 @@
     display: inline-block;
   }
   .token.selected {
-    color: #F00;
+    color: var(--sv-reader-token-alignments-mode-selected-text-color, #F00);
   }
   .alignments-container {
     font-size: 10pt;
@@ -90,13 +90,13 @@
     cursor: pointer;
 
     .a0 {
-      color: #F00;
+      color: var(--sv-reader-token-alignments-mode-a0-text-color, #F00);
     }
     .a1 {
-      color: #0C0;
+      color: var(--sv-reader-token-alignments-mode-a1-text-color, #0C0);
     }
     .a2 {
-      color: #00F;
+      color: var(--sv-reader-token-alignments-mode-a2-text-color, #00F);
     }
   }
 
