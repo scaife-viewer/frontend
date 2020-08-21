@@ -4,18 +4,11 @@
       <div class="alignment-ref">{{ line.ref }}</div>
       <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
         <template v-for="token in line.tokens">
-          <span :key="token.id" class="token" :class="{ selected: selected(token) }" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
+          <span :key="token.id" class="token" :class="[{ selected: selected(token) }, `a${hoveringAt}`]" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
             <span class="word-value">
               {{ token.wordValue }}
             </span>
-            <span class="alignments-container" v-if="false">
-              <span
-                v-for="(alignment, index) in token.tokenAlignments"
-                :key="`${token.id}-${index}`"
-                :class="`a${index}`"
-                @mouseover="onHover(alignment)"
-              >&#x2B24;</span>
-            </span>
+            <AlignmentPicker :chunks="tokenMap[token.id]" @hovered="onPickerHover" />
           </span>{{ ' ' }}
         </template>
       </div>
@@ -24,25 +17,30 @@
 </template>
 
 <script>
+  import AlignmentPicker from './AlignmentPicker.vue';
+
   export default {
-    props: ['content', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'chunkMap'],
+    props: ['content', 'hoveringAt', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'chunkMap'],
+    components: { AlignmentPicker },
     methods: {
       selected(token) {
         return this.hoveringOn.indexOf(token.id) > -1
       },
-      onHover(alignment) {
-        this.$emit('hovered', alignment);
+      onPickerHover(chunkId, number) {
+        if (chunkId && this.chunkMap[chunkId]) {
+          this.$emit('hovered', this.chunkMap[chunkId], number);
+        }
       },
       onTokenEnter(token) {
         // fix to only a single alignment for now
         const chunkId = this.tokenMap[token.id] && this.tokenMap[token.id][0];
         if (chunkId) {
           const hovering = this.chunkMap[chunkId];
-          this.$emit('hovered', hovering || []);
+          this.$emit('hovered', hovering || [], 0);
         }
       },
       onTokenExit() {
-        this.$emit('hovered', []);
+        this.$emit('hovered', [], null);
       },
     },
   };
@@ -70,7 +68,7 @@
     font-family: var(--sv-alignments-line-font-family, 'Noto Serif');
   }
 
-  .token:hover > .alignments-container {
+  .token:hover > ::v-deep.alignments-picker {
     display: block;
     opacity: 1;
   }
@@ -78,23 +76,14 @@
     display: inline-block;
   }
   .token.selected {
-    color: var(--sv-reader-token-alignments-mode-selected-text-color, #F00);
-  }
-  .alignments-container {
-    font-size: 10pt;
-    display: block;
-    opacity: 0;
-    color: transparent;
-    cursor: pointer;
-
-    .a0 {
-      color: var(--sv-reader-token-alignments-mode-a0-text-color, #F00);
+    &.a0 {
+      color: var(--sv-reader-token-alignments-mode-chunk-a0-color, #F00);
     }
-    .a1 {
-      color: var(--sv-reader-token-alignments-mode-a1-text-color, #0C0);
+    &.a1 {
+      color: var(--sv-reader-token-alignments-mode-chunk-a1-color, #0C0);
     }
-    .a2 {
-      color: var(--sv-reader-token-alignments-mode-a2-text-color, #00F);
+    &.a2 {
+      color: var(--sv-reader-token-alignments-mode-chunk-a2-color, #00F);
     }
   }
 

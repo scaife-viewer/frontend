@@ -57,7 +57,7 @@
       variables() {
         return {
           ...this.queryVariables,
-          urn: 'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:1.1-1.10', // hard code this for testing
+          urn: 'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:1.1-1.11', // hard code this for testing
           alignmentSlug: 'iliad-word-alignment',  // hard coded for now
         }
       },
