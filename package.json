@@ -11,6 +11,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production rollup -c ./build/rollup.config.js",
+    "build-demo": "vue-cli-service build",
     "serve": "vue-cli-service serve",
     "prerelease": "npm run build",
     "release": "lerna publish"
