@@ -11,13 +11,14 @@
         There was an error loading the requested data.
       </ErrorMessage>
       <EmptyMessage
-        v-else-if="Object.keys(data.alignmentMap).length === 0"
+        v-else-if="Object.keys(data.tokenMap).length === 0"
         class="empty-annotations"
       />
       <Alignments
         v-else
         :references="data.references"
-        :alignmentMap="data.alignmentMap"
+        :chunkMap="data.chunkMap"
+        :tokenMap="data.tokenMap"
         :textSize="textSize"
         :textWidth="textWidth"
       />
@@ -95,29 +96,35 @@
     },
     methods: {
       queryUpdate(data) {
-        const alignments = data.textAlignmentChunks.edges
+        const tokenChunks = data.textAlignmentChunks.edges
           .map(e => e.node.relations.edges
             .map(e2 => e2.node.tokens.edges
-              .map(e3 => e3.node.id)));
+              .map(e3 => ({token: e3.node.id, chunk: e.node.id}))
+              .flat())
+            .flat())
+          .flat();
 
-        // Create a two-way lookup map
-        const alignmentMap = alignments.reduce((map, relation) => {
-          const left = relation[0][0];
-          const right = relation[1];
-          if (map[left] === undefined) {
-            map[left] = [];
-          }
-          map[left].push(right);
-          right.forEach(rightId => {
-            if (map[rightId] === undefined) {
-              map[rightId] = [];
+        const chunkMap = data.textAlignmentChunks.edges
+          .reduce((map, e) => {
+            map[e.node.id] = e.node.relations.edges
+              .map(e2 => e2.node.tokens.edges
+                .map(e3 => e3.node.id))
+              .flat();
+            return map;
+          }, {});
+
+        const tokenMap = tokenChunks
+          .reduce((map, tokenChunk) => {
+            if (map[tokenChunk.token] === undefined) {
+              map[tokenChunk.token] = [];
             }
-            map[rightId].push(left);
-          });
-          return map;
-        }, {});
+            map[tokenChunk.token].push(tokenChunk.chunk);
+            return map;
+          }, {});
+
         return {
-          alignmentMap,
+          chunkMap,
+          tokenMap,
           references: data.textAlignmentChunks.metadata.passageReferences,
         };
       },

@@ -25,25 +25,23 @@
 
 <script>
   export default {
-    props: ['content', 'hoveringOn', 'textSize', 'textWidth'],
-    data() {
-      return {
-        hoveringToken: null,
-      };
-    },
+    props: ['content', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'chunkMap'],
     methods: {
       selected(token) {
-        return token.id === this.hoveringToken || this.hoveringOn.indexOf(token.id) > -1
+        return this.hoveringOn.indexOf(token.id) > -1
       },
       onHover(alignment) {
         this.$emit('hovered', alignment);
       },
       onTokenEnter(token) {
-        this.hoveringToken = token.id;
-        this.$emit('hovered', token.tokenAlignments[0] || []);
+        // fix to only a single alignment for now
+        const chunkId = this.tokenMap[token.id] && this.tokenMap[token.id][0];
+        if (chunkId) {
+          const hovering = this.chunkMap[chunkId];
+          this.$emit('hovered', hovering || []);
+        }
       },
       onTokenExit() {
-        this.hoveringToken = null;
         this.$emit('hovered', []);
       },
     },

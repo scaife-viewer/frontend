@@ -1,7 +1,7 @@
 <template>
   <div class="alignments">
-    <Alignment ref="left" :content="leftContent" :textSize="textSize" :textWidth="textWidth" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
-    <Alignment ref="right" :content="rightContent" :textSize="textSize" :textWidth="textWidth" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <Alignment ref="left" :content="left" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :chunkMap="chunkMap" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <Alignment ref="right" :content="right" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :chunkMap="chunkMap" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
   </div>
 </template>
 
@@ -33,25 +33,9 @@
       tokens: e.node.tokens.edges.map(te => te.node),
     }
   });
-  const shapeContent = (lines, alignmentMap) => {
-    return lines && lines.map(line => {
-      const tokens = line.tokens.map(t => {
-        const tokenAlignments = alignmentMap[t.id] || [];
-        return {
-          id: t.id,
-          wordValue: t.wordValue,
-          tokenAlignments,
-        };
-      });
-      return {
-        ...line,
-        tokens,
-      };
-    });
-  };
 
   export default {
-    props: ['alignmentMap', 'references', 'textSize', 'textWidth'],
+    props: ['tokenMap', 'chunkMap', 'references', 'textSize', 'textWidth'],
     components: { Alignment },
     apollo: {
       left: {
@@ -87,14 +71,6 @@
         this.hoveredAlignmentTokens = alignmentTokens;
       },
     },
-    computed: {
-      leftContent() {
-        return shapeContent(this.left, this.alignmentMap);
-      },
-      rightContent() {
-        return shapeContent(this.right, this.alignmentMap);
-      },
-    }
   };
 </script>
 
