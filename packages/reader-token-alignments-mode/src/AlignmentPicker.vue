@@ -26,12 +26,12 @@
 
 <style lang="scss" scoped>
   .alignments-picker {
-    font-size: 10pt;
+    font-size: 1px;
     opacity: 0;
     color: transparent;
     cursor: pointer;
     display: block;
-    height: 20px;
+    margin-top: 2px;
     min-width: 1px;
   }
   .placeholder-chunk {

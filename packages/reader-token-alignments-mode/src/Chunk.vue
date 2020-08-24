@@ -23,6 +23,9 @@
     height: 8px;
     border-radius: 2px;
     margin-right: 4px;
+    &:last-child {
+      margin-right: 0;
+    }
   }
   .a0 {
     background-color: var(--sv-reader-token-alignments-mode-chunk-a0-color, #F00);
