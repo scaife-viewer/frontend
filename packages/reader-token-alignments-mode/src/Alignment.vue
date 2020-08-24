@@ -1,7 +1,7 @@
 <template>
   <div class="alignment">
     <div class="line" v-for="line in content" :key="line.ref">
-      <div class="alignment-ref">{{ line.ref }}</div>
+      <div class="alignment-ref" @mouseenter="onLineEnter(line)" @mouseleave="onLineExit">{{ line.ref }}</div>
       <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
         <template v-for="token in line.tokens">
           <span :key="token.id" class="token" :class="[{ selected: selected(token) }, `a${hoveringAt}`]" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
@@ -34,6 +34,24 @@
         if (chunkId && this.chunkMap[chunkId]) {
           this.$emit('hovered', this.chunkMap[chunkId], number);
         }
+      },
+      onLineEnter(line) {
+        const chunks = line.tokens.reduce((arr, token) => {
+          return [
+            ...arr,
+            ...(this.tokenMap[token.id] || []),
+          ];
+        }, []);
+        const hovering = chunks.reduce((arr, chunk) => {
+          return [
+            ...arr,
+            ...(this.chunkMap[chunk] || []),
+          ];
+        }, []);
+        this.$emit('hovered', hovering, 0);
+      },
+      onLineExit() {
+        this.$emit('hovered', [], null);
       },
       onTokenEnter(token) {
         // fix to only a single alignment for now
