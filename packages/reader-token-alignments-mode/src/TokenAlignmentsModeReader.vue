@@ -14,14 +14,19 @@
         v-else-if="Object.keys(data.tokenMap).length === 0"
         class="empty-annotations"
       />
-      <TextAlignments
-        v-else
-        :references="data.references"
-        :recordMap="data.recordMap"
-        :tokenMap="data.tokenMap"
-        :textSize="textSize"
-        :textWidth="textWidth"
-      />
+      <template v-else>
+        <AlignmentSelector
+          :alignments="data.alignments"
+          v-model="selectedAlignment"
+        />
+        <TextAlignments
+          :references="data.references"
+          :recordMap="data.recordMap"
+          :tokenMap="data.tokenMap"
+          :textSize="textSize"
+          :textWidth="textWidth"
+        />
+      </template>
     </template>
   </ApolloQuery>
 </template>
@@ -31,6 +36,7 @@
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
+  import AlignmentSelector from './AlignmentSelector.vue';
   import TextAlignments from './TextAlignments.vue';
 
   export default {
@@ -42,10 +48,16 @@
       queryVariables: Object,
     },
     components: {
+      AlignmentSelector,
       TextAlignments,
       LoaderBall,
       ErrorMessage,
       EmptyMessage,
+    },
+    data() {
+      return {
+        selectedAlignment: 'iliad-word-alignment',
+      };
     },
     computed: {
       textSize() {
@@ -57,12 +69,21 @@
       variables() {
         return {
           ...this.queryVariables,
-          alignmentSlug: 'iliad-word-alignment',  // hard coded for now
+          alignmentSlug: this.selectedAlignment,
         }
       },
       query() {
         return gql`
           query TextParts($urn: String!, $alignmentSlug: ID) {
+            textAlignments(reference: $urn) {
+              edges {
+                node {
+                  name
+                  slug
+                  id
+                }
+              }
+            }
             textAlignmentChunks(reference: $urn, alignment_Slug: $alignmentSlug) {
               metadata {
                 passageReferences
@@ -121,9 +142,12 @@
             return map;
           }, {});
 
+        const alignments = data.textAlignments.edges.map(e => e.node);
+
         return {
           recordMap,
           tokenMap,
+          alignments,
           references: data.textAlignmentChunks.metadata.passageReferences,
         };
       },
