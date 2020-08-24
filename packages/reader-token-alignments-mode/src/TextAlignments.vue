@@ -1,14 +1,14 @@
 <template>
   <div class="alignments">
-    <Alignment ref="left" :content="left" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :chunkMap="chunkMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
-    <Alignment ref="right" :content="right" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :chunkMap="chunkMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <TextAlignment ref="left" :content="left" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <TextAlignment ref="right" :content="right" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
 
-  import Alignment from './Alignment.vue';
+  import TextAlignment from './TextAlignment.vue';
 
   const passageQuery = gql`query Passage($reference: String!) {
     passageTextParts(reference: $reference) {
@@ -35,8 +35,8 @@
   });
 
   export default {
-    props: ['tokenMap', 'chunkMap', 'references', 'textSize', 'textWidth'],
-    components: { Alignment },
+    props: ['tokenMap', 'recordMap', 'references', 'textSize', 'textWidth'],
+    components: { TextAlignment },
     apollo: {
       left: {
         query: passageQuery,

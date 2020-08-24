@@ -1,31 +1,31 @@
 <template>
-  <span class="alignments-picker">
-    <Chunk
-      v-for="(chunk, index) in chunks" :key="chunk"
-      :chunk="chunk"
+  <span class="alignment-records-picker">
+    <AlignmentRecord
+      v-for="(record, index) in record" :key="record"
+      :record="record"
       :number="index"
       @hovered="onHover"
     />
-    <span class="placeholder-chunk" v-if="chunks.length === 0"></span>
+    <span class="placeholder" v-if="records.length === 0"></span>
   </span>
 </template>
 
 <script>
-  import Chunk from './Chunk.vue';
+  import AlignmentRecord from './AlignmentRecord.vue';
 
   export default {
-    props: ['chunks'],
-    components: { Chunk },
+    props: ['records'],
+    components: { AlignmentRecord },
     methods: {
-      onHover(chunk, number) {
-        this.$emit('hovered', chunk, number);
+      onHover(record, number) {
+        this.$emit('hovered', record, number);
       },
     },
   }
 </script>
 
 <style lang="scss" scoped>
-  .alignments-picker {
+  .alignment-records-picker {
     font-size: 1px;
     opacity: 0;
     color: transparent;
@@ -34,7 +34,7 @@
     margin-top: 2px;
     min-width: 1px;
   }
-  .placeholder-chunk {
+  .placeholder {
     display: inline-block;
     width: 1px;
     height: 8px;

@@ -14,10 +14,10 @@
         v-else-if="Object.keys(data.tokenMap).length === 0"
         class="empty-annotations"
       />
-      <Alignments
+      <TextAlignments
         v-else
         :references="data.references"
-        :chunkMap="data.chunkMap"
+        :recordMap="data.recordMap"
         :tokenMap="data.tokenMap"
         :textSize="textSize"
         :textWidth="textWidth"
@@ -31,7 +31,7 @@
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
-  import Alignments from './Alignments.vue';
+  import TextAlignments from './TextAlignments.vue';
 
   export default {
     readerConfig: {
@@ -42,7 +42,7 @@
       queryVariables: Object,
     },
     components: {
-      Alignments,
+      TextAlignments,
       LoaderBall,
       ErrorMessage,
       EmptyMessage,
@@ -95,15 +95,15 @@
     },
     methods: {
       queryUpdate(data) {
-        const tokenChunks = data.textAlignmentChunks.edges
+        const tokenAlignmentRecords = data.textAlignmentChunks.edges
           .map(e => e.node.relations.edges
             .map(e2 => e2.node.tokens.edges
-              .map(e3 => ({token: e3.node.id, chunk: e.node.id}))
+              .map(e3 => ({token: e3.node.id, record: e.node.id}))
               .flat())
             .flat())
           .flat();
 
-        const chunkMap = data.textAlignmentChunks.edges
+        const recordMap = data.textAlignmentChunks.edges
           .reduce((map, e) => {
             map[e.node.id] = e.node.relations.edges
               .map(e2 => e2.node.tokens.edges
@@ -112,17 +112,17 @@
             return map;
           }, {});
 
-        const tokenMap = tokenChunks
-          .reduce((map, tokenChunk) => {
-            if (map[tokenChunk.token] === undefined) {
-              map[tokenChunk.token] = [];
+        const tokenMap = tokenAlignmentRecords
+          .reduce((map, tokenRecord) => {
+            if (map[tokenRecord.token] === undefined) {
+              map[tokenRecord.token] = [];
             }
-            map[tokenChunk.token].push(tokenChunk.chunk);
+            map[tokenRecord.token].push(tokenRecord.record);
             return map;
           }, {});
 
         return {
-          chunkMap,
+          recordMap,
           tokenMap,
           references: data.textAlignmentChunks.metadata.passageReferences,
         };

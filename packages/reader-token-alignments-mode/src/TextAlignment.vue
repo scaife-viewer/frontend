@@ -8,7 +8,7 @@
             <span class="word-value">
               {{ token.wordValue }}
             </span>
-            <AlignmentPicker :chunks="chunksForToken(token)" @hovered="onPickerHover" />
+            <AlignmentRecordPicker :records="recordsForToken(token)" @hovered="onPickerHover" />
           </span>{{ ' ' }}
         </template>
       </div>
@@ -17,35 +17,35 @@
 </template>
 
 <script>
-  import AlignmentPicker from './AlignmentPicker.vue';
+  import AlignmentRecordPicker from './AlignmentRecordPicker.vue';
 
   export default {
-    props: ['content', 'hoveringAt', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'chunkMap'],
-    components: { AlignmentPicker },
+    props: ['content', 'hoveringAt', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'recordMap'],
+    components: { AlignmentRecordPicker },
     methods: {
-      chunksForToken(token) {
-        const chunks = this.tokenMap[token.id] || [];
-        return chunks.length > 1 ? chunks : [];
+      recordsForToken(token) {
+        const records = this.tokenMap[token.id] || [];
+        return records.length > 1 ? records : [];
       },
       selected(token) {
         return this.hoveringOn.indexOf(token.id) > -1
       },
-      onPickerHover(chunkId, number) {
-        if (chunkId && this.chunkMap[chunkId]) {
-          this.$emit('hovered', this.chunkMap[chunkId], number);
+      onPickerHover(recordId, number) {
+        if (recordId && this.recordMap[recordId]) {
+          this.$emit('hovered', this.recordMap[recordId], number);
         }
       },
       onLineEnter(line) {
-        const chunks = line.tokens.reduce((arr, token) => {
+        const records = line.tokens.reduce((arr, token) => {
           return [
             ...arr,
             ...(this.tokenMap[token.id] || []),
           ];
         }, []);
-        const hovering = chunks.reduce((arr, chunk) => {
+        const hovering = records.reduce((arr, record) => {
           return [
             ...arr,
-            ...(this.chunkMap[chunk] || []),
+            ...(this.recordMap[record] || []),
           ];
         }, []);
         this.$emit('hovered', hovering, 0);
@@ -55,9 +55,9 @@
       },
       onTokenEnter(token) {
         // fix to only a single alignment for now
-        const chunkId = this.tokenMap[token.id] && this.tokenMap[token.id][0];
-        if (chunkId) {
-          const hovering = this.chunkMap[chunkId];
+        const recordId = this.tokenMap[token.id] && this.tokenMap[token.id][0];
+        if (recordId) {
+          const hovering = this.recordMap[recordId];
           this.$emit('hovered', hovering || [], 0);
         }
       },
@@ -98,13 +98,13 @@
   }
   .token.selected {
     &.a0 {
-      color: var(--sv-reader-token-alignments-mode-chunk-a0-color, #F00);
+      color: var(--sv-reader-token-alignments-mode-alignment-record-a0-color, #F00);
     }
     &.a1 {
-      color: var(--sv-reader-token-alignments-mode-chunk-a1-color, #0C0);
+      color: var(--sv-reader-token-alignments-mode-alignment-record-a1-color, #0C0);
     }
     &.a2 {
-      color: var(--sv-reader-token-alignments-mode-chunk-a2-color, #00F);
+      color: var(--sv-reader-token-alignments-mode-alignment-record-a2-color, #00F);
     }
   }
 
