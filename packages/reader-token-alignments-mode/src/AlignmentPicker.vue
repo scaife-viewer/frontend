@@ -36,7 +36,7 @@
   }
   .placeholder-chunk {
     display: inline-block;
-    width: 20px;
+    width: 1px;
     height: 8px;
     border-radius: 2px;
     margin-right: 4px;
