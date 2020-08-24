@@ -25,6 +25,7 @@
     methods: {
       recordsForToken(token) {
         const records = this.tokenMap[token.id] || [];
+        console.log(token.id, records.length);
         return records.length > 1 ? records : [];
       },
       selected(token) {
@@ -90,7 +91,7 @@
     font-family: var(--sv-alignments-line-font-family, 'Noto Serif');
   }
 
-  .token:hover > ::v-deep.alignments-picker {
+  .token:hover > ::v-deep.alignment-records-picker {
     opacity: 1;
   }
   .token {

@@ -1,7 +1,7 @@
 <template>
   <span class="alignment-records-picker">
     <AlignmentRecord
-      v-for="(record, index) in record" :key="record"
+      v-for="(record, index) in records" :key="record"
       :record="record"
       :number="index"
       @hovered="onHover"
