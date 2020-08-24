@@ -8,7 +8,7 @@
             <span class="word-value">
               {{ token.wordValue }}
             </span>
-            <AlignmentPicker :chunks="tokenMap[token.id] || []" @hovered="onPickerHover" />
+            <AlignmentPicker :chunks="chunksForToken(token)" @hovered="onPickerHover" />
           </span>{{ ' ' }}
         </template>
       </div>
@@ -23,6 +23,10 @@
     props: ['content', 'hoveringAt', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'chunkMap'],
     components: { AlignmentPicker },
     methods: {
+      chunksForToken(token) {
+        const chunks = this.tokenMap[token.id] || [];
+        return chunks.length > 1 ? chunks : [];
+      },
       selected(token) {
         return this.hoveringOn.indexOf(token.id) > -1
       },
