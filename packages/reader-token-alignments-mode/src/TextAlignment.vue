@@ -25,7 +25,6 @@
     methods: {
       recordsForToken(token) {
         const records = this.tokenMap[token.id] || [];
-        console.log(token.id, records.length);
         return records.length > 1 ? records : [];
       },
       selected(token) {

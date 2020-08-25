@@ -15,10 +15,7 @@
         class="empty-annotations"
       />
       <template v-else>
-        <AlignmentSelector
-          :alignments="data.alignments"
-          v-model="selectedAlignment"
-        />
+        <CustomSelect v-model="selectedAlignment" :options="data.alignments" />
         <TextAlignments
           :references="data.references"
           :recordMap="data.recordMap"
@@ -33,7 +30,12 @@
 
 <script>
   import gql from 'graphql-tag';
-  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    CustomSelect,
+    LoaderBall,
+    ErrorMessage,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import AlignmentSelector from './AlignmentSelector.vue';
@@ -50,13 +52,17 @@
     components: {
       AlignmentSelector,
       TextAlignments,
+      CustomSelect,
       LoaderBall,
       ErrorMessage,
       EmptyMessage,
     },
     data() {
       return {
-        selectedAlignment: 'iliad-word-alignment',
+        selectedAlignment: {
+          value: 'iliad-word-alignment',
+          title: 'Iliad Word Alignment',
+        },
       };
     },
     computed: {
@@ -69,7 +75,7 @@
       variables() {
         return {
           ...this.queryVariables,
-          alignmentSlug: this.selectedAlignment,
+          alignmentSlug: this.selectedAlignment.value,
         }
       },
       query() {
@@ -142,7 +148,12 @@
             return map;
           }, {});
 
-        const alignments = data.textAlignments.edges.map(e => e.node);
+        const alignments = data.textAlignments.edges.map(e => {
+          return {
+            value: e.node.slug,
+            title: e.node.name,
+          };
+        });
 
         return {
           recordMap,
