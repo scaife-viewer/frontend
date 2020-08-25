@@ -1,7 +1,7 @@
 <template>
-  <div class="alignment">
+  <div class="text-alignment">
     <div class="line" v-for="line in content" :key="line.ref">
-      <div class="alignment-ref" @mouseenter="onLineEnter(line)" @mouseleave="onLineExit">{{ line.ref }}</div>
+      <div class="text-alignment-ref" @mouseenter="onLineEnter(line)" @mouseleave="onLineExit">{{ line.ref }}</div>
       <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
         <template v-for="token in line.tokens">
           <span :key="token.id" class="token" :class="[{ selected: selected(token) }, `a${hoveringAt}`]" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
@@ -69,24 +69,20 @@
 </script>
 
 <style lang="scss" scoped>
-  .alignment {
+  .text-alignment {
     margin-bottom: 20px;
-    .line {
-      display: flex;
-
-      .alignment-ref {
-        padding-right: 0.5rem;
-      }
-    }
+    flex: 1;
   }
-  .alignment-ref {
+  .text-alignment-ref {
     text-align: center;
     font-size: 12pt;
     color: var(--sv-alignments-alignment-ref-text-color, #69c);
     font-family: 'Noto Sans';
     margin-bottom: 5px;
+    padding-right: 0.5rem;
   }
   .line {
+    display: flex;
     font-family: var(--sv-alignments-line-font-family, 'Noto Serif');
   }
 
