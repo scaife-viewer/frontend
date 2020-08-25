@@ -45,13 +45,13 @@
   .custom-select--options {
     position: absolute;
     top: 40px; left: 0; right: 0;
-    border: 1px solid var(--sv-common-custom-select-options-border-color, #dee2e6);
-    background: var(--sv-common-custom-select-options-background-color, white);
+    border: 1px solid var(--sv-custom-select-options-border-color, #dee2e6);
+    background: var(--sv-custom-select-options-background-color, white);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
     z-index: 999;
   }
   .custom-select--selected {
-    border: 1px solid var(--sv-common-custom-select-selected-border-color, #dee2e6);
+    border: 1px solid var(--sv-custom-select-selected-border-color, #dee2e6);
     border-radius: 3px;
     padding: 0.5rem 0.75rem;
     display: flex;
@@ -66,11 +66,11 @@
     }
     &:hover {
       .chevron {
-        color: var(--sv-common-custom-select-selected-hover-chevron-text-color, #343a40);
+        color: var(--sv-custom-select-selected-hover-chevron-text-color, #343a40);
       }
     }
   }
   .chevron {
-    color: var(--sv-common-custom-select-selected-hover-chevron-text-color, #adb5bd);
+    color: var(--sv-custom-select-selected-hover-chevron-text-color, #adb5bd);
   }
 </style>
