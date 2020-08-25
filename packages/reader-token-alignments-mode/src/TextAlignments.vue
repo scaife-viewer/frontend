@@ -79,5 +79,6 @@
 <style lang="scss" scoped>
   .alignments {
     display: flex;
+    justify-content: center;
   }
 </style>

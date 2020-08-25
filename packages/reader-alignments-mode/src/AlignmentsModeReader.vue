@@ -84,6 +84,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .alignments-mode-reader {
+    flex: 1;
+  }
   .empty-annotations {
     text-align: center;
     margin-top: 1rem;

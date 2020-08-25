@@ -28,6 +28,7 @@
     margin-bottom: 20px;
     .columns {
       display: flex;
+      justify-content: center;
       .left,
       .right {
         flex: 1;
