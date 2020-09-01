@@ -1,7 +1,7 @@
 <template>
   <div class="alignments">
-    <TextAlignment ref="left" :content="left" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
-    <TextAlignment ref="right" :content="right" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <TextAlignment :reference="leftRef" :content="left" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <TextAlignment :reference="rightRef" :content="right" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
   </div>
 </template>
 
@@ -15,10 +15,12 @@
       edges {
         node {
           ref
+          id
           tokens {
             edges {
               node {
                 id
+                idx
                 wordValue
               }
             }
@@ -37,12 +39,20 @@
   export default {
     props: ['tokenMap', 'recordMap', 'references', 'textSize', 'textWidth'],
     components: { TextAlignment },
+    computed: {
+      leftRef() {
+        return this.references[0];
+      },
+      rightRef() {
+        return this.references[1];
+      },
+    },
     apollo: {
       left: {
         query: passageQuery,
         variables() {
           return {
-            reference: this.references[0],
+            reference: this.references[0].reference,
           }
         },
         update(data) {
@@ -53,7 +63,7 @@
         query: passageQuery,
         variables() {
           return {
-            reference: this.references[1],
+            reference: this.references[1].reference,
           }
         },
         update(data) {

@@ -4,7 +4,7 @@
       <div class="text-alignment-ref" @mouseenter="onLineEnter(line)" @mouseleave="onLineExit">{{ line.ref }}</div>
       <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
         <template v-for="token in line.tokens">
-          <span :key="token.id" class="token" :class="[{ selected: selected(token) }, `a${hoveringAt}`]" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
+          <span :key="token.id" class="token" :class="[{ selected: selected(token), empty: emptyAlignments(token) }, `a${hoveringAt}`]" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
             <span class="word-value">
               {{ token.wordValue }}
             </span>
@@ -20,9 +20,13 @@
   import AlignmentRecordPicker from './AlignmentRecordPicker.vue';
 
   export default {
-    props: ['content', 'hoveringAt', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'recordMap'],
+    props: ['reference', 'content', 'hoveringAt', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'recordMap'],
     components: { AlignmentRecordPicker },
     methods: {
+      emptyAlignments(token) {
+        const { start_idx, end_idx } = this.reference;
+        return token.idx < start_idx || token.idx > end_idx;
+      },
       recordsForToken(token) {
         const records = this.tokenMap[token.id] || [];
         return records.length > 1 ? records : [];
@@ -88,6 +92,9 @@
 
   .token:hover > ::v-deep.alignment-records-picker {
     opacity: 1;
+  }
+  .token.empty {
+    color: var(--sv-alignments-token-no-alignments-text-color, #CCC);
   }
   .token {
     display: inline-block;
