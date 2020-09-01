@@ -1,14 +1,14 @@
 <template>
   <div class="alignments">
-    <TextAlignment :reference="leftRef" :content="left" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
-    <TextAlignment :reference="rightRef" :content="right" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <TokenAlignment :reference="leftRef" :content="left" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <TokenAlignment :reference="rightRef" :content="right" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
 
-  import TextAlignment from './TextAlignment.vue';
+  import TokenAlignment from './TokenAlignment.vue';
 
   const passageQuery = gql`query Passage($reference: String!) {
     passageTextParts(reference: $reference) {
@@ -38,7 +38,7 @@
 
   export default {
     props: ['tokenMap', 'recordMap', 'references', 'textSize', 'textWidth'],
-    components: { TextAlignment },
+    components: { TokenAlignment },
     computed: {
       leftRef() {
         return this.references[0];

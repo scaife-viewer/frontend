@@ -16,7 +16,7 @@
       />
       <template v-else>
         <CustomSelect v-model="selectedAlignment" :options="data.alignments" />
-        <TextAlignments
+        <component :is="alignmentsComponent"
           :references="data.references"
           :recordMap="data.recordMap"
           :tokenMap="data.tokenMap"
@@ -39,11 +39,17 @@
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import AlignmentSelector from './AlignmentSelector.vue';
-  import TextAlignments from './TextAlignments.vue';
+  import TokenAlignments from './TokenAlignments.vue';
+  import SentenceAlignment from './SentenceAlignments.vue';
+
+  const ALIGNMENT_COMPONENTS = {
+    'iliad-word-alignment': TokenAlignments,
+    'iliad-sentence-alignment': SentenceAlignment
+  };
 
   export default {
     readerConfig: {
-      label: 'Token Alignments',
+      label: 'Alignments',
       layout: 'wide',
     },
     props: {
@@ -51,7 +57,6 @@
     },
     components: {
       AlignmentSelector,
-      TextAlignments,
       CustomSelect,
       LoaderBall,
       ErrorMessage,
@@ -66,6 +71,9 @@
       };
     },
     computed: {
+      alignmentsComponent() {
+        return ALIGNMENT_COMPONENTS[this.selectedAlignment.value];
+      },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
       },

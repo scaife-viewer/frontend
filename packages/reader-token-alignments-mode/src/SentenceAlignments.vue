@@ -1,6 +1,6 @@
 <template>
   <div class="alignments">
-    <Alignment
+    <SentenceAlignment
       v-for="(alignment, index) in alignments"
       :key="index"
       :left="alignment[0]"
@@ -12,11 +12,11 @@
 </template>
 
 <script>
-  import Alignment from './Alignment.vue';
+  import SentenceAlignment from './SentenceAlignment.vue';
 
   export default {
     props: ['alignments', 'textSize', 'textWidth'],
-    components: { Alignment },
+    components: { SentenceAlignment },
   };
 </script>
 
