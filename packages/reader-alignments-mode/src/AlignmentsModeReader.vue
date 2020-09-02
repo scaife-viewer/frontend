@@ -92,7 +92,7 @@
                 }
               }
             }
-            textAlignmentChunks(reference: $urn, alignment_Slug: $alignmentSlug) {
+            textAlignmentRecords(reference: $urn, alignment_Slug: $alignmentSlug) {
               metadata {
                 passageReferences
               }
@@ -138,7 +138,7 @@
         });
       },
       queryUpdate(data) {
-        const tokenAlignmentRecords = data.textAlignmentChunks.edges
+        const tokenAlignmentRecords = data.textAlignmentRecords.edges
           .map(e => e.node.relations.edges
             .map(e2 => e2.node.tokens.edges
               .map(e3 => ({token: e3.node.id, record: e.node.id}))
@@ -146,7 +146,7 @@
             .flat())
           .flat();
 
-        const recordMap = data.textAlignmentChunks.edges
+        const recordMap = data.textAlignmentRecords.edges
           .reduce((map, e) => {
             map[e.node.id] = e.node.relations.edges
               .map(e2 => e2.node.tokens.edges
@@ -170,14 +170,14 @@
             title: e.node.name,
           };
         });
-        const alignmentRecords = this.flattenRecords(data.textAlignmentChunks.edges);
+        const alignmentRecords = this.flattenRecords(data.textAlignmentRecords.edges);
 
         return {
           recordMap,
           tokenMap,
           alignments,
           alignmentRecords,
-          references: data.textAlignmentChunks.metadata.passageReferences,
+          references: data.textAlignmentRecords.metadata.passageReferences,
         };
       },
     },
