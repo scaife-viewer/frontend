@@ -33,11 +33,11 @@
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import AlignmentSelector from './AlignmentSelector.vue';
-  import TokenAlignments from './TokenAlignments.vue';
+  import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
   import SentenceAlignment from './SentenceAlignments.vue';
 
   const ALIGNMENT_COMPONENTS = {
-    'iliad-word-alignment': TokenAlignments,
+    'iliad-word-alignment': TextPartTokenAlignments,
     'iliad-sentence-alignment': SentenceAlignment
   };
 
