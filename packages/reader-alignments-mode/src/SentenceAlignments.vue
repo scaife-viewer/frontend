@@ -1,10 +1,9 @@
 <template>
   <div class="alignments">
     <SentenceAlignment
-      v-for="(alignment, index) in alignments"
-      :key="index"
-      :left="alignment[0]"
-      :right="alignment[1]"
+      v-for="record in records"
+      :key="record.id"
+      :record="record"
       :textSize="textSize"
       :textWidth="textWidth"
     />
@@ -18,8 +17,8 @@
     props: ['data', 'textSize', 'textWidth'],
     components: { SentenceAlignment },
     computed: {
-      alignments() {
-        return this.data.textAlignments;
+      records() {
+        return this.data.alignmentRecords;
       }
     }
   };

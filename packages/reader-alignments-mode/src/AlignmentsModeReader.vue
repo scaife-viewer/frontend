@@ -99,7 +99,6 @@
               edges {
                 node {
                   id
-                  items
                   relations {
                     edges {
                       node {
@@ -109,7 +108,7 @@
                             node {
                               id
                               veRef
-                              wordValue
+                              value,
                             }
                           }
                         }
@@ -124,6 +123,20 @@
       },
     },
     methods: {
+      flattenRecords(recordEdges) {
+        const recordNodes = recordEdges.map(e => e.node);
+        return recordNodes.map(node => {
+          return {
+            id: node.id,
+            relations: node.relations.edges.map(e => {
+              return {
+                id: e.id,
+                tokens: e.node.tokens.edges.map(t => t.node)
+              }
+            })
+          }
+        });
+      },
       queryUpdate(data) {
         const tokenAlignmentRecords = data.textAlignmentChunks.edges
           .map(e => e.node.relations.edges
@@ -157,13 +170,13 @@
             title: e.node.name,
           };
         });
-        const textAlignments = data.textAlignmentChunks.edges.map(e => e.node.items);
+        const alignmentRecords = this.flattenRecords(data.textAlignmentChunks.edges);
 
         return {
           recordMap,
           tokenMap,
           alignments,
-          textAlignments,
+          alignmentRecords,
           references: data.textAlignmentChunks.metadata.passageReferences,
         };
       },
