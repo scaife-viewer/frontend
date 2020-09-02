@@ -1,6 +1,6 @@
 <template>
   <div class="alignments">
-    <SentenceAlignment
+    <RecordTokenAlignment
       v-for="record in records"
       :key="record.id"
       :record="record"
@@ -11,11 +11,11 @@
 </template>
 
 <script>
-  import SentenceAlignment from './SentenceAlignment.vue';
+  import RecordTokenAlignment from './RecordTokenAlignment.vue';
 
   export default {
     props: ['data', 'textSize', 'textWidth'],
-    components: { SentenceAlignment },
+    components: { RecordTokenAlignment },
     computed: {
       records() {
         return this.data.alignmentRecords;

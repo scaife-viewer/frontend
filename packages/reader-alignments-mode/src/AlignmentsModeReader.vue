@@ -34,11 +34,11 @@
 
   import AlignmentSelector from './AlignmentSelector.vue';
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
-  import SentenceAlignment from './SentenceAlignments.vue';
+  import RecordTokenAlignment from './RecordTokenAlignments.vue';
 
   const ALIGNMENT_COMPONENTS = {
     'iliad-word-alignment': TextPartTokenAlignments,
-    'iliad-sentence-alignment': SentenceAlignment
+    'iliad-sentence-alignment': RecordTokenAlignment
   };
 
   export default {
