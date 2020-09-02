@@ -16,13 +16,7 @@
       />
       <template v-else>
         <CustomSelect v-model="selectedAlignment" :options="data.alignments" />
-        <component :is="alignmentsComponent"
-          :references="data.references"
-          :recordMap="data.recordMap"
-          :tokenMap="data.tokenMap"
-          :textSize="textSize"
-          :textWidth="textWidth"
-        />
+        <component :is="alignmentsComponent" :data="data" :textSize="textSize" :textWidth="textWidth" />
       </template>
     </template>
   </ApolloQuery>

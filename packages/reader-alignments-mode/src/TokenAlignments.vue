@@ -1,7 +1,27 @@
 <template>
   <div class="alignments">
-    <TokenAlignment :reference="leftRef" :content="left" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
-    <TokenAlignment :reference="rightRef" :content="right" :textSize="textSize" :textWidth="textWidth" :tokenMap="tokenMap" :recordMap="recordMap" :hoveringAt="hoveredIndex" :hoveringOn="hoveredAlignmentTokens" @hovered="onHover" />
+    <TokenAlignment
+      :reference="leftRef"
+      :content="left"
+      :tokenMap="tokenMap"
+      :recordMap="recordMap"
+      :hoveringAt="hoveredIndex"
+      :hoveringOn="hoveredAlignmentTokens"
+      :textSize="textSize"
+      :textWidth="textWidth"
+      @hovered="onHover"
+    />
+    <TokenAlignment
+      :reference="rightRef"
+      :content="right"
+      :tokenMap="tokenMap"
+      :recordMap="recordMap"
+      :hoveringAt="hoveredIndex"
+      :hoveringOn="hoveredAlignmentTokens"
+      :textSize="textSize"
+      :textWidth="textWidth"
+      @hovered="onHover"
+    />
   </div>
 </template>
 
@@ -14,8 +34,8 @@
     passageTextParts(reference: $reference) {
       edges {
         node {
-          ref
           id
+          ref
           tokens {
             edges {
               node {
@@ -37,14 +57,20 @@
   });
 
   export default {
-    props: ['tokenMap', 'recordMap', 'references', 'textSize', 'textWidth'],
+    props: ['data', 'textSize', 'textWidth'],
     components: { TokenAlignment },
     computed: {
       leftRef() {
-        return this.references[0];
+        return this.data.references[0];
       },
       rightRef() {
-        return this.references[1];
+        return this.data.references[1];
+      },
+      tokenMap() {
+        return this.data.tokenMap;
+      },
+      recordMap() {
+        return this.data.recordMap;
       },
     },
     apollo: {
@@ -52,7 +78,7 @@
         query: passageQuery,
         variables() {
           return {
-            reference: this.references[0].reference,
+            reference: this.data.references[0].reference,
           }
         },
         update(data) {
@@ -63,7 +89,7 @@
         query: passageQuery,
         variables() {
           return {
-            reference: this.references[1].reference,
+            reference: this.data.references[1].reference,
           }
         },
         update(data) {

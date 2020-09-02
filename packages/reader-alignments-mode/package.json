@@ -1,5 +1,5 @@
 {
-  "name": "@scaife-viewer/reader-token-alignments-mode",
+  "name": "@scaife-viewer/reader-alignments-mode",
   "version": "0.0.1",
   "main": "src/index.js",
   "publishConfig": {
