@@ -15,8 +15,13 @@
   import SentenceAlignment from './SentenceAlignment.vue';
 
   export default {
-    props: ['alignments', 'textSize', 'textWidth'],
+    props: ['data', 'textSize', 'textWidth'],
     components: { SentenceAlignment },
+    computed: {
+      alignments() {
+        return this.data.textAlignments;
+      }
+    }
   };
 </script>
 

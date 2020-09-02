@@ -86,9 +86,9 @@
             textAlignments(reference: $urn) {
               edges {
                 node {
+                  id
                   name
                   slug
-                  id
                 }
               }
             }
@@ -99,6 +99,7 @@
               edges {
                 node {
                   id
+                  items
                   relations {
                     edges {
                       node {
@@ -156,11 +157,13 @@
             title: e.node.name,
           };
         });
+        const textAlignments = data.textAlignmentChunks.edges.map(e => e.node.items);
 
         return {
           recordMap,
           tokenMap,
           alignments,
+          textAlignments,
           references: data.textAlignmentChunks.metadata.passageReferences,
         };
       },
