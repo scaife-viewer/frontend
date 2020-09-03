@@ -11,14 +11,21 @@
         There was an error loading the requested data.
       </ErrorMessage>
       <EmptyMessage v-else-if="!data" />
-      <tree  v-else class="tree" :data="data.tree" popUpPlacement="top-start" node-text="value" layoutType="vertical">
-        <template #popUp="{ data, node }">
-          <div class="popover-relation">{{ data.relation }}</div>
-        </template>
-        <template #behavior="{on, actions}">
-          <popUpOnHoverText v-bind="{on, actions}"/>
-        </template>
-      </tree>
+      <template v-else>
+        <div class="sentence">
+          <span v-for="word in data.words" :key="word.id" :class="{ selected: selected(word) }" class="word">
+            {{ word.value }}
+          </span>
+        </div>
+        <tree class="tree" :data="data.tree" popUpPlacement="top-start" node-text="value" layoutType="vertical" @onNodeTextLeave="hoveringOn = null" @mouseNodeOut="hoveringOn = null" @mouseNodeOver="onMouseOver" @mouseOverText="onMouseOver">
+          <template #popUp="{ data, node }">
+            <div class="popover-relation">{{ data.relation }}</div>
+          </template>
+          <template #behavior="{on, actions}">
+            <popUpOnHoverText v-bind="{on, actions}"/>
+          </template>
+        </tree>
+      </template>
     </template>
   </ApolloQuery>
 </template>
@@ -39,7 +46,19 @@
     props: {
       queryVariables: Object
     },
+    data() {
+      return {
+        hoveringOn: null,
+      };
+    },
     methods: {
+      onMouseOver({element, data}) {
+        console.log({ element, data });
+        this.hoveringOn = data.id;
+      },
+      selected(word) {
+        return word.id === this.hoveringOn;
+      },
       queryUpdate(data) {
         const words = data.textAnnotations.edges
           .map(e => e.node.data.words.map(word => {
@@ -104,5 +123,8 @@
     border-radius: 3px;
     padding: 0.25rem 0.5rem;
     font-size: 12px;
+  }
+  .word.selected {
+    color: red;
   }
 </style>
