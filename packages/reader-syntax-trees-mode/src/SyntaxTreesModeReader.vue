@@ -11,7 +11,14 @@
         There was an error loading the requested data.
       </ErrorMessage>
       <EmptyMessage v-else-if="!data" />
-      <tree  v-else class="tree" :data="data.tree" node-text="value" layoutType="vertical" />
+      <tree  v-else class="tree" :data="data.tree" popUpPlacement="top-start" node-text="value" layoutType="vertical">
+        <template #popUp="{ data, node }">
+          <div class="popover-relation">{{ data.relation }}</div>
+        </template>
+        <template #behavior="{on, actions}">
+          <popUpOnHoverText v-bind="{on, actions}"/>
+        </template>
+      </tree>
     </template>
   </ApolloQuery>
 </template>
@@ -19,7 +26,7 @@
 <script>
   import gql from 'graphql-tag';
   import { ApolloQuery } from 'vue-apollo';
-  import { tree } from 'vued3tree';
+  import { tree, popUpOnHoverText } from 'vued3tree';
 
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
 
@@ -28,7 +35,7 @@
       label: 'Syntax Trees',
       textWidth: 'wide',
     },
-    components: { tree, ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage },
+    components: { tree, popUpOnHoverText, ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage },
     props: {
       queryVariables: Object
     },
@@ -90,5 +97,12 @@
   .tree {
     height: 100%;
     width: 100%;
+  }
+  .popover-relation {
+    background: var(--sv-reader-syntax-trees-mode-relation-popover-background-color, #FFF);
+    border: 1px solid var(--sv-reader-syntax-trees-mode-relation-popover-border-color, #DDD);
+    border-radius: 3px;
+    padding: 0.25rem 0.5rem;
+    font-size: 12px;
   }
 </style>
