@@ -72,8 +72,10 @@
         // this is the center of a rectangle around the triangle, not the triangle itself
         // so it will appear a bit to the left.  @@@ calc triangle center and adjust cx
         // accordingly.
-        const cx = this.cx - (this.radius / 2);
-        const cy = this.cy - (this.radius / 2);
+        const Ox = (1 + 1 + (this.radius - 1)) / 3;
+        const Oy = (0 + this.radius + (this.radius / 2)) / 3;
+        const cx = this.cx - Ox;
+        const cy = this.cy - Oy;
         return `translate(${cx}, ${cy})`;
       },
     }
