@@ -210,6 +210,9 @@
       color: var(--sv-audio-widget-button-hover-text-color, #343a40);
     }
   }
+  .player {
+    text-align: center;
+  }
   .audio-on {
     button {
       background: var(--sv-audio-widget-audio-on-button-background-color #b45141);
