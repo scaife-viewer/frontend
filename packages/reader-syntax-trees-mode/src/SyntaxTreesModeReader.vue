@@ -133,7 +133,6 @@
   .word.selected {
     color: red;
   }
-
   .syntax-tree::v-deep {
     .node-name {
       color: var(--sv-reader-syntax-tree-node-relation-text-color, #AAA);
@@ -144,6 +143,29 @@
     }
     .node {
       text-align: center;
+    }
+    .collapse-switch {
+      width: 15px;
+      height: 15px;
+      line-height: 1;
+      right: calc(50% - 7.5px);
+      color: unset;
+      border-radius: 15px;
+      border-color: var(--sv-reader-syntax-tree-node-collapse-open-border-color, #AAA);
+      &:hover {
+        border-color: var(--sv-reader-syntax-tree-node-collapse-open-hover-border-color, #999);
+        background-color: var(--sv-reader-syntax-tree-node-collapse-open-hover-background-color, #EEE);
+      }
+    }
+    .collapsed .collapse-switch {
+      background: unset;
+      border-color: var(--sv-reader-syntax-tree-node-collapse-closed-border-color, #5394ca);
+      background-color: var(--sv-reader-syntax-tree-node-collapse-closed-background-color, #6BF);
+
+      &:hover {
+        border-color: var(--sv-reader-syntax-tree-node-collapse-closed-hover-border-color, #999);
+        background-color: var(--sv-reader-syntax-tree-node-collapse-closed-hover-border-color, unset);
+      }
     }
   }
 </style>

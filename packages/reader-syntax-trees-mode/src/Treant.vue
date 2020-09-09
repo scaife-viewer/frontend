@@ -31,6 +31,9 @@
               'stroke': 'navy',
               'opacity': 0.3,
             }
+          },
+          node: {
+            collapsable: true,
           }
         },
         nodeStructure: this.tree,
