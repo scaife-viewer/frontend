@@ -34,8 +34,7 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
-
-  import Treant from './Treant.vue';
+  import Treant from '@scaife-viewer/vue-treant';
 
   const transformForTreant = node => {
     const text = node.value === null

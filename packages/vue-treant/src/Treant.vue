@@ -11,7 +11,7 @@
   window.Raphael = Raphael;
 
   export default {
-    props: ['tree', 'highlightedNode'],
+    props: ['tree', 'highlightedNode', 'config'],
     data() {
       return {
         treant: null,
@@ -80,6 +80,7 @@
             onTreeLoaded: this.onTreeLoaded,
           },
         },
+        ...(this.config || {}),
         nodeStructure: this.tree,
       };
       this.treant = new window.Treant(config);
