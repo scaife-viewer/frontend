@@ -13,11 +13,17 @@
       <EmptyMessage v-else-if="!data" />
       <template v-else>
         <div class="sentence">
-          <span v-for="word in data.words" :key="word.id" :class="{ selected: selected(word) }" class="word">
+          <span v-for="word in data.words" :key="word.id" :class="{ selected: selected(word) }" class="word" @mouseenter="onWordEnter(word)" @mouseleave="onWordLeave(word)">
             {{ word.value }}
           </span>
         </div>
-        <Treant class="syntax-tree" :tree="data.tree" @enter="onEnter" @leave="onLeave" />
+        <Treant
+          class="syntax-tree"
+          :tree="data.tree"
+          :highlightedNode="hoveringOn"
+          @enter="onEnter"
+          @leave="onLeave"
+        />
       </template>
     </template>
   </ApolloQuery>
@@ -57,6 +63,12 @@
       };
     },
     methods: {
+      onWordEnter({ id }) {
+        this.hoveringOn = id;
+      },
+      onWordLeave(word) {
+        this.hoveringOn = null;
+      },
       onEnter({ id }) {
         this.hoveringOn = id;
       },
@@ -133,9 +145,12 @@
     font-size: 12px;
   }
   .word.selected {
-    color: red;
+    color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #F66);
   }
   .syntax-tree::v-deep {
+    .node.highlight {
+      color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #F66);
+    }
     .node-name {
       color: var(--sv-reader-syntax-tree-node-relation-text-color, #AAA);
       margin-bottom: 0;

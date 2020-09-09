@@ -11,7 +11,7 @@
   window.Raphael = Raphael;
 
   export default {
-    props: ['tree'],
+    props: ['tree', 'highlightedNode'],
     data() {
       return {
         treant: null,
@@ -32,6 +32,31 @@
           node.addEventListener('mouseleave', this.onNodeLeave);
         });
       },
+    },
+    watch: {
+      highlightedNode() {
+        if (this.highlightedNode === null) {
+          this.$el.querySelectorAll('.node.highlight')
+            .forEach(node => {
+              node.classList.remove('highlight');
+            });
+        } else {
+          this.$el.querySelectorAll('.node')
+            .forEach(node => {
+              const { text } = node.data.treenode;
+              if (text.id === this.highlightedNode) {
+                node.classList.add('highlight');
+              }
+            });
+        }
+      },
+    },
+    destroyed() {
+      const nodes = this.$el.querySelectorAll('.node');
+      nodes.forEach(node => {
+        node.removeEventListener('mouseenter', this.onNodeEnter);
+        node.removeEventListener('mouseleave', this.onNodeLeave);
+      });
     },
     mounted() {
       const config = {
