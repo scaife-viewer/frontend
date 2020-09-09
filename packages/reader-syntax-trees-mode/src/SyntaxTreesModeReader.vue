@@ -17,7 +17,7 @@
             {{ word.value }}
           </span>
         </div>
-        <Treant :tree="data.tree" />
+        <Treant class="syntax-tree" :tree="data.tree" />
       </template>
     </template>
   </ApolloQuery>
@@ -34,7 +34,7 @@
   const transformForTreant = node => {
     const text = node.value === null
       ? { name: 'Root' }
-      : { name: node.value, desc: node.relation };
+      : { name: node.relation, desc: node.value };
 
     return {
       text,
@@ -132,5 +132,18 @@
   }
   .word.selected {
     color: red;
+  }
+
+  .syntax-tree::v-deep {
+    .node-name {
+      color: var(--sv-reader-syntax-tree-node-relation-text-color, #AAA);
+      margin-bottom: 0;
+    }
+    .node-desc {
+      margin-top: 0;
+    }
+    .node {
+      text-align: center;
+    }
   }
 </style>
