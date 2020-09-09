@@ -17,14 +17,7 @@
             {{ word.value }}
           </span>
         </div>
-        <tree class="tree" :data="data.tree" popUpPlacement="top-start" node-text="value" layoutType="vertical" @onNodeTextLeave="hoveringOn = null" @mouseNodeOut="hoveringOn = null" @mouseNodeOver="onMouseOver" @mouseOverText="onMouseOver">
-          <template #popUp="{ data, node }">
-            <div class="popover-relation">{{ data.relation }}</div>
-          </template>
-          <template #behavior="{on, actions}">
-            <popUpOnHoverText v-bind="{on, actions}"/>
-          </template>
-        </tree>
+        <Treant :tree="data.tree" />
       </template>
     </template>
   </ApolloQuery>
@@ -33,16 +26,28 @@
 <script>
   import gql from 'graphql-tag';
   import { ApolloQuery } from 'vue-apollo';
-  import { tree, popUpOnHoverText } from 'vued3tree';
 
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+
+  import Treant from './Treant.vue';
+
+  const transformForTreant = node => {
+    const text = node.value === null
+      ? { name: 'Root' }
+      : { name: node.value, desc: node.relation };
+
+    return {
+      text,
+      children: node.children.map(child => transformForTreant(child)),
+    };
+  };
 
   export default {
     readerConfig: {
       label: 'Syntax Trees',
       textWidth: 'wide',
     },
-    components: { tree, popUpOnHoverText, ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage },
+    components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage, Treant },
     props: {
       queryVariables: Object
     },
@@ -84,7 +89,7 @@
         });
         return {
           words,
-          tree
+          tree: transformForTreant(tree)
         };
       },
     },
@@ -110,7 +115,8 @@
 <style lang="scss" scoped>
   .reader {
     width: 100%;
-    height: calc(100vh - 60px);
+    height: 600px;
+    max-height: calc(100vh - 100px);
   }
 
   .tree {
