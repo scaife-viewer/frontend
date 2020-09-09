@@ -17,7 +17,7 @@
             {{ word.value }}
           </span>
         </div>
-        <Treant class="syntax-tree" :tree="data.tree" />
+        <Treant class="syntax-tree" :tree="data.tree" @enter="onEnter" @leave="onLeave" />
       </template>
     </template>
   </ApolloQuery>
@@ -34,7 +34,7 @@
   const transformForTreant = node => {
     const text = node.value === null
       ? { name: 'Root' }
-      : { name: node.relation, desc: node.value };
+      : { name: node.relation, desc: node.value, id: node.id};
 
     return {
       text,
@@ -57,9 +57,11 @@
       };
     },
     methods: {
-      onMouseOver({element, data}) {
-        console.log({ element, data });
-        this.hoveringOn = data.id;
+      onEnter({ id }) {
+        this.hoveringOn = id;
+      },
+      onLeave() {
+        this.hoveringOn = null;
       },
       selected(word) {
         return word.id === this.hoveringOn;
