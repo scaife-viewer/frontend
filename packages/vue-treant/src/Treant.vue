@@ -1,5 +1,5 @@
 <template>
-  <div class="treant">
+  <div class="treant" :style="{ 'max-width': width }">
     <div class="tree-container"></div>
   </div>
 </template>
@@ -15,6 +15,7 @@
     data() {
       return {
         treant: null,
+        width: '600px',
       };
     },
     methods: {
@@ -31,6 +32,43 @@
           node.addEventListener('mouseenter', this.onNodeEnter);
           node.addEventListener('mouseleave', this.onNodeLeave);
         });
+      },
+      setWidth() {
+        this.width = `${this.$parent.$el.clientWidth}px`;
+      },
+      onResize() {
+        this.treant.destroy();
+        this.$nextTick(() => {
+          this.setWidth();
+          this.drawTree();
+        });
+      },
+      drawTree() {
+        const config = {
+          chart: {
+            container: '.tree-container',
+            rootOrientation: 'NORTH',
+            scrollbar: 'native',
+            levelSeparation: 60,
+            connectors: {
+              type: 'curve',
+              style: {
+                'stroke-width': 2,
+                'stroke': 'navy',
+                'opacity': 0.3,
+              }
+            },
+            node: {
+              collapsable: true,
+            },
+            callback: {
+              onTreeLoaded: this.onTreeLoaded,
+            },
+          },
+          ...(this.config || {}),
+          nodeStructure: this.tree,
+        };
+        this.treant = new window.Treant(config);
       },
     },
     watch: {
@@ -51,43 +89,25 @@
         }
       },
     },
+    created() {
+      this.setWidth();
+      window.addEventListener('resize', this.onResize);
+    },
     destroyed() {
       const nodes = this.$el.querySelectorAll('.node');
       nodes.forEach(node => {
         node.removeEventListener('mouseenter', this.onNodeEnter);
         node.removeEventListener('mouseleave', this.onNodeLeave);
       });
+      window.removeEventListener('resize', this.onResize);
     },
     mounted() {
-      const config = {
-        chart: {
-          container: '.tree-container',
-          rootOrientation: 'NORTH',
-          scrollbar: 'native',
-          levelSeparation: 60,
-          connectors: {
-            type: 'curve',
-            style: {
-              'stroke-width': 2,
-              'stroke': 'navy',
-              'opacity': 0.3,
-            }
-          },
-          node: {
-            collapsable: true,
-          },
-          callback: {
-            onTreeLoaded: this.onTreeLoaded,
-          },
-        },
-        ...(this.config || {}),
-        nodeStructure: this.tree,
-      };
-      this.treant = new window.Treant(config);
+      this.drawTree();
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
+  .treant {
+  }
 </style>

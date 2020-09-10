@@ -128,20 +128,9 @@
 <style lang="scss" scoped>
   .reader {
     width: 100%;
+    // max-width: 600px;
     height: 600px;
     max-height: calc(100vh - 100px);
-  }
-
-  .tree {
-    height: 100%;
-    width: 100%;
-  }
-  .popover-relation {
-    background: var(--sv-reader-syntax-trees-mode-relation-popover-background-color, #FFF);
-    border: 1px solid var(--sv-reader-syntax-trees-mode-relation-popover-border-color, #DDD);
-    border-radius: 3px;
-    padding: 0.25rem 0.5rem;
-    font-size: 12px;
   }
   .word.selected {
     color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #F66);
