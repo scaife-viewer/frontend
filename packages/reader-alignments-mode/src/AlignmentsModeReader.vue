@@ -37,8 +37,8 @@
   import RecordTokenAlignment from './RecordTokenAlignments.vue';
 
   const ALIGNMENT_COMPONENTS = {
-    'iliad-word-alignment': TextPartTokenAlignments,
-    'iliad-sentence-alignment': RecordTokenAlignment
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment': TextPartTokenAlignments,
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment': RecordTokenAlignment
   };
 
   export default {
@@ -59,7 +59,7 @@
     data() {
       return {
         selectedAlignment: {
-          value: 'iliad-word-alignment',
+          value: 'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment',
           title: 'Iliad Word Alignment',
         },
       };
@@ -77,22 +77,22 @@
       variables() {
         return {
           ...this.queryVariables,
-          alignmentSlug: this.selectedAlignment.value,
+          alignmentUrn: this.selectedAlignment.value,
         }
       },
       query() {
         return gql`
-          query TextParts($urn: String!, $alignmentSlug: ID) {
+          query TextParts($urn: String!, $alignmentUrn: ID) {
             textAlignments(reference: $urn) {
               edges {
                 node {
                   id
-                  name
-                  slug
+                  label
+                  urn
                 }
               }
             }
-            textAlignmentRecords(reference: $urn, alignment_Slug: $alignmentSlug) {
+            textAlignmentRecords(reference: $urn, alignment_Urn: $alignmentUrn) {
               metadata {
                 passageReferences
               }
@@ -166,8 +166,8 @@
 
         const alignments = data.textAlignments.edges.map(e => {
           return {
-            value: e.node.slug,
-            title: e.node.name,
+            value: e.node.urn,
+            title: e.node.label,
           };
         });
         const alignmentRecords = this.flattenRecords(data.textAlignmentRecords.edges);
