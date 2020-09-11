@@ -91,6 +91,9 @@
       redrawKey() {
         this.onResize();
       },
+      tree() {
+        this.onResize();
+      }
     },
     created() {
       this.setWidth();
