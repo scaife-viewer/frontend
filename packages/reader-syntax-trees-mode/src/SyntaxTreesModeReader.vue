@@ -161,7 +161,6 @@
 <style lang="scss" scoped>
   .reader {
     width: 100%;
-    // max-width: 600px;
     height: 600px;
     max-height: calc(100vh - 100px);
   }
