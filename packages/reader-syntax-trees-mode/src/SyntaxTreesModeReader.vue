@@ -12,12 +12,14 @@
       </ErrorMessage>
       <EmptyMessage v-else-if="!data" />
       <template v-else>
-        <div class="sentence">
+        <ModeToolbar :show="showing" @show="onShow" />
+        <div class="sentence" v-if="showBoth || showTextOnly">
           <span v-for="word in data.words" :key="word.id" :class="{ selected: selected(word) }" class="word" @mouseenter="onWordEnter(word)" @mouseleave="onWordLeave(word)">
             {{ word.value }}
           </span>
         </div>
         <Treant
+           v-if="showBoth || showGraphOnly"
           class="syntax-tree"
           :tree="data.tree"
           :highlightedNode="hoveringOn"
@@ -36,6 +38,13 @@
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
   import Treant from '@scaife-viewer/vue-treant';
 
+  import ModeToolbar from './ModeToolbar.vue';
+  import {
+    SYNTAX_TREES_STATE_BOTH,
+    SYNTAX_TREES_STATE_GRAPH,
+    SYNTAX_TREES_STATE_TEXT,
+  } from './constants';
+
   const transformForTreant = node => {
     const text = node.value === null
       ? { name: 'Root' }
@@ -52,16 +61,27 @@
       label: 'Syntax Trees',
       textWidth: 'wide',
     },
-    components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage, Treant },
+    components: {
+      ApolloQuery,
+      LoaderBall,
+      ErrorMessage,
+      EmptyMessage,
+      Treant,
+      ModeToolbar,
+    },
     props: {
       queryVariables: Object
     },
     data() {
       return {
         hoveringOn: null,
+        showing: SYNTAX_TREES_STATE_BOTH,
       };
     },
     methods: {
+      onShow(kind) {
+        this.showing = kind;
+      },
       onWordEnter({ id }) {
         this.hoveringOn = id;
       },
@@ -107,6 +127,15 @@
       },
     },
     computed: {
+      showBoth() {
+        return this.showing === SYNTAX_TREES_STATE_BOTH;
+      },
+      showTextOnly() {
+        return this.showing === SYNTAX_TREES_STATE_TEXT;
+      },
+      showGraphOnly() {
+        return this.showing === SYNTAX_TREES_STATE_GRAPH;
+      },
       query() {
         return gql`
           query SyntaxTree($urn: String!) {

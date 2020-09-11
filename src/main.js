@@ -17,6 +17,7 @@ import {
   faSearchPlus,
   faHome,
   faWindowMaximize,
+  faSitemap,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -60,6 +61,7 @@ const iconMap = [
   faSearchPlus,
   faHome,
   faWindowMaximize,
+  faSitemap,
 ].reduce((map, obj) => {
   return {
     ...map,
