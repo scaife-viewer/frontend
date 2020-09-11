@@ -11,7 +11,7 @@
   window.Raphael = Raphael;
 
   export default {
-    props: ['tree', 'highlightedNode', 'config'],
+    props: ['tree', 'highlightedNode', 'config', 'redrawKey'],
     data() {
       return {
         treant: null,
@@ -87,6 +87,9 @@
               }
             });
         }
+      },
+      redrawKey() {
+        this.onResize();
       },
     },
     created() {

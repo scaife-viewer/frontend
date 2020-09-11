@@ -21,8 +21,9 @@
           @word-leave="onWordLeave"
         />
         <Treant
-           v-if="showBoth || showGraphOnly"
+          v-if="showBoth || showGraphOnly"
           class="syntax-tree"
+          :redrawKey="sideBarState"
           :tree="data.tree"
           :highlightedNode="hoveringOn"
           @enter="onEnter"
@@ -38,6 +39,8 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
+
   import Treant from '@scaife-viewer/vue-treant';
 
   import ModeToolbar from './ModeToolbar.vue';
@@ -131,6 +134,10 @@
       },
     },
     computed: {
+      sideBarState() {
+        const { rightOpen, leftOpen, leftVisible, rightVisible } = this.$store.state[MODULE_NS];
+        return `${rightOpen}-${leftOpen}-${leftVisible}-${rightVisible}`;
+      },
       showBoth() {
         return this.showing === SYNTAX_TREES_STATE_BOTH;
       },
