@@ -13,11 +13,13 @@
       <EmptyMessage v-else-if="!data" />
       <template v-else>
         <ModeToolbar :show="showing" @show="onShow" />
-        <div class="sentence" v-if="showBoth || showTextOnly">
-          <span v-for="word in data.words" :key="word.id" :class="{ selected: selected(word) }" class="word" @mouseenter="onWordEnter(word)" @mouseleave="onWordLeave(word)">
-            {{ word.value }}
-          </span>
-        </div>
+        <Sentence
+          v-if="showBoth || showTextOnly"
+          :words="data.words"
+          :hovering-on="hoveringOn"
+          @word-enter="onWordEnter"
+          @word-leave="onWordLeave"
+        />
         <Treant
            v-if="showBoth || showGraphOnly"
           class="syntax-tree"
@@ -39,6 +41,7 @@
   import Treant from '@scaife-viewer/vue-treant';
 
   import ModeToolbar from './ModeToolbar.vue';
+  import Sentence from './Sentence.vue';
   import {
     SYNTAX_TREES_STATE_BOTH,
     SYNTAX_TREES_STATE_GRAPH,
@@ -68,6 +71,7 @@
       EmptyMessage,
       Treant,
       ModeToolbar,
+      Sentence,
     },
     props: {
       queryVariables: Object
@@ -160,9 +164,6 @@
     // max-width: 600px;
     height: 600px;
     max-height: calc(100vh - 100px);
-  }
-  .word.selected {
-    color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #F66);
   }
   .syntax-tree::v-deep {
     .node.highlight {
