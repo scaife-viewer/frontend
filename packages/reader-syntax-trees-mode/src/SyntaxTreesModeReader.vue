@@ -16,7 +16,7 @@
         <Sentence
           v-if="showBoth || showTextOnly"
           :words="data.words"
-          :hovering-on="hoveringOn"
+          :selected="hoveringOn"
           @word-enter="onWordEnter"
           @word-leave="onWordLeave"
         />

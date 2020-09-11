@@ -1,7 +1,15 @@
 <template>
   <div class="sentence">
     <template v-for="word in words">
-      <Word :word="word" :key="word.id" :hovering-on="hoveringOn" @word-enter="onWordEnter" @word-leave="onWordLeave" />
+      <Word
+        :key="word.id"
+        :word="word"
+        :selected-word="selected"
+        :selected-children="selectedChildren"
+        :selected-parent="selectedParent"
+        @word-enter="onWordEnter"
+        @word-leave="onWordLeave"
+      />
       {{ ' ' }}
     </template>
   </div>
@@ -11,7 +19,7 @@
   import Word from './Word.vue';
 
   export default {
-    props: ['words', 'hoveringOn'],
+    props: ['words', 'selected'],
     components: { Word },
     methods: {
       onWordEnter(word) {
@@ -21,6 +29,23 @@
         this.$emit('word-leave', word);
       },
     },
+    computed: {
+      wordIndex() {
+        return this.words.reduce((map, word) => ({
+          ...map,
+          [word.id]: word,
+        }), {});
+      },
+      selectedWord() {
+        return this.wordIndex[this.selected];
+      },
+      selectedChildren() {
+        return this.selectedWord && this.selectedWord.children.map(c => c.id);
+      },
+      selectedParent() {
+        return this.selectedWord && this.selectedWord.headId;
+      },
+    }
   }
 </script>
 
