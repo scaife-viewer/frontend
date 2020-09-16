@@ -185,6 +185,7 @@
       margin-top: 0;
       margin-bottom: 20px;
       font-size: 16pt;
+      font-family: var(--widget-reader-text-font-family, 'Noto Serif');
     }
     .node {
       text-align: center;
