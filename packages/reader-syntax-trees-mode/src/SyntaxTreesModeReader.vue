@@ -105,7 +105,7 @@
         return word.id === this.hoveringOn;
       },
       queryUpdate(data) {
-        const words = data.textAnnotations.edges
+        const words = data.syntaxTrees.edges
           .map(e => e.node.data.words.map(word => {
             return {
               ...word,
@@ -150,7 +150,7 @@
       query() {
         return gql`
           query SyntaxTree($urn: String!) {
-            textAnnotations(reference: $urn, kind: "SYNTAX_TREE") {
+            syntaxTrees(reference: $urn) {
               edges {
                 node {
                   id
@@ -168,7 +168,6 @@
 <style lang="scss" scoped>
   .reader {
     width: 100%;
-    // max-width: 600px;
     height: 600px;
     max-height: calc(100vh - 100px);
   }
