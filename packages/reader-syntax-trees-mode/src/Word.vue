@@ -28,13 +28,21 @@
 </script>
 
 <style lang="scss" scoped>
+  .parent,
+  .child {
+    color: var(--sv-reader-syntax-trees-mode-involved-text-color, #000);
+  }
   .selected {
-    color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #F66);
+    color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #D44);
+    background: var(--sv-reader-syntax-trees-mode-highlight-background-color, #FEA);
+    padding: 2px 3px 0 3px;
+    margin: -2px -3px 0 -3px;
+    border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-highlight-text-color, #D44);
   }
   .parent {
-    border-bottom: 1px solid var(--sv-reader-syntax-trees-mode-parent-border-color, #66F);
+    border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-parent-border-color, #66F);
   }
   .child {
-    border-bottom: 1px solid var(--sv-reader-syntax-trees-mode-child-border-color, #6F6);
+    border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-child-border-color, #4D4);
   }
 </style>

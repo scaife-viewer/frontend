@@ -1,5 +1,5 @@
 <template>
-  <div class="sentence" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
+  <div class="sentence" :class="[`text-${textSize}`, `text-width-${textWidth}`, selected ? 'highlighting' : null]">
     <template v-for="word in words">
       <Word
         :key="word.id"
@@ -60,6 +60,10 @@
   .sentence {
     font-family: var(--widget-reader-text-font-family, 'Noto Serif');
     line-height: 1.8;
+
+    &.highlighting {
+      color: var(--sv-reader-syntax-trees-mode-noninvolved-text-color, #adb5bd);
+    }
   }
 
 
