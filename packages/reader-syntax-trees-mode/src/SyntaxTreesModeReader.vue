@@ -173,7 +173,7 @@
   }
   .syntax-tree::v-deep {
     .node.highlight {
-      color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #F66);
+      color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #D44);
     }
     .node-name {
       color: var(--sv-reader-syntax-tree-node-relation-text-color, #AAA);
