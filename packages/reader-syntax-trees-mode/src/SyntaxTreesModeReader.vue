@@ -53,7 +53,7 @@
 
   const transformForTreant = node => {
     const text = node.value === null
-      ? { name: 'Root' }
+      ? { name: '' }
       : { name: node.relation, desc: node.value, id: node.id};
 
     return {
@@ -178,9 +178,13 @@
     .node-name {
       color: var(--sv-reader-syntax-tree-node-relation-text-color, #AAA);
       margin-bottom: 0;
+      margin-top: 5px;
+      font-size: 10pt;
     }
     .node-desc {
       margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 16pt;
     }
     .node {
       text-align: center;
@@ -189,7 +193,9 @@
       width: 15px;
       height: 15px;
       line-height: 1;
-      right: calc(50% - 7.5px);
+      bottom: 0;
+      top: unset;
+      right: calc(50% - 8px);
       color: unset;
       border-radius: 15px;
       border-color: var(--sv-reader-syntax-tree-node-collapse-open-border-color, #AAA);
