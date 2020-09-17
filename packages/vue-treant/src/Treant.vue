@@ -1,6 +1,6 @@
 <template>
   <div class="treant" :style="{ 'max-width': width }">
-    <div class="tree-container"></div>
+    <div :id="`tree-${treeBankId}`" class="tree-container"></div>
   </div>
 </template>
 
@@ -11,7 +11,7 @@
   window.Raphael = Raphael;
 
   export default {
-    props: ['tree', 'highlighted', 'config', 'redrawKey'],
+    props: ['treeBankId', 'tree', 'highlighted', 'config', 'redrawKey'],
     data() {
       return {
         treant: null,
@@ -46,7 +46,7 @@
       drawTree() {
         const config = {
           chart: {
-            container: '.tree-container',
+            container: `#tree-${this.treeBankId}` ,
             rootOrientation: 'NORTH',
             scrollbar: 'native',
             levelSeparation: 60,

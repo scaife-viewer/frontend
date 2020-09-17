@@ -14,8 +14,9 @@
       <template v-else>
         <ModeToolbar :show="showing" @show="onShow" />
         <Tree
-          :words="data.words"
-          :tree="data.tree"
+          v-for="tree in data.trees"
+          :key="tree.treeBankId"
+          :tree="tree"
           :showing="showing"
         />
       </template>
@@ -70,31 +71,37 @@
         this.showing = kind;
       },
       queryUpdate(data) {
-        const words = data.syntaxTrees.edges
-          .map(e => e.node.data.words.map(word => {
-            return {
+        const trees = data.syntaxTrees.edges
+          .map(tree => {
+            const words = tree.node.data.words.map(word => ({
               ...word,
               children: [],
+            }));
+            const wordBank = words.reduce((map, word) => {
+              return {
+                ...map,
+                [word.id]: word,
+              };
+            }, {});
+            const root = {id: 0, value: null, headId: null, relation: null, children: []};
+            words.forEach(word => {
+              if (word.headId === 0) {
+                root.children.push(word);
+              } else {
+                wordBank[word.headId].children.push(word);
+              }
+            });
+            return {
+              tree: transformForTreant(root),
+              words,
+              wordBank,
+              treeBankId: tree.node.data.treebankId,
+              references: tree.node.data.references,
             }
-          })).flat();
-        const wordBank = words.reduce((map, word) => {
-          return {
-            ...map,
-            [word.id]: word,
-          };
-        }, {});
-        const tree = {id: 0, value: null, headId: null, relation: null, children: []};
+          });
 
-        words.forEach(word => {
-          if (word.headId === 0) {
-            tree.children.push(word);
-          } else {
-            wordBank[word.headId].children.push(word);
-          }
-        });
         return {
-          words,
-          tree: transformForTreant(tree)
+          trees
         };
       },
     },

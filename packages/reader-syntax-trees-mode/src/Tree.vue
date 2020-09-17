@@ -2,7 +2,7 @@
   <div class="tree">
     <Sentence
       v-if="showBoth || showTextOnly"
-      :words="words"
+      :words="tree.words"
       :selected="selected"
       @word-enter="onWordEnter"
       @word-leave="onWordLeave"
@@ -11,7 +11,8 @@
       v-if="showBoth || showGraphOnly"
       class="syntax-tree"
       :redrawKey="sideBarState"
-      :tree="tree"
+      :treeBankId="tree.treeBankId"
+      :tree="tree.tree"
       :highlighted="selected"
       @enter="onEnter"
       @leave="onLeave"
@@ -31,7 +32,7 @@
   import Sentence from './Sentence.vue';
 
   export default {
-    props: ['words', 'tree', 'showing'],
+    props: ['tree', 'showing'],
     components: {
       Sentence,
       Treant,
@@ -64,7 +65,7 @@
         };
       },
       wordIndex() {
-        return this.words.reduce((map, word) => ({
+        return this.tree.words.reduce((map, word) => ({
           ...map,
           [word.id]: word,
         }), {});
