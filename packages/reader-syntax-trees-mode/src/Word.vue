@@ -43,6 +43,6 @@
     border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-parent-border-color, #66F);
   }
   .child {
-    border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-child-border-color, #4D4);
+    border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-child-border-color, #3C3);
   }
 </style>

@@ -108,7 +108,7 @@
       color: var(--sv-reader-syntax-trees-mode-parent-border-color, #66F);
     }
     .node.highlight-child {
-      color: var(--sv-reader-syntax-trees-mode-child-border-color, #4D4);
+      color: var(--sv-reader-syntax-trees-mode-child-border-color, #3C3);
     }
     .node-name {
       color: var(--sv-reader-syntax-tree-node-relation-text-color, #AAA);
