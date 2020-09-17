@@ -1,14 +1,16 @@
 <template>
   <div class="tree">
     <Sentence
-      v-if="showBoth || showTextOnly"
       :words="tree.words"
       :selected="selected"
       @word-enter="onWordEnter"
       @word-leave="onWordLeave"
     />
+    <div class="collapse-control">
+      <a href @click.prevent="onCollapse">{{ collapsed ? 'Show Tree' : 'Hide Tree' }}</a>
+    </div>
     <Treant
-      v-if="showBoth || showGraphOnly"
+      v-if="!collapsed"
       class="syntax-tree"
       :redrawKey="sideBarState"
       :treeBankId="tree.treeBankId"
@@ -24,15 +26,10 @@
   import Treant from '@scaife-viewer/vue-treant';
   import { MODULE_NS } from '@scaife-viewer/store';
 
-  import {
-    SYNTAX_TREES_STATE_BOTH,
-    SYNTAX_TREES_STATE_GRAPH,
-    SYNTAX_TREES_STATE_TEXT,
-  } from './constants';
   import Sentence from './Sentence.vue';
 
   export default {
-    props: ['tree', 'showing'],
+    props: ['tree', 'expandAll', 'first'],
     components: {
       Sentence,
       Treant,
@@ -40,9 +37,31 @@
     data() {
       return {
         hoveringOn: null,
+        collapsed: true,
       };
     },
+    watch: {
+      first: {
+        immediate: true,
+        handler() {
+          if (this.first && this.expandAll === null) {
+            this.collapsed = false;
+          }
+        }
+      },
+      expandAll: {
+        handler() {
+          if (this.expandAll !== null &&  this.collapsed === this.expandAll) {
+            this.collapsed = !this.expandAll;
+          }
+        }
+      }
+    },
     methods: {
+      onCollapse() {
+        this.collapsed = !this.collapsed;
+        this.$emit('collapsed');
+      },
       onWordEnter({ id }) {
         this.hoveringOn = id;
       },
@@ -83,20 +102,17 @@
         const { rightOpen, leftOpen, leftVisible, rightVisible } = this.$store.state[MODULE_NS];
         return `${rightOpen}-${leftOpen}-${leftVisible}-${rightVisible}`;
       },
-      showBoth() {
-        return this.showing === SYNTAX_TREES_STATE_BOTH;
-      },
-      showTextOnly() {
-        return this.showing === SYNTAX_TREES_STATE_TEXT;
-      },
-      showGraphOnly() {
-        return this.showing === SYNTAX_TREES_STATE_GRAPH;
-      },
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  .tree {
+    margin-bottom: 20px;
+    .collapse-control {
+      font-size: 80%;
+    }
+  }
   .syntax-tree::v-deep {
     .node.highlight .node-desc {
       color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #D44);

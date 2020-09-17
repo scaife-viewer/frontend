@@ -1,5 +1,5 @@
 <template>
-  <div class="sentence" :class="[`text-${textSize}`, `text-width-${textWidth}`, selected ? 'highlighting' : null]">
+  <div class="sentence" :class="[`text-${textSize}`, `text-width-${textWidth}`, selected.word !== null ? 'highlighting' : null]">
     <template v-for="word in words">
       <Word
         :key="word.id"

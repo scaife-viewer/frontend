@@ -12,12 +12,14 @@
       </ErrorMessage>
       <EmptyMessage v-else-if="!data" />
       <template v-else>
-        <ModeToolbar :show="showing" @show="onShow" />
+        <ModeToolbar :expandAll="expandAll" @show="onShow" />
         <Tree
-          v-for="tree in data.trees"
+          v-for="(tree, index) in data.trees"
           :key="tree.treeBankId"
           :tree="tree"
-          :showing="showing"
+          :first="index === 0"
+          :expandAll="expandAll"
+          @collapsed="expandAll = null"
         />
       </template>
     </template>
@@ -32,7 +34,6 @@
 
   import ModeToolbar from './ModeToolbar.vue';
   import Tree from './Tree.vue';
-  import { SYNTAX_TREES_STATE_BOTH } from './constants';
 
   const transformForTreant = node => {
     const text = node.value === null
@@ -63,12 +64,12 @@
     },
     data() {
       return {
-        showing: SYNTAX_TREES_STATE_BOTH,
+        expandAll: null,
       };
     },
     methods: {
-      onShow(kind) {
-        this.showing = kind;
+      onShow(expandAll) {
+        this.expandAll = expandAll;
       },
       queryUpdate(data) {
         const trees = data.syntaxTrees.edges
