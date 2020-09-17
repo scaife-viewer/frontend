@@ -1,5 +1,6 @@
 <template>
   <div class="tree">
+    <div class="refs">{{ refs }}</div>
     <Sentence
       :words="tree.words"
       :selected="selected"
@@ -102,6 +103,12 @@
         const { rightOpen, leftOpen, leftVisible, rightVisible } = this.$store.state[MODULE_NS];
         return `${rightOpen}-${leftOpen}-${leftVisible}-${rightVisible}`;
       },
+      refs() {
+        return this.tree.references.map(ref => {
+          const parts = ref.split(':');
+          return parts[parts.length - 1];
+        }).join(', ');
+      }
     }
   }
 </script>
@@ -111,6 +118,13 @@
     margin-bottom: 20px;
     .collapse-control {
       font-size: 80%;
+    }
+    .refs {
+      text-align: center;
+      font-size: 12pt;
+      color: var(--sv-reader-syntax-tree-node-refs-text-color, #69c);
+      font-family: 'Noto Sans';
+      margin-bottom: 5px;
     }
   }
   .syntax-tree::v-deep {
