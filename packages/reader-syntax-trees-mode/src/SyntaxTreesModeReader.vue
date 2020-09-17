@@ -98,6 +98,7 @@
               wordBank,
               treeBankId: tree.node.data.treebankId,
               references: tree.node.data.references,
+              citation: tree.node.data.citation
             }
           });
 

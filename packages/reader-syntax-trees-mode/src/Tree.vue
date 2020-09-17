@@ -1,6 +1,6 @@
 <template>
   <div class="tree">
-    <div class="refs">{{ refs }}</div>
+    <div class="citation">{{ tree.citation }}</div>
     <Sentence
       :words="tree.words"
       :selected="selected"
@@ -103,12 +103,6 @@
         const { rightOpen, leftOpen, leftVisible, rightVisible } = this.$store.state[MODULE_NS];
         return `${rightOpen}-${leftOpen}-${leftVisible}-${rightVisible}`;
       },
-      refs() {
-        return this.tree.references.map(ref => {
-          const parts = ref.split(':');
-          return parts[parts.length - 1];
-        }).join(', ');
-      }
     }
   }
 </script>
@@ -119,7 +113,7 @@
     .collapse-control {
       font-size: 80%;
     }
-    .refs {
+    .citation {
       text-align: center;
       font-size: 12pt;
       color: var(--sv-reader-syntax-tree-node-refs-text-color, #69c);
