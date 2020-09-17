@@ -1,19 +1,19 @@
 <template>
-  <span class="word" :class="{ selected, parent, child }" @mouseenter="onEnter" @mouseleave="onLeave">{{ word.value }}</span>
+  <span class="word" :class="{ selected: selectedWord, parent, child }" @mouseenter="onEnter" @mouseleave="onLeave">{{ word.value }}</span>
 </template>
 
 <script>
   export default {
-    props: ['word', 'selectedWord', 'selectedChildren', 'selectedParent'],
+    props: ['word', 'selected'],
     computed: {
-      selected() {
-        return this.word.id === this.selectedWord;
+      selectedWord() {
+        return this.word.id === this.selected.word;
       },
       parent() {
-        return this.word.id === this.selectedParent;
+        return this.word.id === this.selected.parent;
       },
       child() {
-        return (this.selectedChildren || []).indexOf(this.word.id) > -1;
+        return (this.selected.children || []).indexOf(this.word.id) > -1;
       },
     },
     methods: {

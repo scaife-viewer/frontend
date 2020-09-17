@@ -4,9 +4,7 @@
       <Word
         :key="word.id"
         :word="word"
-        :selected-word="selected"
-        :selected-children="selectedChildren"
-        :selected-parent="selectedParent"
+        :selected="selected"
         @word-enter="onWordEnter"
         @word-leave="onWordLeave"
       />
@@ -36,21 +34,6 @@
       },
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
-      },
-      wordIndex() {
-        return this.words.reduce((map, word) => ({
-          ...map,
-          [word.id]: word,
-        }), {});
-      },
-      selectedWord() {
-        return this.wordIndex[this.selected];
-      },
-      selectedChildren() {
-        return this.selectedWord && this.selectedWord.children.map(c => c.id);
-      },
-      selectedParent() {
-        return this.selectedWord && this.selectedWord.headId;
       },
     }
   }

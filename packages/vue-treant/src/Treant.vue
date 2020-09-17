@@ -11,7 +11,7 @@
   window.Raphael = Raphael;
 
   export default {
-    props: ['tree', 'highlightedNode', 'config', 'redrawKey'],
+    props: ['tree', 'highlighted', 'config', 'redrawKey'],
     data() {
       return {
         treant: null,
@@ -34,7 +34,7 @@
         });
       },
       setWidth() {
-        this.width = `${this.$parent.$el.clientWidth}px`;
+        this.width = `${this.$parent.$parent.$el.clientWidth}px`;
       },
       onResize() {
         this.treant.destroy();
@@ -72,18 +72,30 @@
       },
     },
     watch: {
-      highlightedNode() {
-        if (this.highlightedNode === null) {
+      highlighted() {
+        if (this.highlighted.word === null) {
           this.$el.querySelectorAll('.node.highlight')
             .forEach(node => {
               node.classList.remove('highlight');
+            });
+          this.$el.querySelectorAll('.node.highlight-parent')
+            .forEach(node => {
+              node.classList.remove('highlight-parent');
+            });
+          this.$el.querySelectorAll('.node.highlight-child')
+            .forEach(node => {
+              node.classList.remove('highlight-child');
             });
         } else {
           this.$el.querySelectorAll('.node')
             .forEach(node => {
               const { text } = node.data.treenode;
-              if (text.id === this.highlightedNode) {
+              if (text.id === this.highlighted.word) {
                 node.classList.add('highlight');
+              } else if (text.id === this.highlighted.parent) {
+                node.classList.add('highlight-parent');
+              } else if (this.highlighted.children.indexOf(text.id) > -1) {
+                node.classList.add('highlight-child');
               }
             });
         }
