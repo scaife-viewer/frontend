@@ -151,7 +151,10 @@
     }
     .image-mode-container {
       display: grid;
-      height: calc(100vh - 75px);
+      height: calc(100vh - 150px);
+      &::v-deep .reader {
+        overflow: auto;
+      }
     }
   }
 </style>
