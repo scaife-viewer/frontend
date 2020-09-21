@@ -41,7 +41,7 @@
       display: flex;
       justify-content: center;
       flex-direction: column;
-      height: calc(100vh - 30px);
+      height: calc(100vh - 86px);
       align-items: center;
       font-size: 36px;
     }
