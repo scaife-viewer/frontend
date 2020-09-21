@@ -10,7 +10,7 @@
       <ErrorMessage v-else-if="error">
         There was an error loading the requested data.
       </ErrorMessage>
-      <EmptyMessage v-else-if="!data" />
+      <EmptyMessage v-else-if="!data || !data.trees || data.trees.length === 0" />
       <template v-else>
         <ModeToolbar :expandAll="expandAll" @show="onShow" />
         <Tree
