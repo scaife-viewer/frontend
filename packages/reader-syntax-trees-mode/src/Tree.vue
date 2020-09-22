@@ -51,6 +51,7 @@
         }
       },
       expandAll: {
+        immediate: true,
         handler() {
           if (this.expandAll !== null &&  this.collapsed === this.expandAll) {
             this.collapsed = !this.expandAll;
