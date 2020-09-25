@@ -56,7 +56,8 @@
         immediate: true,
         handler() {
           const { pageTitle } = this.$scaife.config;
-          document.title = (pageTitle && pageTitle(this.title)) || 'Scaife Viewer';
+          document.title = (pageTitle && pageTitle(this.title))
+            || (this.title ? `Scaife Viewer | ${this.title}` : 'Scaife Viewer');
         },
       },
     },
