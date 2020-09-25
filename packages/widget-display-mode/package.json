@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-display-mode",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,6 +8,6 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/store": "^0.0.6"
+    "@scaife-viewer/store": "^0.0.7"
   }
 }

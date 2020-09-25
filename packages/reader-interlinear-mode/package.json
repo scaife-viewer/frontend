@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/reader-interlinear-mode",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -9,7 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@scaife-viewer/common": "^0.0.4",
-    "@scaife-viewer/widget-reader": "^0.0.7",
+    "@scaife-viewer/widget-reader": "^0.0.8",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.3"
   }

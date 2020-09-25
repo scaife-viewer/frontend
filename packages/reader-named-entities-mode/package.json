@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/reader-named-entities-mode",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -10,8 +10,8 @@
   "dependencies": {
     "@scaife-viewer/common": "^0.0.4",
     "@scaife-viewer/entity-map": "^0.0.2",
-    "@scaife-viewer/store": "^0.0.6",
-    "@scaife-viewer/widget-reader": "^0.0.7",
+    "@scaife-viewer/store": "^0.0.7",
+    "@scaife-viewer/widget-reader": "^0.0.8",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.3"
   }
