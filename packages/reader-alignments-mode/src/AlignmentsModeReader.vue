@@ -1,8 +1,8 @@
 <template>
   <ApolloQuery
-    class="alignments-mode-reader"
+    class="token-alignments-mode-reader"
     :query="query"
-    :variables="mergedQueryVariables"
+    :variables="variables"
     :update="queryUpdate"
   >
     <template v-slot="{ result: { error, data }, isLoading }">
@@ -11,46 +11,62 @@
         There was an error loading the requested data.
       </ErrorMessage>
       <EmptyMessage
-        v-else-if="data.alignments.length === 0"
+        v-else-if="Object.keys(data.tokenMap).length === 0"
         class="empty-annotations"
       />
-      <Alignments
-        v-else
-        :alignments="data.alignments"
-        :textSize="textSize"
-        :textWidth="textWidth"
-      />
+      <template v-else>
+        <CustomSelect v-model="selectedAlignment" :options="data.alignments" />
+        <component :is="alignmentsComponent" :data="data" :textSize="textSize" :textWidth="textWidth" />
+      </template>
     </template>
   </ApolloQuery>
 </template>
 
 <script>
   import gql from 'graphql-tag';
-  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    CustomSelect,
+    LoaderBall,
+    ErrorMessage,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
-  import Alignments from './Alignments.vue';
+  import AlignmentSelector from './AlignmentSelector.vue';
+  import TokenAlignments from './TokenAlignments.vue';
+  import SentenceAlignment from './SentenceAlignments.vue';
+
+  const ALIGNMENT_COMPONENTS = {
+    'iliad-word-alignment': TokenAlignments,
+    'iliad-sentence-alignment': SentenceAlignment
+  };
 
   export default {
     readerConfig: {
-      label: 'Sentence Alignments',
+      label: 'Alignments',
       layout: 'wide',
     },
     props: {
       queryVariables: Object,
     },
     components: {
-      Alignments,
+      AlignmentSelector,
+      CustomSelect,
       LoaderBall,
       ErrorMessage,
       EmptyMessage,
     },
+    data() {
+      return {
+        selectedAlignment: {
+          value: 'iliad-word-alignment',
+          title: 'Iliad Word Alignment',
+        },
+      };
+    },
     computed: {
-      mergedQueryVariables(){
-        return {
-          sentenceAlignmentSlug: 'iliad-sentence-alignment',
-          ...this.queryVariables,
-        };
+      alignmentsComponent() {
+        return ALIGNMENT_COMPONENTS[this.selectedAlignment.value];
       },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
@@ -58,14 +74,47 @@
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
+      variables() {
+        return {
+          ...this.queryVariables,
+          alignmentSlug: this.selectedAlignment.value,
+        }
+      },
       query() {
         return gql`
-          query TextParts($urn: String!, $sentenceAlignmentSlug: ID) {
-            textAlignmentChunks(reference: $urn, alignment_Slug: $sentenceAlignmentSlug) {
+          query TextParts($urn: String!, $alignmentSlug: ID) {
+            textAlignments(reference: $urn) {
               edges {
                 node {
                   id
-                  items
+                  name
+                  slug
+                }
+              }
+            }
+            textAlignmentChunks(reference: $urn, alignment_Slug: $alignmentSlug) {
+              metadata {
+                passageReferences
+              }
+              edges {
+                node {
+                  id
+                  relations {
+                    edges {
+                      node {
+                        id
+                        tokens {
+                          edges {
+                            node {
+                              id
+                              veRef
+                              value,
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -74,9 +123,61 @@
       },
     },
     methods: {
+      flattenRecords(recordEdges) {
+        const recordNodes = recordEdges.map(e => e.node);
+        return recordNodes.map(node => {
+          return {
+            id: node.id,
+            relations: node.relations.edges.map(e => {
+              return {
+                id: e.id,
+                tokens: e.node.tokens.edges.map(t => t.node)
+              }
+            })
+          }
+        });
+      },
       queryUpdate(data) {
+        const tokenAlignmentRecords = data.textAlignmentChunks.edges
+          .map(e => e.node.relations.edges
+            .map(e2 => e2.node.tokens.edges
+              .map(e3 => ({token: e3.node.id, record: e.node.id}))
+              .flat())
+            .flat())
+          .flat();
+
+        const recordMap = data.textAlignmentChunks.edges
+          .reduce((map, e) => {
+            map[e.node.id] = e.node.relations.edges
+              .map(e2 => e2.node.tokens.edges
+                .map(e3 => e3.node.id))
+              .flat();
+            return map;
+          }, {});
+
+        const tokenMap = tokenAlignmentRecords
+          .reduce((map, tokenRecord) => {
+            if (map[tokenRecord.token] === undefined) {
+              map[tokenRecord.token] = [];
+            }
+            map[tokenRecord.token].push(tokenRecord.record);
+            return map;
+          }, {});
+
+        const alignments = data.textAlignments.edges.map(e => {
+          return {
+            value: e.node.slug,
+            title: e.node.name,
+          };
+        });
+        const alignmentRecords = this.flattenRecords(data.textAlignmentChunks.edges);
+
         return {
-          alignments: data.textAlignmentChunks.edges.map(e => e.node.items),
+          recordMap,
+          tokenMap,
+          alignments,
+          alignmentRecords,
+          references: data.textAlignmentChunks.metadata.passageReferences,
         };
       },
     },
@@ -84,7 +185,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .alignments-mode-reader {
+  .token-alignments-mode-reader {
     flex: 1;
   }
   .empty-annotations {

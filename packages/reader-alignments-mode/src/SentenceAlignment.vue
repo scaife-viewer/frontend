@@ -1,6 +1,6 @@
 <template>
   <div class="alignment">
-    <div class="alignment-ref">{{ right[0][0] }}</div>
+    <div class="alignment-ref">{{ citation }}</div>
     <div class="columns">
       <div :class="['left', `text-${textSize}`, `text-width-${textWidth}`]">
         <div v-for="line in left" :key="line[0]" :class="['line', line[2]]">
@@ -19,7 +19,54 @@
 
 <script>
   export default {
-    props: ['left', 'right', 'textSize', 'textWidth'],
+    props: ['record', 'textSize', 'textWidth'],
+    methods: {
+      initLine() {
+        return {
+          ref: null,
+          values: [],
+        };
+      },
+      extractLines(relation) {
+        const lines = [];
+        let lastSeenRef = null;
+        let line = this.initLine();
+        relation.tokens.forEach(token => {
+          const textPartRef = token.veRef.split('.').slice(0, -1).join('.');
+          if (lastSeenRef != textPartRef && line.values.length > 0) {
+            lines.push(line);
+            line = this.initLine();
+          }
+          lastSeenRef = textPartRef;
+          line.ref = textPartRef;
+          line.values.push(token.value);
+        });
+        if (line.values.length > 0) {
+          lines.push(line);
+        }
+        return lines.map(line => {
+          return [
+            line.ref,
+            line.values.join(' '),
+            '', // TODO: continuation data
+          ];
+        });
+      },
+    },
+    computed: {
+      citation() {
+        if (this.left.length > 1) {
+          return [this.left[0][0], this.left.slice(-1)[0][0]].join('-');
+        }
+        return this.left[0][0];
+      },
+      left() {
+        return this.extractLines(this.record.relations[0]);
+      },
+      right() {
+        return this.extractLines(this.record.relations[1]);
+      },
+    },
   };
 </script>
 
@@ -54,7 +101,7 @@
     align-items: baseline;
     .line-ref {
       font-size: 10pt;
-      color: var(--sv-alignments-line-ref-text-color,#69c);
+      color: var(--sv-alignments-line-ref-text-color, #69c);
       font-family: 'Noto Sans';
       min-width: 4em;
       text-align: right;

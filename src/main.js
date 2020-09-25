@@ -3,20 +3,18 @@ import VueApollo from 'vue-apollo';
 import { sync } from 'vuex-router-sync';
 
 import {
-  DISPLAY_MODE_SENTENCE_ALIGNMENTS,
-  DISPLAY_MODE_TOKEN_ALIGNMENTS,
+  DISPLAY_MODE_ALIGNMENTS,
   DISPLAY_MODE_FOLIO,
   DISPLAY_MODE_INTERLINEAR,
   DISPLAY_MODE_METRICAL,
   DISPLAY_MODE_NAMED_ENTITIES,
   DISPLAY_MODE_DEFAULT,
- } from '@scaife-viewer/store';
+} from "@scaife-viewer/store";
 import { SkeletonPlugin } from '@scaife-viewer/skeleton';
 
 import { DefaultModeReader } from '@scaife-viewer/widget-reader';
 
-import AlignmentsModeReader from '@scaife-viewer/reader-alignments-mode';
-import TokenAlignmentsModeReader from '@scaife-viewer/reader-token-alignments-mode';
+import AlignmentsModeReader from '../packages/reader-alignments-mode/src';
 import ImageModeReader from '@scaife-viewer/reader-image-mode';
 import NamedEntitiesModeReader from '@scaife-viewer/reader-named-entities-mode';
 import MetricalModeReader from '@scaife-viewer/reader-metrical-mode';
@@ -49,8 +47,7 @@ Vue.use(SkeletonPlugin, {
       mapStyle: "mapbox://styles/paltman/ckbi4thqt156y1ijz5wldui14",
     },
     readerComponents: {
-      [DISPLAY_MODE_SENTENCE_ALIGNMENTS]: AlignmentsModeReader,
-      [DISPLAY_MODE_TOKEN_ALIGNMENTS]: TokenAlignmentsModeReader,
+      [DISPLAY_MODE_ALIGNMENTS]: AlignmentsModeReader,
       [DISPLAY_MODE_FOLIO]: ImageModeReader,
       [DISPLAY_MODE_NAMED_ENTITIES]: NamedEntitiesModeReader,
       [DISPLAY_MODE_METRICAL]: MetricalModeReader,
