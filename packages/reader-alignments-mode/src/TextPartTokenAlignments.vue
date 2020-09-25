@@ -1,6 +1,6 @@
 <template>
   <div class="alignments">
-    <TokenAlignment
+    <TextPartTokenAlignment
       :reference="leftRef"
       :content="left"
       :tokenMap="tokenMap"
@@ -11,7 +11,7 @@
       :textWidth="textWidth"
       @hovered="onHover"
     />
-    <TokenAlignment
+    <TextPartTokenAlignment
       :reference="rightRef"
       :content="right"
       :tokenMap="tokenMap"
@@ -28,7 +28,7 @@
 <script>
   import gql from 'graphql-tag';
 
-  import TokenAlignment from './TokenAlignment.vue';
+  import TextPartTokenAlignment from './TextPartTokenAlignment.vue';
 
   const passageQuery = gql`query Passage($reference: String!) {
     passageTextParts(reference: $reference) {
@@ -58,7 +58,7 @@
 
   export default {
     props: ['data', 'textSize', 'textWidth'],
-    components: { TokenAlignment },
+    components: { TextPartTokenAlignment },
     computed: {
       leftRef() {
         return this.data.references[0];

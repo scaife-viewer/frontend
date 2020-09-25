@@ -33,12 +33,12 @@
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import AlignmentSelector from './AlignmentSelector.vue';
-  import TokenAlignments from './TokenAlignments.vue';
-  import SentenceAlignment from './SentenceAlignments.vue';
+  import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
+  import RecordTokenAlignment from './RecordTokenAlignments.vue';
 
   const ALIGNMENT_COMPONENTS = {
-    'iliad-word-alignment': TokenAlignments,
-    'iliad-sentence-alignment': SentenceAlignment
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment': TextPartTokenAlignments,
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment': RecordTokenAlignment
   };
 
   export default {
@@ -59,7 +59,7 @@
     data() {
       return {
         selectedAlignment: {
-          value: 'iliad-word-alignment',
+          value: 'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment',
           title: 'Iliad Word Alignment',
         },
       };
@@ -77,22 +77,22 @@
       variables() {
         return {
           ...this.queryVariables,
-          alignmentSlug: this.selectedAlignment.value,
+          alignmentUrn: this.selectedAlignment.value,
         }
       },
       query() {
         return gql`
-          query TextParts($urn: String!, $alignmentSlug: ID) {
+          query TextParts($urn: String!, $alignmentUrn: ID) {
             textAlignments(reference: $urn) {
               edges {
                 node {
                   id
-                  name
-                  slug
+                  label
+                  urn
                 }
               }
             }
-            textAlignmentChunks(reference: $urn, alignment_Slug: $alignmentSlug) {
+            textAlignmentRecords(reference: $urn, alignment_Urn: $alignmentUrn) {
               metadata {
                 passageReferences
               }
@@ -138,7 +138,7 @@
         });
       },
       queryUpdate(data) {
-        const tokenAlignmentRecords = data.textAlignmentChunks.edges
+        const tokenAlignmentRecords = data.textAlignmentRecords.edges
           .map(e => e.node.relations.edges
             .map(e2 => e2.node.tokens.edges
               .map(e3 => ({token: e3.node.id, record: e.node.id}))
@@ -146,7 +146,7 @@
             .flat())
           .flat();
 
-        const recordMap = data.textAlignmentChunks.edges
+        const recordMap = data.textAlignmentRecords.edges
           .reduce((map, e) => {
             map[e.node.id] = e.node.relations.edges
               .map(e2 => e2.node.tokens.edges
@@ -166,18 +166,18 @@
 
         const alignments = data.textAlignments.edges.map(e => {
           return {
-            value: e.node.slug,
-            title: e.node.name,
+            value: e.node.urn,
+            title: e.node.label,
           };
         });
-        const alignmentRecords = this.flattenRecords(data.textAlignmentChunks.edges);
+        const alignmentRecords = this.flattenRecords(data.textAlignmentRecords.edges);
 
         return {
           recordMap,
           tokenMap,
           alignments,
           alignmentRecords,
-          references: data.textAlignmentChunks.metadata.passageReferences,
+          references: data.textAlignmentRecords.metadata.passageReferences,
         };
       },
     },
