@@ -1,23 +1,21 @@
 <template>
   <div class="audio-widget" :key="urn.absolute">
-    <audio
-      ref="sound"
-      controls
-      :src="nowPlaying"
-      :class="nowPlaying === null ? 'hide' : 'show'"
-    >
-      No audio support
-    </audio>
+    <audio ref="sound" :src="nowPlaying">No audio support</audio>
     <EmptyMessage v-if="nowPlaying === null" />
-    <Attribution v-else>
-      <!-- @@@ extract attribution from audio annotations  -->
-      &copy; 2016
-      <a href="https://hypotactic.com/" target="_blank">David Chamberlain</a>
-      under
-      <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
-        >CC BY 4.0 License</a
-      >
-    </Attribution>
+    <template v-else>
+      <div class="player" v-if="sound !== undefined">
+        <PlayButton @pressed="togglePlay" :playing="playing" :progress="progress" />
+      </div>
+      <Attribution>
+        <!-- @@@ extract attribution from audio annotations  -->
+        &copy; 2016
+        <a href="https://hypotactic.com/" target="_blank">David Chamberlain</a>
+        under
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
+          >CC BY 4.0 License</a
+        >
+      </Attribution>
+    </template>
   </div>
 </template>
 
@@ -27,15 +25,19 @@
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS, PLAY_AUDIO, STOP_AUDIO } from '@scaife-viewer/store';
 
+  import PlayButton from './PlayButton.vue';
+
   export default {
     scaifeConfig: {
       displayName: 'Audio',
     },
-    components: { Attribution, EmptyMessage },
+    components: { Attribution, EmptyMessage, PlayButton },
     data() {
       return {
         nowPlayingIndex: 0,
         currentTime: 0,
+        progress: 0,
+        playing: false,
       };
     },
     watch: {
@@ -55,20 +57,36 @@
       },
     },
     methods: {
+      togglePlay() {
+        if (this.sound.paused) {
+          this.start();
+        } else {
+          this.stop();
+        }
+      },
       start() {
         this.$refs.sound.play();
+        this.playing = true;
       },
       stop() {
         this.$refs.sound.pause();
+        this.playing = false;
       },
       onTimeUpdate() {
         this.currentTime = this.$refs.sound.currentTime;
+        if (!this.$refs.sound.duration) {
+          this.progress = 0;
+        } else {
+          this.progress = this.currentTime / this.$refs.sound.duration;
+        }
       },
       onStarted() {
         const ref = this.audios[this.nowPlayingIndex].data.references[0];
         this.$store.dispatch(`${MODULE_NS}/${PLAY_AUDIO}`, { ref });
+        this.playing = true;
       },
       onEnded() {
+        this.playing = false;
         this.$store.dispatch(`${MODULE_NS}/${STOP_AUDIO}`);
         if (this.nowPlayingIndex < this.audios.length - 1) {
           this.nowPlayingIndex += 1;
@@ -91,6 +109,9 @@
       this.$refs.sound.removeEventListener('ended', this.onEnded);
     },
     computed: {
+      icon() {
+        return this.playing ? 'pause' : 'play';
+      },
       currentSelection() {
         return this.$store.state[MODULE_NS].selectedLine;
       },
@@ -188,6 +209,9 @@
       background: var(--sv-audio-widget-button-hover-background-color, #e9ecef);
       color: var(--sv-audio-widget-button-hover-text-color, #343a40);
     }
+  }
+  .player {
+    text-align: center;
   }
   .audio-on {
     button {
