@@ -80,6 +80,7 @@ Vue.use(SkeletonPlugin, {
       [DISPLAY_MODE_INTERLINEAR]: InterlinearModeReader,
       [DISPLAY_MODE_DEFAULT]: DefaultModeReader,
     },
+    pageTitle: title => `SV Demo | ${title}`,
   },
 });
 Vue.use(VueApollo);
