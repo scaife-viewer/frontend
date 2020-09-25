@@ -36,6 +36,8 @@
     top: 2em;
     text-align: center;
     align-self: flex-start;
+
+    height: calc(100vh - 1px - 30px - 54px - 1px - 8px);
     a,
     .disabled {
       display: flex;
