@@ -66,6 +66,7 @@
     },
     methods: {
       fetchData() {
+        this.wordList = [];
         fetch(this.url)
           .then(response => response.json())
           .then(data => {

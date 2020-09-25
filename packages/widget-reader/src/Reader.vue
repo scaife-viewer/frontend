@@ -70,8 +70,9 @@
 </script>
 
 <style lang="scss" scoped>
-  div.reader {
-    flex: 1;
+  .reader {
+    display: flex;
+    justify-content: center;
   }
   .text {
     font-family: var(--widget-reader-text-font-family, 'Noto Serif');

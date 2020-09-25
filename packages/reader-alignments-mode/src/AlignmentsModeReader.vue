@@ -1,8 +1,8 @@
 <template>
   <ApolloQuery
-    class="alignments-mode-reader"
+    class="token-alignments-mode-reader"
     :query="query"
-    :variables="queryVariables"
+    :variables="variables"
     :update="queryUpdate"
   >
     <template v-slot="{ result: { error, data }, isLoading }">
@@ -11,55 +11,110 @@
         There was an error loading the requested data.
       </ErrorMessage>
       <EmptyMessage
-        v-else-if="data.alignments.length === 0"
+        v-else-if="Object.keys(data.tokenMap).length === 0"
         class="empty-annotations"
       />
-      <Alignments
-        v-else
-        :alignments="data.alignments"
-        :textSize="textSize"
-        :textWidth="textWidth"
-      />
+      <template v-else>
+        <CustomSelect v-model="selectedAlignment" :options="data.alignments" />
+        <component :is="alignmentsComponent" :data="data" :textSize="textSize" :textWidth="textWidth" />
+      </template>
     </template>
   </ApolloQuery>
 </template>
 
 <script>
   import gql from 'graphql-tag';
-  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    CustomSelect,
+    LoaderBall,
+    ErrorMessage,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
-  import Alignments from './Alignments.vue';
+  import AlignmentSelector from './AlignmentSelector.vue';
+  import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
+  import RecordTokenAlignment from './RecordTokenAlignments.vue';
+
+  const ALIGNMENT_COMPONENTS = {
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment': TextPartTokenAlignments,
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment': RecordTokenAlignment
+  };
 
   export default {
     readerConfig: {
-      label: 'Sentence Alignments',
+      label: 'Alignments',
       layout: 'wide',
     },
     props: {
       queryVariables: Object,
     },
     components: {
-      Alignments,
+      AlignmentSelector,
+      CustomSelect,
       LoaderBall,
       ErrorMessage,
       EmptyMessage,
     },
+    data() {
+      return {
+        selectedAlignment: {
+          value: 'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment',
+          title: 'Iliad Word Alignment',
+        },
+      };
+    },
     computed: {
+      alignmentsComponent() {
+        return ALIGNMENT_COMPONENTS[this.selectedAlignment.value];
+      },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
       },
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
+      variables() {
+        return {
+          ...this.queryVariables,
+          alignmentUrn: this.selectedAlignment.value,
+        }
+      },
       query() {
         return gql`
-          query TextParts($urn: String!) {
-            textAlignmentChunks(reference: $urn) {
+          query TextParts($urn: String!, $alignmentUrn: ID) {
+            textAlignments(reference: $urn) {
               edges {
                 node {
                   id
-                  items
+                  label
+                  urn
+                }
+              }
+            }
+            textAlignmentRecords(reference: $urn, alignment_Urn: $alignmentUrn) {
+              metadata {
+                passageReferences
+              }
+              edges {
+                node {
+                  id
+                  relations {
+                    edges {
+                      node {
+                        id
+                        tokens {
+                          edges {
+                            node {
+                              id
+                              veRef
+                              value,
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -68,9 +123,61 @@
       },
     },
     methods: {
+      flattenRecords(recordEdges) {
+        const recordNodes = recordEdges.map(e => e.node);
+        return recordNodes.map(node => {
+          return {
+            id: node.id,
+            relations: node.relations.edges.map(e => {
+              return {
+                id: e.id,
+                tokens: e.node.tokens.edges.map(t => t.node)
+              }
+            })
+          }
+        });
+      },
       queryUpdate(data) {
+        const tokenAlignmentRecords = data.textAlignmentRecords.edges
+          .map(e => e.node.relations.edges
+            .map(e2 => e2.node.tokens.edges
+              .map(e3 => ({token: e3.node.id, record: e.node.id}))
+              .flat())
+            .flat())
+          .flat();
+
+        const recordMap = data.textAlignmentRecords.edges
+          .reduce((map, e) => {
+            map[e.node.id] = e.node.relations.edges
+              .map(e2 => e2.node.tokens.edges
+                .map(e3 => e3.node.id))
+              .flat();
+            return map;
+          }, {});
+
+        const tokenMap = tokenAlignmentRecords
+          .reduce((map, tokenRecord) => {
+            if (map[tokenRecord.token] === undefined) {
+              map[tokenRecord.token] = [];
+            }
+            map[tokenRecord.token].push(tokenRecord.record);
+            return map;
+          }, {});
+
+        const alignments = data.textAlignments.edges.map(e => {
+          return {
+            value: e.node.urn,
+            title: e.node.label,
+          };
+        });
+        const alignmentRecords = this.flattenRecords(data.textAlignmentRecords.edges);
+
         return {
-          alignments: data.textAlignmentChunks.edges.map(e => e.node.items),
+          recordMap,
+          tokenMap,
+          alignments,
+          alignmentRecords,
+          references: data.textAlignmentRecords.metadata.passageReferences,
         };
       },
     },
@@ -78,6 +185,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .token-alignments-mode-reader {
+    flex: 1;
+  }
   .empty-annotations {
     text-align: center;
     margin-top: 1rem;

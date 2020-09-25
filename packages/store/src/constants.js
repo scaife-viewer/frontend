@@ -30,7 +30,7 @@ export const STOP_AUDIO = 'stopAudio';
 
 export const SET_DISPLAY_MODE = 'setDisplayMode';
 
-export const DISPLAY_MODE_SENTENCE_ALIGNMENTS = 'sentence-alignments';
+export const DISPLAY_MODE_ALIGNMENTS = 'alignments';
 export const DISPLAY_MODE_FOLIO = 'folio';
 export const DISPLAY_MODE_INTERLINEAR = 'interlinear';
 export const DISPLAY_MODE_METRICAL = 'metrical';

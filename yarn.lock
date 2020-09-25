@@ -1074,6 +1074,14 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@scaife-viewer/store@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@scaife-viewer/store/-/store-0.0.3.tgz#925a8d9c0188832d60e564d06fc36071c34a412b"
+  integrity sha512-fJktpaT/eOUD5kifsMac7BfEM3zX01B+TeAt7qB2PKfsyXuAPjHMHJJ09LhODe+HYijIg3ufaXoHaAmkMhb4wg==
+  dependencies:
+    "@scaife-viewer/common" "^0.0.2"
+    graphql-tag "^2.10.3"
+
 "@soda/friendly-errors-webpack-plugin@^1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@soda/friendly-errors-webpack-plugin/-/friendly-errors-webpack-plugin-1.7.1.tgz#706f64bcb4a8b9642b48ae3ace444c70334d615d"

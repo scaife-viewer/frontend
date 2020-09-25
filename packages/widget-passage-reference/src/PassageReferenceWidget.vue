@@ -127,6 +127,11 @@
     input {
       box-sizing: border-box;
       outline: none;
+      width: 100%;
+      font-size: 12pt;
+      padding: 0.375rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--sv-passage-reference-border-color, #CCC);
     }
 
     .healed {
@@ -138,5 +143,6 @@
     .human {
       margin: 0.5rem 0;
     }
+
   }
 </style>
