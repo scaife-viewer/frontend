@@ -8,6 +8,7 @@ import {
   DISPLAY_MODE_INTERLINEAR,
   DISPLAY_MODE_METRICAL,
   DISPLAY_MODE_NAMED_ENTITIES,
+  DISPLAY_MODE_SYNTAX_TREES,
   DISPLAY_MODE_DEFAULT,
 } from "@scaife-viewer/store";
 import { SkeletonPlugin } from '@scaife-viewer/skeleton';
@@ -19,6 +20,7 @@ import ImageModeReader from '@scaife-viewer/reader-image-mode';
 import NamedEntitiesModeReader from '@scaife-viewer/reader-named-entities-mode';
 import MetricalModeReader from '@scaife-viewer/reader-metrical-mode';
 import InterlinearModeReader from '@scaife-viewer/reader-interlinear-mode';
+import SyntaxTreesModeReader from "@scaife-viewer/reader-syntax-trees-mode";
 
 import { iconMap as commonIconMap } from "@scaife-viewer/common";
 import { iconMap as audioIconMap } from "@scaife-viewer/widget-audio";
@@ -52,6 +54,7 @@ Vue.use(SkeletonPlugin, {
       [DISPLAY_MODE_NAMED_ENTITIES]: NamedEntitiesModeReader,
       [DISPLAY_MODE_METRICAL]: MetricalModeReader,
       [DISPLAY_MODE_INTERLINEAR]: InterlinearModeReader,
+      [DISPLAY_MODE_SYNTAX_TREES]: SyntaxTreesModeReader,
       [DISPLAY_MODE_DEFAULT]: DefaultModeReader,
     },
   },
