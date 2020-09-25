@@ -2,7 +2,7 @@
   <ApolloQuery
     class="alignments-mode-reader"
     :query="query"
-    :variables="queryVariables"
+    :variables="mergedQueryVariables"
     :update="queryUpdate"
   >
     <template v-slot="{ result: { error, data }, isLoading }">
@@ -46,6 +46,12 @@
       EmptyMessage,
     },
     computed: {
+      mergedQueryVariables(){
+        return {
+          sentenceAlignmentSlug: 'iliad-sentence-alignment',
+          ...this.queryVariables,
+        };
+      },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
       },
@@ -54,8 +60,8 @@
       },
       query() {
         return gql`
-          query TextParts($urn: String!) {
-            textAlignmentChunks(reference: $urn) {
+          query TextParts($urn: String!, $sentenceAlignmentSlug: ID) {
+            textAlignmentChunks(reference: $urn, alignment_Slug: $sentenceAlignmentSlug) {
               edges {
                 node {
                   id
@@ -78,6 +84,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .alignments-mode-reader {
+    flex: 1;
+  }
   .empty-annotations {
     text-align: center;
     margin-top: 1rem;

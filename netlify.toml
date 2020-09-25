@@ -1,0 +1,2 @@
+[context."token-alignments-mode".environment]
+  VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://explorehomer-spike-duca-r9f0er.herokuapp.com/graphql/"

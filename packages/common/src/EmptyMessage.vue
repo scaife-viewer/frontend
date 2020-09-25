@@ -6,8 +6,8 @@
 
 <style lang="scss" scoped>
   .empty-message {
-    font-size: var(--sv-error-message-font-size, 14px);
-    color: var(--sv-error-message-text-color, #495057);
+    font-size: var(--sv-empty-message-font-size, 14px);
+    color: var(--sv-empty-message-text-color, #495057);
     padding: 0 0 0.4rem;
     font-style: italic;
     flex: 1;
