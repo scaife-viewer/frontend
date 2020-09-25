@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/common",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,8 +8,8 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/vue-fontawesome": "^0.1.8",
     "lodash.debounce": "^4.0.8"
   }
