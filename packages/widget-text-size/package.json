@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-text-size",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,6 +8,6 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/store": "^0.0.5"
+    "@scaife-viewer/store": "^0.0.6"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/reader-image-mode",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -9,8 +9,8 @@
   "license": "MIT",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@scaife-viewer/common": "^0.0.3",
-    "@scaife-viewer/widget-reader": "^0.0.6",
+    "@scaife-viewer/common": "^0.0.4",
+    "@scaife-viewer/widget-reader": "^0.0.7",
     "graphql-tag": "^2.10.3",
     "openseadragon": "^2.4.2",
     "vue-apollo": "^3.0.3"
