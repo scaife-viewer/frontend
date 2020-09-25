@@ -1,0 +1,13 @@
+{
+  "name": "@scaife-viewer/vue-treant",
+  "version": "0.0.3",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eldarion",
+  "license": "MIT",
+  "dependencies": {
+    "treantjs": "^1.0.0"
+  }
+}

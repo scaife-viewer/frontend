@@ -1,6 +1,6 @@
 <template>
   <ApolloQuery
-    class="default-reader"
+    class="default-mode-reader"
     :query="query"
     :variables="queryVariables"
     :update="queryUpdate"
@@ -84,7 +84,7 @@
 </script>
 
 <style lang="scss" scoped>
-  div.default-reader {
+  .default-mode-reader {
     flex: 1;
   }
   .text {

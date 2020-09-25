@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/reader-image-mode",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,8 +8,9 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.0.2",
-    "@scaife-viewer/widget-reader": "^0.0.5",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@scaife-viewer/common": "^0.0.4",
+    "@scaife-viewer/widget-reader": "^0.0.8",
     "graphql-tag": "^2.10.3",
     "openseadragon": "^2.4.2",
     "vue-apollo": "^3.0.3"

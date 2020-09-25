@@ -1,1 +1,1 @@
-# `reader-alignments-mode`
+# `reader-token-alignments-mode`

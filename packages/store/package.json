@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/store",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,7 +8,7 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.0.2",
+    "@scaife-viewer/common": "^0.0.4",
     "graphql-tag": "^2.10.3"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-passage-reference",
-  "version": "0.0.8",
+  "version": "0.0.11",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,8 +8,8 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.0.2",
-    "@scaife-viewer/store": "^0.0.4",
+    "@scaife-viewer/common": "^0.0.4",
+    "@scaife-viewer/store": "^0.0.7",
     "graphql-tag": "^2.10.3"
   }
 }
