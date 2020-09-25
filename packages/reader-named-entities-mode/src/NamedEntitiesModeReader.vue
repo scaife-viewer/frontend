@@ -46,6 +46,7 @@
   export default {
     readerConfig: {
       label: 'Named Entities',
+      layout: 'wide',
     },
     props: {
       queryVariables: Object

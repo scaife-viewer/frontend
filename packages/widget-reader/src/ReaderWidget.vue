@@ -149,7 +149,7 @@
     width: 100%;
   }
   .full-height {
-    height: 100vh;
+    height: calc(100vh - 30px);
     overflow: hidden;
   }
   .reader-heading {

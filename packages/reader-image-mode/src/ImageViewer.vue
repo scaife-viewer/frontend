@@ -17,12 +17,12 @@
           </a>
         </small>
       </span>
-      <div v-show="displayViewer" id="image-viewer" class="viewer"></div>
-      <div v-show="errorMessage" class="error">
-        <i class="fa fa-times-circle"></i>
-        <span>&nbsp;<strong>Error:</strong></span>
-        <p>{{ errorMessage }}</p>
-      </div>
+    </div>
+    <div v-show="displayViewer" id="image-viewer" class="viewer"></div>
+    <div v-show="errorMessage" class="error">
+      <i class="fa fa-times-circle"></i>
+      <span>&nbsp;<strong>Error:</strong></span>
+      <p>{{ errorMessage }}</p>
     </div>
     <Attribution>
       <a href="http://www.homermultitext.org" target="_blank">
@@ -122,9 +122,12 @@
 <style lang="scss" scoped>
   .open-seadragon {
     flex: 1;
+    height: calc(100vh - 150px);
+    display: flex;
+    flex-direction: column;
     .viewer {
       width: 100%;
-      height: calc(100vh - 100px);
+      flex: 1;
     }
 
     .link {
