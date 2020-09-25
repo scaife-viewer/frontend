@@ -7,6 +7,7 @@ import Lookahead from './Lookahead.vue';
 import Paginator from './Paginator.vue';
 import CustomSelect from './CustomSelect/CustomSelect.vue';
 import URN from './URN';
+import iconMap from './icons';
 
 export default URN;
 
@@ -19,4 +20,5 @@ export {
   LoaderBall,
   Lookahead,
   Paginator,
+  iconMap,
 };
