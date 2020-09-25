@@ -51,6 +51,16 @@
         this.$store.dispatch(`${MODULE_NS}/${TOGGLE_RIGHT_SIDEBAR}`);
       },
     },
+    watch: {
+      title: {
+        immediate: true,
+        handler() {
+          const { pageTitle } = this.$scaife.config;
+          document.title = (pageTitle && pageTitle(this.title))
+            || (this.title ? `Scaife Viewer | ${this.title}` : 'Scaife Viewer');
+        },
+      },
+    },
     computed: {
       leftOpen() {
         return this.$store.state[MODULE_NS].leftOpen;
@@ -86,6 +96,10 @@
           this.rightWidgets,
         );
       },
+      title() {
+        const { scaife } = this.$store.state;
+        return scaife.metadata && scaife.metadata.label;
+      }
     },
   };
 </script>
