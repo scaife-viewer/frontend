@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-passage-children",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,7 +8,7 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/store": "^0.0.8",
+    "@scaife-viewer/store": "^0.0.9",
     "graphql-tag": "^2.10.3"
   }
 }

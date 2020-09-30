@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-toc",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,7 +8,7 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.0.5",
-    "@scaife-viewer/store": "^0.0.8"
+    "@scaife-viewer/common": "^0.0.6",
+    "@scaife-viewer/store": "^0.0.9"
   }
 }
