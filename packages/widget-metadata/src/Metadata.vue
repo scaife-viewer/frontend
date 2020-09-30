@@ -16,10 +16,6 @@
       <div class="label">Language:</div>
       <div class="value">{{ metadata.humanLang }}</div>
     </div>
-    <div class="metadata-row">
-      <div class="label">URN:</div>
-      <tt class="version-urn">{{ versionUrn }}</tt>
-    </div>
   </div>
 </template>
 
