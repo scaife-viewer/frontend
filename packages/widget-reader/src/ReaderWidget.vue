@@ -1,5 +1,5 @@
 <template>
-  <article class="u-flex" :class="{ 'full-height': fullHeight }">
+  <article :class="{ 'full-height': fullHeight }">
     <section class="reader-left">
       <h2 v-if="passageTitle" class="reader-heading main-widget-heading">
         {{ passageTitle }}

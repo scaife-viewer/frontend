@@ -1,6 +1,6 @@
 <template>
   <div class="form-group">
-    <div class="input-group u-flex">
+    <div class="input-group">
       <input
         class="form-control"
         v-model="query"

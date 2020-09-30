@@ -1,5 +1,5 @@
 <template>
-  <aside class="new-alexandria-container u-flex">
+  <aside class="new-alexandria-container">
     <p v-if="!comments || comments.length === 0">
       No comments found.
     </p>

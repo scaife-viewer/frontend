@@ -1,6 +1,6 @@
 <template>
-  <div class="toc-widget u-widget u-flex" v-if="toc">
-    <div class="lookahead-container u-flex">
+  <div class="toc-widget" v-if="toc">
+    <div class="lookahead-container">
       <Lookahead
         :placeholder="placeholder"
         :reducer="reducer"

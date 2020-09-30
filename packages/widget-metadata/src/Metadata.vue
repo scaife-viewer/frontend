@@ -1,5 +1,5 @@
 <template>
-  <div class="metadata-container u-flex">
+  <div class="metadata-container">
     <div class="metadata-row">
       <div class="label">Text Group:</div>
       <div class="value">{{ metadata.textGroupLabel }}</div>

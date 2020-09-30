@@ -3,7 +3,7 @@
     <section class="tokens" v-if="interlinearMode">
       <ReaderToken v-for="token in tokens" :key="token.veRef" :token="token" />
     </section>
-    <div class="line u-flex" v-else>
+    <div class="line" v-else>
       <div class="line-ref" @click="onLineSelect">
         <Icon v-if="playingAudio" name="volume-up" />
         {{ line.ref }}

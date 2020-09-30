@@ -1,5 +1,5 @@
 <template>
-  <div class="text-size-widget u-widget">
+  <div class="text-size-widget">
     <TextSize :value="textSize" @input="changeTextSize" size="xs" />{{ ' ' }}
     <TextSize :value="textSize" @input="changeTextSize" size="sm" />{{ ' ' }}
     <TextSize :value="textSize" @input="changeTextSize" size="md" />{{ ' ' }}

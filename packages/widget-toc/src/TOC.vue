@@ -5,7 +5,7 @@
     <div class="toc-grid" v-if="toc.items.length">
       <template v-for="(item, index) in toc.items">
         <span :key="`index-${index}`" class="ref">{{ index + 1 }}.</span>
-        <div :key="`item-${index}`" class="item u-flex">
+        <div :key="`item-${index}`" class="item">
           <router-link :to="getPayload(item.uri)">
             {{ item.title }}
           </router-link>

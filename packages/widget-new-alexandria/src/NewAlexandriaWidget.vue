@@ -1,5 +1,5 @@
 <template>
-  <div class="new-alexandria-widget u-widget u-flex">
+  <div class="new-alexandria-widget">
     <NewAlexandria :comments="comments" :key="passage.absolute" />
   </div>
 </template>
