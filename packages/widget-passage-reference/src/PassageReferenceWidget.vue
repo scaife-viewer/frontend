@@ -1,5 +1,5 @@
 <template>
-  <div class="passage-reference-widget u-widget">
+  <div class="passage-reference-widget">
     <div class="healed" v-if="healedUrn">
       Passage reference <strong>{{ requestedUrn.reference }}</strong> could not
       be resolved. Instead, we are showing you

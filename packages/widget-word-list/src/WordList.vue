@@ -1,12 +1,12 @@
 <template>
-  <aside class="word-list-container u-flex">
+  <aside class="word-list-container">
     <div slot="sticky">
       <p class="u-legend">
         Number in parentheses is frequency per 10k in this work.
       </p>
     </div>
     <div v-for="word in wordList" :key="word.text" class="word-list">
-      <p class="u-flex">
+      <p>
         <span class="w">{{ word.text }}</span>
         <span class="df">{{ word.shortdef }}</span>
         <span v-if="word.frequency" class="fr">({{ word.frequency }})</span>

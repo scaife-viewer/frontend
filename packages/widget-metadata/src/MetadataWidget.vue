@@ -1,5 +1,5 @@
 <template>
-  <div class="metadata-widget u-widget u-flex">
+  <div class="metadata-widget">
     <Metadata v-if="metadata" :metadata="metadata" :version-urn="versionUrn" />
   </div>
 </template>

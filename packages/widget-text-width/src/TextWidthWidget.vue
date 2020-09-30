@@ -1,5 +1,5 @@
 <template>
-  <div class="text-width-widget u-widget">
+  <div class="text-width-widget">
     <TextWidth :value="textWidth" @input="changeTextWidth" width="narrow" />
     <TextWidth :value="textWidth" @input="changeTextWidth" width="normal" />
     <TextWidth :value="textWidth" @input="changeTextWidth" width="wide" />
