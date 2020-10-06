@@ -16,7 +16,7 @@
         <div class="image-mode-container" v-if="showImage === 'both'">
           <div class="image-folio" v-for="image in data.images" :key="image.imageIdentifier">
             <Reader :lines="image.lines" />
-            <ImageViewer :imageIdentifier="image.url" />
+            <ImageViewer :imageIdentifier="image.url" :reference="image.refs[0]" />
           </div>
           <EmptyMessage class="reader-empty-annotations" v-if="data.images === undefined || data.images.length === 0" />
         </div>
@@ -160,6 +160,7 @@
         }
         &::v-deep .open-seadragon {
           height: unset;
+          margin-left: 5px;
         }
         margin-bottom: 20px;
       }

@@ -18,7 +18,7 @@
         </small>
       </span>
     </div>
-    <div v-show="displayViewer" id="image-viewer" class="viewer"></div>
+    <div v-show="displayViewer" :id="identifier" class="viewer"></div>
     <div v-show="errorMessage" class="error">
       <i class="fa fa-times-circle"></i>
       <span>&nbsp;<strong>Error:</strong></span>
@@ -37,7 +37,7 @@
   import { Attribution } from '@scaife-viewer/common';
 
   export default {
-    props: ['imageIdentifier'],
+    props: ['imageIdentifier', 'reference'],
     data() {
       return {
         viewer: null,
@@ -61,6 +61,9 @@
       },
     },
     computed: {
+      identifier() {
+        return `image-viewer-${this.reference}`;
+      },
       viewerOptions() {
         return {
           // options: http://openseadragon.github.io/docs/OpenSeadragon.Viewer.html#Viewer
@@ -71,7 +74,7 @@
           zoomOutButton: 'zoom-out',
           homeButton: 'home',
           fullPageButton: 'full-page',
-          id: 'image-viewer',
+          id: this.identifier,
         };
       },
     },
