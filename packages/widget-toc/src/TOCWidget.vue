@@ -78,11 +78,11 @@
       returnToRootPayload() {
         return this.context == 'tocs'
           ? { path: 'tocs' }
-          : { name: 'reader', query: { urn: this.passage.absolute } };
+          : { name: 'reader', params: { urn: this.passage.absolute } };
       },
       showingRootToc() {
         if (this.context == 'tocs') {
-          return !this.$route.query.urn;
+          return !this.$route.params.urn;
         }
         if (this.$route.query.toc) {
           return this.$route.query.toc === this.defaultTocUrn ? true : false;
