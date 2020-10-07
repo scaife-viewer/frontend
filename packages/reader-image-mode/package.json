@@ -13,6 +13,6 @@
     "@scaife-viewer/widget-reader": "^0.0.10",
     "graphql-tag": "^2.10.3",
     "openseadragon": "^2.4.2",
-    "vue-apollo": "^3.0.3"
+    "vue-apollo": "^3.0.4"
   }
 }
