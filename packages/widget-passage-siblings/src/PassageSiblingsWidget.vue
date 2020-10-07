@@ -8,13 +8,13 @@
       <router-link
         v-if="sibling.selected"
         class="active-sibling"
-        :to="{ name: 'reader', params: { urn: `${sibling.urn}` } }"
+        :to="{ name: 'reader', params: { urn: `${sibling.urn}` }, query }"
       >
         {{ sibling.lcp }}
       </router-link>
       <router-link
         v-else
-        :to="{ name: 'reader', params: { urn: `${sibling.urn}` } }"
+        :to="{ name: 'reader', params: { urn: `${sibling.urn}` }, query }"
       >
         {{ sibling.lcp }}
       </router-link>
@@ -32,6 +32,9 @@
       displayName: 'Siblings',
     },
     computed: {
+      query() {
+        return this.$route.query;
+      },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },

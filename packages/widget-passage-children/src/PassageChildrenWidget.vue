@@ -1,7 +1,7 @@
 <template v-if="children">
   <div class="passage-children-widget">
     <div class="grid-cell-square" v-for="child in children" :key="child.urn">
-      <router-link :to="{ name: 'reader', params: { urn: `${child.urn}` } }">
+      <router-link :to="{ name: 'reader', params: { urn: `${child.urn}` }, query }">
         {{ child.lcp }}
       </router-link>
     </div>
@@ -18,6 +18,9 @@
       displayName: 'Children',
     },
     computed: {
+      query() {
+        return this.$route.query;
+      },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },

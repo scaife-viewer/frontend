@@ -4,7 +4,7 @@
       <li class="ancestor" v-for="ancestor in ancestors" :key="ancestor.urn">
         <router-link
           :key="ancestor.urn"
-          :to="{ name: 'reader', params: { urn: ancestor.urn } }"
+          :to="{ name: 'reader', params: { urn: ancestor.urn }, query }"
         >
           {{ ancestor.ref }}
         </router-link>
@@ -23,6 +23,9 @@
       displayName: 'Ancestors',
     },
     computed: {
+      query() {
+        return this.$route.query;
+      },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },

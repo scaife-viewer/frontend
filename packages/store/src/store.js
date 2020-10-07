@@ -25,12 +25,12 @@ import {
   UPDATE_METADATA,
   PLAY_AUDIO,
   STOP_AUDIO,
-  SET_DISPLAY_MODE,
   FETCH_METADATA,
   FETCH_LIBRARY,
   DISPLAY_MODE_INTERLINEAR,
   DISPLAY_MODE_METRICAL,
   DISPLAY_MODE_NAMED_ENTITIES,
+  DISPLAY_MODE_DEFAULT,
 } from './constants';
 
 const displayName = (name) => {
@@ -52,7 +52,6 @@ const getDefaultState = () => ({
   metadata: null,
   passage: null,
   libraryTree: null,
-  displayMode: 'default',
   readerTextSize: 'md',
   readerTextWidth: 'normal',
   nowPlaying: null,
@@ -74,14 +73,14 @@ const createStore = client => {
           state.metadata ? new URN(state.metadata.firstPassageUrn) : null,
         libraryTree: (state) => state.libraryTree,
 
-        interlinearMode: (state) => {
-          return state.displayMode === DISPLAY_MODE_INTERLINEAR;
+        interlinearMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_INTERLINEAR;
         },
-        metricalMode: (state) => {
-          return state.displayMode === DISPLAY_MODE_METRICAL;
+        metricalMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_METRICAL;
         },
-        namedEntitiesMode: (state) => {
-          return state.displayMode === DISPLAY_MODE_NAMED_ENTITIES;
+        namedEntitiesMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_NAMED_ENTITIES;
         },
         urn: (state, getters, rootState) => {
           if (!rootState.route) {
@@ -90,6 +89,13 @@ const createStore = client => {
           const { urn } = rootState.route.params;
           return urn ? new URN(urn) : getters.firstPassageUrn;
         },
+        displayMode: (_, __, rootState) => {
+          if (!rootState.route) {
+            return DISPLAY_MODE_DEFAULT;
+          }
+          const { mode } = rootState.route.query;
+          return mode || DISPLAY_MODE_DEFAULT;
+        }
       },
       mutations: {
         [SET_MAIN_LAYOUT_WIDTH_NORMAL]: (state) => {
@@ -164,9 +170,6 @@ const createStore = client => {
         [CLEAR_NAMED_ENTITIES]: (state) => {
           state.selectedNamedEntities = [];
         },
-        [SET_DISPLAY_MODE]: (state, mode) => {
-          state.displayMode = mode;
-        },
         [FETCH_METADATA]: (state, metadata) => {
           state.metadata = metadata;
         },
@@ -237,9 +240,6 @@ const createStore = client => {
         },
         [CLEAR_NAMED_ENTITIES]: ({ commit }) => {
           commit(CLEAR_NAMED_ENTITIES);
-        },
-        [SET_DISPLAY_MODE]: ({ commit }, { mode }) => {
-          commit(SET_DISPLAY_MODE, mode);
         },
         [FETCH_METADATA]: ({ commit }) => {
           client
