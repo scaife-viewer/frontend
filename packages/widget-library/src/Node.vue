@@ -10,7 +10,7 @@
       <span class="node version text-overflow" v-if="routable">
         <router-link
           :title="metadata.label"
-          :to="{ name: 'reader', params: { urn: metadata.firstPassageUrn }, query }"
+          :to="{ name: 'reader', params: { urn: metadata.firstPassageUrn } }"
         >
           {{ metadata.label }}
         </router-link>
@@ -48,9 +48,6 @@
       },
     },
     computed: {
-      query() {
-        return this.$route.query;
-      },
       highlight() {
         return this.readerUrn && this.readerUrn.version === this.urn;
       },
