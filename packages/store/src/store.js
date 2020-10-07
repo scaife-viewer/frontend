@@ -87,7 +87,7 @@ const createStore = client => {
           if (!rootState.route) {
             return getters.firstPassageUrn;
           }
-          const { urn } = rootState.route.query;
+          const { urn } = rootState.route.params;
           return urn ? new URN(urn) : getters.firstPassageUrn;
         },
       },

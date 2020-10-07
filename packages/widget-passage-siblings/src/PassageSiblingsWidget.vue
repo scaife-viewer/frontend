@@ -8,13 +8,13 @@
       <router-link
         v-if="sibling.selected"
         class="active-sibling"
-        :to="{ name: 'reader', query: { urn: `${sibling.urn}` } }"
+        :to="{ name: 'reader', params: { urn: `${sibling.urn}` } }"
       >
         {{ sibling.lcp }}
       </router-link>
       <router-link
         v-else
-        :to="{ name: 'reader', query: { urn: `${sibling.urn}` } }"
+        :to="{ name: 'reader', params: { urn: `${sibling.urn}` } }"
       >
         {{ sibling.lcp }}
       </router-link>

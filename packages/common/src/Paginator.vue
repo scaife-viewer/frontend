@@ -2,7 +2,7 @@
   <nav class="paginator" :key="urnString">
     <router-link
       v-if="urn"
-      :to="{ name: 'reader', query: { urn: urnString } }"
+      :to="{ name: 'reader', params: { urn: urnString } }"
     >
       <Icon :name="icon" />
     </router-link>

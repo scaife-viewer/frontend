@@ -41,7 +41,7 @@
     },
     computed: {
       urn() {
-        return this.$route.query.urn ? new URN(this.$route.query.urn) : null;
+        return this.$route.params.urn ? new URN(this.$route.params.urn) : null;
       },
       playingAudio() {
         if (this.$store.state[MODULE_NS].nowPlaying === null) {
