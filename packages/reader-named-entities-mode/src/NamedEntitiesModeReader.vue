@@ -60,11 +60,6 @@
       EmptyMessage,
       ApolloQuery,
     },
-    data() {
-      return {
-        mapState: MAP_STATE_NONE,
-      };
-    },
     methods: {
       onShowMap(kind) {
         this.mapState = kind;
@@ -120,6 +115,21 @@
       },
     },
     computed: {
+      mapState: {
+        get() {
+          return this.$route.query.rs || MAP_STATE_NONE;
+        },
+        set(value) {
+          if (value === undefined) {
+            return;
+          }
+          const query = {
+            ...this.$route.query,
+            rs: value,
+          };
+          this.$router.replace({ query });
+        },
+      },
       selectedEntities() {
         return this.$store.state[MODULE_NS].selectedNamedEntities;
       },

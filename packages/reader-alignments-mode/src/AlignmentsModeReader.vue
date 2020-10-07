@@ -4,9 +4,14 @@
     :query="query"
     :variables="variables"
     :update="queryUpdate"
+    :skip="skipLoading"
   >
     <template v-slot="{ result: { error, data }, isLoading }">
-      <LoaderBall v-if="isLoading" />
+      <EmptyMessage
+        v-if="textAlignments && textAlignments.length === 0"
+        class="empty-annotations"
+      />
+      <LoaderBall v-else-if="isLoading || selectedAlignment === null" />
       <ErrorMessage v-else-if="error">
         There was an error loading the requested data.
       </ErrorMessage>
@@ -15,7 +20,7 @@
         class="empty-annotations"
       />
       <template v-else>
-        <CustomSelect v-model="selectedAlignment" :options="data.alignments" />
+        <CustomSelect v-model="selectedAlignment" :options="textAlignments" />
         <component :is="alignmentsComponent" :data="data" :textSize="textSize" :textWidth="textWidth" />
       </template>
     </template>
@@ -36,8 +41,9 @@
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
   import RecordTokenAlignment from './RecordTokenAlignments.vue';
 
+  const DEFAULT_ALIGNMENT_MODE = 'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment';
   const ALIGNMENT_COMPONENTS = {
-    'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment': TextPartTokenAlignments,
+    [DEFAULT_ALIGNMENT_MODE]: TextPartTokenAlignments,
     'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment': RecordTokenAlignment
   };
 
@@ -56,15 +62,61 @@
       ErrorMessage,
       EmptyMessage,
     },
-    data() {
-      return {
-        selectedAlignment: {
-          value: 'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment',
-          title: 'Iliad Word Alignment',
+    watch: {
+      textAlignments: {
+        handler() {
+          if (this.selectedAlignment === null) {
+            this.selectedAlignment = this.textAlignments[0];
+          }
         },
-      };
+      },
+    },
+    apollo: {
+      textAlignments: {
+        query: gql`query TextAlignments($urn: String!) {
+          textAlignments(reference: $urn) {
+            edges {
+              node {
+                id
+                label
+                urn
+              }
+            }
+          }
+        }`,
+        variables() {
+          return this.queryVariables;
+        },
+        update(data) {
+          return data.textAlignments.edges.map(e => {
+            return {
+              value: e.node.urn,
+              title: e.node.label,
+            };
+          });
+        }
+      }
     },
     computed: {
+      selectedAlignment: {
+        get() {
+          if (this.textAlignments === undefined || this.textAlignments.length === 0) {
+            return null;
+          }
+          const id = this.$route.query.rs || DEFAULT_ALIGNMENT_MODE;
+          return this.textAlignments.filter(a => a.value === id)[0] || this.textAlignments[0];
+        },
+        set(value) {
+          if (value === undefined) {
+            return;
+          }
+          const query = {
+            ...this.$route.query,
+            rs: value.value,
+          };
+          this.$router.replace({ query });
+        },
+      },
       alignmentsComponent() {
         return ALIGNMENT_COMPONENTS[this.selectedAlignment.value];
       },
@@ -74,24 +126,18 @@
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
+      skipLoading() {
+        return this.selectedAlignment === null;
+      },
       variables() {
         return {
           ...this.queryVariables,
-          alignmentUrn: this.selectedAlignment.value,
+          alignmentUrn: this.selectedAlignment && this.selectedAlignment.value,
         }
       },
       query() {
         return gql`
           query TextParts($urn: String!, $alignmentUrn: ID) {
-            textAlignments(reference: $urn) {
-              edges {
-                node {
-                  id
-                  label
-                  urn
-                }
-              }
-            }
             textAlignmentRecords(reference: $urn, alignment_Urn: $alignmentUrn) {
               metadata {
                 passageReferences
@@ -164,18 +210,11 @@
             return map;
           }, {});
 
-        const alignments = data.textAlignments.edges.map(e => {
-          return {
-            value: e.node.urn,
-            title: e.node.label,
-          };
-        });
         const alignmentRecords = this.flattenRecords(data.textAlignmentRecords.edges);
 
         return {
           recordMap,
           tokenMap,
-          alignments,
           alignmentRecords,
           references: data.textAlignmentRecords.metadata.passageReferences,
         };

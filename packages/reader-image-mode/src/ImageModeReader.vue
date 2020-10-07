@@ -60,12 +60,22 @@
       ImageViewerToolbar,
       Reader,
     },
-    data() {
-      return {
-        showImage: IMAGE_VIEWER_STATE_BOTH,
-      };
-    },
     computed: {
+      showImage: {
+        get() {
+          return this.$route.query.rs || IMAGE_VIEWER_STATE_BOTH;
+        },
+        set(value) {
+          if (value === undefined) {
+            return;
+          }
+          const query = {
+            ...this.$route.query,
+            rs: value,
+          };
+          this.$router.replace({ query });
+        },
+      },
       query() {
         return gql`
           query Folios($urn: String!) {
