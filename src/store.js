@@ -10,7 +10,17 @@ const link = new HttpLink({
   uri: process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
     'https://explorehomer-atlas-dev.scaife-viewer.org/graphql/',
 });
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        passageTextParts: {
+          merge: false,
+        },
+      },
+    },
+  },
+});
 const client = new ApolloClient({ link, cache });
 
 const apolloProvider = new VueApollo({
