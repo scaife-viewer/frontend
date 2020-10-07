@@ -62,11 +62,6 @@
     props: {
       queryVariables: Object
     },
-    data() {
-      return {
-        expandAll: null,
-      };
-    },
     methods: {
       onShow(expandAll) {
         this.expandAll = expandAll;
@@ -108,6 +103,21 @@
       },
     },
     computed: {
+      expandAll: {
+        get() {
+          return this.$route.query.rs || null;
+        },
+        set(value) {
+          if (value === undefined) {
+            return;
+          }
+          const query = {
+            ...this.$route.query,
+            rs: value,
+          };
+          this.$router.replace({ query });
+        },
+      },
       query() {
         return gql`
           query SyntaxTree($urn: String!) {
