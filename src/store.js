@@ -1,15 +1,28 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueApollo from 'vue-apollo';
-import ApolloClient from 'apollo-boost';
+import { ApolloClient, HttpLink } from '@apollo/client/core';
+import { InMemoryCache } from '@apollo/client/cache';
 
 import createStore from '@scaife-viewer/store';
 
-const client = new ApolloClient({
-  uri:
-    process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
+const link = new HttpLink({
+  uri: process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
     'https://explorehomer-atlas-dev.scaife-viewer.org/graphql/',
 });
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        passageTextParts: {
+          merge: false,
+        },
+      },
+    },
+  },
+});
+const client = new ApolloClient({ link, cache });
+
 const apolloProvider = new VueApollo({
   defaultClient: client,
 });

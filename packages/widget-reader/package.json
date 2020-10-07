@@ -12,6 +12,6 @@
     "@scaife-viewer/store": "^0.0.9",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
-    "vue-apollo": "^3.0.3"
+    "vue-apollo": "^3.0.4"
   }
 }
