@@ -7,15 +7,16 @@
         </span>
       </template>
 
-      <span class="node version" v-if="routable">
+      <span class="node version text-overflow" v-if="routable">
         <router-link
+          :title="metadata.label"
           :to="{ name: 'reader', params: { urn: metadata.firstPassageUrn } }"
         >
           {{ metadata.label }}
         </router-link>
       </span>
-      <span v-else class="node parent">
-        <tt>{{ metadata.label }}</tt>
+      <span v-else class="node parent text-overflow">
+        <tt :title="metadata.label">{{ metadata.label }}</tt>
       </span>
     </div>
 
@@ -107,6 +108,12 @@
     display: flex;
   }
   .node {
+    overflow: hidden;
+    &.text-overflow {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
     &.version {
       margin-left: 0.5em;
       font-size: 0.8em;
