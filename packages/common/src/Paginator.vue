@@ -2,7 +2,7 @@
   <nav class="paginator" :key="urnString">
     <router-link
       v-if="urn"
-      :to="{ name: 'reader', params: { urn: urnString } }"
+      :to="{ name: 'reader', params: { urn: urnString }, query }"
     >
       <Icon :name="icon" />
     </router-link>
@@ -18,6 +18,10 @@
     props: ['urn', 'direction'],
     components: { Icon },
     computed: {
+    computed: {
+      query() {
+        return this.$route.query;
+      },
       icon() {
         return `chevron-${this.direction}`;
       },
