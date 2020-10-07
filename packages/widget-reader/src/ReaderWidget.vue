@@ -87,10 +87,10 @@
       },
     },
     beforeUpdate() {
-      if (this.urn && !this.$route.query.urn) {
+      if (this.urn && !this.$route.params.urn) {
         this.$router.push({
           to: 'reader',
-          query: {
+          params: {
             urn: this.urn.toString(),
           },
         });

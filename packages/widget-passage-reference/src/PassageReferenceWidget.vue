@@ -101,10 +101,11 @@
               this.reference = this.requestedUrn.reference;
             }
 
-            if (this.preferredUrn.absolute !== this.$route.query.urn) {
+            if (this.preferredUrn.absolute !== this.$route.params.urn) {
+              console.log(this.preferredUrn.absolute);
               this.$router.push({
                 to: 'reader',
-                query: { urn: this.preferredUrn.absolute },
+                params: { urn: this.preferredUrn.absolute },
               });
             }
           });

@@ -10,7 +10,7 @@
       <span class="node version text-overflow" v-if="routable">
         <router-link
           :title="metadata.label"
-          :to="{ name: 'reader', query: { urn: metadata.firstPassageUrn } }"
+          :to="{ name: 'reader', params: { urn: metadata.firstPassageUrn } }"
         >
           {{ metadata.label }}
         </router-link>
