@@ -18,7 +18,7 @@
           :key="tree.treeBankId"
           :tree="tree"
           :first="index === 0"
-          :expandAll="expandAll"
+          :expandAll="expandAll === null ? null : expandAll === 'expand'"
           @collapsed="expandAll = null"
         />
       </template>
@@ -105,10 +105,15 @@
     computed: {
       expandAll: {
         get() {
-          return this.$route.query.rs || null;
+          return this.$route.query.rs === undefined
+            ? null
+            : this.$route.query.rs;
         },
         set(value) {
           if (value === undefined) {
+            return;
+          }
+          if (value === this.$route.query.rs) {
             return;
           }
           const query = {

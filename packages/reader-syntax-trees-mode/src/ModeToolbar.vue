@@ -1,8 +1,8 @@
 <template>
   <div class="syntax-trees-toolbar">
     <a href :class="{ active: expandAll !== null }" @click.prevent="onShow">
-      <icon :name="expandAll ? 'compress' : 'expand'" />
-      {{ expandAll ? 'Collapse All' :  'Expand All'  }}
+      <icon :name="expandAll || 'expand'" />
+      {{ expandAll === 'expand' ? 'Collapse All' :  'Expand All'  }}
     </a>
   </div>
 </template>
@@ -12,7 +12,12 @@
     props: ['expandAll'],
     methods: {
       onShow() {
-        this.$emit('show', !this.expandAll);
+        this.$emit(
+          'show',
+          [null, 'compress'].indexOf(this.expandAll) > -1
+          ? 'expand'
+          : 'compress'
+        );
       },
     },
   };
