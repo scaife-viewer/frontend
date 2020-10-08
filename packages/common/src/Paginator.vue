@@ -18,7 +18,6 @@
     props: ['urn', 'direction'],
     components: { Icon },
     computed: {
-    computed: {
       query() {
         return this.$route.query;
       },
