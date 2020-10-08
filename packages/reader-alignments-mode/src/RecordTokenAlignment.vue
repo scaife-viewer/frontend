@@ -55,10 +55,15 @@
     },
     computed: {
       citation() {
+        // FIXME: Enforce / generate citation on the server side
+        // we need to handle an empty citation due to gaps in data set
+        // unsure if we should support a data set without "pairs"
         if (this.left.length > 1) {
           return [this.left[0][0], this.left.slice(-1)[0][0]].join('-');
+        } else if (this.left.length == 1) {
+          return this.left[0][0];
         }
-        return this.left[0][0];
+        return '';
       },
       left() {
         return this.extractLines(this.record.relations[0]);
