@@ -41,12 +41,6 @@
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
   import RecordTokenAlignment from './RecordTokenAlignments.vue';
 
-  const DEFAULT_ALIGNMENT_MODE = 'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment';
-  const ALIGNMENT_COMPONENTS = {
-    [DEFAULT_ALIGNMENT_MODE]: TextPartTokenAlignments,
-    'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment': RecordTokenAlignment
-  };
-
   export default {
     readerConfig: {
       label: 'Alignments',
@@ -103,7 +97,7 @@
           if (this.textAlignments === undefined || this.textAlignments.length === 0) {
             return null;
           }
-          const id = this.$route.query.rs || DEFAULT_ALIGNMENT_MODE;
+          const id = this.$route.query.rs;
           return this.textAlignments.filter(a => a.value === id)[0] || this.textAlignments[0];
         },
         set(value) {
@@ -118,7 +112,11 @@
         },
       },
       alignmentsComponent() {
-        return ALIGNMENT_COMPONENTS[this.selectedAlignment.value];
+        // TODO: Update ATLAS to return a hint
+        if (this.selectedAlignment.value.includes('sentence')) {
+          return RecordTokenAlignment;
+        }
+        return TextPartTokenAlignments;
       },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
