@@ -18,7 +18,7 @@
           :key="tree.treeBankId"
           :tree="tree"
           :first="index === 0"
-          :expandAll="expandAll === null ? null : expandAll === 'expand'"
+          :expanded="expanded"
           @collapsed="expandAll = null"
         />
       </template>
@@ -32,6 +32,7 @@
 
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
 
+  import { MODE_EXPAND } from './constants';
   import ModeToolbar from './ModeToolbar.vue';
   import Tree from './Tree.vue';
 
@@ -103,6 +104,9 @@
       },
     },
     computed: {
+      expanded() {
+        return this.expandAll === null ? null : this.expandAll === MODE_EXPAND;
+      },
       expandAll: {
         get() {
           return this.$route.query.rs === undefined

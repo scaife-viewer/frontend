@@ -30,7 +30,7 @@
   import Sentence from './Sentence.vue';
 
   export default {
-    props: ['tree', 'expandAll', 'first'],
+    props: ['tree', 'expanded', 'first'],
     components: {
       Sentence,
       Treant,
@@ -45,16 +45,16 @@
       first: {
         immediate: true,
         handler() {
-          if (this.first && this.expandAll === null) {
+          if (this.first && this.expanded === null) {
             this.collapsed = false;
           }
         }
       },
-      expandAll: {
+      expanded: {
         immediate: true,
         handler() {
-          if (this.expandAll !== null &&  this.collapsed === this.expandAll) {
-            this.collapsed = !this.expandAll;
+          if (this.expanded !== null &&  this.collapsed === this.expanded) {
+            this.collapsed = !this.expanded;
           }
         }
       }
