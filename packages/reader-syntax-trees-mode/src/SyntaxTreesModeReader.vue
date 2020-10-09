@@ -18,7 +18,7 @@
           :key="tree.treeBankId"
           :tree="tree"
           :first="index === 0"
-          :expandAll="expandAll"
+          :expanded="expanded"
           @collapsed="expandAll = null"
         />
       </template>
@@ -32,6 +32,7 @@
 
   import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
 
+  import { MODE_EXPAND } from './constants';
   import ModeToolbar from './ModeToolbar.vue';
   import Tree from './Tree.vue';
 
@@ -61,11 +62,6 @@
     },
     props: {
       queryVariables: Object
-    },
-    data() {
-      return {
-        expandAll: null,
-      };
     },
     methods: {
       onShow(expandAll) {
@@ -108,6 +104,29 @@
       },
     },
     computed: {
+      expanded() {
+        return this.expandAll === null ? null : this.expandAll === MODE_EXPAND;
+      },
+      expandAll: {
+        get() {
+          return this.$route.query.rs === undefined
+            ? null
+            : this.$route.query.rs;
+        },
+        set(value) {
+          if (value === undefined) {
+            return;
+          }
+          if (value === this.$route.query.rs) {
+            return;
+          }
+          const query = {
+            ...this.$route.query,
+            rs: value,
+          };
+          this.$router.replace({ query });
+        },
+      },
       query() {
         return gql`
           query SyntaxTree($urn: String!) {

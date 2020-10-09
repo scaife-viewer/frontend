@@ -1,19 +1,21 @@
 <template v-if="children">
   <div class="passage-children-widget">
     <div class="grid-cell-square" v-for="child in children" :key="child.urn">
-      <router-link :to="{ name: 'reader', params: { urn: `${child.urn}` } }">
+      <ReaderLink :urn="child.urn">
         {{ child.lcp }}
-      </router-link>
+      </ReaderLink>
     </div>
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
+  import { ReaderLink } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
     name: 'PassageChildrenWidget',
+    components: { ReaderLink },
     scaifeConfig: {
       displayName: 'Children',
     },

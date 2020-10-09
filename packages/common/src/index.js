@@ -4,6 +4,7 @@ import ErrorMessage from "./ErrorMessage.vue";
 import Icon from './Icon.vue';
 import LoaderBall from './LoaderBall.vue';
 import Lookahead from './Lookahead.vue';
+import ReaderLink from './ReaderLink.vue';
 import Paginator from './Paginator.vue';
 import CustomSelect from './CustomSelect/CustomSelect.vue';
 import URN from './URN';
@@ -17,6 +18,7 @@ export {
   EmptyMessage,
   ErrorMessage,
   Icon,
+  ReaderLink,
   LoaderBall,
   Lookahead,
   Paginator,

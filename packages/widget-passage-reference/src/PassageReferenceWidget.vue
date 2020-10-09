@@ -102,10 +102,10 @@
             }
 
             if (this.preferredUrn.absolute !== this.$route.params.urn) {
-              console.log(this.preferredUrn.absolute);
               this.$router.push({
                 to: 'reader',
                 params: { urn: this.preferredUrn.absolute },
+                query: this.$route.query,
               });
             }
           });

@@ -101,7 +101,7 @@
     },
     computed: {
       readerComponent() {
-        const { displayMode } = this.$store.state[MODULE_NS];
+        const displayMode = this.$store.getters[`${MODULE_NS}/displayMode`];
         return this.$scaife.config.readerComponents[displayMode];
       },
       query() {

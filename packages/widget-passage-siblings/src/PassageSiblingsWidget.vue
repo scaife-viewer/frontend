@@ -5,29 +5,21 @@
       v-for="sibling in siblings"
       :key="sibling.urn"
     >
-      <router-link
-        v-if="sibling.selected"
-        class="active-sibling"
-        :to="{ name: 'reader', params: { urn: `${sibling.urn}` } }"
-      >
+      <ReaderLink :class="{ 'active-sibling': sibling.selected }" :urn="sibling.urn">
         {{ sibling.lcp }}
-      </router-link>
-      <router-link
-        v-else
-        :to="{ name: 'reader', params: { urn: `${sibling.urn}` } }"
-      >
-        {{ sibling.lcp }}
-      </router-link>
+      </ReaderLink>
     </div>
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
+  import { ReaderLink } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
     name: 'PassageSiblingsWidget',
+    components: { ReaderLink },
     scaifeConfig: {
       displayName: 'Siblings',
     },

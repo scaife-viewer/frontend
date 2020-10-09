@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import { MODULE_NS, SET_DISPLAY_MODE } from '@scaife-viewer/store';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
     scaifeConfig: {
@@ -23,11 +23,12 @@
     computed: {
       displayModes() {
         const { readerComponents } = this.$scaife.config;
+        const displayMode = this.$store.getters[`${MODULE_NS}/displayMode`];
         return Object.keys(readerComponents).map(key => ({
           ...readerComponents[key].readerConfig,
           component: readerComponents[key],
           mode: key,
-          active: this.$store.state[MODULE_NS].displayMode === key,
+          active: displayMode === key,
         }));
       },
     },
@@ -43,7 +44,6 @@
           .classList.remove('main-layout-wide');
       },
       setMode(mode) {
-        this.$store.dispatch(`${MODULE_NS}/${SET_DISPLAY_MODE}`, { mode: mode.mode });
         this.$store.dispatch(`${MODULE_NS}/setTextWidth`, {
           width: mode.textWidth || 'normal',
         });
@@ -52,6 +52,12 @@
         } else {
           this.setNormalLayout();
         }
+        const query = {
+          ...this.$route.query,
+          mode: mode.mode,
+        };
+        delete query['rs'];
+        this.$router.replace({ query });
       },
     },
   };
