@@ -32,7 +32,10 @@
         let lastSeenRef = null;
         let line = this.initLine();
         relation.tokens.forEach(token => {
-          const textPartRef = token.veRef.split('.').slice(0, -1).join('.');
+          const textPartRef = token.veRef
+            .split('.')
+            .slice(0, -1)
+            .join('.');
           if (lastSeenRef != textPartRef && line.values.length > 0) {
             lines.push(line);
             line = this.initLine();

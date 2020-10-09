@@ -1,6 +1,11 @@
 <template>
   <div class="skeleton">
-    <SidebarLayout v-if="leftVisible" class="left" :class="sidebarClasses" :widgets="leftWidgets">
+    <SidebarLayout
+      v-if="leftVisible"
+      class="left"
+      :class="sidebarClasses"
+      :widgets="leftWidgets"
+    >
       <div slot="button-container" class="button-container">
         <button class="toggle-open" v-if="leftOpen" @click="onLeftToggle">
           <Icon name="arrow-left" />
@@ -13,7 +18,12 @@
 
     <MainLayout :widget="mainWidget" :isEditable="isEditable" />
 
-    <SidebarLayout v-if="rightVisible" class="right" :class="sidebarClasses" :widgets="rightWidgets">
+    <SidebarLayout
+      v-if="rightVisible"
+      class="right"
+      :class="sidebarClasses"
+      :widgets="rightWidgets"
+    >
       <div slot="button-container" class="button-container">
         <button class="toggle-open" v-if="rightOpen" @click="onRightToggle">
           <Icon name="arrow-right" />
@@ -27,7 +37,11 @@
 </template>
 
 <script>
-  import { MODULE_NS, TOGGLE_LEFT_SIDEBAR, TOGGLE_RIGHT_SIDEBAR } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    TOGGLE_LEFT_SIDEBAR,
+    TOGGLE_RIGHT_SIDEBAR,
+  } from '@scaife-viewer/store';
 
   import MainLayout from './main/MainLayout.vue';
   import SidebarLayout from './sidebar/SidebarLayout.vue';
@@ -56,8 +70,9 @@
         immediate: true,
         handler() {
           const { pageTitle } = this.$scaife.config;
-          document.title = (pageTitle && pageTitle(this.title))
-            || (this.title ? `Scaife Viewer | ${this.title}` : 'Scaife Viewer');
+          document.title =
+            (pageTitle && pageTitle(this.title)) ||
+            (this.title ? `Scaife Viewer | ${this.title}` : 'Scaife Viewer');
         },
       },
     },
@@ -99,7 +114,7 @@
       title() {
         const { scaife } = this.$store.state;
         return scaife.metadata && scaife.metadata.label;
-      }
+      },
     },
   };
 </script>

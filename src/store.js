@@ -7,7 +7,8 @@ import { InMemoryCache } from '@apollo/client/cache';
 import createStore from '@scaife-viewer/store';
 
 const link = new HttpLink({
-  uri: process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
+  uri:
+    process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
     'https://explorehomer-atlas-dev.scaife-viewer.org/graphql/',
 });
 const cache = new InMemoryCache({

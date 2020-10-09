@@ -21,7 +21,12 @@
       />
       <template v-else>
         <CustomSelect v-model="selectedAlignment" :options="textAlignments" />
-        <component :is="alignmentsComponent" :data="data" :textSize="textSize" :textWidth="textWidth" />
+        <component
+          :is="alignmentsComponent"
+          :data="data"
+          :textSize="textSize"
+          :textWidth="textWidth"
+        />
       </template>
     </template>
   </ApolloQuery>
@@ -41,10 +46,11 @@
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
   import RecordTokenAlignment from './RecordTokenAlignments.vue';
 
-  const DEFAULT_ALIGNMENT_MODE = 'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment';
+  const DEFAULT_ALIGNMENT_MODE =
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment';
   const ALIGNMENT_COMPONENTS = {
     [DEFAULT_ALIGNMENT_MODE]: TextPartTokenAlignments,
-    'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment': RecordTokenAlignment
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment': RecordTokenAlignment,
   };
 
   export default {
@@ -73,17 +79,19 @@
     },
     apollo: {
       textAlignments: {
-        query: gql`query TextAlignments($urn: String!) {
-          textAlignments(reference: $urn) {
-            edges {
-              node {
-                id
-                label
-                urn
+        query: gql`
+          query TextAlignments($urn: String!) {
+            textAlignments(reference: $urn) {
+              edges {
+                node {
+                  id
+                  label
+                  urn
+                }
               }
             }
           }
-        }`,
+        `,
         variables() {
           return this.queryVariables;
         },
@@ -94,17 +102,23 @@
               title: e.node.label,
             };
           });
-        }
-      }
+        },
+      },
     },
     computed: {
       selectedAlignment: {
         get() {
-          if (this.textAlignments === undefined || this.textAlignments.length === 0) {
+          if (
+            this.textAlignments === undefined ||
+            this.textAlignments.length === 0
+          ) {
             return null;
           }
           const id = this.$route.query.rs || DEFAULT_ALIGNMENT_MODE;
-          return this.textAlignments.filter(a => a.value === id)[0] || this.textAlignments[0];
+          return (
+            this.textAlignments.filter(a => a.value === id)[0] ||
+            this.textAlignments[0]
+          );
         },
         set(value) {
           if (value === undefined) {
@@ -133,12 +147,15 @@
         return {
           ...this.queryVariables,
           alignmentUrn: this.selectedAlignment && this.selectedAlignment.value,
-        }
+        };
       },
       query() {
         return gql`
           query TextParts($urn: String!, $alignmentUrn: ID) {
-            textAlignmentRecords(reference: $urn, alignment_Urn: $alignmentUrn) {
+            textAlignmentRecords(
+              reference: $urn
+              alignment_Urn: $alignmentUrn
+            ) {
               metadata {
                 passageReferences
               }
@@ -154,7 +171,7 @@
                             node {
                               id
                               veRef
-                              value,
+                              value
                             }
                           }
                         }
@@ -177,40 +194,43 @@
             relations: node.relations.edges.map(e => {
               return {
                 id: e.id,
-                tokens: e.node.tokens.edges.map(t => t.node)
-              }
-            })
-          }
+                tokens: e.node.tokens.edges.map(t => t.node),
+              };
+            }),
+          };
         });
       },
       queryUpdate(data) {
         const tokenAlignmentRecords = data.textAlignmentRecords.edges
-          .map(e => e.node.relations.edges
-            .map(e2 => e2.node.tokens.edges
-              .map(e3 => ({token: e3.node.id, record: e.node.id}))
-              .flat())
-            .flat())
+          .map(e =>
+            e.node.relations.edges
+              .map(e2 =>
+                e2.node.tokens.edges
+                  .map(e3 => ({ token: e3.node.id, record: e.node.id }))
+                  .flat(),
+              )
+              .flat(),
+          )
           .flat();
 
-        const recordMap = data.textAlignmentRecords.edges
-          .reduce((map, e) => {
-            map[e.node.id] = e.node.relations.edges
-              .map(e2 => e2.node.tokens.edges
-                .map(e3 => e3.node.id))
-              .flat();
-            return map;
-          }, {});
+        const recordMap = data.textAlignmentRecords.edges.reduce((map, e) => {
+          map[e.node.id] = e.node.relations.edges
+            .map(e2 => e2.node.tokens.edges.map(e3 => e3.node.id))
+            .flat();
+          return map;
+        }, {});
 
-        const tokenMap = tokenAlignmentRecords
-          .reduce((map, tokenRecord) => {
-            if (map[tokenRecord.token] === undefined) {
-              map[tokenRecord.token] = [];
-            }
-            map[tokenRecord.token].push(tokenRecord.record);
-            return map;
-          }, {});
+        const tokenMap = tokenAlignmentRecords.reduce((map, tokenRecord) => {
+          if (map[tokenRecord.token] === undefined) {
+            map[tokenRecord.token] = [];
+          }
+          map[tokenRecord.token].push(tokenRecord.record);
+          return map;
+        }, {});
 
-        const alignmentRecords = this.flattenRecords(data.textAlignmentRecords.edges);
+        const alignmentRecords = this.flattenRecords(
+          data.textAlignmentRecords.edges,
+        );
 
         return {
           recordMap,

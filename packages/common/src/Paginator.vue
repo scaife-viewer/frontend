@@ -3,7 +3,7 @@
     <ReaderLink v-if="urn" :urn="urnString">
       <Icon :name="icon" />
     </ReaderLink>
-    <span v-else class="disabled"><Icon :name="icon" /></span>
+    <span v-else class="disabled"><Icon :name="icon"/></span>
   </nav>
 </template>
 

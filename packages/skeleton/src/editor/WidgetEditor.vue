@@ -3,7 +3,7 @@
     <WidgetSelector
       :main-widget="mainWidget"
       :options="options"
-      @select="(widget) => $emit('change-widget', widget)"
+      @select="widget => $emit('change-widget', widget)"
     />
   </div>
 </template>
@@ -35,7 +35,10 @@
       border: none;
       font-size: 14px;
       &:hover {
-        background: var(--sv-widget-editor-hover-button-background-color, #dee2e6);
+        background: var(
+          --sv-widget-editor-hover-button-background-color,
+          #dee2e6
+        );
         color: var(--sv-widget-editor-hover-button-text-color, #dee2e6);
       }
     }

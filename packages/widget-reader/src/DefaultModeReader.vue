@@ -21,7 +21,11 @@
 <script>
   import gql from 'graphql-tag';
   import { ApolloQuery } from 'vue-apollo';
-  import { LoaderBall, EmptyMessage, ErrorMessage } from '@scaife-viewer/common';
+  import {
+    LoaderBall,
+    EmptyMessage,
+    ErrorMessage,
+  } from '@scaife-viewer/common';
 
   import Reader from './Reader.vue';
 
@@ -31,7 +35,7 @@
     },
     components: { ApolloQuery, LoaderBall, EmptyMessage, ErrorMessage, Reader },
     props: {
-      queryVariables: Object
+      queryVariables: Object,
     },
     computed: {
       query() {

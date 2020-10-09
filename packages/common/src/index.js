@@ -1,6 +1,6 @@
 import Attribution from './Attribution.vue';
 import EmptyMessage from './EmptyMessage.vue';
-import ErrorMessage from "./ErrorMessage.vue";
+import ErrorMessage from './ErrorMessage.vue';
 import Icon from './Icon.vue';
 import LoaderBall from './LoaderBall.vue';
 import Lookahead from './Lookahead.vue';

@@ -18,7 +18,7 @@
         :editing="editing"
         :main-widget="widget"
         :options="widgetOptions"
-        @change-widget="(widget) => $emit('changeWidget', widget)"
+        @change-widget="widget => $emit('changeWidget', widget)"
       />
       <component
         slot="body"
@@ -81,7 +81,9 @@
     padding: 15px 24px 15px;
   }
   .main-layout .widget {
-    height: calc(100vh - 2px - 8px);  // 2px top/bottom border of widget, 8px bottom padding of widget
+    height: calc(
+      100vh - 2px - 8px
+    ); // 2px top/bottom border of widget, 8px bottom padding of widget
     overflow-y: scroll;
   }
 </style>

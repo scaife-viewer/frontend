@@ -8,7 +8,9 @@
       @word-leave="onWordLeave"
     />
     <div class="collapse-control">
-      <a href @click.prevent="onCollapse">{{ collapsed ? 'Show Tree' : 'Hide Tree' }}</a>
+      <a href @click.prevent="onCollapse">{{
+        collapsed ? 'Show Tree' : 'Hide Tree'
+      }}</a>
     </div>
     <Treant
       v-if="!collapsed"
@@ -48,16 +50,16 @@
           if (this.first && this.expanded === null) {
             this.collapsed = false;
           }
-        }
+        },
       },
       expanded: {
         immediate: true,
         handler() {
-          if (this.expanded !== null &&  this.collapsed === this.expanded) {
+          if (this.expanded !== null && this.collapsed === this.expanded) {
             this.collapsed = !this.expanded;
           }
-        }
-      }
+        },
+      },
     },
     methods: {
       onCollapse() {
@@ -86,10 +88,13 @@
         };
       },
       wordIndex() {
-        return this.tree.words.reduce((map, word) => ({
-          ...map,
-          [word.id]: word,
-        }), {});
+        return this.tree.words.reduce(
+          (map, word) => ({
+            ...map,
+            [word.id]: word,
+          }),
+          {},
+        );
       },
       selectedWord() {
         return this.wordIndex[this.hoveringOn];
@@ -101,11 +106,16 @@
         return this.selectedWord && this.selectedWord.headId;
       },
       sideBarState() {
-        const { rightOpen, leftOpen, leftVisible, rightVisible } = this.$store.state[MODULE_NS];
+        const {
+          rightOpen,
+          leftOpen,
+          leftVisible,
+          rightVisible,
+        } = this.$store.state[MODULE_NS];
         return `${rightOpen}-${leftOpen}-${leftVisible}-${rightVisible}`;
       },
-    }
-  }
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -124,20 +134,25 @@
   }
   .syntax-tree::v-deep {
     .node.highlight .node-desc {
-      color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #D44);
-      background: var(--sv-reader-syntax-trees-mode-highlight-background-color, #FEA);
-      border-color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #D44);
-
+      color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #d44);
+      background: var(
+        --sv-reader-syntax-trees-mode-highlight-background-color,
+        #fea
+      );
+      border-color: var(
+        --sv-reader-syntax-trees-mode-highlight-text-color,
+        #d44
+      );
     }
 
     .node.highlight-parent {
-      color: var(--sv-reader-syntax-trees-mode-parent-border-color, #66F);
+      color: var(--sv-reader-syntax-trees-mode-parent-border-color, #66f);
     }
     .node.highlight-child {
-      color: var(--sv-reader-syntax-trees-mode-child-border-color, #3C3);
+      color: var(--sv-reader-syntax-trees-mode-child-border-color, #3c3);
     }
     .node-name {
-      color: var(--sv-reader-syntax-tree-node-relation-text-color, #AAA);
+      color: var(--sv-reader-syntax-tree-node-relation-text-color, #aaa);
       margin-bottom: 0;
       margin-top: 2px;
       font-size: 10pt;
@@ -161,20 +176,41 @@
       right: calc(50% - 8px);
       color: unset;
       border-radius: 15px;
-      border-color: var(--sv-reader-syntax-tree-node-collapse-open-border-color, #AAA);
+      border-color: var(
+        --sv-reader-syntax-tree-node-collapse-open-border-color,
+        #aaa
+      );
       &:hover {
-        border-color: var(--sv-reader-syntax-tree-node-collapse-open-hover-border-color, #999);
-        background-color: var(--sv-reader-syntax-tree-node-collapse-open-hover-background-color, #EEE);
+        border-color: var(
+          --sv-reader-syntax-tree-node-collapse-open-hover-border-color,
+          #999
+        );
+        background-color: var(
+          --sv-reader-syntax-tree-node-collapse-open-hover-background-color,
+          #eee
+        );
       }
     }
     .collapsed .collapse-switch {
       background: unset;
-      border-color: var(--sv-reader-syntax-tree-node-collapse-closed-border-color, #5394ca);
-      background-color: var(--sv-reader-syntax-tree-node-collapse-closed-background-color, #6BF);
+      border-color: var(
+        --sv-reader-syntax-tree-node-collapse-closed-border-color,
+        #5394ca
+      );
+      background-color: var(
+        --sv-reader-syntax-tree-node-collapse-closed-background-color,
+        #6bf
+      );
 
       &:hover {
-        border-color: var(--sv-reader-syntax-tree-node-collapse-closed-hover-border-color, #999);
-        background-color: var(--sv-reader-syntax-tree-node-collapse-closed-hover-border-color, unset);
+        border-color: var(
+          --sv-reader-syntax-tree-node-collapse-closed-hover-border-color,
+          #999
+        );
+        background-color: var(
+          --sv-reader-syntax-tree-node-collapse-closed-hover-border-color,
+          unset
+        );
       }
     }
   }

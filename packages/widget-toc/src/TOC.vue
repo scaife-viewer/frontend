@@ -44,7 +44,11 @@
             : this.getCitePayloadInReaderContext(urn);
         }
         return this.$route.query.toc
-          ? { name: 'reader', params: { urn }, query: { toc: this.$route.query.toc } }
+          ? {
+            name: 'reader',
+            params: { urn },
+            query: { toc: this.$route.query.toc },
+          }
           : { name: 'reader', params: { urn } };
       },
     },

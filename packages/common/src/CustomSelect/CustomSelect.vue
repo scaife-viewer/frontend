@@ -8,10 +8,10 @@
     </div>
     <div class="custom-select--options" v-if="open">
       <CustomSelectOption
-         v-for="(option, index) in options"
-         :key="index"
-         :option="option"
-         @selected="onSelected"
+        v-for="(option, index) in options"
+        :key="index"
+        :option="option"
+        @selected="onSelected"
       />
     </div>
   </div>
@@ -44,7 +44,9 @@
   }
   .custom-select--options {
     position: absolute;
-    top: 40px; left: 0; right: 0;
+    top: 40px;
+    left: 0;
+    right: 0;
     border: 1px solid var(--sv-custom-select-options-border-color, #dee2e6);
     background: var(--sv-custom-select-options-background-color, white);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
@@ -66,7 +68,10 @@
     }
     &:hover {
       .chevron {
-        color: var(--sv-custom-select-selected-hover-chevron-text-color, #343a40);
+        color: var(
+          --sv-custom-select-selected-hover-chevron-text-color,
+          #343a40
+        );
       }
     }
   }

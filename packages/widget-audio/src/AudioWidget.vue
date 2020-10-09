@@ -4,7 +4,11 @@
     <EmptyMessage v-if="nowPlaying === null" />
     <template v-else>
       <div class="player" v-if="sound !== undefined">
-        <PlayButton @pressed="togglePlay" :playing="playing" :progress="progress" />
+        <PlayButton
+          @pressed="togglePlay"
+          :playing="playing"
+          :progress="progress"
+        />
       </div>
       <Attribution>
         <!-- @@@ extract attribution from audio annotations  -->
@@ -215,12 +219,20 @@
   }
   .audio-on {
     button {
-      background: var(--sv-audio-widget-audio-on-button-background-color #b45141);
-      border-color: var(--sv-audio-widget-audio-on-button-border-color, #9b4436);
+      background: var(
+        --sv-audio-widget-audio-on-button-background-color #b45141
+      );
+      border-color: var(
+        --sv-audio-widget-audio-on-button-border-color,
+        #9b4436
+      );
       color: var(--sv-audio-widget-audio-on-button-text-color, #f8f9fa);
       &:hover {
-        background: var(--sv-audio-widget-audio-on-button-hover-background-color, #9b4436);
-        color: var(--sv-audio-widget-audio-on-button-hover-text-color, #FFF);
+        background: var(
+          --sv-audio-widget-audio-on-button-hover-background-color,
+          #9b4436
+        );
+        color: var(--sv-audio-widget-audio-on-button-hover-text-color, #fff);
       }
     }
   }

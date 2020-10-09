@@ -1,22 +1,22 @@
 export const MODULE_NS = 'scaife';
 
 // Skeleton
-export const TOGGLE_LEFT_SIDEBAR = "toggleLeftSidebar";
-export const TOGGLE_RIGHT_SIDEBAR = "toggleRightSidebar";
-export const ADD_LEFT_WIDGET = "addLeftWidget";
-export const REMOVE_LEFT_WIDGET = "removeLeftWidget";
-export const ADD_RIGHT_WIDGET = "addRightWidget";
-export const REMOVE_RIGHT_WIDGET = "removeRightWidget";
-export const CHANGE_MAIN_WIDGET = "changeMainWidget";
-export const CHANGE_SIDEBAR_VISIBILITY = "changeSidebarVisibility";
-export const SET_MAIN_LAYOUT_WIDTH_NORMAL = "setMainLayoutWidthNormal";
-export const SET_MAIN_LAYOUT_WIDTH_WIDE = "setMainLayoutWidthWide";
-export const SET_MAIN_LAYOUT_WIDTH_WIDER = "setMainLayoutWidthWider";
+export const TOGGLE_LEFT_SIDEBAR = 'toggleLeftSidebar';
+export const TOGGLE_RIGHT_SIDEBAR = 'toggleRightSidebar';
+export const ADD_LEFT_WIDGET = 'addLeftWidget';
+export const REMOVE_LEFT_WIDGET = 'removeLeftWidget';
+export const ADD_RIGHT_WIDGET = 'addRightWidget';
+export const REMOVE_RIGHT_WIDGET = 'removeRightWidget';
+export const CHANGE_MAIN_WIDGET = 'changeMainWidget';
+export const CHANGE_SIDEBAR_VISIBILITY = 'changeSidebarVisibility';
+export const SET_MAIN_LAYOUT_WIDTH_NORMAL = 'setMainLayoutWidthNormal';
+export const SET_MAIN_LAYOUT_WIDTH_WIDE = 'setMainLayoutWidthWide';
+export const SET_MAIN_LAYOUT_WIDTH_WIDER = 'setMainLayoutWidthWider';
 
-export const FETCH_METADATA = "fetchMetadata";
-export const UPDATE_METADATA = "updateMetadata";
-export const FETCH_LIBRARY = "fetchLibrary";
-export const SET_PASSAGE = "setPassage";
+export const FETCH_METADATA = 'fetchMetadata';
+export const UPDATE_METADATA = 'updateMetadata';
+export const FETCH_LIBRARY = 'fetchLibrary';
+export const SET_PASSAGE = 'setPassage';
 export const SELECT_NAMED_ENTITIES = 'selectNamedEntities';
 export const CLEAR_NAMED_ENTITIES = 'clearNamedEntities';
 export const SET_TEXT_SIZE = 'setTextSize';

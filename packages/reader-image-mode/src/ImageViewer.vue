@@ -12,7 +12,11 @@
           <a :id="`${reference}-zoom-out`" class="link" title="Zoom out">
             <icon name="search-minus" />
           </a>
-          <a :id="`${reference}-full-page`" class="link" title="Toggle full page">
+          <a
+            :id="`${reference}-full-page`"
+            class="link"
+            title="Toggle full page"
+          >
             <icon name="window-maximize" />
           </a>
         </small>
@@ -113,7 +117,11 @@
     flex: 4;
     .open-seadragon {
       padding-left: 1rem;
-      border-left: 1px solid var(--sv-reader-image-mode-wide-layout-openseadragon-border-color, #dee2e6);
+      border-left: 1px solid
+        var(
+          --sv-reader-image-mode-wide-layout-openseadragon-border-color,
+          #dee2e6
+        );
     }
     .image .open-seadragon {
       border: none;
@@ -141,15 +149,24 @@
       border-radius: 3px;
     }
     .link:hover {
-      color: var(--sv-reader-image-mode-openseadragon-hover-link-text-color, #FFF);
-      background: var(--sv-reader-image-mode-openseadragon-hover-link-background-color, #b45141);
+      color: var(
+        --sv-reader-image-mode-openseadragon-hover-link-text-color,
+        #fff
+      );
+      background: var(
+        --sv-reader-image-mode-openseadragon-hover-link-background-color,
+        #b45141
+      );
     }
 
     .error {
       margin: 10px 0px;
       padding: 12px;
       color: var(--sv-reader-image-mode-error-text-color, #d8000c);
-      background-color: var(--sv-reader-image-mode-error-background-color, #ffd2d2);
+      background-color: var(
+        --sv-reader-image-mode-error-background-color,
+        #ffd2d2
+      );
       vertical-align: middle;
       max-width: 40em;
     }

@@ -13,7 +13,7 @@ const iconMap = [
   faHome,
   faWindowMaximize,
 ].reduce((map, obj) => {
-  return {...map, [obj.iconName]: obj};
+  return { ...map, [obj.iconName]: obj };
 }, {});
 
 export default iconMap;

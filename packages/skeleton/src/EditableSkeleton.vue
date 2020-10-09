@@ -5,8 +5,8 @@
       class="left"
       :class="sidebarClasses"
       :widgetOptions="sidebarWidgetOptions"
-      @changeWidget="(widget) => addWidget('left', widget)"
-      @removeWidget="(index) => removeWidget('left', index)"
+      @changeWidget="widget => addWidget('left', widget)"
+      @removeWidget="index => removeWidget('left', index)"
       @editToggle="editing = !editing"
       :widgets="leftWidgets"
       :editing="editing"
@@ -35,8 +35,8 @@
       class="right"
       :class="sidebarClasses"
       :widgetOptions="sidebarWidgetOptions"
-      @changeWidget="(widget) => addWidget('right', widget)"
-      @removeWidget="(index) => removeWidget('right', index)"
+      @changeWidget="widget => addWidget('right', widget)"
+      @removeWidget="index => removeWidget('right', index)"
       @editToggle="editing = !editing"
       :widgets="rightWidgets"
       :editing="editing"
@@ -54,8 +54,6 @@
 </template>
 
 <script>
-  import MainLayout from './main/MainLayout.vue';
-  import SidebarLayout from './sidebar/SidebarLayout.vue';
   import {
     MODULE_NS,
     TOGGLE_LEFT_SIDEBAR,
@@ -66,6 +64,8 @@
     REMOVE_RIGHT_WIDGET,
     CHANGE_MAIN_WIDGET,
   } from '@scaife-viewer/store';
+  import MainLayout from './main/MainLayout.vue';
+  import SidebarLayout from './sidebar/SidebarLayout.vue';
 
   const removeActions = {
     left: REMOVE_LEFT_WIDGET,
@@ -96,7 +96,9 @@
             this.$store.dispatch(`${MODULE_NS}/${ADD_LEFT_WIDGET}`, { widget });
             break;
           case 'right':
-            this.$store.dispatch(`${MODULE_NS}/${ADD_RIGHT_WIDGET}`, { widget });
+            this.$store.dispatch(`${MODULE_NS}/${ADD_RIGHT_WIDGET}`, {
+            widget,
+          });
             break;
         }
       },
@@ -119,8 +121,9 @@
         immediate: true,
         handler() {
           const { pageTitle } = this.$scaife.config;
-          document.title = (pageTitle && pageTitle(this.title))
-            || (this.title ? `Scaife Viewer | ${this.title}` : 'Scaife Viewer');
+          document.title =
+            (pageTitle && pageTitle(this.title)) ||
+            (this.title ? `Scaife Viewer | ${this.title}` : 'Scaife Viewer');
         },
       },
     },
@@ -139,12 +142,12 @@
       },
       leftWidgets() {
         return this.widgets.left.map(
-          (name) => this.$scaife.skeleton.widgets[name],
+          name => this.$scaife.skeleton.widgets[name],
         );
       },
       rightWidgets() {
         return this.widgets.right.map(
-          (name) => this.$scaife.skeleton.widgets[name],
+          name => this.$scaife.skeleton.widgets[name],
         );
       },
       mainWidget() {
@@ -178,7 +181,7 @@
       title() {
         const { scaife } = this.$store.state;
         return scaife.metadata && scaife.metadata.label;
-      }
+      },
     },
   };
 </script>

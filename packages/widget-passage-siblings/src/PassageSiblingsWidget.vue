@@ -5,7 +5,10 @@
       v-for="sibling in siblings"
       :key="sibling.urn"
     >
-      <ReaderLink :class="{ 'active-sibling': sibling.selected }" :urn="sibling.urn">
+      <ReaderLink
+        :class="{ 'active-sibling': sibling.selected }"
+        :urn="sibling.urn"
+      >
         {{ sibling.lcp }}
       </ReaderLink>
     </div>
@@ -29,15 +32,15 @@
       },
       siblings() {
         if (this.siblingsData === undefined) {
-           return [];
-         }
-         const { selected } = this.siblingsData;
-         return this.siblingsData.all.map(s => {
-           return {
-             ...s,
-             selected: selected.filter(s2 => s2.urn === s.urn).length > 0,
-           };
-         });
+          return [];
+        }
+        const { selected } = this.siblingsData;
+        return this.siblingsData.all.map(s => {
+          return {
+            ...s,
+            selected: selected.filter(s2 => s2.urn === s.urn).length > 0,
+          };
+        });
       },
     },
     apollo: {
@@ -89,10 +92,16 @@
     border: none;
   }
   a:not(.active-sibling):hover {
-    background: var(--sv-widget-passage-siblings-sibling-hover-background, #e9ecef);
+    background: var(
+      --sv-widget-passage-siblings-sibling-hover-background,
+      #e9ecef
+    );
   }
   .active-sibling {
     color: var(--sv-widget-passage-siblings-active-text-color, #000000);
-    background: var(--sv-widget-passage-siblings-active-background-color, #dee2e6);
+    background: var(
+      --sv-widget-passage-siblings-active-background-color,
+      #dee2e6
+    );
   }
 </style>

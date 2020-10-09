@@ -18,11 +18,11 @@ class Skeleton {
   widgetOptions(location, mainWidget, leftWidgets, rightWidgets) {
     return (
       Object.keys(this.widgets)
-        .filter((name) => {
+        .filter(name => {
           const config = this.widgets[name].scaifeConfig;
           return config.location === location || config.location === 'both';
         })
-        .filter((name) => {
+        .filter(name => {
           const config = this.widgets[name].scaifeConfig;
           // only show widgets if they haven't already been used in the case of it
           // being marked a singleton, unless the location is main.
@@ -39,7 +39,7 @@ class Skeleton {
           return true;
         })
         // eslint-disable-next-line arrow-parens
-        .map((text) => ({
+        .map(text => ({
           text,
           component: this.widgets[text],
         }))
@@ -54,7 +54,7 @@ const install = (Vue, options) => {
   // eslint-disable-next-line no-param-reassign
   Vue.prototype.$scaife = Vue.prototype.$scaife || {};
   // eslint-disable-next-line no-param-reassign
-  const additionalIconMap =  options.iconMap || {};
+  const additionalIconMap = options.iconMap || {};
   Vue.prototype.$scaife = {
     ...Vue.prototype.$scaife,
     skeleton: new Skeleton(options.widgets || []),

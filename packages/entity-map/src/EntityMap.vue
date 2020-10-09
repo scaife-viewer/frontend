@@ -13,7 +13,9 @@
       :lng="coordinates[1]"
       :placeId="coordinates[2]"
       :placeLabel="coordinates[3]"
-      :selected="selectedEntities.filter(id => coordinates[2] === id).length > 0"
+      :selected="
+        selectedEntities.filter(id => coordinates[2] === id).length > 0
+      "
       @selected="onSelect"
     />
     <MglNavigationControl position="top-right" />

@@ -38,7 +38,7 @@
       selectedEntities: {
         type: Array,
         required: true,
-      }
+      },
     },
     components: { EntityMap },
     computed: {
@@ -60,9 +60,7 @@
       },
       selected() {
         return (
-          this.selectedEntities.filter(
-            id => this.entity.id === id,
-          ).length > 0
+          this.selectedEntities.filter(id => this.entity.id === id).length > 0
         );
       },
     },
@@ -74,12 +72,19 @@
     height: 250px;
   }
   .named-entity.selected {
-    background: var(--sv-widget-named-entities-selected-background-color, #f8f9fa);
+    background: var(
+      --sv-widget-named-entities-selected-background-color,
+      #f8f9fa
+    );
     margin-left: -10px;
     padding: 3px 7px;
-    border-left: 3px solid var(--sv-widget-named-entities-selected-border-color, #343a40);
+    border-left: 3px solid
+      var(--sv-widget-named-entities-selected-border-color, #343a40);
     .named-entity-description {
-      color: var(--sv-widget-named-entities-selected-description-text-color, #495057);
+      color: var(
+        --sv-widget-named-entities-selected-description-text-color,
+        #495057
+      );
     }
     .icon {
       color: var(--sv-widget-named-entities-selected-icon-text-color, #343a40);

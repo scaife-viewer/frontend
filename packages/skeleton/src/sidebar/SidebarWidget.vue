@@ -69,7 +69,7 @@
   }
 
   .widget {
-    background: var(--sv-widget-background-color, #FFF);
+    background: var(--sv-widget-background-color, #fff);
     position: relative;
     padding: 0 8px 8px 8px;
     border-bottom: 1px solid var(--sv-widget-bottom-border-color, #e9ecef);
@@ -83,7 +83,7 @@
       z-index: 1000;
     }
     h2 {
-      background: var(--sv-widget-h2-background-color, #FFF);
+      background: var(--sv-widget-h2-background-color, #fff);
       padding: 15px 0 5px;
       display: flex;
       justify-content: space-between;
@@ -121,7 +121,7 @@
       opacity: 1;
     }
     div.sticky-body {
-      background: var(--sv-widget-sticky-body-background-color, #FFF);
+      background: var(--sv-widget-sticky-body-background-color, #fff);
     }
     div.body {
       position: relative;

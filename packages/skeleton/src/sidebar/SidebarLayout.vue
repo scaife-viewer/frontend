@@ -24,7 +24,7 @@
       <WidgetEditor
         :options="widgetOptions"
         v-if="editing"
-        @change-widget="(widget) => $emit('changeWidget', widget)"
+        @change-widget="widget => $emit('changeWidget', widget)"
       />
     </div>
   </aside>
@@ -54,7 +54,7 @@
     display: flex;
     flex-direction: column;
     max-width: 600px;
-    background: var(--sv-sidebar-wrapper-background-color, #FFF);
+    background: var(--sv-sidebar-wrapper-background-color, #fff);
   }
 
   .left .button-container {

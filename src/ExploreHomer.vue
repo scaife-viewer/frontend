@@ -1,6 +1,11 @@
 <template>
   <div id="app">
-    <FixedSkeleton v-if="metaLoaded" :left-widgets="left" :right-widgets="right" :main-widget="main" />
+    <FixedSkeleton
+      v-if="metaLoaded"
+      :left-widgets="left"
+      :right-widgets="right"
+      :main-widget="main"
+    />
     <LoaderBall v-else />
   </div>
 </template>
@@ -25,7 +30,11 @@
   import TextSizeWidget from '@scaife-viewer/widget-text-size';
   import TextWidthWidget from '@scaife-viewer/widget-text-width';
 
-  import { MODULE_NS, FETCH_METADATA, FETCH_LIBRARY } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    FETCH_METADATA,
+    FETCH_LIBRARY,
+  } from '@scaife-viewer/store';
   import { LoaderBall } from '@scaife-viewer/common';
 
   export default {
@@ -66,15 +75,22 @@
       },
       metaLoaded() {
         return this.$store.state[MODULE_NS].libraryTree !== null;
-          // && this.$store.state[MODULE_NS].metadata !== null;
-      }
-    }
+        // && this.$store.state[MODULE_NS].metadata !== null;
+      },
+    },
   };
 </script>
 
 <style lang="scss">
-  @import url(https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&subset=greek,greek-ext,latin-ext);
-  @import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+  @import url(
+    https://fonts.googleapis.com/css?family=Noto+Serif:400,
+    400i,
+    700,
+    700i&subset=greek,
+    greek-ext,
+    latin-ext
+  );
+  @import url(https://fonts.googleapis.com/css?family=Noto+Sans:400, 700);
 
   html,
   body {
