@@ -11,7 +11,7 @@ import minimist from 'minimist';
 
 import { IIFEOutputName, getSortedPackages } from './utils';
 
-async function main() {
+async function rollIt() {
   const config = [];
   // Support --scope and --ignore globs if passed in via commandline
   const { scope, ignore } = minimist(process.argv.slice(2));
@@ -103,4 +103,4 @@ async function main() {
   return config;
 }
 
-export default main();
+export default rollIt();
