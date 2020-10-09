@@ -8,5 +8,5 @@ Vue.use(Router);
 
 export default new Router({ mode: 'history', base: '', routes: [
   { path: '/', component: App, name: 'home' },
-  { path: '/explore-homer', component: ExploreHomer, name: 'reader' },
+  { path: '/explore-homer/:urn?', component: ExploreHomer, name: 'reader' },
 ] });

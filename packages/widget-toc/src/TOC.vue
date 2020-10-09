@@ -33,7 +33,8 @@
       getCitePayloadInReaderContext(urn) {
         return {
           name: 'reader',
-          query: { urn: this.passage.toString(), toc: urn.toString() },
+          params: { urn: this.passage.toString() },
+          query: { toc: urn.toString() },
         };
       },
       getPayload(urn) {
@@ -43,8 +44,8 @@
             : this.getCitePayloadInReaderContext(urn);
         }
         return this.$route.query.toc
-          ? { name: 'reader', query: { urn, toc: this.$route.query.toc } }
-          : { name: 'reader', query: { urn } };
+          ? { name: 'reader', params: { urn }, query: { toc: this.$route.query.toc } }
+          : { name: 'reader', params: { urn } };
       },
     },
   };
