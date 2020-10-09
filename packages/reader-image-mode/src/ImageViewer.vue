@@ -1,24 +1,24 @@
 <template>
   <div class="open-seadragon">
-    <div id="image-toolbar" class="toolbar">
+    <div :id="`${reference}-image-toolbar`" class="toolbar">
       <span v-show="displayViewer">
         <small>
-          <a id="home" class="link" title="Go home">
+          <a :id="`${reference}-home`" class="link" title="Go home">
             <icon name="home" />
           </a>
-          <a id="zoom-in" class="link" title="Zoom in">
+          <a :id="`${reference}-zoom-in`" class="link" title="Zoom in">
             <icon name="search-plus" />
           </a>
-          <a id="zoom-out" class="link" title="Zoom out">
+          <a :id="`${reference}-zoom-out`" class="link" title="Zoom out">
             <icon name="search-minus" />
           </a>
-          <a id="full-page" class="link" title="Toggle full page">
+          <a :id="`${reference}-full-page`" class="link" title="Toggle full page">
             <icon name="window-maximize" />
           </a>
         </small>
       </span>
     </div>
-    <div v-show="displayViewer" id="image-viewer" class="viewer"></div>
+    <div v-show="displayViewer" :id="identifier" class="viewer"></div>
     <div v-show="errorMessage" class="error">
       <i class="fa fa-times-circle"></i>
       <span>&nbsp;<strong>Error:</strong></span>
@@ -37,7 +37,7 @@
   import { Attribution } from '@scaife-viewer/common';
 
   export default {
-    props: ['imageIdentifier'],
+    props: ['imageIdentifier', 'reference'],
     data() {
       return {
         viewer: null,
@@ -61,17 +61,20 @@
       },
     },
     computed: {
+      identifier() {
+        return `image-viewer-${this.reference}`;
+      },
       viewerOptions() {
         return {
           // options: http://openseadragon.github.io/docs/OpenSeadragon.Viewer.html#Viewer
           maxZoomLevel: 5,
           showNavigator: true,
           homeFillsViewer: true,
-          zoomInButton: 'zoom-in',
-          zoomOutButton: 'zoom-out',
-          homeButton: 'home',
-          fullPageButton: 'full-page',
-          id: 'image-viewer',
+          zoomInButton: `${this.reference}-zoom-in`,
+          zoomOutButton: `${this.reference}-zoom-out`,
+          homeButton: `${this.reference}-home`,
+          fullPageButton: `${this.reference}-full-page`,
+          id: this.identifier,
         };
       },
     },

@@ -14,18 +14,16 @@
       <template v-else>
         <ImageViewerToolbar :show="showImage" @show="onShowImage" />
         <div class="image-mode-container" v-if="showImage === 'both'">
-          <Reader :lines="data.lines" />
-          <ImageViewer
-            v-if="data.imageIdentifier"
-            :imageIdentifier="data.imageIdentifier"
-          />
-          <EmptyMessage class="reader-empty-annotations" v-else />
+          <div class="image-folio" v-for="image in data.images" :key="image.imageIdentifier">
+            <Reader :lines="image.lines" />
+            <ImageViewer :imageIdentifier="image.url" :reference="image.refs[0]" />
+          </div>
+          <EmptyMessage class="reader-empty-annotations" v-if="data.images === undefined || data.images.length === 0" />
         </div>
         <Reader v-else-if="showImage === 'text'" :lines="data.lines" />
-        <ImageViewer
-          v-else-if="showImage === 'image' && data.imageIdentifier"
-          :imageIdentifier="data.imageIdentifier"
-        />
+        <template v-else-if="showImage === 'image'">
+          <ImageViewer v-for="image in data.images" :key="image.url" :imageIdentifier="image.url" />
+        </template>
         <EmptyMessage class="reader-empty-annotations" v-else />
       </template>
     </template>
@@ -123,8 +121,22 @@
           });
           return { id, kind, ref, tokens };
         });
+        const linesMap = lines.reduce((map, line) => ({
+          ...map,
+          [line.ref]: line,
+        }), {});
+        const images = data.imageAnnotations.edges.map(image => {
+          const refs = image.node.textParts.edges.map(e => e.node.ref);
+          const lines = refs.map(r => linesMap[r]).filter(line => line !== undefined);
+          return {
+            url: image.node.imageIdentifier,
+            refs,
+            lines,
+          };
+        });
         return {
           lines,
+          images,
           imageIdentifier: data.imageAnnotations.edges.length
             ? data.imageAnnotations.edges[0].node.imageIdentifier
             : null,
@@ -139,8 +151,22 @@
     flex: 1;
     &.both {
       .image-mode-container {
-        grid-template-columns: 1fr 1fr;
-        column-gap: 0.75rem;
+        display: block;
+      }
+      .image-mode-container .image-folio {
+        display: flex;
+        > div {
+          flex: 1;
+        }
+        &::v-deep .open-seadragon {
+          height: unset;
+          margin-left: 5px;
+        }
+        margin-bottom: 20px;
+      }
+      .image-mode-container,
+      .image-mode-container .image-folio {
+        height: unset;
       }
     }
     &.text,
@@ -149,7 +175,8 @@
         grid-template-columns: 1fr;
       }
     }
-    .image-mode-container {
+    .image-mode-container,
+    .image-mode-container .image-folio {
       display: grid;
       height: calc(100vh - 150px);
       &::v-deep .reader {

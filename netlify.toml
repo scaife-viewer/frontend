@@ -1,6 +1,4 @@
-[context."add-syntax-trees".environment]
-  VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://mini-stack-a-feature-sy-srpyxy.herokuapp.com/graphql/"
-[context."token-alignments-mode".environment]
-  VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://explorehomer-spike-duca-r9f0er.herokuapp.com/graphql/"
-[context."one-true-alignments-mode".environment]
-  VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://explorehomer-spike-duca-r9f0er.herokuapp.com/graphql/"
+[context."production".environment]
+  VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://sv-mini-atlas-pr-36.herokuapp.com/graphql/"
+[context."27-multi-folio".environment]
+  VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://mini-stack-a-feature-fo-m269pa.herokuapp.com/graphql/"
