@@ -69,20 +69,21 @@
     }
   }
 
+  $cubic-ball-pulse: cubic-bezier(0.2, 0.68, 0.18, 1.08);
+
   .ball-pulse > div:nth-child(1) {
-    -webkit-animation: scale 0.75s -0.24s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
-    animation: scale 0.75s -0.24s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+    -webkit-animation: scale 0.75s -0.24s infinite $cubic-ball-pulse;
+    animation: scale 0.75s -0.24s infinite $cubic-ball-pulse;
   }
 
   .ball-pulse > div:nth-child(2) {
-    -webkit-animation: scale 0.75s -0.12s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
-    animation: scale 0.75s -0.12s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+    -webkit-animation: scale 0.75s -0.12s infinite $cubic-ball-pulse;
+    animation: scale 0.75s -0.12s infinite $cubic-ball-pulse;
   }
 
   .ball-pulse > div:nth-child(3) {
-    -webkit-animation: scale 0.75s 0s infinite
-      cubic-bezier(0.2, 0.68, 0.18, 1.08);
-    animation: scale 0.75s 0s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+    -webkit-animation: scale 0.75s 0s infinite $cubic-ball-pulse;
+    animation: scale 0.75s 0s infinite $cubic-ball-pulse;
   }
 
   .ball-pulse > div {
@@ -376,6 +377,8 @@
     }
   }
 
+  $cubic-rotate-pulse: cubic-bezier(0.09, 0.57, 0.49, 0.9);
+
   .ball-clip-rotate-pulse {
     position: relative;
     -webkit-transform: translateY(-15px);
@@ -395,8 +398,8 @@
     width: 16px;
     top: 7px;
     left: -7px;
-    -webkit-animation: scale 1s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
-    animation: scale 1s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
+    -webkit-animation: scale 1s 0s $cubic-rotate-pulse infinite;
+    animation: scale 1s 0s $cubic-rotate-pulse infinite;
   }
   .ball-clip-rotate-pulse > div:last-child {
     position: absolute;
@@ -408,8 +411,8 @@
     background: transparent;
     border: 2px solid;
     border-color: #fff transparent #fff transparent;
-    -webkit-animation: rotate 1s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
-    animation: rotate 1s 0s cubic-bezier(0.09, 0.57, 0.49, 0.9) infinite;
+    -webkit-animation: rotate 1s 0s $cubic-rotate-pulse infinite;
+    animation: rotate 1s 0s $cubic-rotate-pulse infinite;
     -webkit-animation-duration: 1s;
     animation-duration: 1s;
   }
@@ -1042,7 +1045,6 @@
     margin: 2px;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
-    display: inline-block;
     float: left;
     -webkit-animation-name: ball-grid-beat;
     animation-name: ball-grid-beat;
@@ -1151,7 +1153,6 @@
     margin: 2px;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
-    display: inline-block;
     float: left;
     -webkit-animation-name: ball-grid-pulse;
     animation-name: ball-grid-pulse;
@@ -1585,29 +1586,28 @@
   }
 
   .line-scale > div:nth-child(1) {
-    -webkit-animation: line-scale 1s -0.4s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
-    animation: line-scale 1s -0.4s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+    -webkit-animation: line-scale 1s -0.4s infinite $cubic-ball-pulse;
+    animation: line-scale 1s -0.4s infinite $cubic-ball-pulse;
   }
 
   .line-scale > div:nth-child(2) {
-    -webkit-animation: line-scale 1s -0.3s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
-    animation: line-scale 1s -0.3s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+    -webkit-animation: line-scale 1s -0.3s infinite $cubic-ball-pulse;
+    animation: line-scale 1s -0.3s infinite $cubic-ball-pulse;
   }
 
   .line-scale > div:nth-child(3) {
-    -webkit-animation: line-scale 1s -0.2s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
-    animation: line-scale 1s -0.2s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+    -webkit-animation: line-scale 1s -0.2s infinite $cubic-ball-pulse;
+    animation: line-scale 1s -0.2s infinite $cubic-ball-pulse;
   }
 
   .line-scale > div:nth-child(4) {
-    -webkit-animation: line-scale 1s -0.1s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
-    animation: line-scale 1s -0.1s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+    -webkit-animation: line-scale 1s -0.1s infinite $cubic-ball-pulse;
+    animation: line-scale 1s -0.1s infinite $cubic-ball-pulse;
   }
 
   .line-scale > div:nth-child(5) {
-    -webkit-animation: line-scale 1s 0s infinite
-      cubic-bezier(0.2, 0.68, 0.18, 1.08);
-    animation: line-scale 1s 0s infinite cubic-bezier(0.2, 0.68, 0.18, 1.08);
+    -webkit-animation: line-scale 1s 0s infinite $cubic-ball-pulse;
+    animation: line-scale 1s 0s infinite $cubic-ball-pulse;
   }
 
   .line-scale > div {
@@ -1726,6 +1726,8 @@
     }
   }
 
+  $cubic-pulse-out: cubic-bezier(0.85, 0.25, 0.37, 0.85);
+
   .line-scale-pulse-out > div {
     background-color: #fff;
     width: 4px;
@@ -1735,8 +1737,7 @@
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
     display: inline-block;
-    -webkit-animation: line-scale-pulse-out 0.9s -0.6s infinite cubic-bezier(0.85, 0.25, 0.37, 0.85);
-    animation: line-scale-pulse-out 0.9s -0.6s infinite cubic-bezier(0.85, 0.25, 0.37, 0.85);
+    animation: line-scale-pulse-out 0.9s -0.6s infinite $cubic-pulse-out;
   }
   .line-scale-pulse-out > div:nth-child(2),
   .line-scale-pulse-out > div:nth-child(4) {
@@ -1779,6 +1780,8 @@
     }
   }
 
+  $cubic-rapid: cubic-bezier(0.11, 0.49, 0.38, 0.78);
+
   .line-scale-pulse-out-rapid > div {
     background-color: #fff;
     width: 4px;
@@ -1789,8 +1792,7 @@
     animation-fill-mode: both;
     display: inline-block;
     vertical-align: middle;
-    -webkit-animation: line-scale-pulse-out-rapid 0.9s -0.5s infinite cubic-bezier(0.11, 0.49, 0.38, 0.78);
-    animation: line-scale-pulse-out-rapid 0.9s -0.5s infinite cubic-bezier(0.11, 0.49, 0.38, 0.78);
+    animation: line-scale-pulse-out-rapid 0.9s -0.5s infinite $cubic-rapid;
   }
   .line-scale-pulse-out-rapid > div:nth-child(2),
   .line-scale-pulse-out-rapid > div:nth-child(4) {
