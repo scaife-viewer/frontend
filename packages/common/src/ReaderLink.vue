@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ name, params: { urn }, query }">
+  <router-link :to="{ name, params: { urn }, query }" :title="title">
     <slot />
   </router-link>
 </template>
@@ -11,6 +11,10 @@
       noQuery: {
         type: Boolean,
         default: false,
+      },
+      title: {
+        type: String,
+        default: null,
       }
     },
     computed: {
