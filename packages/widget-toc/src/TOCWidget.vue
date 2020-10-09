@@ -76,12 +76,12 @@
         return this.$scaife.endpoints.tocEndpoint;
       },
       returnToRootPayload() {
-        return this.context == 'tocs'
+        return this.context === 'tocs'
           ? { path: 'tocs' }
           : { name: 'reader', params: { urn: this.passage.absolute } };
       },
       showingRootToc() {
-        if (this.context == 'tocs') {
+        if (this.context === 'tocs') {
           return !this.$route.params.urn;
         }
         if (this.$route.query.toc) {

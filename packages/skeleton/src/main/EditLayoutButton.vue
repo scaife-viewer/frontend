@@ -1,7 +1,7 @@
 <template>
   <a
     href
-    @click.prevent="$emit('editToggle')"
+    @click.prevent="$emit('edit-toggle')"
     class="edit-layout-button"
     :class="{ editing }"
   >

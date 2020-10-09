@@ -24,10 +24,10 @@
         const { text } = e.target.data.treenode;
         this.$emit('enter', text);
       },
-      onNodeLeave(e) {
+      onNodeLeave() {
         this.$emit('leave');
       },
-      onTreeLoaded(args) {
+      onTreeLoaded() {
         const nodes = this.$el.querySelectorAll('.node');
         nodes.forEach(node => {
           node.addEventListener('mouseenter', this.onNodeEnter);
@@ -121,8 +121,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .treant {
-  }
-</style>

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import { sync } from 'vuex-router-sync';
@@ -27,7 +28,7 @@ import SyntaxTreesModeReader from '@scaife-viewer/reader-syntax-trees-mode';
 
 import { iconMap as commonIconMap } from '@scaife-viewer/common';
 import { iconMap as audioIconMap } from '@scaife-viewer/widget-audio';
-import { iconMap as namedEntitiesIconMap } from '@scaife-viewer/widget-named-entities';
+import { iconMap as neIconMap } from '@scaife-viewer/widget-named-entities';
 
 import AlignmentsModeReader from '../packages/reader-alignments-mode/src';
 
@@ -41,13 +42,14 @@ Vue.use(SkeletonPlugin, {
   iconMap: {
     ...commonIconMap,
     ...audioIconMap,
-    ...namedEntitiesIconMap,
+    ...neIconMap,
     ...namedEntitesReaderIconMap,
     ...imageModeReaderIconMap,
   },
   config: {
     entityMap: {
       accessToken:
+        // eslint-disable-next-line max-len
         'pk.eyJ1IjoicGFsdG1hbiIsImEiOiJja2JpNDVpbmUwOGF1MnJwZm91c3VybDVrIn0.KRcXBGtiUWFXkp2uaE5LLw',
       mapStyle: 'mapbox://styles/paltman/ckbi4thqt156y1ijz5wldui14',
     },

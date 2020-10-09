@@ -57,11 +57,11 @@
     },
     methods: {
       onLeftToggle() {
-        this.$emit('leftToggle');
+        this.$emit('left-toggle');
         this.$store.dispatch(`${MODULE_NS}/${TOGGLE_LEFT_SIDEBAR}`);
       },
       onRightToggle() {
-        this.$emit('rightToggle');
+        this.$emit('right-toggle');
         this.$store.dispatch(`${MODULE_NS}/${TOGGLE_RIGHT_SIDEBAR}`);
       },
     },

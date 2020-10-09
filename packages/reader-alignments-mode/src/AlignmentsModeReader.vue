@@ -48,9 +48,12 @@
 
   const DEFAULT_ALIGNMENT_MODE =
     'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment';
+  const SENTENCE_ALIGNMENT_MODE =
+    'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment';
+
   const ALIGNMENT_COMPONENTS = {
     [DEFAULT_ALIGNMENT_MODE]: TextPartTokenAlignments,
-    'urn:cite2:scaife-viewer:alignment.v1:iliad-sentence-alignment': RecordTokenAlignment,
+    [SENTENCE_ALIGNMENT_MODE]: RecordTokenAlignment,
   };
 
   export default {
@@ -72,7 +75,7 @@
       textAlignments: {
         handler() {
           if (this.selectedAlignment === null) {
-            this.selectedAlignment = this.textAlignments[0];
+            [this.selectedAlignment] = this.textAlignments;
           }
         },
       },
@@ -213,20 +216,26 @@
           )
           .flat();
 
-        const recordMap = data.textAlignmentRecords.edges.reduce((map, e) => {
-          map[e.node.id] = e.node.relations.edges
-            .map(e2 => e2.node.tokens.edges.map(e3 => e3.node.id))
-            .flat();
-          return map;
-        }, {});
+        const recordMap = data.textAlignmentRecords.edges.reduce(
+          (map, e) => ({
+            ...map,
+            [e.node.id]: e.node.relations.edges
+              .map(e2 => e2.node.tokens.edges.map(e3 => e3.node.id))
+              .flat(),
+          }),
+          {},
+        );
 
-        const tokenMap = tokenAlignmentRecords.reduce((map, tokenRecord) => {
-          if (map[tokenRecord.token] === undefined) {
-            map[tokenRecord.token] = [];
-          }
-          map[tokenRecord.token].push(tokenRecord.record);
-          return map;
-        }, {});
+        const tokenMap = tokenAlignmentRecords.reduce(
+          (map, tokenRecord) => ({
+            ...map,
+            [tokenRecord.token]: [
+              ...[map[tokenRecord.token] || []],
+              tokenRecord.record,
+            ],
+          }),
+          {},
+        );
 
         const alignmentRecords = this.flattenRecords(
           data.textAlignmentRecords.edges,

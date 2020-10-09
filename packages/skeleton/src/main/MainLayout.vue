@@ -6,7 +6,7 @@
         <EditLayoutButton
           v-if="isEditable && editing !== undefined"
           :editing="editing"
-          @editToggle="$emit('editToggle')"
+          @editToggle="$emit('edit-toggle')"
         />
       </h2>
 
@@ -18,7 +18,7 @@
         :editing="editing"
         :main-widget="widget"
         :options="widgetOptions"
-        @change-widget="widget => $emit('changeWidget', widget)"
+        @change-widget="widget => $emit('change-widget', widget)"
       />
       <component
         slot="body"

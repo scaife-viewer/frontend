@@ -22,7 +22,6 @@
 
 <script>
   import EntityMap from '@scaife-viewer/entity-map';
-  import { MODULE_NS } from '@scaife-viewer/store';
 
   const iconMap = {
     PERSON: 'user',

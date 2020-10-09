@@ -69,7 +69,7 @@
       onWordEnter({ id }) {
         this.hoveringOn = id;
       },
-      onWordLeave(word) {
+      onWordLeave() {
         this.hoveringOn = null;
       },
       onEnter({ id }) {

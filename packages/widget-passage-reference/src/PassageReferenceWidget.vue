@@ -58,7 +58,7 @@
         if (!this.preferredUrn) {
           return true;
         }
-        return this.passage.absolute != this.preferredUrn.absolute;
+        return this.passage.absolute !== this.preferredUrn.absolute;
       },
       setInputRef() {
         if (this.passage) {
@@ -137,7 +137,8 @@
 
     .healed {
       color: var(--sv-passage-reference-healed-text-color, #b45141);
-      border: 1px solid var(--sv-passage-reference-healed-border-color, #d9a8a0);
+      border: 1px solid #d9a8a0;
+      border-color: var(--sv-passage-reference-healed-border-color);
       padding: 0.5rem 0.75rem;
       font-size: 80%;
     }

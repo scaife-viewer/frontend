@@ -158,13 +158,13 @@
         );
         const images = data.imageAnnotations.edges.map(image => {
           const refs = image.node.textParts.edges.map(e => e.node.ref);
-          const lines = refs
+          const refLines = refs
             .map(r => linesMap[r])
             .filter(line => line !== undefined);
           return {
             url: image.node.imageIdentifier,
             refs,
-            lines,
+            lines: refLines,
           };
         });
         return {

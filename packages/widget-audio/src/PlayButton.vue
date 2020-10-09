@@ -60,10 +60,10 @@
         const barSpacing = this.radius - barWidth * 2;
         const height = this.radius;
         const width = this.radius;
+        // eslint-disable-next-line max-len
         const left = `M 0 0 L ${barWidth} 0 L ${barWidth} ${height} L 0 ${height} L 0 0 Z`;
-        const right = `M ${barWidth +
-        barSpacing} 0 L ${width} 0 L ${width} ${height} L ${barWidth +
-          barSpacing} ${height} L ${barWidth + barSpacing} 0 Z`;
+        // eslint-disable-next-line
+        const right = `M ${barWidth + barSpacing} 0 L ${width} 0 L ${width} ${height} L ${barWidth + barSpacing} ${height} L ${barWidth + barSpacing} 0 Z`;
         return `${left} ${right}`;
       },
       playPath() {
