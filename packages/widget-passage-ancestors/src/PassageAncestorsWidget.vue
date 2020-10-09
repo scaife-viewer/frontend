@@ -2,12 +2,9 @@
   <div class="passage-ancestors-widget">
     <ol class="ancestors">
       <li class="ancestor" v-for="ancestor in ancestors" :key="ancestor.urn">
-        <router-link
-          :key="ancestor.urn"
-          :to="{ name: 'reader', params: { urn: ancestor.urn }, query }"
-        >
+        <ReaderLink :key="ancestor.urn" :urn="ancestor.urn">
           {{ ancestor.ref }}
-        </router-link>
+        </ReaderLink>
       </li>
     </ol>
   </div>
@@ -15,17 +12,18 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { ReaderLink } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
     name: 'PassageAncestorsWidget',
+    components: {
+      ReaderLink,
+    },
     scaifeConfig: {
       displayName: 'Ancestors',
     },
     computed: {
-      query() {
-        return this.$route.query;
-      },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
