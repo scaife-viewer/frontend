@@ -10,7 +10,7 @@ import createStore from '@scaife-viewer/store';
 const link = new HttpLink({
   uri:
     process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
-    'https://explorehomer-atlas-dev.scaife-viewer.org/graphql/',
+    'https://sv-mini-atlas-dev.scaife-viewer.org/graphql/',
 });
 const cache = new InMemoryCache({
   typePolicies: {
