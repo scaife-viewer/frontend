@@ -56,7 +56,7 @@
           ...this.$route.query,
           mode: mode.mode,
         };
-        delete query['rs'];
+        delete query.rs;
         this.$router.replace({ query });
       },
     },

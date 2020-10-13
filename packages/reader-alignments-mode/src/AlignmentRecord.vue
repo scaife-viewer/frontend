@@ -1,5 +1,10 @@
 <template>
-  <span class="alignment-record" :class="`a${number}`" @mouseover="onOver" @mouseout="onOut"></span>
+  <span
+    class="alignment-record"
+    :class="`a${number}`"
+    @mouseover="onOver"
+    @mouseout="onOut"
+  ></span>
 </template>
 
 <script>
@@ -13,7 +18,7 @@
         this.$emit('hovered', this.record, this.number);
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -28,12 +33,21 @@
     }
   }
   .a0 {
-    background-color: var(--sv-reader-token-alignments-mode-alignment-record-a0-color, #F00);
+    background-color: var(
+      --sv-reader-token-alignments-mode-alignment-record-a0-color,
+      #f00
+    );
   }
   .a1 {
-    background-color: var(--sv-reader-token-alignments-mode-alignment-record-a1-color, #0C0);
+    background-color: var(
+      --sv-reader-token-alignments-mode-alignment-record-a1-color,
+      #0c0
+    );
   }
   .a2 {
-    background-color: var(--sv-reader-token-alignments-mode-alignment-record-a2-color, #00F);
+    background-color: var(
+      --sv-reader-token-alignments-mode-alignment-record-a2-color,
+      #00f
+    );
   }
 </style>

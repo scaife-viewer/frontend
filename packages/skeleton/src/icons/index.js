@@ -7,7 +7,7 @@ import {
   faPlusSquare,
   faCheckSquare,
   faSquare,
-  faMinusCircle
+  faMinusCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 import faExpand from './faExpand';

@@ -11,7 +11,7 @@ import minimist from 'minimist';
 
 import { IIFEOutputName, getSortedPackages } from './utils';
 
-async function main() {
+async function rollIt() {
   const config = [];
   // Support --scope and --ignore globs if passed in via commandline
   const { scope, ignore } = minimist(process.argv.slice(2));
@@ -26,11 +26,11 @@ async function main() {
       return {
         ...map,
         [key]: IIFEOutputName(key),
-      }
+      };
     }, {});
 
     const replacePlugin = replace({
-      "process.env.NODE_ENV": JSON.stringify("production"),
+      'process.env.NODE_ENV': JSON.stringify('production'),
     });
     const bublePlugin = buble({
       objectAssign: true,
@@ -43,7 +43,9 @@ async function main() {
       input,
       output: {
         format: 'esm',
-        file: path.join(basePath, main.replace('.js', '.esm.js')).replace('src/', 'dist/'),
+        file: path
+          .join(basePath, main.replace('.js', '.esm.js'))
+          .replace('src/', 'dist/'),
         sourcemap: true,
         exports: 'named',
       },
@@ -60,7 +62,9 @@ async function main() {
       input,
       output: {
         format: 'cjs',
-        file: path.join(basePath, main.replace('.js', '.ssr.js')).replace('src/', 'dist/'),
+        file: path
+          .join(basePath, main.replace('.js', '.ssr.js'))
+          .replace('src/', 'dist/'),
         sourcemap: true,
         compact: true,
         exports: 'named',
@@ -77,7 +81,10 @@ async function main() {
       input,
       output: {
         format: 'iife',
-        file: path.join(basePath, main).replace('.js', '.min.js').replace('src/', 'dist/'),
+        file: path
+          .join(basePath, main)
+          .replace('.js', '.min.js')
+          .replace('src/', 'dist/'),
         sourcemap: true,
         compact: true,
         exports: 'named',
@@ -96,4 +103,4 @@ async function main() {
   return config;
 }
 
-export default main();
+export default rollIt();

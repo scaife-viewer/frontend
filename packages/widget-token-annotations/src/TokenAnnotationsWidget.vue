@@ -121,7 +121,10 @@
 
     .parse {
       font-family: monospace;
-      color: var(--sv-widget-token-annotations-selected-parse-text-color, #343a40);
+      color: var(
+        --sv-widget-token-annotations-selected-parse-text-color,
+        #343a40
+      );
     }
   }
 </style>

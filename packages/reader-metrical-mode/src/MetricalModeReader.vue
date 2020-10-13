@@ -23,7 +23,11 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import { Reader } from '@scaife-viewer/widget-reader';
-  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    LoaderBall,
+    ErrorMessage,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
 
   export default {
     readerConfig: {
@@ -32,7 +36,7 @@
     },
     components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage, Reader },
     props: {
-      queryVariables: Object
+      queryVariables: Object,
     },
     methods: {
       queryUpdate(data) {

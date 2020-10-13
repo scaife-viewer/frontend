@@ -8,7 +8,11 @@
       </template>
 
       <span class="node version text-overflow" v-if="routable">
-        <ReaderLink :title="metadata.label" :urn="metadata.firstPassageUrn" :noQuery="true">
+        <ReaderLink
+          :title="metadata.label"
+          :urn="metadata.firstPassageUrn"
+          :noQuery="true"
+        >
           {{ metadata.label }}
         </ReaderLink>
       </span>
@@ -51,8 +55,11 @@
         return this.readerUrn && this.readerUrn.version === this.urn;
       },
       nodeUrnIndex() {
-        return this.readerUrn && this.readerUrn.absolute.indexOf(
-          this.urn.slice(0, this.urn.length - 1), // trim trailing colon
+        return (
+          this.readerUrn &&
+          this.readerUrn.absolute.indexOf(
+            this.urn.slice(0, this.urn.length - 1), // trim trailing colon
+          )
         );
       },
       readerUrn() {

@@ -6,7 +6,7 @@
         <SidebarWidget
           v-for="(widget, index) in widgets"
           :key="index"
-          @remove="$emit('removeWidget', index)"
+          @remove="$emit('remove-widget', index)"
           :editing="editing"
           :defaults="widget.scaifeConfig.defaults"
         >
@@ -24,7 +24,7 @@
       <WidgetEditor
         :options="widgetOptions"
         v-if="editing"
-        @change-widget="(widget) => $emit('changeWidget', widget)"
+        @change-widget="widget => $emit('change-widget', widget)"
       />
     </div>
   </aside>
@@ -54,7 +54,7 @@
     display: flex;
     flex-direction: column;
     max-width: 600px;
-    background: var(--sv-sidebar-wrapper-background-color, #FFF);
+    background: var(--sv-sidebar-wrapper-background-color, #fff);
   }
 
   .left .button-container {
@@ -72,10 +72,12 @@
   }
 
   .left.sidebar-wrapper {
-    border-right: 1px solid var(--sv-sidebar-wrapper-border-left-color, #dee2e6);
+    border-right: 1px solid #dee2e6;
+    border-right-color: var(--sv-sidebar-wrapper-border-left-color);
   }
   .right.sidebar-wrapper {
-    border-left: 1px solid var(--sv-sidebar-wrapper-border-right-color, #dee2e6);
+    border-left: 1px solid #dee2e6;
+    border-left-color: var(--sv-sidebar-wrapper-border-right-color);
   }
   .left.sidebar-wrapper.sidebar-left--closed,
   .right.sidebar-wrapper.sidebar-right--closed {

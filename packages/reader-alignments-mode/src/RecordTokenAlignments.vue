@@ -19,8 +19,7 @@
     computed: {
       records() {
         return this.data.alignmentRecords;
-      }
-    }
+      },
+    },
   };
 </script>
-

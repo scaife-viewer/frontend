@@ -1,13 +1,6 @@
-import {
-  faUser,
-  faMapMarkerAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 
-
-const iconMap = [
-  faUser,
-  faMapMarkerAlt,
-].reduce((map, obj) => {
+const iconMap = [faUser, faMapMarkerAlt].reduce((map, obj) => {
   return {
     ...map,
     [obj.iconName]: obj,

@@ -14,10 +14,7 @@
         <template v-slot="{ result: { data } }">
           <Paginator :urn="data && data.previous" direction="left" />
 
-          <component
-            :is="readerComponent"
-            :query-variables="queryVariables"
-          />
+          <component :is="readerComponent" :query-variables="queryVariables" />
 
           <Paginator :urn="data && data.next" direction="right" />
         </template>
@@ -31,7 +28,11 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import URN, { Paginator } from '@scaife-viewer/common';
-  import { MODULE_NS, SET_PASSAGE, UPDATE_METADATA } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SET_PASSAGE,
+    UPDATE_METADATA,
+  } from '@scaife-viewer/store';
 
   export default {
     components: {
@@ -53,7 +54,7 @@
       queryUpdate(data) {
         const {
           nextPassage: next,
-          previousPassage: previous
+          previousPassage: previous,
         } = data.passageTextParts.metadata;
         return {
           next: next ? new URN(next) : null,

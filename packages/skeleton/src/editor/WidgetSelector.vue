@@ -7,7 +7,7 @@
       :class="{ selected: selected(option) }"
       @click.prevent="$emit('select', option.component)"
     >
-      <span><Icon :name="iconName(option)" /></span>
+      <span><Icon :name="iconName(option)"/></span>
       <span>{{ option.text }}</span>
     </div>
   </div>

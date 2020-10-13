@@ -15,7 +15,7 @@
       title: {
         type: String,
         default: null,
-      }
+      },
     },
     computed: {
       name() {
@@ -24,10 +24,8 @@
       query() {
         return this.noQuery ? null : this.$route.query;
       },
-    }
-  }
+    },
+  };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -1,7 +1,11 @@
 <template>
   <div>
     <select v-model="selected">
-      <option v-for="alignment in alignments" :key="alignment.id" :value="alignment.slug">
+      <option
+        v-for="alignment in alignments"
+        :key="alignment.id"
+        :value="alignment.slug"
+      >
         {{ alignment.name }}
       </option>
     </select>
@@ -21,9 +25,7 @@
         selected: this.value,
       };
     },
-  }
+  };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

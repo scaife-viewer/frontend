@@ -58,7 +58,7 @@
         if (!this.preferredUrn) {
           return true;
         }
-        return this.passage.absolute != this.preferredUrn.absolute;
+        return this.passage.absolute !== this.preferredUrn.absolute;
       },
       setInputRef() {
         if (this.passage) {
@@ -94,7 +94,7 @@
 
             this.humanRef = humanReference;
             if (healedPassage) {
-              this.healedUrn = new URN(healedPassage)
+              this.healedUrn = new URN(healedPassage);
               this.reference = this.healedUrn.reference;
             } else {
               this.healedUrn = null;
@@ -132,18 +132,18 @@
       font-size: 12pt;
       padding: 0.375rem 0.5rem;
       border-radius: 4px;
-      border: 1px solid var(--sv-passage-reference-border-color, #CCC);
+      border: 1px solid var(--sv-passage-reference-border-color, #ccc);
     }
 
     .healed {
-       color: var(--sv-passage-reference-healed-text-color, #B45141);
-       border: 1px solid var(--sv-passage-reference-healed-border-color, #D9A8A0);
-       padding: 0.5rem 0.75rem;
-       font-size: 80%;
+      color: var(--sv-passage-reference-healed-text-color, #b45141);
+      border: 1px solid #d9a8a0;
+      border-color: var(--sv-passage-reference-healed-border-color);
+      padding: 0.5rem 0.75rem;
+      font-size: 80%;
     }
     .human {
       margin: 0.5rem 0;
     }
-
   }
 </style>

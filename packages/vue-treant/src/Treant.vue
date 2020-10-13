@@ -8,6 +8,7 @@
   import 'treantjs';
   import 'treantjs/Treant.css';
   import Raphael from 'treantjs/vendor/raphael';
+
   window.Raphael = Raphael;
 
   export default {
@@ -23,10 +24,10 @@
         const { text } = e.target.data.treenode;
         this.$emit('enter', text);
       },
-      onNodeLeave(e) {
+      onNodeLeave() {
         this.$emit('leave');
       },
-      onTreeLoaded(args) {
+      onTreeLoaded() {
         const nodes = this.$el.querySelectorAll('.node');
         nodes.forEach(node => {
           node.addEventListener('mouseenter', this.onNodeEnter);
@@ -46,7 +47,7 @@
       drawTree() {
         const config = {
           chart: {
-            container: `#tree-${this.treeBankId}` ,
+            container: `#tree-${this.treeBankId}`,
             rootOrientation: 'NORTH',
             scrollbar: 'native',
             levelSeparation: 60,
@@ -54,9 +55,9 @@
               type: 'curve',
               style: {
                 'stroke-width': 2,
-                'stroke': 'navy',
-                'opacity': 0.3,
-              }
+                stroke: 'navy',
+                opacity: 0.3,
+              },
             },
             node: {
               collapsable: true,
@@ -74,30 +75,26 @@
     watch: {
       highlighted() {
         if (this.highlighted.word === null) {
-          this.$el.querySelectorAll('.node.highlight')
-            .forEach(node => {
-              node.classList.remove('highlight');
-            });
-          this.$el.querySelectorAll('.node.highlight-parent')
-            .forEach(node => {
-              node.classList.remove('highlight-parent');
-            });
-          this.$el.querySelectorAll('.node.highlight-child')
-            .forEach(node => {
-              node.classList.remove('highlight-child');
-            });
+          this.$el.querySelectorAll('.node.highlight').forEach(node => {
+            node.classList.remove('highlight');
+          });
+          this.$el.querySelectorAll('.node.highlight-parent').forEach(node => {
+            node.classList.remove('highlight-parent');
+          });
+          this.$el.querySelectorAll('.node.highlight-child').forEach(node => {
+            node.classList.remove('highlight-child');
+          });
         } else {
-          this.$el.querySelectorAll('.node')
-            .forEach(node => {
-              const { text } = node.data.treenode;
-              if (text.id === this.highlighted.word) {
-                node.classList.add('highlight');
-              } else if (text.id === this.highlighted.parent) {
-                node.classList.add('highlight-parent');
-              } else if (this.highlighted.children.indexOf(text.id) > -1) {
-                node.classList.add('highlight-child');
-              }
-            });
+          this.$el.querySelectorAll('.node').forEach(node => {
+            const { text } = node.data.treenode;
+            if (text.id === this.highlighted.word) {
+              node.classList.add('highlight');
+            } else if (text.id === this.highlighted.parent) {
+              node.classList.add('highlight-parent');
+            } else if (this.highlighted.children.indexOf(text.id) > -1) {
+              node.classList.add('highlight-child');
+            }
+          });
         }
       },
       redrawKey() {
@@ -105,7 +102,7 @@
       },
       tree() {
         this.onResize();
-      }
+      },
     },
     created() {
       this.setWidth();
@@ -121,11 +118,6 @@
     },
     mounted() {
       this.drawTree();
-    }
-  }
+    },
+  };
 </script>
-
-<style lang="scss" scoped>
-  .treant {
-  }
-</style>

@@ -1,15 +1,36 @@
 <template>
   <div class="text-alignment">
     <div class="line" v-for="line in content" :key="line.ref">
-      <div class="text-alignment-ref" @mouseenter="onLineEnter(line)" @mouseleave="onLineExit">{{ line.ref }}</div>
-      <div class="tokens" :class="[`text-${textSize}`, `text-width-${textWidth}`]">
+      <div
+        class="text-alignment-ref"
+        @mouseenter="onLineEnter(line)"
+        @mouseleave="onLineExit"
+      >
+        {{ line.ref }}
+      </div>
+      <div
+        class="tokens"
+        :class="[`text-${textSize}`, `text-width-${textWidth}`]"
+      >
         <template v-for="token in line.tokens">
-          <span :key="token.id" class="token" :class="[{ selected: selected(token), empty: emptyAlignments(token) }, `a${hoveringAt}`]" @mouseenter="onTokenEnter(token)" @mouseleave="onTokenExit">
+          <span
+            :key="token.id"
+            class="token"
+            :class="[
+              { selected: selected(token), empty: emptyAlignments(token) },
+              `a${hoveringAt}`,
+            ]"
+            @mouseenter="onTokenEnter(token)"
+            @mouseleave="onTokenExit"
+          >
             <span class="word-value">
               {{ token.wordValue }}
             </span>
-            <AlignmentRecordPicker :records="recordsForToken(token)" @hovered="onPickerHover" />
-          </span>{{ ' ' }}
+            <AlignmentRecordPicker
+              :records="recordsForToken(token)"
+              @hovered="onPickerHover"
+            /> </span
+          >{{ ' ' }}
         </template>
       </div>
     </div>
@@ -20,19 +41,28 @@
   import AlignmentRecordPicker from './AlignmentRecordPicker.vue';
 
   export default {
-    props: ['reference', 'content', 'hoveringAt', 'hoveringOn', 'textSize', 'textWidth', 'tokenMap', 'recordMap'],
+    props: [
+      'reference',
+      'content',
+      'hoveringAt',
+      'hoveringOn',
+      'textSize',
+      'textWidth',
+      'tokenMap',
+      'recordMap',
+    ],
     components: { AlignmentRecordPicker },
     methods: {
       emptyAlignments(token) {
-        const { start_idx, end_idx } = this.reference;
-        return token.idx < start_idx || token.idx > end_idx;
+        const { start_idx: startIdx, end_idx: endIdx } = this.reference;
+        return token.idx < startIdx || token.idx > endIdx;
       },
       recordsForToken(token) {
         const records = this.tokenMap[token.id] || [];
         return records.length > 1 ? records : [];
       },
       selected(token) {
-        return this.hoveringOn.indexOf(token.id) > -1
+        return this.hoveringOn.indexOf(token.id) > -1;
       },
       onPickerHover(recordId, number) {
         if (recordId && this.recordMap[recordId]) {
@@ -41,16 +71,10 @@
       },
       onLineEnter(line) {
         const records = line.tokens.reduce((arr, token) => {
-          return [
-            ...arr,
-            ...(this.tokenMap[token.id] || []),
-          ];
+          return [...arr, ...(this.tokenMap[token.id] || [])];
         }, []);
         const hovering = records.reduce((arr, record) => {
-          return [
-            ...arr,
-            ...(this.recordMap[record] || []),
-          ];
+          return [...arr, ...(this.recordMap[record] || [])];
         }, []);
         this.$emit('hovered', hovering, 0);
       },
@@ -94,20 +118,29 @@
     opacity: 1;
   }
   .token.empty {
-    color: var(--sv-alignments-token-no-alignments-text-color, #CCC);
+    color: var(--sv-alignments-token-no-alignments-text-color, #ccc);
   }
   .token {
     display: inline-block;
   }
   .token.selected {
     &.a0 {
-      color: var(--sv-reader-token-alignments-mode-alignment-record-a0-color, #F00);
+      color: var(
+        --sv-reader-token-alignments-mode-alignment-record-a0-color,
+        #f00
+      );
     }
     &.a1 {
-      color: var(--sv-reader-token-alignments-mode-alignment-record-a1-color, #0C0);
+      color: var(
+        --sv-reader-token-alignments-mode-alignment-record-a1-color,
+        #0c0
+      );
     }
     &.a2 {
-      color: var(--sv-reader-token-alignments-mode-alignment-record-a2-color, #00F);
+      color: var(
+        --sv-reader-token-alignments-mode-alignment-record-a2-color,
+        #00f
+      );
     }
   }
 

@@ -2,7 +2,7 @@
   <div class="syntax-trees-toolbar">
     <a href :class="{ active }" @click.prevent="onShow">
       <icon :name="iconName" />
-      {{ expanded ? 'Collapse All' :  'Expand All'  }}
+      {{ expanded ? 'Collapse All' : 'Expand All' }}
     </a>
   </div>
 </template>
@@ -17,8 +17,8 @@
         this.$emit(
           'show',
           [null, MODE_COMPRESS].indexOf(this.expandAll) > -1
-          ? MODE_EXPAND
-          : MODE_COMPRESS
+            ? MODE_EXPAND
+            : MODE_COMPRESS,
         );
       },
     },
@@ -45,10 +45,13 @@
       outline: none;
     }
     a:hover {
-      border-color: var(--sv-syntax-trees-mode-toolbar-link-hover-border-color, #b45141);
-      }
-      a.active {
-        border-color: transparent;
-      }
+      border-color: var(
+        --sv-syntax-trees-mode-toolbar-link-hover-border-color,
+        #b45141
+      );
+    }
+    a.active {
+      border-color: transparent;
+    }
   }
 </style>

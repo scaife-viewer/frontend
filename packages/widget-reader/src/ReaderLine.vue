@@ -122,24 +122,34 @@
       padding: 1px 3px;
     }
     span.syll:first-child {
-      border-left: 2px solid var(--sv-widget-reader-metrical-syll-first-border-color, black);
+      border-left: 2px solid
+        var(--sv-widget-reader-metrical-syll-first-border-color, black);
     }
     span.syll.caesura:first-child {
-      border-left: 3px solid var(--sv-widget-reader-metrical-syll-caesura-first-border-color, blue);
+      border-left: 3px solid
+        var(--sv-widget-reader-metrical-syll-caesura-first-border-color, blue);
     }
     span.syll:not(:first-child) {
-      border-left: 1px dotted var(--sv-widget-reader-metrical-syll-first-border-color, black);
+      border-left: 1px dotted
+        var(--sv-widget-reader-metrical-syll-first-border-color, black);
     }
     span.syll.caesura:not(:first-child) {
-      border-left: 3px dotted var(--sv-widget-reader-metrical-syll-caesura-first-border-color, blue);
+      border-left: 3px dotted
+        var(--sv-widget-reader-metrical-syll-caesura-first-border-color, blue);
     }
 
     /* show syllable length */
     span.syll.long {
-      background-color: var(--sv-widget-reader-metrical-syll-long-border-color, #ccc);
+      background-color: var(
+        --sv-widget-reader-metrical-syll-long-border-color,
+        #ccc
+      );
     }
     span.syll:not(.long) {
-      background-color: var(--sv-widget-reader-metrical-syll-not-long-border-color, #eee);
+      background-color: var(
+        --sv-widget-reader-metrical-syll-not-long-border-color,
+        #eee
+      );
     }
   }
 </style>

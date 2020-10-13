@@ -1,7 +1,7 @@
 <template>
   <a
     href
-    @click.prevent="$emit('editToggle')"
+    @click.prevent="$emit('edit-toggle')"
     class="edit-layout-button"
     :class="{ editing }"
   >
@@ -23,13 +23,19 @@
       color: var(--sv-edit-layout-button-hover-text-color, #495057);
     }
     &.editing {
-      background:  var(--sv-edit-layout-button-editing-background-color, #dee2e6);
+      background: var(
+        --sv-edit-layout-button-editing-background-color,
+        #dee2e6
+      );
       color: var(--sv-edit-layout-button-editing-text-color, #495057);
       text-decoration: none;
       margin-top: -5px; // to make DONE line up with heading
       padding: 5px 10px;
       &:hover {
-        background: var(--sv-edit-layout-button-editing-hover-background-color, #ced4da);
+        background: var(
+          --sv-edit-layout-button-editing-hover-background-color,
+          #ced4da
+        );
       }
     }
   }

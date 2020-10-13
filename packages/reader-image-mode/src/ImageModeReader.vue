@@ -14,15 +14,29 @@
       <template v-else>
         <ImageViewerToolbar :show="showImage" @show="onShowImage" />
         <div class="image-mode-container" v-if="showImage === 'both'">
-          <div class="image-folio" v-for="image in data.images" :key="image.imageIdentifier">
+          <div
+            class="image-folio"
+            v-for="image in data.images"
+            :key="image.imageIdentifier"
+          >
             <Reader :lines="image.lines" />
-            <ImageViewer :imageIdentifier="image.url" :reference="image.refs[0]" />
+            <ImageViewer
+              :imageIdentifier="image.url"
+              :reference="image.refs[0]"
+            />
           </div>
-          <EmptyMessage class="reader-empty-annotations" v-if="data.images === undefined || data.images.length === 0" />
+          <EmptyMessage
+            class="reader-empty-annotations"
+            v-if="data.images === undefined || data.images.length === 0"
+          />
         </div>
         <Reader v-else-if="showImage === 'text'" :lines="data.lines" />
         <template v-else-if="showImage === 'image'">
-          <ImageViewer v-for="image in data.images" :key="image.url" :imageIdentifier="image.url" />
+          <ImageViewer
+            v-for="image in data.images"
+            :key="image.url"
+            :imageIdentifier="image.url"
+          />
         </template>
         <EmptyMessage class="reader-empty-annotations" v-else />
       </template>
@@ -35,7 +49,11 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import { Reader } from '@scaife-viewer/widget-reader';
-  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    LoaderBall,
+    ErrorMessage,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
 
   import ImageViewer from './ImageViewer.vue';
   import ImageViewerToolbar from './ImageViewerToolbar.vue';
@@ -131,17 +149,22 @@
           });
           return { id, kind, ref, tokens };
         });
-        const linesMap = lines.reduce((map, line) => ({
-          ...map,
-          [line.ref]: line,
-        }), {});
+        const linesMap = lines.reduce(
+          (map, line) => ({
+            ...map,
+            [line.ref]: line,
+          }),
+          {},
+        );
         const images = data.imageAnnotations.edges.map(image => {
           const refs = image.node.textParts.edges.map(e => e.node.ref);
-          const lines = refs.map(r => linesMap[r]).filter(line => line !== undefined);
+          const refLines = refs
+            .map(r => linesMap[r])
+            .filter(line => line !== undefined);
           return {
             url: image.node.imageIdentifier,
             refs,
-            lines,
+            lines: refLines,
           };
         });
         return {

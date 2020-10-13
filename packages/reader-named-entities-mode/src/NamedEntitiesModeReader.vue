@@ -36,7 +36,7 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import { Reader } from '@scaife-viewer/widget-reader';
-  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import { LoaderBall, ErrorMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import SelectableEntityMap from './SelectableEntityMap.vue';
@@ -49,7 +49,7 @@
       layout: 'wide',
     },
     props: {
-      queryVariables: Object
+      queryVariables: Object,
     },
     components: {
       SelectableEntityMap,
@@ -57,7 +57,6 @@
       Reader,
       LoaderBall,
       ErrorMessage,
-      EmptyMessage,
       ApolloQuery,
     },
     methods: {

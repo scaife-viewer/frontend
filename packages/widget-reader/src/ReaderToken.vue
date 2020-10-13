@@ -105,16 +105,25 @@
     cursor: pointer;
   }
   .token.selected .text {
-    box-shadow: 0 -10px 0px var(--sv-widget-reader-token-selected-shadow-color, #6FF) inset;
+    box-shadow: 0 -10px 0px var(
+        --sv-widget-reader-token-selected-shadow-color,
+        #6ff
+      ) inset;
   }
   .token.entity-mode:not(.entity) .text {
     cursor: inherit;
   }
   .token.entity .text {
-    box-shadow: 0 -10px 0px var(--sv-widget-reader-token-entity-shadow-color, #FF6) inset;
+    box-shadow: 0 -10px 0px var(
+        --sv-widget-reader-token-entity-shadow-color,
+        #ff6
+      ) inset;
   }
   .token.selected-entity .text {
-    box-shadow: 0 -10px 0px var(--sv-widget-reader-token-selected-entity-shadow-color, #9F9) inset;
+    box-shadow: 0 -10px 0px var(
+        --sv-widget-reader-token-selected-entity-shadow-color,
+        #9f9
+      ) inset;
   }
   .token.interlinear {
     display: inline-block;
@@ -124,7 +133,10 @@
       display: block;
     }
     .ref {
-      font-family: var(--sv-widget-reader-interlinear-ref-font-family, $interlinear-font-family);
+      font-family: var(
+        --sv-widget-reader-interlinear-ref-font-family,
+        $interlinear-font-family
+      );
       font-size: 0.55em;
       color: var(--sv-widget-reader-interlinear-ref-text-color, #999);
     }
@@ -142,7 +154,10 @@
       color: var(--sv-widget-reader-interlinear-pos-text-color, #999);
     }
     .analysis {
-      font-family: var(--sv-widget-reader-interlinear-analysis-font-family, $interlinear-font-family);
+      font-family: var(
+        --sv-widget-reader-interlinear-analysis-font-family,
+        $interlinear-font-family
+      );
       font-size: 0.66em;
       color: var(--sv-widget-reader-interlinear-analysis-text-color, #999);
     }
