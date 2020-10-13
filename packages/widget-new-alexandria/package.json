@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-new-alexandria",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,7 +8,7 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/store": "^0.0.9",
+    "@scaife-viewer/store": "^0.0.10",
     "graphql-tag": "^2.10.3",
     "query-string": "^6.11.0"
   }
