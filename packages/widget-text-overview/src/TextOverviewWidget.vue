@@ -1,14 +1,7 @@
 <template v-if="textParts">
   <div class="passage-overview-widget">
-    <div
-      class="grid-cell-square"
-      v-for="part in textParts"
-      :key="part.urn"
-    >
-      <ReaderLink
-        :class="{ 'active-textpart': part.selected }"
-        :urn="part.urn"
-      >
+    <div class="grid-cell-square" v-for="part in textParts" :key="part.urn">
+      <ReaderLink :class="{ 'active-textpart': part.selected }" :urn="part.urn">
         {{ part.lcp }}
       </ReaderLink>
     </div>
@@ -28,7 +21,9 @@
     },
     computed: {
       passage() {
-        return this.$store.getters[`${MODULE_NS}/passage`];
+        // FIXME: Add a conditional for SV 1 vs SV 2 behavior
+        // return this.$store.getters[`${MODULE_NS}/passage`];  // SV 2
+        return this.$store.getters['reader/passage'].urn; // SV 1
       },
       textParts() {
         if (this.overviewData === undefined) {
@@ -59,7 +54,9 @@
           }
         `,
         variables() {
-          return { urn: this.passage.absolute };
+          // FIXME: Add a conditional for SV 1 vs SV 2 behavior
+          // value vs absolute
+          return { urn: this.passage.value };
         },
         update(data) {
           const { all, selected } = data.passageTextParts.metadata.overview;
