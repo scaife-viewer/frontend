@@ -30,6 +30,7 @@ import { iconMap as commonIconMap } from '@scaife-viewer/common';
 import { iconMap as audioIconMap } from '@scaife-viewer/widget-audio';
 import { iconMap as neIconMap } from '@scaife-viewer/widget-named-entities';
 
+// TODO: resolve this package based import
 import AlignmentsModeReader from '../packages/reader-alignments-mode/src';
 
 import App from './App.vue';

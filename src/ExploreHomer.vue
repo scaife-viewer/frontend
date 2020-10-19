@@ -16,6 +16,8 @@
 
   import ReaderWidget from '@scaife-viewer/widget-reader';
   import MetadataWidget from '@scaife-viewer/widget-metadata';
+  // import TextOverviewWidget from '../packages/widget-text-overview/src';
+  import TextOverviewWidget from '@scaife-viewer/widget-text-overview';
   import PassageReferenceWidget from '@scaife-viewer/widget-passage-reference';
   import PassageAncestorsWidget from '@scaife-viewer/widget-passage-ancestors';
   import PassageSiblingsWidget from '@scaife-viewer/widget-passage-siblings';
@@ -52,9 +54,10 @@
         return [
           LibraryWidget,
           PassageReferenceWidget,
-          PassageAncestorsWidget,
-          PassageSiblingsWidget,
-          PassageChildrenWidget,
+          TextOverviewWidget,
+          // PassageAncestorsWidget,
+          // PassageSiblingsWidget,
+          // PassageChildrenWidget,
         ];
       },
       right() {
