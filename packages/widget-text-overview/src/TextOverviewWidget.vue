@@ -78,7 +78,7 @@
     width: 100%;
     display: grid;
     grid-auto-rows: 1fr;
-    grid-template-columns: repeat(auto-fill, minmax(1.6em, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(2.6em, 1fr));
   }
   .passage-overview-widget * {
     display: block;
