@@ -21,9 +21,7 @@
     },
     computed: {
       passage() {
-        // FIXME: Add a conditional for SV 1 vs SV 2 behavior
-        // return this.$store.getters[`${MODULE_NS}/passage`];  // SV 2
-        return this.$store.getters['reader/passage'].urn; // SV 1
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
       textParts() {
         if (this.overviewData === undefined) {
@@ -54,9 +52,7 @@
           }
         `,
         variables() {
-          // FIXME: Add a conditional for SV 1 vs SV 2 behavior
-          // value vs absolute
-          return { urn: this.passage.value };
+          return { urn: this.passage.absolute };
         },
         update(data) {
           const { all, selected } = data.passageTextParts.metadata.overview;
