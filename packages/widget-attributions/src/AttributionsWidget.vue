@@ -21,14 +21,10 @@
     },
     computed: {
       passage() {
-        // FIXME: Add a conditional for SV 1 vs SV 2 behavior
-        // return this.$store.getters[`${MODULE_NS}/passage`]; // SV 2
-        return this.$store.getters['reader/passage']; // SV 1
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
       versionUrn() {
-        // FIXME: Add a conditional for SV 1 vs SV 2 behavior
-        // return this.passage.version;  // SV 2
-        return this.passage ? `${this.passage.metadata.text.urn}:` : ''; // SV 1
+        return this.passage.version;
       },
     },
   };
