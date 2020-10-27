@@ -1,5 +1,5 @@
 <template v-if="textParts">
-  <div class="passage-overview-widget">
+  <div class="passage-citation-toc-widget">
     <div class="grid-cell-square" v-for="part in textParts" :key="part.urn">
       <ReaderLink :class="{ 'active-textpart': part.selected }" :urn="part.urn">
         {{ part.lcp }}
@@ -14,10 +14,10 @@
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
-    name: 'TextOverviewWidget',
+    name: 'PassageCitationTOCWidget',
     components: { ReaderLink },
     scaifeConfig: {
-      displayName: 'Text Overview',
+      displayName: 'Table of Contents',
     },
     computed: {
       passage() {
@@ -70,31 +70,31 @@
   a {
     text-decoration: none;
   }
-  .passage-overview-widget {
+  .passage-citation-toc-widget {
     width: 100%;
     display: grid;
     grid-auto-rows: 1fr;
     grid-template-columns: repeat(auto-fill, minmax(2.6em, 1fr));
   }
-  .passage-overview-widget * {
+  .passage-citation-toc-widget * {
     display: block;
     text-align: center;
     font-size: 0.7rem;
     padding: 0.15rem 0;
   }
-  .passage-overview-widget a {
+  .passage-citation-toc-widget a {
     border: none;
   }
   a:not(.active-textpart):hover {
     background: var(
-      --sv-widget-passage-overview-textpart-hover-background,
+      --sv-widget-passage-citation-toc-textpart-hover-background,
       #e9ecef
     );
   }
   .active-textpart {
-    color: var(--sv-widget-passage-overview-active-text-color, #000000);
+    color: var(--sv-widget-passage-citation-toc-active-text-color, #000000);
     background: var(
-      --sv-widget-passage-overview-active-background-color,
+      --sv-widget-passage-citation-toc-active-background-color,
       #dee2e6
     );
   }

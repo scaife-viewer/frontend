@@ -1,5 +1,5 @@
 {
-  "name": "@scaife-viewer/widget-text-overview",
+  "name": "@scaife-viewer/widget-passage-citation-toc",
   "version": "0.0.1",
   "main": "src/index.js",
   "publishConfig": {
