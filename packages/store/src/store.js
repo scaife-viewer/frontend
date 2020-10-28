@@ -72,6 +72,9 @@ const createStore = client => {
         firstPassageUrn: state =>
           state.metadata ? new URN(state.metadata.firstPassageUrn) : null,
         libraryTree: state => state.libraryTree,
+        firstCitationSchemeLabel: (_, getters) => {
+          return getters.metadata ? getters.metadata.citationScheme[0] : '';
+        },
 
         interlinearMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_INTERLINEAR;

@@ -13,11 +13,21 @@
   import { ReaderLink } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
+  const displayNameCallback = $root => {
+    const label = $root.$store.getters[`${MODULE_NS}/firstCitationSchemeLabel`];
+    const key = label.toLowerCase();
+    // citationSchemeMap allows site developers to customize the human-friendly
+    // plural label
+    // TODO: Retrieve this from ATLAS when the app is instantiated
+    const citationSchemeMap = $root.$scaife.config.citationSchemeMap || {};
+    return key ? citationSchemeMap[key] || `${label} List` : '';
+  };
+
   export default {
     name: 'PassageCitationTOCWidget',
     components: { ReaderLink },
     scaifeConfig: {
-      displayName: 'Table of Contents',
+      displayName: displayNameCallback,
     },
     computed: {
       passage() {

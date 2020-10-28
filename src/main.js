@@ -63,6 +63,9 @@ Vue.use(SkeletonPlugin, {
       [DISPLAY_MODE_SYNTAX_TREES]: SyntaxTreesModeReader,
       [DISPLAY_MODE_DEFAULT]: DefaultModeReader,
     },
+    citationSchemeMap: {
+      book: 'Books',
+    },
     pageTitle: title => `SV Demo | ${title}`,
   },
 });
