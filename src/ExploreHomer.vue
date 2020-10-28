@@ -16,11 +16,12 @@
 
   import ReaderWidget from '@scaife-viewer/widget-reader';
   import MetadataWidget from '@scaife-viewer/widget-metadata';
+  // eslint-disable-next-line max-len
   import PassageCitationTOCWidget from '@scaife-viewer/widget-passage-citation-toc';
   import PassageReferenceWidget from '@scaife-viewer/widget-passage-reference';
-  // import PassageAncestorsWidget from '@scaife-viewer/widget-passage-ancestors';
-  // import PassageSiblingsWidget from '@scaife-viewer/widget-passage-siblings';
-  // import PassageChildrenWidget from '@scaife-viewer/widget-passage-children';
+  import PassageAncestorsWidget from '@scaife-viewer/widget-passage-ancestors';
+  import PassageSiblingsWidget from '@scaife-viewer/widget-passage-siblings';
+  import PassageChildrenWidget from '@scaife-viewer/widget-passage-children';
   import LibraryWidget from '@scaife-viewer/widget-library';
   import TokenAnnotationWidget from '@scaife-viewer/widget-token-annotations';
   import NamedEntitiesWidget from '@scaife-viewer/widget-named-entities';
@@ -54,9 +55,9 @@
           LibraryWidget,
           PassageReferenceWidget,
           PassageCitationTOCWidget,
-          // PassageAncestorsWidget,
-          // PassageSiblingsWidget,
-          // PassageChildrenWidget,
+          PassageAncestorsWidget,
+          PassageSiblingsWidget,
+          PassageChildrenWidget,
         ];
       },
       right() {
