@@ -74,6 +74,7 @@
       },
     },
   };
+  export { displayNameCallback };
 </script>
 
 <style lang="scss" scoped>
