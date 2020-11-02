@@ -8,11 +8,7 @@
       </template>
 
       <span class="node version text-overflow" v-if="routable">
-        <ReaderLink
-          :title="metadata.label"
-          :urn="metadata.firstPassageUrn"
-          :noQuery="true"
-        >
+        <ReaderLink :title="metadata.label" :urn="fallbackUrn" :noQuery="true">
           {{ metadata.label }}
         </ReaderLink>
       </span>
@@ -61,6 +57,10 @@
             this.urn.slice(0, this.urn.length - 1), // trim trailing colon
           )
         );
+      },
+      fallbackUrn() {
+        // FIXME: Remove once we have firstPassageUrn set
+        return this.metadata.firstPassageUrn || this.urn;
       },
       readerUrn() {
         return this.$store.getters[`${MODULE_NS}/urn`];
