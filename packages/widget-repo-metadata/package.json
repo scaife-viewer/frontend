@@ -1,0 +1,14 @@
+{
+  "name": "@scaife-viewer/widget-repo-metadata",
+  "version": "0.0.10",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eldarion",
+  "license": "MIT",
+  "dependencies": {
+    "@scaife-viewer/store": "^0.0.10",
+    "graphql-tag": "^2.11.0"
+  }
+}
