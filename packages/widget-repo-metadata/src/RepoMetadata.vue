@@ -25,6 +25,8 @@
 <script>
   import gql from 'graphql-tag';
 
+  import { MODULE_NS } from '@scaife-viewer/store';
+
   export default {
     name: 'RepoMetadata',
     props: ['versionUrn'],
@@ -36,7 +38,7 @@
         return this.repo.metadata.githubUrl;
       },
       urn() {
-        return this.$store.getters['scaife/urn'];
+        return this.$store.getters[`${MODULE_NS}/urn`];
       },
       sha() {
         return this.repo.sha.slice(0, 7);
