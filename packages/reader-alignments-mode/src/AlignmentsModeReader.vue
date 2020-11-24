@@ -230,7 +230,7 @@
           (map, tokenRecord) => ({
             ...map,
             [tokenRecord.token]: [
-              ...[map[tokenRecord.token] || []],
+              ...(map[tokenRecord.token] || []),
               tokenRecord.record,
             ],
           }),
