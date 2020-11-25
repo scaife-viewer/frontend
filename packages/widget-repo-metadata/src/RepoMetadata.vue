@@ -1,7 +1,6 @@
 <template>
   <div class="repo-metadata-container" v-if="repos">
-    <div class="repo-metadata-row" v-if="gitHubUrl">
-      <div class="label">GitHub:</div>
+    <div class="repo-name" v-if="gitHubUrl">
       <a v-if="gitHubUrl" class="value" :href="gitHubUrl" target="_blank">
         {{ repo.name }}
       </a>
@@ -100,19 +99,17 @@
     .github-logo {
       font-size: 12px;
     }
-    .repo-metadata-row {
+    .repo-metadata-row,
+    .repo-name {
       > .label {
         color: var(--sv-widget-repo-metadata-label-text-color, #868e96);
       }
       > .value {
+        margin-top: 0.25em;
         font-family: var(
           --sv-widget-repo-metadata-value-font-family,
           'Noto Serif'
         );
-      }
-      > .version-urn,
-      .value {
-        margin-top: 0.25em;
       }
       flex-flow: row nowrap;
       margin: 0.5em 0;

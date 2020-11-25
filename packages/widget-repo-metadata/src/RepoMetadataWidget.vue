@@ -18,7 +18,7 @@
       RepoMetadata,
     },
     scaifeConfig: {
-      displayName: 'Repo Metadata',
+      displayName: 'Repository',
     },
     computed: {
       passage() {
