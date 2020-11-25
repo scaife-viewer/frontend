@@ -25,11 +25,9 @@
 <script>
   import gql from 'graphql-tag';
 
-  import { MODULE_NS } from '@scaife-viewer/store';
-
   export default {
     name: 'RepoMetadata',
-    props: ['versionUrn'],
+    props: ['passage'],
     computed: {
       repo() {
         return this.repos.slice(0, 1)[0];
@@ -37,22 +35,19 @@
       gitHubUrl() {
         return this.repo.metadata.githubUrl;
       },
-      urn() {
-        return this.$store.getters[`${MODULE_NS}/urn`];
-      },
       sha() {
         return this.repo.sha.slice(0, 7);
       },
       ctsFilePath() {
-        const [textGroup, workPart] = this.urn.work.split('.');
-        return `data/${textGroup}/${workPart}/${this.urn.work}.xml`;
+        const [textGroup, workPart] = this.passage.work.split('.');
+        return `data/${textGroup}/${workPart}/${this.passage.work}.xml`;
       },
       repoTreeUrl() {
         return `${this.gitHubUrl}/tree/${this.sha}/${this.ctsFilePath}`;
       },
       newIssueUrl() {
-        const title = `Report an issue: ${this.urn}`;
-        const body = `[${this.urn.work}.xml](${this.repoTreeUrl})`;
+        const title = `Report an issue: ${this.passage}`;
+        const body = `[${this.passage.work}.xml](${this.repoTreeUrl})`;
         return `${this.gitHubUrl}/issues/new?title=${title}&body=${body}`;
       },
     },
@@ -79,7 +74,7 @@
           }
         `,
         variables() {
-          return { urn: this.versionUrn };
+          return { urn: this.passage.version };
         },
         update(data) {
           return data.versions.edges
@@ -89,7 +84,7 @@
             .flat();
         },
         skip() {
-          return !this.versionUrn;
+          return !this.passage;
         },
       },
     },
@@ -101,6 +96,9 @@
     flex-direction: column;
     > * {
       font-size: 14px;
+    }
+    .github-logo {
+      font-size: 12px;
     }
     .repo-metadata-row {
       > .label {

@@ -1,6 +1,6 @@
 <template>
   <div class="repo-metadata-widget">
-    <RepoMetadata :version-urn="versionUrn" />
+    <RepoMetadata :passage="passage" />
   </div>
 </template>
 
@@ -8,6 +8,10 @@
   import { MODULE_NS } from '@scaife-viewer/store';
   import RepoMetadata from './RepoMetadata.vue';
 
+  /**
+   * Widget used to display information / link to
+   * the source repository for a given text.
+   */
   export default {
     name: 'RepoMetadataWidget',
     components: {
@@ -19,9 +23,6 @@
     computed: {
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
-      },
-      versionUrn() {
-        return this.passage.version;
       },
     },
   };
