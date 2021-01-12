@@ -7,7 +7,7 @@
     </div>
     <div class="repo-metadata-row">
       <div class="label">Release SHA:</div>
-      <div class="value">
+      <div class="value sha">
         <a :href="repoTreeUrl" target="_blank">
           {{ sha }}
         </a>
@@ -113,6 +113,9 @@
       }
       flex-flow: row nowrap;
       margin: 0.5em 0;
+    }
+    .sha > a {
+      font-family: var(--sv-widget-repo-metadata-sha-font-family, 'monospace');
     }
     .report-issue-link {
       font-size: var(--sv-report-issue-link-font-size, 10px);
