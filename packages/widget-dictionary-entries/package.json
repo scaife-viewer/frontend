@@ -1,0 +1,14 @@
+{
+  "name": "@scaife-viewer/widget-dictionary-entries",
+  "version": "0.2.0",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eldarion",
+  "license": "MIT",
+  "dependencies": {
+    "@scaife-viewer/store": "^0.2.0",
+    "graphql-tag": "^2.10.3"
+  }
+}
