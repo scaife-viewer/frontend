@@ -1,5 +1,5 @@
 <template>
-  <div class="dictionary-entry" :class="{ selected }">
+  <div :title="entry.urn" class="dictionary-entry" :class="{ selected }">
     <div class="headword" @click.prevent="$emit('select', entry)">
       <span>
         {{ entry.headword }}
@@ -13,11 +13,19 @@
         v-if="entry.data.content"
         v-html="entry.data.content"
       />
+      <LoaderBall v-if="$apollo.queries.senses.loading" />
+      <Sense v-else v-for="sense in senses" :key="sense.id" :sense="sense" />
     </div>
   </div>
 </template>
 
 <script>
+  import gql from 'graphql-tag';
+
+  import { MODULE_NS } from '@scaife-viewer/store';
+
+  import Sense from './Sense.vue';
+
   export default {
     props: {
       entry: {
@@ -29,11 +37,69 @@
         required: true,
       },
     },
+    data() {
+      return {
+        senses: [],
+      };
+    },
+    components: {
+      Sense,
+    },
     computed: {
+      urn() {
+        return this.$store.getters[`${MODULE_NS}/urn`];
+      },
       selected() {
         return (
           this.selectedEntries.filter(id => this.entry.id === id).length > 0
         );
+      },
+    },
+    apollo: {
+      senses: {
+        // TODO: Denorm citations further (smaller payload)
+        query: gql`
+          query Senses($entryId: ID!, $urn: String!) {
+            senses(entry: $entryId, reference: $urn) {
+              edges {
+                node {
+                  id
+                  label
+                  depth
+                  definition
+                  citations {
+                    edges {
+                      node {
+                        id
+                        label
+                        data
+                        textParts {
+                          edges {
+                            node {
+                              id
+                              urn
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        `,
+        variables() {
+          // TODO: Allow the user to toggle the reference filter;
+          // If the reference filter is applied, we probalby also need to show other senses
+          return { entryId: this.entry.id, urn: this.urn.absolute };
+        },
+        update(data) {
+          return data.senses.edges.map(e => e.node);
+        },
+        skip() {
+          return !this.selected || this.entry === null;
+        },
       },
     },
   };
