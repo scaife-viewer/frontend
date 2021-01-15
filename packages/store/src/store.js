@@ -16,6 +16,8 @@ import {
   SET_MAIN_LAYOUT_WIDTH_WIDER,
   SELECT_NAMED_ENTITIES,
   CLEAR_NAMED_ENTITIES,
+  SELECT_DICTIONARY_ENTRIES,
+  CLEAR_DICTIONARY_ENTRIES,
   SET_TEXT_SIZE,
   SET_TEXT_WIDTH,
   SELECT_LINE,
@@ -58,6 +60,7 @@ const getDefaultState = () => ({
   selectedLine: null,
   selectedToken: null,
   selectedNamedEntities: [],
+  selectedDictionaryEntries: [],
 });
 
 const createStore = client => {
@@ -170,6 +173,12 @@ const createStore = client => {
         [CLEAR_NAMED_ENTITIES]: state => {
           state.selectedNamedEntities = [];
         },
+        [SELECT_DICTIONARY_ENTRIES]: (state, entries) => {
+          state.selectedDictionaryEntries = entries;
+        },
+        [CLEAR_DICTIONARY_ENTRIES]: state => {
+          state.selectedDictionaryEntries = [];
+        },
         [FETCH_METADATA]: (state, metadata) => {
           state.metadata = metadata;
         },
@@ -240,6 +249,12 @@ const createStore = client => {
         },
         [CLEAR_NAMED_ENTITIES]: ({ commit }) => {
           commit(CLEAR_NAMED_ENTITIES);
+        },
+        [SELECT_DICTIONARY_ENTRIES]: ({ commit }, { entries }) => {
+          commit(SELECT_DICTIONARY_ENTRIES, entries);
+        },
+        [CLEAR_DICTIONARY_ENTRIES]: ({ commit }) => {
+          commit(CLEAR_DICTIONARY_ENTRIES);
         },
         [FETCH_METADATA]: ({ commit }) => {
           client

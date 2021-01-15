@@ -7,6 +7,8 @@
         v-for="entry in entries"
         :key="entry.id"
         :entry="entry"
+        :selected-entries="selectedEntries"
+        @select="onSelect"
       />
     </template>
   </div>
@@ -15,7 +17,11 @@
 <script>
   import gql from 'graphql-tag';
   import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SELECT_DICTIONARY_ENTRIES,
+    CLEAR_DICTIONARY_ENTRIES,
+  } from '@scaife-viewer/store';
 
   import DictionaryEntry from './DictionaryEntry.vue';
 
@@ -33,14 +39,30 @@
       EmptyMessage,
       DictionaryEntry,
     },
+    methods: {
+      // TODO: Consider refactoring with NamedEntitiesWidget
+      onSelect(entry) {
+        if (this.selectedEntries.filter(id => entry.id === id).length > 0) {
+          this.$store.dispatch(`${MODULE_NS}/${CLEAR_DICTIONARY_ENTRIES}`);
+        } else {
+          this.$store.dispatch(`${MODULE_NS}/${SELECT_DICTIONARY_ENTRIES}`, {
+            entries: [entry.id],
+          });
+        }
+      },
+    },
     computed: {
       urn() {
         return this.$store.getters[`${MODULE_NS}/urn`];
+      },
+      selectedEntries() {
+        return this.$store.state[MODULE_NS].selectedDictionaryEntries;
       },
     },
     apollo: {
       entries: {
         // TODO: Select dictionary
+        // TODO: make data conditional on actually selected entries
         query: gql`
           query DictionaryEntries($urn: String!) {
             dictionaryEntries(reference: $urn) {
@@ -49,6 +71,7 @@
                   id
                   headword
                   urn
+                  data
                 }
               }
             }
@@ -67,3 +90,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+  .dictionary-entries {
+    margin: 0 2rem;
+    font-size: 12px;
+    width: calc(100% - 4rem);
+  }
+</style>
