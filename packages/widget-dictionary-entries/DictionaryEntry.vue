@@ -1,6 +1,6 @@
 <template>
   <div class="dictionary-entry">
-    {{ entry.label }}
+    {{ entry.headword }}
   </div>
 </template>
 
@@ -11,6 +11,6 @@
         type: Object,
         required: true,
       },
-    }
+    },
   };
 </script>
