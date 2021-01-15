@@ -3,8 +3,14 @@
     <LoaderBall v-if="$apollo.queries.entries.loading" />
     <EmptyMessage v-else-if="entries.length === 0" />
     <template v-else>
+      <Lookahead
+        placeholder="Filter entries"
+        :reducer="lookaheadReducer"
+        :data="entries"
+        @filter-data="onFilter"
+      />
       <DictionaryEntry
-        v-for="entry in entries"
+        v-for="entry in filteredEntries"
         :key="entry.id"
         :entry="entry"
         :selected-entries="selectedEntries"
@@ -16,7 +22,7 @@
 
 <script>
   import gql from 'graphql-tag';
-  import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
+  import { LoaderBall, Lookahead, EmptyMessage } from '@scaife-viewer/common';
   import {
     MODULE_NS,
     SELECT_DICTIONARY_ENTRIES,
@@ -32,10 +38,12 @@
     data() {
       return {
         entries: [],
+        filteredEntries: [],
       };
     },
     components: {
       LoaderBall,
+      Lookahead,
       EmptyMessage,
       DictionaryEntry,
     },
@@ -49,6 +57,22 @@
             entries: [entry.id],
           });
         }
+      },
+      onFilter(data) {
+        this.filteredEntries = data;
+      },
+      lookaheadReducer(data, query) {
+        return data.filter(entry =>
+          entry.headword.toLowerCase().includes(query.toLowerCase()),
+        );
+      },
+    },
+    watch: {
+      entries: {
+        immediate: true,
+        handler() {
+          this.filteredEntries = this.entries;
+        },
       },
     },
     computed: {
