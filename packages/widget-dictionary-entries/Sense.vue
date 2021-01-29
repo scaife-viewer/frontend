@@ -31,15 +31,13 @@
         return !hasCitations
           ? []
           : this.sense.citations.edges.map(edge => {
-              const { id, urn, textParts, label, data } = edge.node;
+              const { id, urn, ref, quote, passageUrn } = edge.node;
               return {
                 id,
                 urn,
-                label,
-                data,
-                textPartUrn: textParts.edges
-                  .map(t => t.node.urn)
-                  .slice(0, 1)[0],
+                ref,
+                quote,
+                passageUrn,
               };
             });
       },

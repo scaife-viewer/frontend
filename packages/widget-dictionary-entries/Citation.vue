@@ -1,9 +1,14 @@
 <template>
-  <li v-if="citation.label">
-    <ReaderLink v-if="resolveable" :urn="citation.textPartUrn">
-      {{ labelOrFallback }}
+  <li v-if="hasContent">
+    <ReaderLink v-if="resolveable" :urn="passageUrn" :title="passageUrn">
+      <span class="ref">{{ ref }}</span>
     </ReaderLink>
-    <span v-else>{{ citation.label }}</span>
+    <span class="ref" v-else-if="ref">
+      {{ ref }}
+    </span>
+    <span class="quote" v-if="quote">
+      {{ quote }}
+    </span>
   </li>
 </template>
 <script>
@@ -21,13 +26,36 @@
     },
     computed: {
       resolveable() {
-        return this.citation.textPartUrn;
+        // TODO: Resolve via text parts in the future;
+        // for now, we'll just use the destination
+        // return this.citation.textPartUrn;
+        return this.passageUrn;
       },
-      labelOrFallback() {
-        return this.citation.label
-          ? this.citation.label
-          : this.citation.textPartUrn;
+      hasContent() {
+        return this.ref || this.quote;
+      },
+      ref() {
+        return this.citation.ref;
+      },
+      quote() {
+        return this.citation.quote;
+      },
+      passageUrn() {
+        return this.citation.passageUrn;
       },
     },
   };
 </script>
+<style scoped>
+  .ref {
+    padding: 1px 3px 0px 0px;
+    border-radius: 1px;
+    background-color: #fcfcfc;
+  }
+  .quote {
+    font-family: var(
+      --sv-widget-dictionary-entry-citation-quote-font-family,
+      'Noto Serif'
+    );
+  }
+</style>

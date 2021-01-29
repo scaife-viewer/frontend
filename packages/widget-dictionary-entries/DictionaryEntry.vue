@@ -71,16 +71,9 @@
                     edges {
                       node {
                         id
-                        label
-                        data
-                        textParts {
-                          edges {
-                            node {
-                              id
-                              urn
-                            }
-                          }
-                        }
+                        ref
+                        quote
+                        passageUrn
                       }
                     }
                   }
