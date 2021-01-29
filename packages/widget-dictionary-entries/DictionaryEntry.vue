@@ -1,12 +1,13 @@
 <template>
-  <div :title="entry.urn" class="dictionary-entry" :class="{ selected }">
-    <div class="headword" @click.prevent="$emit('select', entry)">
+  <div v-if="entry" class="dictionary-entry" :key="entry.id">
+    <!-- TODO: breadcrumb beneath the dictionary name -->
+    <div class="headword">
       <span>
         {{ entry.headword }}
       </span>
-      <span v-if="selected">x</span>
+      <span class="clear-entry" @click.prevent="clearEntry">x</span>
     </div>
-    <div class="dictionary-entry-body" v-if="selected">
+    <div class="dictionary-entry-body" :key="entry.id">
       <!-- TODO: Use a tighter follow-on query here to reduce payload size -->
       <div
         class="dictionary-entry-content"
@@ -17,50 +18,60 @@
       <Sense v-else v-for="sense in senses" :key="sense.id" :sense="sense" />
     </div>
   </div>
+  <LoaderBall v-else-if="$apollo.queries.entries.loading" />
+  <EmptyMessage v-else> No entry found for urn "{{ entryUrn }}"</EmptyMessage>
 </template>
 
 <script>
   import gql from 'graphql-tag';
 
   import { MODULE_NS } from '@scaife-viewer/store';
+  import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
 
   import Sense from './Sense.vue';
 
   export default {
     props: {
-      entry: {
-        type: Object,
-        required: true,
-      },
-      selectedEntries: {
-        type: Array,
+      entryUrn: {
+        type: String,
         required: true,
       },
     },
     data() {
       return {
         senses: [],
+        entries: [],
       };
     },
     components: {
+      EmptyMessage,
+      LoaderBall,
       Sense,
+    },
+    methods: {
+      clearEntry() {
+        const query = {
+          ...this.$route.query,
+          entryUrn: undefined,
+        };
+        this.$router.replace({ query });
+      },
     },
     computed: {
       urn() {
         return this.$store.getters[`${MODULE_NS}/urn`];
       },
-      selected() {
-        return (
-          this.selectedEntries.filter(id => this.entry.id === id).length > 0
-        );
+      entry() {
+        return this.entries.length ? this.entries[0] : null;
       },
     },
     apollo: {
       senses: {
         // TODO: Denorm citations further (smaller payload)
+        // TODO: Filter for relevant senses
         query: gql`
-          query Senses($entryId: ID!, $urn: String!) {
-            senses(entry: $entryId, reference: $urn) {
+          query Senses($entryId: ID!) {
+            senses(entry: $entryId) {
               edges {
                 node {
                   id
@@ -85,13 +96,37 @@
         variables() {
           // TODO: Allow the user to toggle the reference filter;
           // If the reference filter is applied, we probalby also need to show other senses
-          return { entryId: this.entry.id, urn: this.urn.absolute };
+          return { entryId: this.entry.id };
         },
         update(data) {
           return data.senses.edges.map(e => e.node);
         },
         skip() {
-          return !this.selected || this.entry === null;
+          return !this.entry;
+        },
+      },
+      entries: {
+        // TODO: Select dictionary
+        // TODO: make data conditional on actually selected entries
+        query: gql`
+          query DictionaryEntries($urn: String!) {
+            dictionaryEntries(urn: $urn) {
+              edges {
+                node {
+                  id
+                  headword
+                  urn
+                  data
+                }
+              }
+            }
+          }
+        `,
+        variables() {
+          return { urn: this.entryUrn };
+        },
+        update(data) {
+          return data.dictionaryEntries.edges.map(e => e.node);
         },
       },
     },
@@ -116,16 +151,18 @@
     }
   }
   .dictionary-entry {
+    // TODO: refactor
     margin: 0.375rem 0;
   }
+  // TODO: refactor
   .headword {
     display: flex;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: var(--sv-widget-dictionary-entries-headword-text-color, #343a40);
-    cursor: pointer;
-    &:hover {
-      font-weight: 600;
+    font-weight: 600;
+    .clear-entry {
+      cursor: pointer;
     }
   }
 </style>

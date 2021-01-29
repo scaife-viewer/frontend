@@ -1,124 +1,39 @@
 <template>
-  <div class="dictionary-entries" :key="urn.absolute">
-    <LoaderBall v-if="$apollo.queries.entries.loading" />
-    <EmptyMessage v-else-if="entries.length === 0" />
-    <template v-else>
-      <Lookahead
-        placeholder="Filter entries"
-        :reducer="lookaheadReducer"
-        :data="entries"
-        @filter-data="onFilter"
-      />
-      <DictionaryEntry
-        v-for="entry in filteredEntries"
-        :key="entry.id"
-        :entry="entry"
-        :selected-entries="selectedEntries"
-        @select="onSelect"
-      />
-    </template>
+  <div class="dictionary-entries-widget">
+    <!-- TODO: Select the dictionary -->
+    <DictionaryEntry v-if="entryUrn" :entryUrn="entryUrn" />
+    <DictionaryEntries v-else />
   </div>
 </template>
 
 <script>
-  import gql from 'graphql-tag';
-  import { LoaderBall, Lookahead, EmptyMessage } from '@scaife-viewer/common';
-  import {
-    MODULE_NS,
-    SELECT_DICTIONARY_ENTRIES,
-    CLEAR_DICTIONARY_ENTRIES,
-  } from '@scaife-viewer/store';
-
   import DictionaryEntry from './DictionaryEntry.vue';
+  import DictionaryEntries from './DictionaryEntries.vue';
+  // import WidgetControls from './WidgetControls.vue';
 
   export default {
     scaifeConfig: {
       displayName: 'Dictionary Entries',
-    },
-    data() {
-      return {
-        entries: [],
-        filteredEntries: [],
-      };
+      // TODO: Implement controls
+      // portalTarget: 'dictionary-entries-widget-controls',
     },
     components: {
-      LoaderBall,
-      Lookahead,
-      EmptyMessage,
       DictionaryEntry,
-    },
-    methods: {
-      // TODO: Consider refactoring with NamedEntitiesWidget
-      onSelect(entry) {
-        if (this.selectedEntries.filter(id => entry.id === id).length > 0) {
-          this.$store.dispatch(`${MODULE_NS}/${CLEAR_DICTIONARY_ENTRIES}`);
-        } else {
-          this.$store.dispatch(`${MODULE_NS}/${SELECT_DICTIONARY_ENTRIES}`, {
-            entries: [entry.id],
-          });
-        }
-      },
-      onFilter(data) {
-        this.filteredEntries = data;
-      },
-      lookaheadReducer(data, query) {
-        return data.filter(entry =>
-          entry.headword.toLowerCase().includes(query.toLowerCase()),
-        );
-      },
-    },
-    watch: {
-      entries: {
-        immediate: true,
-        handler() {
-          this.filteredEntries = this.entries;
-        },
-      },
+      DictionaryEntries,
     },
     computed: {
-      urn() {
-        return this.$store.getters[`${MODULE_NS}/urn`];
-      },
-      selectedEntries() {
-        return this.$store.state[MODULE_NS].selectedDictionaryEntries;
-      },
-    },
-    apollo: {
-      entries: {
-        // TODO: Select dictionary
-        // TODO: make data conditional on actually selected entries
-        query: gql`
-          query DictionaryEntries($urn: String!) {
-            dictionaryEntries(reference: $urn) {
-              edges {
-                node {
-                  id
-                  headword
-                  urn
-                  data
-                }
-              }
-            }
-          }
-        `,
-        variables() {
-          return { urn: this.urn.absolute };
-        },
-        update(data) {
-          return data.dictionaryEntries.edges.map(e => e.node);
-        },
-        skip() {
-          return this.urn === null;
-        },
+      entryUrn() {
+        // TODO: Namespace URL args
+        return this.$route.query.entryUrn;
       },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  .dictionary-entries {
-    margin: 0 2rem;
-    font-size: 12px;
-    width: calc(100% - 4rem);
+  .dictionary-entries-widget {
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
   }
 </style>
