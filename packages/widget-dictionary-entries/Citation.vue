@@ -1,5 +1,10 @@
 <template>
-  <li v-if="hasContent">
+  <!-- non null citations? -->
+  <span v-if="noRefs"></span>
+  <span v-else-if="refsOnly && ref">
+    {{ ref }}
+  </span>
+  <li v-else-if="hasContent">
     <ReaderLink v-if="resolveable" :urn="passageUrn" :title="passageUrn">
       <span class="ref">{{ ref }}</span>
     </ReaderLink>
@@ -25,6 +30,14 @@
       ReaderLink,
     },
     computed: {
+      noRefs() {
+        // TODO: Wire up to vuex
+        return false;
+      },
+      refsOnly() {
+        // TODO: Wire up to vuex
+        return false;
+      },
       resolveable() {
         // TODO: Resolve via text parts in the future;
         // for now, we'll just use the destination

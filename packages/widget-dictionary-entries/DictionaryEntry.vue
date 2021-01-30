@@ -7,6 +7,15 @@
       </span>
       <span class="clear-entry" @click.prevent="clearEntry">x</span>
     </div>
+
+    <!-- TODO: Math to help with sticky "toggle" -->
+    <!-- TODO: Float headword too? -->
+    <Portal to="dictionary-entries-widget-controls">
+      <div class="portal-content">
+        <Controls />
+      </div>
+    </Portal>
+
     <div class="dictionary-entry-body" :key="entry.id">
       <!-- TODO: Use a tighter follow-on query here to reduce payload size -->
       <div
@@ -27,8 +36,10 @@
 
   import { MODULE_NS } from '@scaife-viewer/store';
   import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
+  import { Portal } from 'portal-vue';
 
   import Sense from './Sense.vue';
+  import Controls from './Controls.vue';
 
   export default {
     props: {
@@ -47,6 +58,8 @@
       EmptyMessage,
       LoaderBall,
       Sense,
+      Portal,
+      Controls,
     },
     methods: {
       clearEntry() {

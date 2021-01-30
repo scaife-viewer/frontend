@@ -25,6 +25,9 @@
       Citation,
     },
     computed: {
+      expanded() {
+        return false;
+      },
       citations() {
         const hasCitations =
           this.sense && this.sense.citations.edges.length > 0;

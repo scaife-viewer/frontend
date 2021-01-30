@@ -14,8 +14,7 @@
   export default {
     scaifeConfig: {
       displayName: 'Dictionary Entries',
-      // TODO: Implement controls
-      // portalTarget: 'dictionary-entries-widget-controls',
+      portalTarget: 'dictionary-entries-widget-controls',
     },
     components: {
       DictionaryEntry,
