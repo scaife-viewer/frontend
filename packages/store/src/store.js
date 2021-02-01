@@ -14,10 +14,10 @@ import {
   SET_MAIN_LAYOUT_WIDTH_NORMAL,
   SET_MAIN_LAYOUT_WIDTH_WIDE,
   SET_MAIN_LAYOUT_WIDTH_WIDER,
+  SET_SENSE_EXPANSION,
+  SET_CITATION_DISPLAY,
   SELECT_NAMED_ENTITIES,
   CLEAR_NAMED_ENTITIES,
-  SELECT_DICTIONARY_ENTRIES,
-  CLEAR_DICTIONARY_ENTRIES,
   SET_TEXT_SIZE,
   SET_TEXT_WIDTH,
   SELECT_LINE,
@@ -33,6 +33,8 @@ import {
   DISPLAY_MODE_METRICAL,
   DISPLAY_MODE_NAMED_ENTITIES,
   DISPLAY_MODE_DEFAULT,
+  SENSE_EXPANSION_PASSAGE,
+  CITATION_DISPLAY_REFS_QUOTES,
 } from './constants';
 
 const displayName = name => {
@@ -60,7 +62,8 @@ const getDefaultState = () => ({
   selectedLine: null,
   selectedToken: null,
   selectedNamedEntities: [],
-  selectedDictionaryEntries: [],
+  senseExpansion: SENSE_EXPANSION_PASSAGE,
+  citationDisplay: CITATION_DISPLAY_REFS_QUOTES,
 });
 
 const createStore = client => {
@@ -173,12 +176,6 @@ const createStore = client => {
         [CLEAR_NAMED_ENTITIES]: state => {
           state.selectedNamedEntities = [];
         },
-        [SELECT_DICTIONARY_ENTRIES]: (state, entries) => {
-          state.selectedDictionaryEntries = entries;
-        },
-        [CLEAR_DICTIONARY_ENTRIES]: state => {
-          state.selectedDictionaryEntries = [];
-        },
         [FETCH_METADATA]: (state, metadata) => {
           state.metadata = metadata;
         },
@@ -193,6 +190,12 @@ const createStore = client => {
         },
         [SET_TEXT_WIDTH]: (state, width) => {
           state.readerTextWidth = width;
+        },
+        [SET_SENSE_EXPANSION]: (state, value) => {
+          state.senseExpansion = value;
+        },
+        [SET_CITATION_DISPLAY]: (state, value) => {
+          state.citationDisplay = value;
         },
       },
       actions: {
@@ -249,12 +252,6 @@ const createStore = client => {
         },
         [CLEAR_NAMED_ENTITIES]: ({ commit }) => {
           commit(CLEAR_NAMED_ENTITIES);
-        },
-        [SELECT_DICTIONARY_ENTRIES]: ({ commit }, { entries }) => {
-          commit(SELECT_DICTIONARY_ENTRIES, entries);
-        },
-        [CLEAR_DICTIONARY_ENTRIES]: ({ commit }) => {
-          commit(CLEAR_DICTIONARY_ENTRIES);
         },
         [FETCH_METADATA]: ({ commit }) => {
           client
@@ -331,6 +328,13 @@ const createStore = client => {
         [SET_TEXT_WIDTH]: ({ commit }, { width }) => {
           commit(SET_TEXT_WIDTH, width);
         },
+        [SET_SENSE_EXPANSION]: ({ commit }, { value }) => {
+          commit(SET_SENSE_EXPANSION, value);
+        },
+        [SET_CITATION_DISPLAY]: ({ commit }, { value }) => {
+          commit(SET_CITATION_DISPLAY, value);
+        },
+
       },
     },
   };

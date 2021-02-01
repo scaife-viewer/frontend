@@ -1,24 +1,25 @@
 <template>
   <!-- non null citations? -->
   <span v-if="noRefs"></span>
-  <span v-else-if="refsOnly && ref">
-    {{ ref }}
-  </span>
-  <li v-else-if="hasContent">
+  <li v-else-if="hasContent" :class="{ 'ref-only': refsOnly }">
     <ReaderLink v-if="resolveable" :urn="passageUrn" :title="passageUrn">
       <span class="ref">{{ ref }}</span>
     </ReaderLink>
     <span class="ref" v-else-if="ref">
       {{ ref }}
     </span>
-    <span class="quote" v-if="quote">
+    <span class="quote" v-if="quote && !refsOnly">
       {{ quote }}
     </span>
   </li>
 </template>
 <script>
   import { ReaderLink } from '@scaife-viewer/common';
-
+  import {
+    MODULE_NS,
+    CITATION_DISPLAY_REFS,
+    CITATION_DISPLAY_HIDDEN,
+  } from '@scaife-viewer/store';
   export default {
     props: {
       citation: {
@@ -31,12 +32,15 @@
     },
     computed: {
       noRefs() {
-        // TODO: Wire up to vuex
-        return false;
+        return (
+          this.$store.state[MODULE_NS].citationDisplay ===
+          CITATION_DISPLAY_HIDDEN
+        );
       },
       refsOnly() {
-        // TODO: Wire up to vuex
-        return false;
+        return (
+          this.$store.state[MODULE_NS].citationDisplay === CITATION_DISPLAY_REFS
+        );
       },
       resolveable() {
         // TODO: Resolve via text parts in the future;
@@ -59,7 +63,11 @@
     },
   };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+  li.ref-only {
+    display: inline-block;
+    margin-right: 0.5em;
+  }
   .ref {
     padding: 1px 3px 0px 0px;
     border-radius: 1px;

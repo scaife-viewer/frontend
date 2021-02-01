@@ -23,18 +23,39 @@
         v-if="entry.data.content"
         v-html="entry.data.content"
       />
-      <LoaderBall v-if="$apollo.queries.senses.loading" />
-      <Sense v-else v-for="sense in senses" :key="sense.id" :sense="sense" />
+      <div class="senses">
+        <LoaderBall v-if="$apollo.queries.senses.loading" />
+        <Sense
+          v-else
+          v-for="sense in senses"
+          :key="sense.id"
+          :sense="sense"
+          :filteredSenses="filteredSenses"
+        />
+      </div>
     </div>
   </div>
   <LoaderBall v-else-if="$apollo.queries.entries.loading" />
-  <EmptyMessage v-else> No entry found for urn "{{ entryUrn }}"</EmptyMessage>
+  <EmptyMessage v-else>
+    No entry found for urn "{{ entryUrn }}"
+    <!-- TODO: Better error handling -->
+    <div class="show-all-entries" @click.prevent="clearEntry">
+      Show all entries
+    </div>
+  </EmptyMessage>
 </template>
 
 <script>
   import gql from 'graphql-tag';
 
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SET_SENSE_EXPANSION,
+    SENSE_EXPANSION_PASSAGE,
+    SENSE_EXPANSION_EXPANDED,
+    SENSE_EXPANSION_COLLAPSED,
+    SENSE_EXPANSION_MANUAL,
+  } from '@scaife-viewer/store';
   import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
   import { Portal } from 'portal-vue';
 
@@ -52,7 +73,27 @@
       return {
         senses: [],
         entries: [],
+        passageSenseIds: [],
+        filteredSenses: [],
       };
+    },
+    watch: {
+      urn() {
+        this.$store.dispatch(`${MODULE_NS}/${SET_SENSE_EXPANSION}`, {
+          value: SENSE_EXPANSION_PASSAGE,
+        });
+      },
+      senseExpansion() {
+        this.updateSenses();
+      },
+      passageSenseIds: {
+        immediate: false,
+        handler() {
+          if (this.expandPassageSenses) {
+            this.updateSenses();
+          }
+        },
+      },
     },
     components: {
       EmptyMessage,
@@ -69,6 +110,21 @@
         };
         this.$router.replace({ query });
       },
+      updateSenses() {
+        const value = this.senseExpansion;
+        const passageHasSenses = this.passageSenseIds.length > 0;
+        if (this.expandPassageSenses && passageHasSenses) {
+          this.filteredSenses = this.senses.filter(
+            sense => this.passageSenseIds.indexOf(sense.id) > -1,
+          );
+        } else if (value === SENSE_EXPANSION_EXPANDED) {
+          this.filteredSenses = this.senses;
+        } else if (value === SENSE_EXPANSION_COLLAPSED) {
+          this.filteredSenses = [];
+        } else if (value === SENSE_EXPANSION_MANUAL) {
+          // NOTE: this is a no-op
+        }
+      },
     },
     computed: {
       urn() {
@@ -77,8 +133,19 @@
       entry() {
         return this.entries.length ? this.entries[0] : null;
       },
+      senseExpansion() {
+        return this.$store.state[`${MODULE_NS}`].senseExpansion;
+      },
+      expandPassageSenses() {
+        return this.senseExpansion === SENSE_EXPANSION_PASSAGE;
+      },
     },
     apollo: {
+      // NOTE: this query gets all possible senses and everything needed
+      // to display them; we could be "pickier" about its contents and nested
+      // citation queries.
+      // NOTE: Also, consider a `tree` struct to override the nested indentation
+      // in Sense.veu
       senses: {
         // TODO: Denorm citations further (smaller payload)
         // TODO: Filter for relevant senses
@@ -107,12 +174,39 @@
           }
         `,
         variables() {
-          // TODO: Allow the user to toggle the reference filter;
-          // If the reference filter is applied, we probalby also need to show other senses
-          return { entryId: this.entry.id };
+          return {
+            entryId: this.entry.id,
+          };
         },
         update(data) {
           return data.senses.edges.map(e => e.node);
+        },
+        skip() {
+          return !this.entry;
+        },
+      },
+      passageSenseIds: {
+        // TODO: Denorm citations further (smaller payload)
+        // TODO: Filter for relevant senses
+        query: gql`
+          query Senses($entryId: ID!, $passageUrn: String!) {
+            senses(entry: $entryId, reference: $passageUrn) {
+              edges {
+                node {
+                  id
+                }
+              }
+            }
+          }
+        `,
+        variables() {
+          return {
+            entryId: this.entry.id,
+            passageUrn: `${this.urn}`,
+          };
+        },
+        update(data) {
+          return data.senses.edges.map(e => e.node.id);
         },
         skip() {
           return !this.entry;
@@ -167,6 +261,9 @@
     // TODO: refactor
     margin: 0.375rem 0;
   }
+  .senses {
+    font-size: 12px;
+  }
   // TODO: refactor
   .headword {
     display: flex;
@@ -177,5 +274,9 @@
     .clear-entry {
       cursor: pointer;
     }
+  }
+  .show-all-entries {
+    font-size: initial;
+    font-family: initial;
   }
 </style>
