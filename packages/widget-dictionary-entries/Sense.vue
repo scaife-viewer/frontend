@@ -1,15 +1,19 @@
 <template>
   <div :class="[`depth-${sense.depth}`]">
     <div class="sense-block">
+      <!-- TODO: Allow a toggle if no children? -->
       <div class="toggle">
-        <button class="expansion-toggle" @click.prevent="onExpand">
-          {{ expandedToggleClass }}
-        </button>
+        <span class="expansion-toggle" @click.prevent="onExpand">
+          <Icon :name="icon" class="fa-xs" />
+        </span>
       </div>
-      <div class="label">
-        {{ sense.label }}
-      </div>
-      <div class="definition" :class="{'definition-condensed': !expanded}" v-if="sense.definition" v-html="sense.definition"></div>
+      <div class="label" v-html="sense.label" />
+      <div
+        class="definition"
+        :class="{ 'definition-condensed': !expanded }"
+        v-if="sense.definition"
+        v-html="sense.definition"
+      ></div>
     </div>
     <ul class="citations" v-if="citations.length > 0">
       <Citation
@@ -70,13 +74,15 @@
       Citation,
     },
     computed: {
-      expandedToggleClass() {
-        // TODO: Iconify
-        return this.expanded ? '\u02c5' : '\u02c3';
+      // TODO: RTL ize
+      icon() {
+        return this.expanded ? 'chevron-down' : 'chevron-right';
       },
       citations() {
         const hasCitations =
-          this.sense && this.sense.citations.edges.length > 0 && this.showCitations;
+          this.sense &&
+          this.sense.citations.edges.length > 0 &&
+          this.showCitations;
         return !hasCitations
           ? []
           : this.sense.citations.edges.map(edge => {
@@ -91,8 +97,11 @@
             });
       },
       showCitations() {
-        return this.$store.state['scaife'].citationDisplay != 'hidden' && this.expanded;
-      }
+        return (
+          this.$store.state['scaife'].citationDisplay != 'hidden' &&
+          this.expanded
+        );
+      },
     },
     methods: {
       onExpand() {
@@ -131,6 +140,13 @@
   .expansion-toggle {
     padding: 0px 4px;
     margin: 0px 2px 0.5em 0px;
+    color: var(--sv-widget-dictionary-entries-open-toggle-text-color, #ced4da);
+    &:hover {
+      color: var(
+        --sv-widget-dictionary-entries-open-toggle-hover-text-color,
+        #495057
+      );
+    }
   }
   .sense-block {
     display: flex;
@@ -138,7 +154,7 @@
     .label {
       font-weight: 600;
     }
-    .label, .definition {
+    .definition {
       margin-inline-start: 0.5em;
     }
     .definition-condensed {
