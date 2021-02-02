@@ -259,7 +259,7 @@
   }
   .dictionary-entry {
     // TODO: refactor
-    margin: 0.375rem 0;
+    margin: 0.375em 0;
   }
   .senses {
     font-size: 12px;

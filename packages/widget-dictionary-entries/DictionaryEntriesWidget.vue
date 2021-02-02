@@ -33,6 +33,7 @@
   .dictionary-entries-widget {
     flex-direction: column;
     justify-content: flex-start;
+    min-width: 0;
     width: 100%;
   }
 </style>

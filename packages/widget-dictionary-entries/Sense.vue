@@ -1,23 +1,23 @@
 <template>
   <div :class="[`depth-${sense.depth}`]">
-    <button class="expansion-toggle" @click.prevent="onExpand">
-      {{ expandedToggleClass }}
-    </button>
-    {{ sense.label }}
-    <div v-if="expanded">
-      <div
-        class="definition"
-        v-if="sense.definition"
-        v-html="sense.definition"
-      />
-      <ul v-if="citations.length > 0">
-        <Citation
-          v-for="citation in citations"
-          :key="citation.id"
-          :citation="citation"
-        />
-      </ul>
+    <div class="sense-block">
+      <div class="toggle">
+        <button class="expansion-toggle" @click.prevent="onExpand">
+          {{ expandedToggleClass }}
+        </button>
+      </div>
+      <div class="label">
+        {{ sense.label }}
+      </div>
+      <div class="definition" :class="{'definition-condensed': !expanded}" v-if="sense.definition" v-html="sense.definition"></div>
     </div>
+    <ul class="citations" v-if="citations.length > 0">
+      <Citation
+        v-for="citation in citations"
+        :key="citation.id"
+        :citation="citation"
+      />
+    </ul>
   </div>
 </template>
 <script>
@@ -76,7 +76,7 @@
       },
       citations() {
         const hasCitations =
-          this.sense && this.sense.citations.edges.length > 0;
+          this.sense && this.sense.citations.edges.length > 0 && this.showCitations;
         return !hasCitations
           ? []
           : this.sense.citations.edges.map(edge => {
@@ -90,6 +90,9 @@
               };
             });
       },
+      showCitations() {
+        return this.$store.state['scaife'].citationDisplay != 'hidden' && this.expanded;
+      }
     },
     methods: {
       onExpand() {
@@ -105,32 +108,43 @@
 <style lang="scss" scoped>
   // TODO: Dynamic (if we get the right GraphQL response)
   .depth-1 {
-    margin-left: 0.5em;
+    margin-left: 0.3em;
   }
   .depth-2 {
-    margin-left: 1em;
+    margin-left: 0.6em;
   }
   .depth-3 {
-    margin-left: 1.5em;
+    margin-left: 0.9em;
   }
   .depth-4 {
-    margin-left: 2em;
+    margin-left: 1.2em;
   }
   .depth-5 {
-    margin-left: 2.5em;
+    margin-left: 1.5em;
   }
   .depth-6 {
-    margin-left: 3em;
+    margin-left: 1.8em;
   }
   .depth-7 {
-    margin-left: 3.5em;
-  }
-  .definition {
-    padding: 5px;
-    color: gray;
+    margin-left: 2.1em;
   }
   .expansion-toggle {
     padding: 0px 4px;
     margin: 0px 2px 0.5em 0px;
+  }
+  .sense-block {
+    display: flex;
+    flex-wrap: none;
+    .label {
+      font-weight: 600;
+    }
+    .label, .definition {
+      margin-inline-start: 0.5em;
+    }
+    .definition-condensed {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 </style>
