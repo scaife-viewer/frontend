@@ -32,6 +32,7 @@
           :treeNode="child"
           :senses="senses"
           :filteredSenses="filteredSenses"
+          :parentIsExpanded="expanded"
         />
       </div>
     </div>
@@ -61,6 +62,10 @@
         type: Array,
         required: true,
       },
+      parentIsExpanded: {
+        type: Boolean,
+        default: false,
+      },
     },
     data() {
       return {
@@ -85,6 +90,15 @@
             return;
           }
           this.expanded = this.expandForPassage;
+        },
+      },
+      parentIsExpanded: {
+        immediate: true,
+        handler(value) {
+          if (this.expansionState == SENSE_EXPANSION_MANUAL && value) {
+            // NOTE: Expanding one expands everything
+            this.expanded = true;
+          }
         },
       },
     },
