@@ -1,5 +1,11 @@
 <template>
   <div class="controls">
+    <div class="headword">
+      <span>
+        {{ headword }}
+      </span>
+      <span class="clear-entry" @click.prevent="$emit('clear')">x</span>
+    </div>
     <div class="control-row">
       <!-- NOTE: not stateful -->
       <span class="control-heading" title="sense expansion">senses:</span>
@@ -65,6 +71,7 @@
     SENSE_EXPANSION_COLLAPSED,
   } from '@scaife-viewer/store';
   export default {
+    props: ['headword'],
     data() {
       return {
         // TODO: best pratices?
@@ -95,7 +102,6 @@
 </script>
 <style lang="scss" scoped>
   .controls {
-    font-size: 10px;
     width: calc(100% - 4rem);
     margin: 0 2rem;
     margin-bottom: 2rem;
@@ -135,5 +141,17 @@
   }
   .control-row {
     margin-top: 0.25em;
+  }
+  .headword {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25em;
+    color: var(--sv-widget-dictionary-entries-headword-text-color, #343a40);
+    font-weight: 600;
+    .clear-entry {
+      margin-top: calc(1.25em / 2 - (14px / 2));
+      font-size: 14px;
+      cursor: pointer;
+    }
   }
 </style>

@@ -1,18 +1,9 @@
 <template>
   <div v-if="entry" class="dictionary-entry" :key="entry.id">
-    <!-- TODO: breadcrumb beneath the dictionary name -->
-    <div class="headword">
-      <span>
-        {{ entry.headword }}
-      </span>
-      <span class="clear-entry" @click.prevent="clearEntry">x</span>
-    </div>
-
     <!-- TODO: Math to help with sticky "toggle" -->
-    <!-- TODO: Float headword too? -->
     <Portal to="dictionary-entries-widget-controls">
       <div class="portal-content">
-        <Controls />
+        <Controls :headword="entry.headword" @clear="clearEntry" />
       </div>
     </Portal>
 
@@ -263,17 +254,6 @@
   }
   .senses {
     font-size: 12px;
-  }
-  // TODO: refactor
-  .headword {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.875rem;
-    color: var(--sv-widget-dictionary-entries-headword-text-color, #343a40);
-    font-weight: 600;
-    .clear-entry {
-      cursor: pointer;
-    }
   }
   .show-all-entries {
     font-size: initial;
