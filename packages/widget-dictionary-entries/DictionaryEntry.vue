@@ -66,7 +66,7 @@
       return {
         senses: [],
         entries: [],
-        passageSenseIds: [],
+        passageSenseUrns: [],
         filteredSenses: [],
       };
     },
@@ -79,7 +79,7 @@
       senseExpansion() {
         this.updateSenses();
       },
-      passageSenseIds: {
+      passageSenseUrns: {
         immediate: false,
         handler() {
           if (this.expandPassageSenses) {
@@ -105,10 +105,10 @@
       },
       updateSenses() {
         const value = this.senseExpansion;
-        const passageHasSenses = this.passageSenseIds.length > 0;
+        const passageHasSenses = this.passageSenseUrns.length > 0;
         if (this.expandPassageSenses && passageHasSenses) {
           this.filteredSenses = this.senses.filter(
-            sense => this.passageSenseIds.indexOf(sense.id) > -1,
+            sense => this.passageSenseUrns.indexOf(sense.urn) > -1,
           );
         } else if (value === SENSE_EXPANSION_EXPANDED) {
           this.filteredSenses = this.senses;
@@ -179,7 +179,7 @@
           return !this.entry;
         },
       },
-      passageSenseIds: {
+      passageSenseUrns: {
         // TODO: Denorm citations further (smaller payload)
         // TODO: Filter for relevant senses
         query: gql`
@@ -188,6 +188,7 @@
               edges {
                 node {
                   id
+                  urn
                 }
               }
             }
@@ -200,10 +201,10 @@
           };
         },
         update(data) {
-          return data.senses.edges.map(e => e.node.id);
+          return data.senses.edges.map(e => e.node.urn);
         },
         skip() {
-          return !this.entry;
+          return !this.entry || this.senses.length == 0;
         },
       },
       entries: {
