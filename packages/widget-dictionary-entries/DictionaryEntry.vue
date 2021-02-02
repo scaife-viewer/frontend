@@ -16,13 +16,15 @@
       />
       <div class="senses">
         <LoaderBall v-if="$apollo.queries.senses.loading" />
-        <Sense
-          v-else
-          v-for="sense in senses"
-          :key="sense.id"
-          :sense="sense"
-          :filteredSenses="filteredSenses"
-        />
+        <div class="sense-list" v-else>
+          <div class="sense-list-item" v-for="entry in entry.senseTree" :key="entry.id">
+            <Sense
+              :entry="entry"
+              :senses="senses"
+              :filteredSenses="filteredSenses"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -146,6 +148,7 @@
               edges {
                 node {
                   id
+                  urn
                   label
                   depth
                   definition
@@ -214,6 +217,7 @@
                   id
                   headword
                   urn
+                  senseTree
                   data
                 }
               }

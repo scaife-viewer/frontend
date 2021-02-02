@@ -1,5 +1,5 @@
 <template>
-  <div :class="[`depth-${sense.depth}`]">
+  <div>
     <div class="sense-block">
       <!-- TODO: Allow a toggle if no children? -->
       <div class="toggle">
@@ -22,6 +22,15 @@
         :citation="citation"
       />
     </ul>
+    <div class="sense-list">
+      <div class="sense-list-item" v-for="entry in entry.children" :key="entry.id">
+        <Sense
+          :entry="entry"
+          :senses="senses"
+          :filteredSenses="filteredSenses"
+        />
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -32,14 +41,19 @@
     SENSE_EXPANSION_MANUAL,
   } from '@scaife-viewer/store';
   export default {
+    name: 'Sense',
     props: {
-      sense: {
+      entry: {
         type: Object,
         required: true,
       },
       filteredSenses: {
         type: Array,
-        reqired: true,
+        required: true,
+      },
+      senses: {
+        type: Array,
+        required: true,
       },
     },
     data() {
@@ -102,6 +116,9 @@
           this.expanded
         );
       },
+      sense() {
+        return this.senses.filter(sense => sense.urn == this.entry.id)[0];
+      },
     },
     methods: {
       onExpand() {
@@ -162,5 +179,11 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+  .sense-list {
+    padding-inline-start: 10px;
+  }
+  ul.citations {
+    list-style-type: circle;
   }
 </style>
