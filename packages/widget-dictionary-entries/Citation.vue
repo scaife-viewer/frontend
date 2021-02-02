@@ -49,7 +49,7 @@
         return this.passageUrn;
       },
       hasContent() {
-        return this.ref || this.quote;
+        return this.refsOnly ? this.ref : this.ref || this.quote;
       },
       ref() {
         return this.citation.ref;
@@ -65,6 +65,7 @@
 </script>
 <style lang="scss" scoped>
   li.ref-only {
+    // TODO: Try these in a grid?
     display: inline-block;
     margin-right: 0.5em;
   }

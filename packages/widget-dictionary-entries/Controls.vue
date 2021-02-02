@@ -104,7 +104,7 @@
   .controls {
     width: calc(100% - 4rem);
     margin: 0 2rem;
-    margin-bottom: 2rem;
+    margin-block-end: 0.5em;
   }
   .control-heading {
     font-size: 14px;
@@ -118,17 +118,6 @@
       cursor: pointer;
     }
     span {
-      // cursor: pointer;
-      // font-family: var(
-      //   --sv-widget-dictionary-entries-controls-font-family,
-      //   'Noto Serif'
-      // );
-      // font-size: 14px;
-      // margin-right: 0.5em;
-      // &.active {
-      //   font-weight: 600;
-      // }
-
       cursor: pointer;
       font-family: var(--sv-widget-text-width-font-family, 'Noto Serif');
       color: var(--sv-widget-text-width-text-color, #adb5bd);

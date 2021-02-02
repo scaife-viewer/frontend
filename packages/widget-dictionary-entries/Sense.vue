@@ -15,7 +15,7 @@
         v-html="sense.definition"
       ></div>
     </div>
-    <ul class="citations" v-if="citations.length > 0">
+    <ul class="citations" v-if="showCitations && citations.length > 0">
       <Citation
         v-for="citation in citations"
         :key="citation.id"
