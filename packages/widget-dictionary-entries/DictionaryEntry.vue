@@ -120,8 +120,8 @@
       },
     },
     computed: {
-      urn() {
-        return this.$store.getters[`${MODULE_NS}/urn`];
+      passage() {
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
       entry() {
         return this.entries.length ? this.entries[0] : null;
@@ -197,7 +197,7 @@
         variables() {
           return {
             entryId: this.entry.id,
-            passageUrn: `${this.urn}`,
+            passageUrn: `${this.passage}`,
           };
         },
         update(data) {

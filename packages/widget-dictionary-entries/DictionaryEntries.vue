@@ -80,8 +80,8 @@
       },
     },
     computed: {
-      urn() {
-        return this.$store.getters[`${MODULE_NS}/urn`];
+      passage() {
+        return this.$store.getters[`${MODULE_NS}/passage`];
       },
     },
     apollo: {
@@ -101,13 +101,13 @@
           }
         `,
         variables() {
-          return { urn: this.urn.absolute };
+          return { urn: `${this.passage}` };
         },
         update(data) {
           return data.dictionaryEntries.edges.map(e => e.node);
         },
         skip() {
-          return this.urn === null;
+          return this.passage === null;
         },
       },
     },
