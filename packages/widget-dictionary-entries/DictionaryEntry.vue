@@ -17,9 +17,9 @@
       <div class="senses">
         <LoaderBall v-if="$apollo.queries.senses.loading" />
         <div class="sense-list" v-else>
-          <div class="sense-list-item" v-for="entry in entry.senseTree" :key="entry.id">
+          <div class="sense-list-item" v-for="treeNode in entry.senseTree" :key="treeNode.id">
             <Sense
-              :entry="entry"
+              :treeNode="treeNode"
               :senses="senses"
               :filteredSenses="filteredSenses"
             />

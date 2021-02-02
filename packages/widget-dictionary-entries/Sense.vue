@@ -23,9 +23,13 @@
       />
     </ul>
     <div class="sense-list">
-      <div class="sense-list-item" v-for="entry in entry.children" :key="entry.id">
+      <div
+        class="sense-list-item"
+        v-for="child in visibleChildren"
+        :key="child.id"
+      >
         <Sense
-          :entry="entry"
+          :treeNode="child"
           :senses="senses"
           :filteredSenses="filteredSenses"
         />
@@ -38,12 +42,14 @@
   import {
     MODULE_NS,
     SET_SENSE_EXPANSION,
+    SENSE_EXPANSION_EXPANDED,
+    SENSE_EXPANSION_COLLAPSED,
     SENSE_EXPANSION_MANUAL,
   } from '@scaife-viewer/store';
   export default {
     name: 'Sense',
     props: {
-      entry: {
+      treeNode: {
         type: Object,
         required: true,
       },
@@ -66,21 +72,19 @@
       filteredSenses: {
         immediate: true,
         handler() {
-          if (
-            this.$store.state[MODULE_NS].senseExpansion ===
-            SENSE_EXPANSION_MANUAL
-          ) {
+          if (this.expansionState === SENSE_EXPANSION_COLLAPSED) {
+            this.expanded = false;
+            return;
+          } else if (this.expansionState === SENSE_EXPANSION_EXPANDED) {
+            this.expanded = true;
+            return;
+          }
+
+          if (this.expansionState === SENSE_EXPANSION_MANUAL) {
             // NOTE: Manual expansion is a no-op;
             return;
           }
-          if (
-            this.filteredSenses.filter(node => this.sense.id === node.id)
-              .length > 0
-          ) {
-            this.expanded = true;
-          } else {
-            this.expanded = false;
-          }
+          this.expanded = this.expandForPassage;
         },
       },
     },
@@ -117,7 +121,19 @@
         );
       },
       sense() {
-        return this.senses.filter(sense => sense.urn == this.entry.id)[0];
+        return this.senses.filter(sense => sense.urn == this.treeNode.id)[0];
+      },
+      visibleChildren() {
+        return this.expanded ? this.treeNode.children : [];
+      },
+      expandForPassage() {
+        if (this.filteredSenses.length === 0) {
+          return false;
+        }
+        return this.nodeOrDescendantInPassage(this.treeNode);
+      },
+      expansionState() {
+        return this.$store.state[MODULE_NS].senseExpansion;
       },
     },
     methods: {
@@ -127,6 +143,27 @@
         this.$store.dispatch(`${MODULE_NS}/${SET_SENSE_EXPANSION}`, {
           value: SENSE_EXPANSION_MANUAL,
         });
+      },
+      inFilteredSenses(urn) {
+        return this.filteredSenses.filter(node => urn === node.urn).length > 0;
+      },
+      nodeOrDescendantInPassage(treeNode) {
+        // check to see if the current urn is in filtered senses
+        let inPassage = this.inFilteredSenses(treeNode.id);
+
+        if (inPassage) {
+          return true;
+        }
+        if (!treeNode.children) {
+          return false;
+        }
+        treeNode.children.forEach(child => {
+          if (this.nodeOrDescendantInPassage(child)) {
+            inPassage = true;
+            return;
+          }
+        });
+        return inPassage;
       },
     },
   };
