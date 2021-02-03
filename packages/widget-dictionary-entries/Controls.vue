@@ -11,20 +11,20 @@
       <span class="control-heading" title="sense expansion">senses:</span>
       <span class="control-group">
         <!-- NOTE: this is the default when loading an entry is passage -->
-        <a
+        <span
           title="passage"
           @click.prevent="onSelectSenseExpansion(SENSE_EXPANSION_PASSAGE)"
-          >passage</a
+          >passage</span
         >
-        <a
+        <span
           title="expand all"
           @click.prevent="onSelectSenseExpansion(SENSE_EXPANSION_EXPANDED)"
-          >expand</a
+          >expand</span
         >
-        <a
+        <span
           title="collapse all"
           @click.prevent="onSelectSenseExpansion(SENSE_EXPANSION_COLLAPSED)"
-          >collapse</a
+          >collapse</span
         >
       </span>
     </div>
@@ -105,27 +105,28 @@
     width: calc(100% - 4rem);
     margin: 0 2rem;
     margin-block-end: 0.5em;
+    color: var(--sv-widget-dictionary-entries-controls-text-color, #868e96);
+    font-family: var(
+      --sv-widget-dictionary-entries-controls-font-family,
+      'Noto Serif'
+    );
   }
   .control-heading {
     font-size: 14px;
-    font-weight: 600;
     margin-right: 1em;
   }
   .control-group {
-    a {
-      font-size: 14px;
-      padding-right: 5px;
-      cursor: pointer;
-    }
     span {
       cursor: pointer;
-      font-family: var(--sv-widget-text-width-font-family, 'Noto Serif');
-      color: var(--sv-widget-text-width-text-color, #adb5bd);
       font-size: 14px;
       padding-right: 5px;
-    }
-    span.active {
-      color: var(--sv-widget-text-width-selected-text-color, #343a40);
+      &:hover,
+      &.active {
+        color: var(
+          --sv-widget-dictionary-entries-controls-active-text-color,
+          #343a40
+        );
+      }
     }
   }
   .control-row {
@@ -134,12 +135,9 @@
   .headword {
     display: flex;
     justify-content: space-between;
-    font-size: 1.25em;
     color: var(--sv-widget-dictionary-entries-headword-text-color, #343a40);
     font-weight: 600;
     .clear-entry {
-      margin-top: calc(1.25em / 2 - (14px / 2));
-      font-size: 14px;
       cursor: pointer;
     }
   }
