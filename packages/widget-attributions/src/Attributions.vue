@@ -1,12 +1,18 @@
 <template>
   <div class="attributions-container">
     <div
-      :key="attribution.id"
+      :key="roleGroup[0]"
       class="attribution-row"
-      v-for="attribution in attributions"
+      v-for="roleGroup in attributionsByRole"
     >
-      <div class="value">{{ attribution.name }}</div>
-      <div class="label">{{ attribution.role }}</div>
+      <div class="label">{{ roleGroup[0] }}</div>
+      <div
+        :key="attribution.id"
+        v-for="attribution in roleGroup[1]"
+        class="value"
+      >
+        {{ attribution.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -17,16 +23,19 @@
   export default {
     name: 'Attributions',
     props: ['versionUrn'],
-    // computed: {
-    //   attributions() {
-    //     return [
-    //       {
-    //         name: 'foo',
-    //         role: 'bar',
-    //       },
-    //     ];
-    //   },
-    // },
+    computed: {
+      attributionsByRole() {
+        if (!this.attributions) {
+          return [];
+        }
+        const data = this.attributions.reduce((arr, a) => {
+          arr[a.role] = arr[a.role] || [];
+          arr[a.role].push(a);
+          return arr;
+        }, []);
+        return Object.entries(data);
+      },
+    },
     apollo: {
       attributions: {
         query: gql`
@@ -71,6 +80,7 @@
           --sv-widget-attribution-value-font-family,
           'Noto Serif'
         );
+        margin: 0.5em;
       }
       flex-flow: row nowrap;
       margin: 0.75em 0;
