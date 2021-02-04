@@ -334,7 +334,6 @@ const createStore = client => {
         [SET_CITATION_DISPLAY]: ({ commit }, { value }) => {
           commit(SET_CITATION_DISPLAY, value);
         },
-
       },
     },
   };

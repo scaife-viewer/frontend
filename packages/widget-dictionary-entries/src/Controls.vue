@@ -70,6 +70,7 @@
     SENSE_EXPANSION_EXPANDED,
     SENSE_EXPANSION_COLLAPSED,
   } from '@scaife-viewer/store';
+
   export default {
     props: ['headword'],
     data() {
@@ -95,7 +96,7 @@
         });
       },
       isActiveCitationDisplay(value) {
-        return this.$store.state[MODULE_NS].citationDisplay == value;
+        return this.$store.state[MODULE_NS].citationDisplay === value;
       },
     },
   };

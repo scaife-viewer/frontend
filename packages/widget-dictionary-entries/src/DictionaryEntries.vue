@@ -26,12 +26,11 @@
 </template>
 
 <script>
-  // TODO: Consider refactoring this component with portions of NamedEntitiesWidget
+  // TODO: Consider refactoring this component with portions
+  // of NamedEntitiesWidget
   import gql from 'graphql-tag';
   import { LoaderBall, Lookahead, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
-
-  import DictionaryEntry from './DictionaryEntry.vue';
 
   export default {
     scaifeConfig: {
@@ -47,7 +46,6 @@
       LoaderBall,
       Lookahead,
       EmptyMessage,
-      DictionaryEntry,
     },
     methods: {
       entrySelected(entry) {
@@ -55,7 +53,7 @@
           ...this.$route.query,
         };
 
-        if (this.$route.query.entyrUrn == entry.urn) {
+        if (this.$route.query.entyrUrn === entry.urn) {
           delete query.entryUrn;
         } else {
           query.entryUrn = entry.urn;

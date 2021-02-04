@@ -10,6 +10,8 @@
   "dependencies": {
     "@scaife-viewer/common": "^0.2.0",
     "@scaife-viewer/store": "^0.2.0",
-    "graphql-tag": "^2.10.3"
+    "graphql-tag": "^2.10.3",
+    "portal-vue": "^2.1.7"
+
   }
 }

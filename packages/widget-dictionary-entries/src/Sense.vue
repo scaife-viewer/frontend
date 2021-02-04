@@ -39,7 +39,6 @@
   </div>
 </template>
 <script>
-  import Citation from './Citation.vue';
   import {
     MODULE_NS,
     SET_SENSE_EXPANSION,
@@ -47,6 +46,8 @@
     SENSE_EXPANSION_COLLAPSED,
     SENSE_EXPANSION_MANUAL,
   } from '@scaife-viewer/store';
+  import Citation from './Citation.vue';
+
   export default {
     name: 'Sense',
     props: {
@@ -80,7 +81,8 @@
           if (this.expansionState === SENSE_EXPANSION_COLLAPSED) {
             this.expanded = false;
             return;
-          } else if (this.expansionState === SENSE_EXPANSION_EXPANDED) {
+          }
+          if (this.expansionState === SENSE_EXPANSION_EXPANDED) {
             this.expanded = true;
             return;
           }
@@ -95,7 +97,7 @@
       parentIsExpanded: {
         immediate: true,
         handler(value) {
-          if (this.expansionState == SENSE_EXPANSION_MANUAL && value) {
+          if (this.expansionState === SENSE_EXPANSION_MANUAL && value) {
             // NOTE: Expanding one expands everything
             this.expanded = true;
           }
@@ -110,32 +112,32 @@
       icon() {
         return this.expanded ? 'chevron-down' : 'chevron-right';
       },
+      citationNodes() {
+        return this.sense.citations.edges.map(edge => {
+          const { id, urn, ref, quote, passageUrn } = edge.node;
+          return {
+            id,
+            urn,
+            ref,
+            quote,
+            passageUrn,
+          };
+        });
+      },
       citations() {
         const hasCitations =
           this.sense &&
           this.sense.citations.edges.length > 0 &&
           this.showCitations;
-        return !hasCitations
-          ? []
-          : this.sense.citations.edges.map(edge => {
-              const { id, urn, ref, quote, passageUrn } = edge.node;
-              return {
-                id,
-                urn,
-                ref,
-                quote,
-                passageUrn,
-              };
-            });
+        return hasCitations ? this.citationNodes : [];
       },
       showCitations() {
         return (
-          this.$store.state['scaife'].citationDisplay != 'hidden' &&
-          this.expanded
+          this.$store.state.scaife.citationDisplay !== 'hidden' && this.expanded
         );
       },
       sense() {
-        return this.senses.filter(sense => sense.urn == this.treeNode.id)[0];
+        return this.senses.filter(sense => sense.urn === this.treeNode.id)[0];
       },
       visibleChildren() {
         return this.expanded ? this.treeNode.children : [];
@@ -171,12 +173,14 @@
         if (!treeNode.children) {
           return false;
         }
-        treeNode.children.forEach(child => {
+
+        for (let i = 0; i < treeNode.children.length; i += 1) {
+          const child = treeNode.children[i];
           if (this.nodeOrDescendantInPassage(child)) {
             inPassage = true;
-            return;
+            break;
           }
-        });
+        }
         return inPassage;
       },
     },

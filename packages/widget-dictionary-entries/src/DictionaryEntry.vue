@@ -17,7 +17,11 @@
       <div class="senses">
         <LoaderBall v-if="$apollo.queries.senses.loading" />
         <div class="sense-list" v-else>
-          <div class="sense-list-item" v-for="treeNode in entry.senseTree" :key="treeNode.id">
+          <div
+            class="sense-list-item"
+            v-for="treeNode in entry.senseTree"
+            :key="treeNode.id"
+          >
             <Sense
               :treeNode="treeNode"
               :senses="senses"
@@ -204,7 +208,7 @@
           return data.senses.edges.map(e => e.node.urn);
         },
         skip() {
-          return !this.entry || this.senses.length == 0;
+          return !this.entry || this.senses.length === 0;
         },
       },
       entries: {

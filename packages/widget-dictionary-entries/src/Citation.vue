@@ -20,6 +20,7 @@
     CITATION_DISPLAY_REFS,
     CITATION_DISPLAY_HIDDEN,
   } from '@scaife-viewer/store';
+
   export default {
     props: {
       citation: {
