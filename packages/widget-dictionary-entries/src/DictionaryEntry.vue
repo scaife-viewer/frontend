@@ -260,6 +260,7 @@
   .dictionary-entry {
     // TODO: refactor
     margin: 0.375em 0;
+    font-family: var(--sv-widget-dictionary-entries-font-family, 'Noto Serif');
   }
   .senses {
     font-size: 12px;
