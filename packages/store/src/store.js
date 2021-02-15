@@ -58,6 +58,12 @@ const getDefaultState = () => ({
   selectedLine: null,
   selectedToken: null,
   selectedNamedEntities: [],
+  // TODO: Determine if we want to track state in the store or elsewhere
+  // Could also impact interlinear
+  showTag: false,
+  showRelationship: false,
+  showLemma: false,
+  showGloss: false,
 });
 
 const createStore = client => {

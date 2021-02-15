@@ -43,11 +43,19 @@
   import Tree from './Tree.vue';
 
   const transformForTreant = node => {
-    const text =
-      node.value === null
-        ? { name: '' }
-        : { name: node.relation, desc: node.value, id: node.id };
-
+    // TODO: Review https://fperucic.github.io/treant-js/#orgchart-api-node
+    // for better control
+    // TODO: the package on NPM https://www.npmjs.com/package/treant-js
+    // has drifted from https://github.com/fperucic/treant-js
+    let text = { name: '' };
+    if (node.value != null) {
+      text = {
+        name: node.relation,
+        desc: node.value,
+        id: node.id,
+        // 'data-lemma': node.lemma,
+      };
+    }
     return {
       text,
       children: node.children.map(child => transformForTreant(child)),
