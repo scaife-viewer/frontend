@@ -38,27 +38,40 @@
     EmptyMessage,
   } from '@scaife-viewer/common';
 
+  import { MODULE_NS } from '@scaife-viewer/store';
+
   import { MODE_EXPAND } from './constants';
   import ModeToolbar from './ModeToolbar.vue';
   import Tree from './Tree.vue';
-
-  const transformForTreant = node => {
-    // TODO: Review https://fperucic.github.io/treant-js/#orgchart-api-node
-    // for better control
-    // TODO: the package on NPM https://www.npmjs.com/package/treant-js
-    // has drifted from https://github.com/fperucic/treant-js
-    let text = { name: '' };
-    if (node.value != null) {
-      text = {
-        name: node.relation,
-        desc: node.value,
-        id: node.id,
-        // 'data-lemma': node.lemma,
-      };
+  const generateNodeHTML = function(node, options) {
+    if (node.value === null) {
+      return null;
     }
+    // TODO: the equivalent of `render_to_string` for Vue
+    const parts = Array();
+    if (options.showRelationship) {
+      parts.push(`<div class="node-relation">${node.relation}</div>`);
+    }
+    parts.push('<div class="node-attrs">');
+    parts.push(`<div class="node-value">${node.value}</div>`);
+    if (options.showLemma) {
+      parts.push(`<div class="node-lemma">${node.lemma}</div>`);
+    }
+    if (options.showGloss) {
+      parts.push(`<div class="node-gloss">${node.gloss}</div>`);
+    }
+    if (options.showTag) {
+      parts.push(`<div class="node-tag">${node.tag}</div>`);
+    }
+    parts.push(`</div><div class="node-id">${node.id}</div>`);
+    return parts.join('\n');
+  };
+  const transformForTreant = function(node, options) {
+    const text = node.value != null ? { id: node.id } : {};
     return {
       text,
-      children: node.children.map(child => transformForTreant(child)),
+      innerHTML: generateNodeHTML(node, options),
+      children: node.children.map(child => transformForTreant(child, options)),
     };
   };
 
@@ -66,6 +79,11 @@
     readerConfig: {
       label: 'Syntax Trees',
       textWidth: 'wide',
+    },
+    data() {
+      return {
+        trees: [],
+      };
     },
     components: {
       ApolloQuery,
@@ -109,7 +127,7 @@
             }
           });
           return {
-            tree: transformForTreant(root),
+            tree: transformForTreant(root, this.displayOptions),
             words,
             wordBank,
             treeBankId: tree.node.data.treebankId,
@@ -124,6 +142,14 @@
       },
     },
     computed: {
+      displayOptions() {
+        return {
+          showLemma: this.$store.state[MODULE_NS].showLemma,
+          showGloss: this.$store.state[MODULE_NS].showGloss,
+          showTag: this.$store.state[MODULE_NS].showTag,
+          showRelationship: this.$store.state[MODULE_NS].showRelationship,
+        };
+      },
       expanded() {
         return this.expandAll === null ? null : this.expandAll === MODE_EXPAND;
       },
