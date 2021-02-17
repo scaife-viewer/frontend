@@ -1,22 +1,21 @@
 <template>
   <ApolloQuery
     class="reader"
+    ref="treesQuery"
     :query="query"
     :variables="queryVariables"
     :update="queryUpdate"
   >
-    <template v-slot="{ result: { error, data }, isLoading }">
+    <template v-slot="{ result: { error }, isLoading }">
       <LoaderBall v-if="isLoading" />
       <ErrorMessage v-else-if="error">
         There was an error loading the requested data.
       </ErrorMessage>
-      <EmptyMessage
-        v-else-if="!data || !data.trees || data.trees.length === 0"
-      />
+      <EmptyMessage v-else-if="trees.length === 0" />
       <template v-else>
         <ModeToolbar :expandAll="expandAll" @show="onShow" />
         <Tree
-          v-for="(tree, index) in data.trees"
+          v-for="(tree, index) in trees"
           :key="tree.treeBankId"
           :tree="tree"
           :first="index === 0"
@@ -96,6 +95,13 @@
     props: {
       queryVariables: Object,
     },
+    watch: {
+      displayOptions: {
+        handler() {
+          this.queryUpdate(this.$refs.treesQuery.result.fullData);
+        },
+      },
+    },
     methods: {
       onShow(expandAll) {
         this.expandAll = expandAll;
@@ -136,9 +142,7 @@
           };
         });
 
-        return {
-          trees,
-        };
+        this.$data.trees = trees;
       },
     },
     computed: {
