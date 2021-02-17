@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import './vendor/Treant.js';
+  import './vendor/Treant';
   import './vendor/Treant.css';
 
   export default {
@@ -88,7 +88,9 @@
               node.classList.add('highlight');
             } else if (text.id === this.highlighted.parent) {
               node.classList.add('highlight-parent');
-            } else if ((this.highlighted.children || []).indexOf(text.id) > -1) {
+            } else if (
+              (this.highlighted.children || []).indexOf(text.id) > -1
+            ) {
               node.classList.add('highlight-child');
             }
           });
