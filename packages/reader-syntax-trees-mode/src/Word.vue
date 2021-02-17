@@ -103,10 +103,14 @@
   // TODO: Encapsulate these styles with interlinear display mode
   .word {
     display: inline-block;
+    // TODO: Review these interlinear styles with @jtauber
     padding: 2px 4px;
     margin: 0 4px 10px;
     > span {
       display: block;
+    }
+    &:not(.selected, .child, .parent) {
+      border-bottom: 3px solid transparent;
     }
     // TODO: Ref vs id
     // .ref {
