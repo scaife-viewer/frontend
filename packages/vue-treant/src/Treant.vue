@@ -5,11 +5,8 @@
 </template>
 
 <script>
-  import 'treantjs';
-  import 'treantjs/Treant.css';
-  import Raphael from 'treantjs/vendor/raphael';
-
-  window.Raphael = Raphael;
+  import './vendor/Treant.js';
+  import './vendor/Treant.css';
 
   export default {
     props: ['treeBankId', 'tree', 'highlighted', 'config', 'redrawKey'],
