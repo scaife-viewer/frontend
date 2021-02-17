@@ -22,6 +22,8 @@
 <script>
   import { MODULE_NS } from '@scaife-viewer/store';
 
+  const ONLY_SHOW_ON_HOVER = false;
+
   export default {
     props: ['word', 'selected'],
     computed: {
@@ -35,9 +37,10 @@
         return (this.selected.children || []).indexOf(this.word.id) > -1;
       },
       showAttrs() {
-        // NOTE: Uncomment to always show
-        // return true;
-        return this.selectedWord;
+        if (ONLY_SHOW_ON_HOVER) {
+          return this.selectedWord;
+        }
+        return true;
       },
       showRelationship() {
         return this.$store.state[MODULE_NS].showRelationship;
