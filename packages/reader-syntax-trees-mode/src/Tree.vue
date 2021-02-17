@@ -119,6 +119,8 @@
 </script>
 
 <style lang="scss" scoped>
+  // TODO: factor this out
+  $interlinear-font-family: 'Lucida Console', Monaco, monospace;
   .tree {
     margin-bottom: 20px;
     .collapse-control {
@@ -133,7 +135,7 @@
     }
   }
   .syntax-tree::v-deep {
-    .node.highlight .node-desc {
+    .node.highlight .node-attrs {
       color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #d44);
       background: var(
         --sv-reader-syntax-trees-mode-highlight-background-color,
@@ -145,24 +147,49 @@
       );
     }
 
+    .node-attrs {
+      margin-bottom: 20px;
+      border-bottom: 3px solid transparent;
+      // TODO: pt vs px, overall size
+      font-size: 16pt;
+      line-height: 1.8em;
+      > div {
+        margin-bottom: 0;
+      }
+    }
     .node.highlight-parent {
       color: var(--sv-reader-syntax-trees-mode-parent-border-color, #66f);
     }
     .node.highlight-child {
       color: var(--sv-reader-syntax-trees-mode-child-border-color, #3c3);
     }
-    .node-name {
+    .node-relation {
       color: var(--sv-reader-syntax-tree-node-relation-text-color, #aaa);
       margin-bottom: 0;
       margin-top: 2px;
       font-size: 10pt;
     }
-    .node-desc {
+    .node-value {
       margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 16pt;
-      border-bottom: 3px solid transparent;
+      font-size: 1em;
       font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+    }
+    .node-lemma {
+      font-size: 0.88em;
+      color: var(--sv-reader-syntax-tree-node-lemma-text-color, #aaa);
+    }
+    .node-gloss {
+      font-size: 0.88em;
+      color: var(--sv-reader-syntax-tree-node-gloss-text-color, #aaa);
+      font-style: italic;
+    }
+    .node-tag {
+      font-family: var(
+        --sv-reader-syntax-trees-node-tag-font-family,
+        $interlinear-font-family
+      );
+      font-size: 0.66em;
+      color: var(--sv-reader-syntax-trees-node-tag-text-color, #999);
     }
     .node {
       text-align: center;
