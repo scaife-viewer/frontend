@@ -42,12 +42,13 @@
   import { MODE_EXPAND } from './constants';
   import ModeToolbar from './ModeToolbar.vue';
   import Tree from './Tree.vue';
-  const generateNodeHTML = function(node, options) {
+
+  const generateNodeHTML = (node, options) => {
     if (node.value === null) {
       return null;
     }
     // TODO: the equivalent of `render_to_string` for Vue
-    const parts = Array();
+    const parts = [];
     if (options.showRelationship) {
       parts.push(`<div class="node-relation">${node.relation}</div>`);
     }
@@ -65,7 +66,7 @@
     parts.push(`</div><div class="node-id">${node.id}</div>`);
     return parts.join('\n');
   };
-  const transformForTreant = function(node, options) {
+  const transformForTreant = (node, options) => {
     const text = node.value != null ? { id: node.id } : {};
     return {
       text,
