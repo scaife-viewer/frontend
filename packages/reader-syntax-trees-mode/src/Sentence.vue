@@ -1,5 +1,12 @@
 <template>
-  <div class="sentence" :class="[`text-${textSize}`, `text-width-${textWidth}`, selected.word !== null ? 'highlighting' : null]">
+  <div
+    class="sentence"
+    :class="[
+      `text-${textSize}`,
+      `text-width-${textWidth}`,
+      selected.word !== null ? 'highlighting' : null,
+    ]"
+  >
     <template v-for="word in words">
       <Word
         :key="word.id"
@@ -35,8 +42,8 @@
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
-    }
-  }
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -48,7 +55,6 @@
       color: var(--sv-reader-syntax-trees-mode-noninvolved-text-color, #adb5bd);
     }
   }
-
 
   .text-xs {
     font-size: 12px;

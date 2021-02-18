@@ -25,7 +25,10 @@
     padding: 0.5rem 0.75rem;
     display: flex;
     &:hover {
-      background: var(--sv-custom-select-option-hover-background-color, #f8f9fa);
+      background: var(
+        --sv-custom-select-option-hover-background-color,
+        #f8f9fa
+      );
     }
     cursor: pointer;
     .label {

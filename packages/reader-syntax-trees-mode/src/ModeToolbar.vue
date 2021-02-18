@@ -1,23 +1,36 @@
 <template>
   <div class="syntax-trees-toolbar">
-    <a href :class="{ active: expandAll !== null }" @click.prevent="onShow">
-      <icon :name="expandAll || 'expand'" />
-      {{ expandAll === 'expand' ? 'Collapse All' :  'Expand All'  }}
+    <a href :class="{ active }" @click.prevent="onShow">
+      <icon :name="iconName" />
+      {{ expanded ? 'Collapse All' : 'Expand All' }}
     </a>
   </div>
 </template>
 
 <script>
+  import { MODE_EXPAND, MODE_COMPRESS } from './constants';
+
   export default {
     props: ['expandAll'],
     methods: {
       onShow() {
         this.$emit(
           'show',
-          [null, 'compress'].indexOf(this.expandAll) > -1
-          ? 'expand'
-          : 'compress'
+          [null, MODE_COMPRESS].indexOf(this.expandAll) > -1
+            ? MODE_EXPAND
+            : MODE_COMPRESS,
         );
+      },
+    },
+    computed: {
+      active() {
+        return this.expandAll !== null;
+      },
+      iconName() {
+        return this.expandAll || MODE_EXPAND;
+      },
+      expanded() {
+        return this.expandAll === MODE_EXPAND;
       },
     },
   };
@@ -32,10 +45,13 @@
       outline: none;
     }
     a:hover {
-      border-color: var(--sv-syntax-trees-mode-toolbar-link-hover-border-color, #b45141);
-      }
-      a.active {
-        border-color: transparent;
-      }
+      border-color: var(
+        --sv-syntax-trees-mode-toolbar-link-hover-border-color,
+        #b45141
+      );
+    }
+    a.active {
+      border-color: transparent;
+    }
   }
 </style>

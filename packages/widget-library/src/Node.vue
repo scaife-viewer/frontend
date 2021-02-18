@@ -8,12 +8,13 @@
       </template>
 
       <span class="node version text-overflow" v-if="routable">
-        <router-link
+        <ReaderLink
           :title="metadata.label"
-          :to="{ name: 'reader', params: { urn: metadata.firstPassageUrn } }"
+          :urn="metadata.firstPassageUrn"
+          :noQuery="true"
         >
           {{ metadata.label }}
-        </router-link>
+        </ReaderLink>
       </span>
       <span v-else class="node parent text-overflow">
         <tt :title="metadata.label">{{ metadata.label }}</tt>
@@ -27,11 +28,13 @@
 </template>
 
 <script>
+  import { ReaderLink } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
     name: 'Node',
     props: ['node'],
+    components: { ReaderLink },
     data() {
       return {
         expanded: false,
@@ -52,8 +55,11 @@
         return this.readerUrn && this.readerUrn.version === this.urn;
       },
       nodeUrnIndex() {
-        return this.readerUrn && this.readerUrn.absolute.indexOf(
-          this.urn.slice(0, this.urn.length - 1), // trim trailing colon
+        return (
+          this.readerUrn &&
+          this.readerUrn.absolute.indexOf(
+            this.urn.slice(0, this.urn.length - 1), // trim trailing colon
+          )
         );
       },
       readerUrn() {

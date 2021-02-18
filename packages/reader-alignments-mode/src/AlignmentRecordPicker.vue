@@ -1,7 +1,8 @@
 <template>
   <span class="alignment-records-picker">
     <AlignmentRecord
-      v-for="(record, index) in records" :key="record"
+      v-for="(record, index) in records"
+      :key="record"
       :record="record"
       :number="index"
       @hovered="onHover"
@@ -21,7 +22,7 @@
         this.$emit('hovered', record, number);
       },
     },
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

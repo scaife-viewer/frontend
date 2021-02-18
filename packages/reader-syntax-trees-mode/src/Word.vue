@@ -1,5 +1,11 @@
 <template>
-  <span class="word" :class="{ selected: selectedWord, parent, child }" @mouseenter="onEnter" @mouseleave="onLeave">{{ word.value }}</span>
+  <span
+    class="word"
+    :class="{ selected: selectedWord, parent, child }"
+    @mouseenter="onEnter"
+    @mouseleave="onLeave"
+    >{{ word.value }}</span
+  >
 </template>
 
 <script>
@@ -23,8 +29,8 @@
       onLeave() {
         this.$emit('word-leave', this.word);
       },
-    }
-  }
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -33,16 +39,22 @@
     color: var(--sv-reader-syntax-trees-mode-involved-text-color, #000);
   }
   .selected {
-    color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #D44);
-    background: var(--sv-reader-syntax-trees-mode-highlight-background-color, #FEA);
+    color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #d44);
+    background: var(
+      --sv-reader-syntax-trees-mode-highlight-background-color,
+      #fea
+    );
     padding: 2px 3px 0 3px;
     margin: -2px -3px 0 -3px;
-    border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-highlight-text-color, #D44);
+    border-bottom: 3px solid
+      var(--sv-reader-syntax-trees-mode-highlight-text-color, #d44);
   }
   .parent {
-    border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-parent-border-color, #66F);
+    border-bottom: 3px solid
+      var(--sv-reader-syntax-trees-mode-parent-border-color, #66f);
   }
   .child {
-    border-bottom: 3px solid var(--sv-reader-syntax-trees-mode-child-border-color, #3C3);
+    border-bottom: 3px solid
+      var(--sv-reader-syntax-trees-mode-child-border-color, #3c3);
   }
 </style>

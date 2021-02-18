@@ -2,8 +2,7 @@ import {
   faGripLines,
   faGripLinesVertical,
   faAlignLeft,
-} from "@fortawesome/free-solid-svg-icons";
-
+} from '@fortawesome/free-solid-svg-icons';
 
 const iconMap = [faGripLines, faGripLinesVertical, faAlignLeft].reduce(
   (map, obj) => {
@@ -12,7 +11,7 @@ const iconMap = [faGripLines, faGripLinesVertical, faAlignLeft].reduce(
       [obj.iconName]: obj,
     };
   },
-  {}
+  {},
 );
 
 export default iconMap;

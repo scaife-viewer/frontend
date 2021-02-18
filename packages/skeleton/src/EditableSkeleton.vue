@@ -5,8 +5,8 @@
       class="left"
       :class="sidebarClasses"
       :widgetOptions="sidebarWidgetOptions"
-      @changeWidget="(widget) => addWidget('left', widget)"
-      @removeWidget="(index) => removeWidget('left', index)"
+      @changeWidget="widget => addWidget('left', widget)"
+      @removeWidget="index => removeWidget('left', index)"
       @editToggle="editing = !editing"
       :widgets="leftWidgets"
       :editing="editing"
@@ -35,8 +35,8 @@
       class="right"
       :class="sidebarClasses"
       :widgetOptions="sidebarWidgetOptions"
-      @changeWidget="(widget) => addWidget('right', widget)"
-      @removeWidget="(index) => removeWidget('right', index)"
+      @changeWidget="widget => addWidget('right', widget)"
+      @removeWidget="index => removeWidget('right', index)"
       @editToggle="editing = !editing"
       :widgets="rightWidgets"
       :editing="editing"
@@ -54,8 +54,6 @@
 </template>
 
 <script>
-  import MainLayout from './main/MainLayout.vue';
-  import SidebarLayout from './sidebar/SidebarLayout.vue';
   import {
     MODULE_NS,
     TOGGLE_LEFT_SIDEBAR,
@@ -66,10 +64,17 @@
     REMOVE_RIGHT_WIDGET,
     CHANGE_MAIN_WIDGET,
   } from '@scaife-viewer/store';
+  import MainLayout from './main/MainLayout.vue';
+  import SidebarLayout from './sidebar/SidebarLayout.vue';
 
   const removeActions = {
-    left: REMOVE_LEFT_WIDGET,
-    right: REMOVE_RIGHT_WIDGET,
+    left: `${MODULE_NS}/${REMOVE_LEFT_WIDGET}`,
+    right: `${MODULE_NS}/${REMOVE_RIGHT_WIDGET}`,
+  };
+
+  const addActions = {
+    left: `${MODULE_NS}/${ADD_LEFT_WIDGET}`,
+    right: `${MODULE_NS}/${ADD_RIGHT_WIDGET}`,
   };
 
   export default {
@@ -82,32 +87,28 @@
     },
     methods: {
       onLeftToggle() {
-        this.$emit('leftToggle');
+        this.$emit('left-toggle');
         this.$store.dispatch(`${MODULE_NS}/${TOGGLE_LEFT_SIDEBAR}`);
       },
       onRightToggle() {
-        this.$emit('rightToggle');
+        this.$emit('right-toggle');
         this.$store.dispatch(`${MODULE_NS}/${TOGGLE_RIGHT_SIDEBAR}`);
       },
       addWidget(name, widget) {
-        this.$emit('addWidget', name, widget);
-        switch (name) {
-          case 'left':
-            this.$store.dispatch(`${MODULE_NS}/${ADD_LEFT_WIDGET}`, { widget });
-            break;
-          case 'right':
-            this.$store.dispatch(`${MODULE_NS}/${ADD_RIGHT_WIDGET}`, { widget });
-            break;
+        this.$emit('add-widget', name, widget);
+        const action = addActions[name];
+        if (action) {
+          this.$store.dispatch(action, { widget });
         }
       },
       changeWidget(mainWidget) {
-        this.$emit('changeWidget', mainWidget);
+        this.$emit('change-widget', mainWidget);
         this.$store.dispatch(`${MODULE_NS}/${CHANGE_MAIN_WIDGET}`, {
           widget: mainWidget,
         });
       },
       removeWidget(name, index) {
-        this.$emit('removeWidget', name, index);
+        this.$emit('remove-widget', name, index);
         const action = removeActions[name];
         if (action) {
           this.$store.dispatch(action, { index });
@@ -119,8 +120,9 @@
         immediate: true,
         handler() {
           const { pageTitle } = this.$scaife.config;
-          document.title = (pageTitle && pageTitle(this.title))
-            || (this.title ? `Scaife Viewer | ${this.title}` : 'Scaife Viewer');
+          document.title =
+            (pageTitle && pageTitle(this.title)) ||
+            (this.title ? `Scaife Viewer | ${this.title}` : 'Scaife Viewer');
         },
       },
     },
@@ -139,12 +141,12 @@
       },
       leftWidgets() {
         return this.widgets.left.map(
-          (name) => this.$scaife.skeleton.widgets[name],
+          name => this.$scaife.skeleton.widgets[name],
         );
       },
       rightWidgets() {
         return this.widgets.right.map(
-          (name) => this.$scaife.skeleton.widgets[name],
+          name => this.$scaife.skeleton.widgets[name],
         );
       },
       mainWidget() {
@@ -178,7 +180,7 @@
       title() {
         const { scaife } = this.$store.state;
         return scaife.metadata && scaife.metadata.label;
-      }
+      },
     },
   };
 </script>

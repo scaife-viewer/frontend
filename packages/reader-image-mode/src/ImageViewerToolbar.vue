@@ -58,12 +58,18 @@
       border: 1px solid transparent;
     }
     a:hover {
-      border-color: var(--sv-reader-image-mode-toolbar-link-hover-border-color, #b45141);
+      border-color: var(
+        --sv-reader-image-mode-toolbar-link-hover-border-color,
+        #b45141
+      );
     }
     a.active {
       font-weight: 700;
-      background: var(--sv-reader-image-mode-toolbar-link-background-color, #b45141);
-      color: var(--sv-reader-image-mode-toolbar-link-text-color, #FFF);
+      background: var(
+        --sv-reader-image-mode-toolbar-link-background-color,
+        #b45141
+      );
+      color: var(--sv-reader-image-mode-toolbar-link-text-color, #fff);
       border-color: transparent;
     }
   }

@@ -21,13 +21,15 @@
   .map-direction-horizontal {
     .map {
       padding-left: 1rem;
-      border-left: 1px solid var(--sv-reader-named-entities-mode-border-color, #dee2e6);
+      border-left: 1px solid
+        var(--sv-reader-named-entities-mode-border-color, #dee2e6);
     }
   }
   .map-direction-vertical {
     .map {
       padding-top: 1rem;
-      border-top: 1px solid var(--sv-reader-named-entities-mode-border-color, #dee2e6);
+      border-top: 1px solid
+        var(--sv-reader-named-entities-mode-border-color, #dee2e6);
     }
   }
 </style>

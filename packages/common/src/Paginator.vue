@@ -1,26 +1,21 @@
 <template>
   <nav class="paginator" :key="urnString">
-    <router-link
-      v-if="urn"
-      :to="{ name: 'reader', params: { urn: urnString }, query }"
-    >
+    <ReaderLink v-if="urn" :urn="urnString">
       <Icon :name="icon" />
-    </router-link>
-    <span v-else class="disabled"><Icon :name="icon" /></span>
+    </ReaderLink>
+    <span v-else class="disabled"><Icon :name="icon"/></span>
   </nav>
 </template>
 
 <script>
+  import ReaderLink from './ReaderLink.vue';
   import Icon from './Icon.vue';
 
   export default {
     name: 'Paginator',
     props: ['urn', 'direction'],
-    components: { Icon },
+    components: { Icon, ReaderLink },
     computed: {
-      query() {
-        return this.$route.query;
-      },
       icon() {
         return `chevron-${this.direction}`;
       },

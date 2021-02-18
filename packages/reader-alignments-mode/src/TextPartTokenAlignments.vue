@@ -30,31 +30,34 @@
 
   import TextPartTokenAlignment from './TextPartTokenAlignment.vue';
 
-  const passageQuery = gql`query Passage($reference: String!) {
-    passageTextParts(reference: $reference) {
-      edges {
-        node {
-          id
-          ref
-          tokens {
-            edges {
-              node {
-                id
-                idx
-                wordValue
+  const passageQuery = gql`
+    query Passage($reference: String!) {
+      passageTextParts(reference: $reference) {
+        edges {
+          node {
+            id
+            ref
+            tokens {
+              edges {
+                node {
+                  id
+                  idx
+                  wordValue
+                }
               }
             }
           }
         }
       }
     }
-  }`;
-  const passageUpdate = data => data.passageTextParts.edges.map(e => {
-    return {
-      ref: e.node.ref,
-      tokens: e.node.tokens.edges.map(te => te.node),
-    }
-  });
+  `;
+  const passageUpdate = data =>
+    data.passageTextParts.edges.map(e => {
+      return {
+        ref: e.node.ref,
+        tokens: e.node.tokens.edges.map(te => te.node),
+      };
+    });
 
   export default {
     props: ['data', 'textSize', 'textWidth'],
@@ -79,7 +82,7 @@
         variables() {
           return {
             reference: this.data.references[0].reference,
-          }
+          };
         },
         update(data) {
           return passageUpdate(data);
@@ -90,7 +93,7 @@
         variables() {
           return {
             reference: this.data.references[1].reference,
-          }
+          };
         },
         update(data) {
           return passageUpdate(data);

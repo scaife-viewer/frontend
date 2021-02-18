@@ -23,7 +23,11 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import { Reader } from '@scaife-viewer/widget-reader';
-  import { LoaderBall, ErrorMessage, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    LoaderBall,
+    ErrorMessage,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
 
   export default {
     readerConfig: {
@@ -92,7 +96,10 @@
     flex: 1;
   }
   .text {
-    font-family: var(--sv-reader-interlinear-mode-text-font-family, 'Noto Serif');
+    font-family: var(
+      --sv-reader-interlinear-mode-text-font-family,
+      'Noto Serif'
+    );
     margin: 1em 0;
 
     &.text-xs {

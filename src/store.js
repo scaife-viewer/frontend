@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import Vue from 'vue';
 import Vuex from 'vuex';
 import VueApollo from 'vue-apollo';
@@ -7,8 +8,9 @@ import { InMemoryCache } from '@apollo/client/cache';
 import createStore from '@scaife-viewer/store';
 
 const link = new HttpLink({
-  uri: process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
-    'https://explorehomer-atlas-dev.scaife-viewer.org/graphql/',
+  uri:
+    process.env.VUE_APP_ATLAS_GRAPHQL_ENDPOINT ||
+    'https://sv-mini-atlas-dev.scaife-viewer.org/graphql/',
 });
 const cache = new InMemoryCache({
   typePolicies: {

@@ -1,11 +1,11 @@
-import { getPackages } from "@lerna/project";
-import filterPackages from "@lerna/filter-packages";
-import batchPackages from "@lerna/batch-packages";
+import { getPackages } from '@lerna/project';
+import filterPackages from '@lerna/filter-packages';
+import batchPackages from '@lerna/batch-packages';
 
-const IIFEOutputName = (s) => {
+const IIFEOutputName = s => {
   const camel = s
-    .replace("@", "")
-    .replace("/", "-")
+    .replace('@', '')
+    .replace('/', '-')
     .replace(/-([a-z])/gi, ($0, $1) => $1.toUpperCase());
   return `${camel.charAt(0).toUpperCase()}${camel.slice(1)}`;
 };
@@ -25,7 +25,4 @@ async function getSortedPackages(scope, ignore) {
   return batchPackages(filtered).reduce((arr, batch) => arr.concat(batch), []);
 }
 
-export {
-  IIFEOutputName,
-  getSortedPackages,
-};
+export { IIFEOutputName, getSortedPackages };

@@ -33,7 +33,7 @@
     },
     computed: {
       enabled() {
-        return this.passage ? true : false;
+        return !!this.passage;
       },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];

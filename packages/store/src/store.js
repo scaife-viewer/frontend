@@ -33,7 +33,7 @@ import {
   DISPLAY_MODE_DEFAULT,
 } from './constants';
 
-const displayName = (name) => {
+const displayName = name => {
   const isCallable = typeof name === 'function';
   return isCallable ? name() : name;
 };
@@ -67,11 +67,11 @@ const createStore = client => {
       namespaced: true,
       state: getDefaultState,
       getters: {
-        metadata: (state) => state.metadata,
-        passage: (state) => (state.passage ? new URN(state.passage) : null),
-        firstPassageUrn: (state) =>
+        metadata: state => state.metadata,
+        passage: state => (state.passage ? new URN(state.passage) : null),
+        firstPassageUrn: state =>
           state.metadata ? new URN(state.metadata.firstPassageUrn) : null,
-        libraryTree: (state) => state.libraryTree,
+        libraryTree: state => state.libraryTree,
 
         interlinearMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_INTERLINEAR;
@@ -95,22 +95,22 @@ const createStore = client => {
           }
           const { mode } = rootState.route.query;
           return mode || DISPLAY_MODE_DEFAULT;
-        }
+        },
       },
       mutations: {
-        [SET_MAIN_LAYOUT_WIDTH_NORMAL]: (state) => {
-          state.mainLayoutFlexClass = "main-layout-flex-2";
+        [SET_MAIN_LAYOUT_WIDTH_NORMAL]: state => {
+          state.mainLayoutFlexClass = 'main-layout-flex-2';
         },
-        [SET_MAIN_LAYOUT_WIDTH_WIDE]: (state) => {
-          state.mainLayoutFlexClass = "main-layout-flex-4";
+        [SET_MAIN_LAYOUT_WIDTH_WIDE]: state => {
+          state.mainLayoutFlexClass = 'main-layout-flex-4';
         },
-        [SET_MAIN_LAYOUT_WIDTH_WIDER]: (state) => {
-          state.mainLayoutFlexClass = "main-layout-flex-6";
+        [SET_MAIN_LAYOUT_WIDTH_WIDER]: state => {
+          state.mainLayoutFlexClass = 'main-layout-flex-6';
         },
-        [TOGGLE_LEFT_SIDEBAR]: (state) => {
+        [TOGGLE_LEFT_SIDEBAR]: state => {
           state.leftOpen = !state.leftOpen;
         },
-        [TOGGLE_RIGHT_SIDEBAR]: (state) => {
+        [TOGGLE_RIGHT_SIDEBAR]: state => {
           state.rightOpen = !state.rightOpen;
         },
         [ADD_LEFT_WIDGET]: (state, widget) => {
@@ -142,23 +142,23 @@ const createStore = client => {
           };
         },
         [CHANGE_SIDEBAR_VISIBILITY]: (state, { side, bool }) => {
-          if (side === "left") {
+          if (side === 'left') {
             state.leftVisible = bool;
           }
-          if (side === "right") {
+          if (side === 'right') {
             state.rightVisible = bool;
           }
         },
         [SELECT_TOKEN]: (state, token) => {
           state.selectedToken = token;
         },
-        [CLEAR_TOKEN]: (state) => {
+        [CLEAR_TOKEN]: state => {
           state.selectedToken = null;
         },
         [SELECT_LINE]: (state, ref) => {
           state.selectedLine = ref;
         },
-        [STOP_AUDIO]: (state) => {
+        [STOP_AUDIO]: state => {
           state.nowPlaying = null;
         },
         [PLAY_AUDIO]: (state, ref) => {
@@ -167,7 +167,7 @@ const createStore = client => {
         [SELECT_NAMED_ENTITIES]: (state, entities) => {
           state.selectedNamedEntities = entities;
         },
-        [CLEAR_NAMED_ENTITIES]: (state) => {
+        [CLEAR_NAMED_ENTITIES]: state => {
           state.selectedNamedEntities = [];
         },
         [FETCH_METADATA]: (state, metadata) => {
@@ -257,11 +257,11 @@ const createStore = client => {
                 }
               `,
             })
-            .then((data) =>
+            .then(data =>
               commit(
                 FETCH_METADATA,
-                data.data.versions.edges.map((e) => e.node.metadata).pop()
-              )
+                data.data.versions.edges.map(e => e.node.metadata).pop(),
+              ),
             );
         },
         [UPDATE_METADATA]: ({ commit }, { urn }) => {
@@ -280,11 +280,11 @@ const createStore = client => {
           }
         `,
             })
-            .then((data) =>
+            .then(data =>
               commit(
                 FETCH_METADATA,
-                data.data.versions.edges.map((e) => e.node.metadata).pop()
-              )
+                data.data.versions.edges.map(e => e.node.metadata).pop(),
+              ),
             );
         },
         // @@@ should this really be something within scaife-widgets?
@@ -299,7 +299,7 @@ const createStore = client => {
                 }
               `,
             })
-            .then((data) => {
+            .then(data => {
               const nid = data.data.tree.tree[0];
               const textGroupsTree = nid.children.reduce((a, b) => {
                 return a.concat(b.children);

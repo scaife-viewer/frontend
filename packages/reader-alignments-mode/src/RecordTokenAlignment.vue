@@ -32,8 +32,11 @@
         let lastSeenRef = null;
         let line = this.initLine();
         relation.tokens.forEach(token => {
-          const textPartRef = token.veRef.split('.').slice(0, -1).join('.');
-          if (lastSeenRef != textPartRef && line.values.length > 0) {
+          const textPartRef = token.veRef
+            .split('.')
+            .slice(0, -1)
+            .join('.');
+          if (lastSeenRef !== textPartRef && line.values.length > 0) {
             lines.push(line);
             line = this.initLine();
           }
@@ -44,10 +47,10 @@
         if (line.values.length > 0) {
           lines.push(line);
         }
-        return lines.map(line => {
+        return lines.map(l => {
           return [
-            line.ref,
-            line.values.join(' '),
+            l.ref,
+            l.values.join(' '),
             '', // TODO: continuation data
           ];
         });

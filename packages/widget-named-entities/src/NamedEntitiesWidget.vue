@@ -22,11 +22,7 @@
 
 <script>
   import gql from 'graphql-tag';
-  import {
-    Lookahead,
-    LoaderBall,
-    EmptyMessage,
-  } from '@scaife-viewer/common';
+  import { Lookahead, LoaderBall, EmptyMessage } from '@scaife-viewer/common';
   import {
     MODULE_NS,
     SELECT_NAMED_ENTITIES,

@@ -5,50 +5,42 @@
       v-for="sibling in siblings"
       :key="sibling.urn"
     >
-      <router-link
-        v-if="sibling.selected"
-        class="active-sibling"
-        :to="{ name: 'reader', params: { urn: `${sibling.urn}` }, query }"
+      <ReaderLink
+        :class="{ 'active-sibling': sibling.selected }"
+        :urn="sibling.urn"
       >
         {{ sibling.lcp }}
-      </router-link>
-      <router-link
-        v-else
-        :to="{ name: 'reader', params: { urn: `${sibling.urn}` }, query }"
-      >
-        {{ sibling.lcp }}
-      </router-link>
+      </ReaderLink>
     </div>
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
+  import { ReaderLink } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
     name: 'PassageSiblingsWidget',
+    components: { ReaderLink },
     scaifeConfig: {
       displayName: 'Siblings',
     },
     computed: {
-      query() {
-        return this.$route.query;
-      },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
       siblings() {
         if (this.siblingsData === undefined) {
-           return [];
-         }
-         const { selected } = this.siblingsData;
-         return this.siblingsData.all.map(s => {
-           return {
-             ...s,
-             selected: selected.filter(s2 => s2.urn === s.urn).length > 0,
-           };
-         });
+          return [];
+        }
+        const { selected } = this.siblingsData;
+        return this.siblingsData.all.map(s => {
+          return {
+            ...s,
+            selected: selected.filter(s2 => s2.urn === s.urn).length > 0,
+          };
+        });
       },
     },
     apollo: {
@@ -100,10 +92,16 @@
     border: none;
   }
   a:not(.active-sibling):hover {
-    background: var(--sv-widget-passage-siblings-sibling-hover-background, #e9ecef);
+    background: var(
+      --sv-widget-passage-siblings-sibling-hover-background,
+      #e9ecef
+    );
   }
   .active-sibling {
     color: var(--sv-widget-passage-siblings-active-text-color, #000000);
-    background: var(--sv-widget-passage-siblings-active-background-color, #dee2e6);
+    background: var(
+      --sv-widget-passage-siblings-active-background-color,
+      #dee2e6
+    );
   }
 </style>
