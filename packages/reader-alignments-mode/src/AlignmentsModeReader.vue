@@ -108,7 +108,7 @@
             return null;
           }
           const id = this.$route.query.rs;
-          return this.textAlignments.filter(a => a.value === id)[0] || this.textAlignments[0];
+          return id ? this.textAlignments.filter(a => a.value === id)[0] : null;
         },
         set(value) {
           if (value === undefined) {
