@@ -109,9 +109,6 @@
     > span {
       display: block;
     }
-    &:not(.selected, .child, .parent) {
-      border-bottom: 3px solid transparent;
-    }
     // TODO: Ref vs id
     // .ref {
     //   font-family: var(
@@ -148,5 +145,8 @@
       color: var(--sv-reader-syntax-trees-mode-gloss-text-color, #333);
       font-style: italic;
     }
+  }
+  .word:not(.selected):not(.child):not(.parent) {
+    border-bottom: 3px solid transparent;
   }
 </style>
