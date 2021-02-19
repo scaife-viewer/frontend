@@ -63,7 +63,8 @@
         // unsure if we should support a data set without "pairs"
         if (this.left.length > 1) {
           return [this.left[0][0], this.left.slice(-1)[0][0]].join('-');
-        } else if (this.left.length == 1) {
+        }
+        if (this.left.length === 1) {
           return this.left[0][0];
         }
         return '';
