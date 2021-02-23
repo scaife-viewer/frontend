@@ -53,7 +53,7 @@
           ...this.$route.query,
         };
 
-        if (this.$route.query.entyrUrn === entry.urn) {
+        if (this.$route.query.entryUrn === entry.urn) {
           delete query.entryUrn;
         } else {
           query.entryUrn = entry.urn;
