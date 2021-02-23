@@ -15,8 +15,8 @@
         v-html="entry.data.content"
       />
       <div class="senses">
-        <LoaderBall v-if="$apollo.queries.senses.loading" />
-        <div class="sense-list" v-else>
+        <LoaderBall v-if="$apollo.loading" />
+        <div class="sense-list" v-else-if="senses.length > 0">
           <div
             class="sense-list-item"
             v-for="treeNode in entry.senseTree"
