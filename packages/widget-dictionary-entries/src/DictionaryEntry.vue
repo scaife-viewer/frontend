@@ -15,14 +15,15 @@
         v-html="entry.data.content"
       />
       <div class="senses">
-        <LoaderBall v-if="$apollo.loading" />
-        <div class="sense-list" v-else-if="senses.length > 0">
+        <LoaderBall v-if="$apollo.queries.senses.loading" />
+        <div class="sense-list" v-else>
           <div
             class="sense-list-item"
             v-for="treeNode in entry.senseTree"
             :key="treeNode.id"
           >
             <Sense
+              v-if="senses.length > 0"
               :treeNode="treeNode"
               :senses="senses"
               :filteredSenses="filteredSenses"
