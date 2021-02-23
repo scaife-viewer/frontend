@@ -62,6 +62,8 @@ const getDefaultState = () => ({
   selectedLine: null,
   selectedToken: null,
   selectedNamedEntities: [],
+  // TODO: Add action to set selectedLemmas from selected token(s)
+  selectedLemmas: [],
   senseExpansion: SENSE_EXPANSION_PASSAGE,
   citationDisplay: CITATION_DISPLAY_REFS_QUOTES,
 });
@@ -102,6 +104,7 @@ const createStore = client => {
           const { mode } = rootState.route.query;
           return mode || DISPLAY_MODE_DEFAULT;
         },
+        selectedLemmas: state => state.selectedLemmas,
       },
       mutations: {
         [SET_MAIN_LAYOUT_WIDTH_NORMAL]: state => {
