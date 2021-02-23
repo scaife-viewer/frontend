@@ -64,8 +64,11 @@
         this.filteredEntries = data;
       },
       lookaheadReducer(data, query) {
-        return data.filter(entry =>
-          entry.headword.toLowerCase().includes(query.toLowerCase()),
+        const lowerQuery = query.toLowerCase();
+        return data.filter(
+          entry =>
+            entry.headword.toLowerCase().includes(lowerQuery) ||
+            entry.headwordNormalized.includes(lowerQuery),
         );
       },
     },
@@ -92,6 +95,7 @@
                 node {
                   id
                   headword
+                  headwordNormalized
                   urn
                 }
               }
