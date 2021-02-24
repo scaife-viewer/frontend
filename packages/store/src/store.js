@@ -66,6 +66,12 @@ const getDefaultState = () => ({
   selectedLemmas: [],
   senseExpansion: SENSE_EXPANSION_PASSAGE,
   citationDisplay: CITATION_DISPLAY_REFS_QUOTES,
+  // TODO: Determine if we want to track state in the store or elsewhere
+  // Could also impact interlinear
+  showTag: false,
+  showRelationship: false,
+  showLemma: false,
+  showGloss: false,
 });
 
 const createStore = client => {
