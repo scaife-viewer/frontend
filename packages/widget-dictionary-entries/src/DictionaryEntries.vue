@@ -66,7 +66,8 @@
         this.filteredEntries = data;
       },
       lookaheadReducer(data, query) {
-        const normalizedQuery = normalizeGreek(query);
+        // TODO: Review with @jtauber
+        const normalizedQuery = normalizeGreek(query).normalize('NFKC');
         return data.filter(entry =>
           entry.headwordNormalized.includes(normalizedQuery),
         );
