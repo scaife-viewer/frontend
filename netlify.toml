@@ -1,2 +1,4 @@
 [context."production".environment]
   VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://sv-mini-atlas-dev.scaife-viewer.org/graphql/"
+[context."2021-02-beyond-translation".environment]
+  VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://explorehomer-atlas-br-2021-02.herokuapp.com/graphql/"
