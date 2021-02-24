@@ -31,6 +31,8 @@
   import gql from 'graphql-tag';
   import { LoaderBall, Lookahead, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
+  // TODO: Package this fully
+  import normalizeGreek from '@scaife-viewer/common/src/language-utils/grc';
 
   export default {
     scaifeConfig: {
@@ -64,11 +66,9 @@
         this.filteredEntries = data;
       },
       lookaheadReducer(data, query) {
-        const lowerQuery = query.toLowerCase();
-        return data.filter(
-          entry =>
-            entry.headword.toLowerCase().includes(lowerQuery) ||
-            entry.headwordNormalized.includes(lowerQuery),
+        const normalizedQuery = normalizeGreek(query);
+        return data.filter(entry =>
+          entry.headwordNormalized.includes(normalizedQuery),
         );
       },
     },
