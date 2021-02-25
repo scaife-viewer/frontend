@@ -133,6 +133,7 @@
         return recordNodes.map(node => {
           return {
             id: node.id,
+            label: node.label,
             relations: node.relations.edges.map(e => {
               return {
                 id: e.id,
@@ -227,6 +228,7 @@
                 edges {
                   node {
                     id
+                    label
                     relations {
                       edges {
                         node {
