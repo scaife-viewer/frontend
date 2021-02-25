@@ -1,22 +1,21 @@
 <template>
   <ApolloQuery
     class="reader"
+    ref="treesQuery"
     :query="query"
     :variables="queryVariables"
     :update="queryUpdate"
   >
-    <template v-slot="{ result: { error, data }, isLoading }">
+    <template v-slot="{ result: { error }, isLoading }">
       <LoaderBall v-if="isLoading" />
       <ErrorMessage v-else-if="error">
         There was an error loading the requested data.
       </ErrorMessage>
-      <EmptyMessage
-        v-else-if="!data || !data.trees || data.trees.length === 0"
-      />
+      <EmptyMessage v-else-if="trees.length === 0" />
       <template v-else>
         <ModeToolbar :expandAll="expandAll" @show="onShow" />
         <Tree
-          v-for="(tree, index) in data.trees"
+          v-for="(tree, index) in trees"
           :key="tree.treeBankId"
           :tree="tree"
           :first="index === 0"
@@ -38,19 +37,41 @@
     EmptyMessage,
   } from '@scaife-viewer/common';
 
+  import { MODULE_NS } from '@scaife-viewer/store';
+
   import { MODE_EXPAND } from './constants';
   import ModeToolbar from './ModeToolbar.vue';
   import Tree from './Tree.vue';
 
-  const transformForTreant = node => {
-    const text =
-      node.value === null
-        ? { name: '' }
-        : { name: node.relation, desc: node.value, id: node.id };
-
+  const generateNodeHTML = (node, options) => {
+    if (node.value === null) {
+      return null;
+    }
+    // TODO: the equivalent of `render_to_string` for Vue
+    const parts = [];
+    if (options.showRelationship) {
+      parts.push(`<div class="node-relation">${node.relation}</div>`);
+    }
+    parts.push('<div class="node-attrs">');
+    parts.push(`<div class="node-value">${node.value}</div>`);
+    if (options.showLemma) {
+      parts.push(`<div class="node-lemma">${node.lemma}</div>`);
+    }
+    if (options.showGloss) {
+      parts.push(`<div class="node-gloss">${node.gloss}</div>`);
+    }
+    if (options.showTag) {
+      parts.push(`<div class="node-tag">${node.tag}</div>`);
+    }
+    parts.push(`</div><div class="node-id">${node.id}</div>`);
+    return parts.join('\n');
+  };
+  const transformForTreant = (node, options) => {
+    const text = node.value != null ? { id: node.id } : {};
     return {
       text,
-      children: node.children.map(child => transformForTreant(child)),
+      innerHTML: generateNodeHTML(node, options),
+      children: node.children.map(child => transformForTreant(child, options)),
     };
   };
 
@@ -58,6 +79,11 @@
     readerConfig: {
       label: 'Syntax Trees',
       textWidth: 'wide',
+    },
+    data() {
+      return {
+        trees: [],
+      };
     },
     components: {
       ApolloQuery,
@@ -69,6 +95,13 @@
     },
     props: {
       queryVariables: Object,
+    },
+    watch: {
+      displayOptions: {
+        handler() {
+          this.queryUpdate(this.$refs.treesQuery.result.fullData);
+        },
+      },
     },
     methods: {
       onShow(expandAll) {
@@ -101,7 +134,7 @@
             }
           });
           return {
-            tree: transformForTreant(root),
+            tree: transformForTreant(root, this.displayOptions),
             words,
             wordBank,
             treeBankId: tree.node.data.treebankId,
@@ -110,12 +143,18 @@
           };
         });
 
-        return {
-          trees,
-        };
+        this.$data.trees = trees;
       },
     },
     computed: {
+      displayOptions() {
+        return {
+          showLemma: this.$store.state[MODULE_NS].showLemma,
+          showGloss: this.$store.state[MODULE_NS].showGloss,
+          showTag: this.$store.state[MODULE_NS].showTag,
+          showRelationship: this.$store.state[MODULE_NS].showRelationship,
+        };
+      },
       expanded() {
         return this.expandAll === null ? null : this.expandAll === MODE_EXPAND;
       },

@@ -44,6 +44,7 @@
           .classList.remove('main-layout-wide');
       },
       setMode(mode) {
+        // TODO: Set this when entering from a URL too
         this.$store.dispatch(`${MODULE_NS}/setTextWidth`, {
           width: mode.textWidth || 'normal',
         });
