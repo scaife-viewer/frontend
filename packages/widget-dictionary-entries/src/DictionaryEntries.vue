@@ -4,7 +4,7 @@
     <EmptyMessage v-else-if="entries.length === 0" />
     <template v-else>
       <Lookahead
-        placeholder="Filter LGO entries"
+        placeholder="Filter entries"
         :reducer="lookaheadReducer"
         :data="entries"
         @filter-data="onFilter"
