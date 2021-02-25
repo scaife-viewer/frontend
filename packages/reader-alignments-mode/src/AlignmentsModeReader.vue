@@ -88,14 +88,10 @@
       },
       //
       alignmentsComponent() {
-        // TODO: Update ATLAS to return a hint
-        if (!this.selectedAlignment === undefined) {
-          return undefined;
-        }
-        if (this.selectedAlignment.value.includes('sentence')) {
-          return RecordTokenAlignment;
-        }
-        return TextPartTokenAlignments;
+        const hint = this.textAlignmentRecords.displayHint;
+        return hint === 'records'
+          ? RecordTokenAlignment
+          : TextPartTokenAlignments;
       },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
@@ -224,6 +220,7 @@
               ) {
                 metadata {
                   passageReferences
+                  displayHint
                 }
                 edges {
                   node {
@@ -297,6 +294,7 @@
             tokenMap,
             alignmentRecords,
             references: data.textAlignmentRecords.metadata.passageReferences,
+            displayHint: data.textAlignmentRecords.metadata.displayHint,
           };
         },
         error() {
