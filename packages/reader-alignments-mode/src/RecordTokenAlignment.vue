@@ -1,6 +1,6 @@
 <template>
   <div class="alignment">
-    <div class="alignment-ref">{{ citation }}</div>
+    <div class="alignment-ref">{{ label }}</div>
     <div class="columns">
       <div :class="['left', `text-${textSize}`, `text-width-${textWidth}`]">
         <div v-for="line in left" :key="line[0]" :class="['line', line[2]]">
@@ -57,11 +57,8 @@
       },
     },
     computed: {
-      citation() {
-        if (this.left.length > 1) {
-          return [this.left[0][0], this.left.slice(-1)[0][0]].join('-');
-        }
-        return this.left[0][0];
+      label() {
+        return this.record.label;
       },
       left() {
         return this.extractLines(this.record.relations[0]);
