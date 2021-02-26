@@ -29,10 +29,13 @@
   // TODO: Consider refactoring this component with portions
   // of NamedEntitiesWidget
   import gql from 'graphql-tag';
-  import { LoaderBall, Lookahead, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    LoaderBall,
+    Lookahead,
+    EmptyMessage,
+    normalizeString,
+  } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
-  // TODO: Package this fully
-  import normalizeGreek from '@scaife-viewer/common/src/language-utils/grc';
 
   export default {
     scaifeConfig: {
@@ -66,8 +69,7 @@
         this.filteredEntries = data;
       },
       lookaheadReducer(data, query) {
-        // TODO: Review with @jtauber
-        const normalizedQuery = normalizeGreek(query).normalize('NFKC');
+        const normalizedQuery = normalizeString(query);
         return data.filter(entry =>
           entry.headwordNormalized.includes(normalizedQuery),
         );

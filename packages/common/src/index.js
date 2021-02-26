@@ -9,6 +9,7 @@ import Paginator from './Paginator.vue';
 import CustomSelect from './CustomSelect/CustomSelect.vue';
 import URN from './URN';
 import iconMap from './icons';
+import normalizeString from './language-utils';
 
 export default URN;
 
@@ -23,4 +24,5 @@ export {
   Lookahead,
   Paginator,
   iconMap,
+  normalizeString,
 };
