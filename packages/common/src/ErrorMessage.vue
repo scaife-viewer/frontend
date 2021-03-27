@@ -1,6 +1,6 @@
 <template>
   <div class="error-message">
-    <slot />
+    <slot>There was an error loading the requested data.</slot>
   </div>
 </template>
 
