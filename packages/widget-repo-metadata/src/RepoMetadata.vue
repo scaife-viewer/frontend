@@ -1,31 +1,42 @@
 <template>
-  <div class="repo-metadata-container" v-if="repos">
-    <div class="repo-name" v-if="gitHubUrl">
-      <a v-if="gitHubUrl" class="value" :href="gitHubUrl" target="_blank">
-        {{ repo.name }}
-      </a>
-    </div>
-    <div class="repo-metadata-row">
-      <div class="label">Release SHA:</div>
-      <div class="value sha">
-        <a :href="repoTreeUrl" target="_blank">
-          {{ sha }}
+  <div class="repo-metadata-container">
+    <LoaderBall v-if="$apollo.loading" />
+    <EmptyMessage v-else-if="repos.length === 0"
+      >No repository found</EmptyMessage
+    >
+    <template v-else>
+      <div class="repo-name" v-if="gitHubUrl">
+        <a v-if="gitHubUrl" class="value" :href="gitHubUrl" target="_blank">
+          {{ repo.name }}
         </a>
       </div>
-    </div>
-    <div class="report-issue-link">
-      <a :href="newIssueUrl" target="_blank">
-        Report an issue with this passage
-      </a>
-    </div>
+      <div class="repo-metadata-row">
+        <div class="label">Release SHA:</div>
+        <div class="value sha">
+          <a :href="repoTreeUrl" target="_blank">
+            {{ sha }}
+          </a>
+        </div>
+      </div>
+      <div class="report-issue-link">
+        <a :href="newIssueUrl" target="_blank">
+          Report an issue with this passage
+        </a>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
+  import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
 
   export default {
     name: 'RepoMetadata',
+    components: {
+      LoaderBall,
+      EmptyMessage,
+    },
     props: ['passage'],
     computed: {
       repo() {
