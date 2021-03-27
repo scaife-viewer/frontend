@@ -1,0 +1,16 @@
+{
+  "name": "@scaife-viewer/widget-passage-citation-toc",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eldarion",
+  "license": "MIT",
+  "dependencies": {
+    "@scaife-viewer/common": "^0.0.7",
+    "@scaife-viewer/store": "^0.0.10",
+    "graphql-tag": "^2.10.3",
+    "lodash.capitalize": "^4.2.1"
+  }
+}

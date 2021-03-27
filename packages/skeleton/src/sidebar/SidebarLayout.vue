@@ -41,7 +41,7 @@
     components: { WidgetEditor, SidebarWidget, PortalTarget },
     methods: {
       displayName(name) {
-        return utils.displayName(name);
+        return utils.displayName(name, this.$store.getters, this.$scaife);
       },
     },
   };
