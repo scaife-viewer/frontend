@@ -29,6 +29,7 @@
           return [];
         }
         const data = this.attributions.reduce((arr, a) => {
+          // eslint-disable-next-line no-param-reassign
           arr[a.role] = arr[a.role] || [];
           arr[a.role].push(a);
           return arr;
