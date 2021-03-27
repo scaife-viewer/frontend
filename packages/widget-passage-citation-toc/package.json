@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-passage-citation-toc",
-  "version": "0.0.1",
+  "version": "0.3.0",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
