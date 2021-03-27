@@ -1,5 +1,5 @@
 {
-  "name": "@scaife-viewer/reader-interlinear-mode",
+  "name": "@scaife-viewer/widget-passage-citation-toc",
   "version": "0.3.0",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,9 +8,9 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.3.0",
-    "@scaife-viewer/widget-reader": "^0.3.0",
+    "@scaife-viewer/common": "^0.0.7",
+    "@scaife-viewer/store": "^0.0.10",
     "graphql-tag": "^2.10.3",
-    "vue-apollo": "^3.0.4"
+    "lodash.capitalize": "^4.2.1"
   }
 }

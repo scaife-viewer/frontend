@@ -1,5 +1,5 @@
 {
-  "name": "@scaife-viewer/widget-token-annotations",
+  "name": "@scaife-viewer/widget-attributions",
   "version": "0.3.0",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,8 +8,7 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.3.0",
-    "@scaife-viewer/store": "^0.3.0",
-    "graphql-tag": "^2.10.3"
+    "@scaife-viewer/store": "^0.0.10",
+    "graphql-tag": "^2.11.0"
   }
 }

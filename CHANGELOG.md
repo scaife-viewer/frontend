@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+_TBD_
+
+## 0.3.0 (2021-03-27)
+
+### Features
+
+- Add an [Attributions Widget](/packages/widget-attributions)
+- Add [Passage Citation Table of Contents Widget](packages/widget-passage-citation-toc)
+- Add [Repo Metadata Widget](packages/widget-repo-metadata)
+
 ## 0.2.0 (2020-11-11)
 
 ### Features

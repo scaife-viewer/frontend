@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/reader-named-entities-mode",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -9,10 +9,10 @@
   "license": "MIT",
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@scaife-viewer/common": "^0.2.0",
-    "@scaife-viewer/entity-map": "^0.2.0",
-    "@scaife-viewer/store": "^0.2.0",
-    "@scaife-viewer/widget-reader": "^0.2.0",
+    "@scaife-viewer/common": "^0.3.0",
+    "@scaife-viewer/entity-map": "^0.3.0",
+    "@scaife-viewer/store": "^0.3.0",
+    "@scaife-viewer/widget-reader": "^0.3.0",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.4"
   }

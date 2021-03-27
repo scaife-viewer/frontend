@@ -15,7 +15,11 @@
   import FixedSkeleton from '@scaife-viewer/skeleton';
 
   import ReaderWidget from '@scaife-viewer/widget-reader';
+  import RepoMetadataWidget from '@scaife-viewer/widget-repo-metadata';
   import MetadataWidget from '@scaife-viewer/widget-metadata';
+  // FIXME: Restore once we've synchronized ATLAS branches
+  // eslint-disable-next-line max-len
+  // import PassageCitationTOCWidget from '@scaife-viewer/widget-passage-citation-toc';
   import PassageReferenceWidget from '@scaife-viewer/widget-passage-reference';
   import PassageAncestorsWidget from '@scaife-viewer/widget-passage-ancestors';
   import PassageSiblingsWidget from '@scaife-viewer/widget-passage-siblings';
@@ -54,6 +58,8 @@
         return [
           LibraryWidget,
           PassageReferenceWidget,
+          // FIXME: Restore once we've synchronized ATLAS branches
+          // PassageCitationTOCWidget,
           PassageAncestorsWidget,
           PassageSiblingsWidget,
           PassageChildrenWidget,
@@ -61,6 +67,7 @@
       },
       right() {
         return [
+          RepoMetadataWidget,
           MetadataWidget,
           TextSizeWidget,
           TextWidthWidget,

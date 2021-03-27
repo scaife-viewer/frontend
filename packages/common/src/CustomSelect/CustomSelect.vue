@@ -2,7 +2,10 @@
   <div class="custom-select">
     <div class="custom-select--selected" @click="open = !open">
       <div class="title">
-        <div class="label">{{ value.title }}</div>
+        <div v-if="value" class="label">{{ value.title }}</div>
+        <div v-else-if="placeholder" class="placeholder label">
+          {{ placeholder }}
+        </div>
       </div>
       <div class="chevron"><icon name="chevron-down" /></div>
     </div>
@@ -21,7 +24,20 @@
   import CustomSelectOption from './CustomSelectOption.vue';
 
   export default {
-    props: ['value', 'options'],
+    props: {
+      value: {
+        required: true,
+      },
+      options: {
+        type: Array,
+        required: true,
+      },
+      placeholder: {
+        type: String,
+        required: false,
+        default: 'Select...',
+      },
+    },
     components: { CustomSelectOption },
     data() {
       return {

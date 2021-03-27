@@ -1,2 +1,4 @@
 [context."production".environment]
   VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://sv-mini-atlas-dev.scaife-viewer.org/graphql/"
+[context."additional-alignments".environment]
+  VUE_APP_ATLAS_GRAPHQL_ENDPOINT = "https://sv-mini-atlas-pr-38.herokuapp.com/graphql/"
