@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+_TBD_
+
+## 0.3.0 (2021-03-27)
+
 ### Features
 
 - Add an [Attributions Widget](/packages/widget-attributions)
