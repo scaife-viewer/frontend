@@ -9,6 +9,7 @@
 </template>
 
 <script>
+  import capitalize from 'lodash.capitalize';
   import gql from 'graphql-tag';
   import { ReaderLink } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
@@ -20,7 +21,7 @@
     // plural label
     // TODO: Retrieve this from ATLAS when the app is instantiated
     const citationSchemeMap = $scaife.config.citationSchemeMap || {};
-    return key ? citationSchemeMap[key] || `${label} List` : '';
+    return key ? citationSchemeMap[key] || `${capitalize(label)} List` : '';
   };
 
   export default {

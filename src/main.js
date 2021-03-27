@@ -16,6 +16,7 @@ import { SkeletonPlugin } from '@scaife-viewer/skeleton';
 
 import { DefaultModeReader } from '@scaife-viewer/widget-reader';
 
+import AlignmentsModeReader from '@scaife-viewer/reader-alignments-mode';
 import ImageModeReader, {
   iconMap as imageModeReaderIconMap,
 } from '@scaife-viewer/reader-image-mode';
@@ -29,9 +30,6 @@ import SyntaxTreesModeReader from '@scaife-viewer/reader-syntax-trees-mode';
 import { iconMap as commonIconMap } from '@scaife-viewer/common';
 import { iconMap as audioIconMap } from '@scaife-viewer/widget-audio';
 import { iconMap as neIconMap } from '@scaife-viewer/widget-named-entities';
-
-// TODO: resolve this package based import
-import AlignmentsModeReader from '../packages/reader-alignments-mode/src';
 
 import App from './App.vue';
 import store, { apolloProvider } from './store';

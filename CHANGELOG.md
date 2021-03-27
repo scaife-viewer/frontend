@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### Features
+
+- Add an [Attributions Widget](/packages/widget-attributions)
+- Add [Passage Citation Table of Contents Widget](packages/widget-passage-citation-toc)
+
 ## 0.2.0 (2020-11-11)
 
 ### Features
