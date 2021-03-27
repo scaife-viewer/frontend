@@ -1,6 +1,6 @@
 {
-  "name": "@scaife-viewer/widget-text-size",
-  "version": "0.2.0",
+  "name": "@scaife-viewer/widget-attributions",
+  "version": "0.0.1",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,6 +8,7 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/store": "^0.2.0"
+    "@scaife-viewer/store": "^0.0.10",
+    "graphql-tag": "^2.11.0"
   }
 }
