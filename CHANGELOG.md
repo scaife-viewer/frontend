@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 0.4.1 (2021-03-29)
+
+### Fixes
+- Force dep updates for widgets introduced in v0.3.0 and v0.4.0
+
 ## 0.4.0 (2021-03-29)
 
 ### Features
