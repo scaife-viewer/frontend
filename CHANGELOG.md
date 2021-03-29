@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 0.4.0 (2021-03-29)
+
+### Features
+- Add [Dictionary Entries Widget](packages/widget-dictionary-entries)
+
 ### Fixes
 - Fix fallback value for `--sv-widget-repo-metadata-sha-font-family`
 
