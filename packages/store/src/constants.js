@@ -17,6 +17,9 @@ export const FETCH_METADATA = 'fetchMetadata';
 export const UPDATE_METADATA = 'updateMetadata';
 export const FETCH_LIBRARY = 'fetchLibrary';
 export const SET_PASSAGE = 'setPassage';
+export const SET_SENSE_EXPANSION = 'setSenseExpansion';
+export const SET_CITATION_DISPLAY = 'setCitationDisplay';
+
 export const SELECT_NAMED_ENTITIES = 'selectNamedEntities';
 export const CLEAR_NAMED_ENTITIES = 'clearNamedEntities';
 export const SET_TEXT_SIZE = 'setTextSize';
@@ -35,3 +38,12 @@ export const DISPLAY_MODE_METRICAL = 'metrical';
 export const DISPLAY_MODE_NAMED_ENTITIES = 'named-entities';
 export const DISPLAY_MODE_SYNTAX_TREES = 'syntax-trees';
 export const DISPLAY_MODE_DEFAULT = 'default';
+
+export const CITATION_DISPLAY_REFS = 'refs';
+export const CITATION_DISPLAY_REFS_QUOTES = 'refs-quotes';
+export const CITATION_DISPLAY_HIDDEN = 'hidden';
+
+export const SENSE_EXPANSION_PASSAGE = 'passage';
+export const SENSE_EXPANSION_EXPANDED = 'expanded';
+export const SENSE_EXPANSION_COLLAPSED = 'collapsed';
+export const SENSE_EXPANSION_MANUAL = 'manual';

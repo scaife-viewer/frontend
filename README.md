@@ -22,3 +22,23 @@ You can build packages by running:
 yarn build
 ```
 
+## Creating a new package
+
+- Create the package
+
+```
+cd packages
+mkdir -p <package-name> && cd <package-name>
+yarn init
+```
+
+- Mimic other packages for entrypoint, license, etc
+- Copy over `LICENSE` file
+- Install it locally
+```
+yarn install
+```
+- Install dependencies
+```
+ npx lerna add graphql-tag --scope=@scaife-viewer/<package-name>
+ ```

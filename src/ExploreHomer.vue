@@ -27,6 +27,8 @@
   import LibraryWidget from '@scaife-viewer/widget-library';
   import TokenAnnotationWidget from '@scaife-viewer/widget-token-annotations';
   import NamedEntitiesWidget from '@scaife-viewer/widget-named-entities';
+  // eslint-disable-next-line max-len
+  import DictionaryEntriesWidget from '@scaife-viewer/widget-dictionary-entries';
   import DisplayModeWidget from '@scaife-viewer/widget-display-mode';
   import ScholiaWidget from '@scaife-viewer/widget-scholia';
   import AudioWidget from '@scaife-viewer/widget-audio';
@@ -72,6 +74,7 @@
           AudioWidget,
           DisplayModeWidget,
           NamedEntitiesWidget,
+          DictionaryEntriesWidget,
           TokenAnnotationWidget,
           WordListWidget,
           NewAlexandriaWidget,
@@ -106,5 +109,13 @@
   .body {
     display: flex;
     justify-content: center;
+  }
+  .form-control {
+    // TODO: package this better
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+    width: 100%;
+    border: 1px solid #ced4da;
   }
 </style>

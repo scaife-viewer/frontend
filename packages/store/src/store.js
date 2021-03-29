@@ -14,6 +14,8 @@ import {
   SET_MAIN_LAYOUT_WIDTH_NORMAL,
   SET_MAIN_LAYOUT_WIDTH_WIDE,
   SET_MAIN_LAYOUT_WIDTH_WIDER,
+  SET_SENSE_EXPANSION,
+  SET_CITATION_DISPLAY,
   SELECT_NAMED_ENTITIES,
   CLEAR_NAMED_ENTITIES,
   SET_TEXT_SIZE,
@@ -31,6 +33,8 @@ import {
   DISPLAY_MODE_METRICAL,
   DISPLAY_MODE_NAMED_ENTITIES,
   DISPLAY_MODE_DEFAULT,
+  SENSE_EXPANSION_PASSAGE,
+  CITATION_DISPLAY_REFS_QUOTES,
 } from './constants';
 
 const displayName = name => {
@@ -58,6 +62,10 @@ const getDefaultState = () => ({
   selectedLine: null,
   selectedToken: null,
   selectedNamedEntities: [],
+  // TODO: Add action to set selectedLemmas from selected token(s)
+  selectedLemmas: [],
+  senseExpansion: SENSE_EXPANSION_PASSAGE,
+  citationDisplay: CITATION_DISPLAY_REFS_QUOTES,
 });
 
 const createStore = client => {
@@ -99,6 +107,7 @@ const createStore = client => {
           const { mode } = rootState.route.query;
           return mode || DISPLAY_MODE_DEFAULT;
         },
+        selectedLemmas: state => state.selectedLemmas,
       },
       mutations: {
         [SET_MAIN_LAYOUT_WIDTH_NORMAL]: state => {
@@ -187,6 +196,12 @@ const createStore = client => {
         },
         [SET_TEXT_WIDTH]: (state, width) => {
           state.readerTextWidth = width;
+        },
+        [SET_SENSE_EXPANSION]: (state, value) => {
+          state.senseExpansion = value;
+        },
+        [SET_CITATION_DISPLAY]: (state, value) => {
+          state.citationDisplay = value;
         },
       },
       actions: {
@@ -318,6 +333,12 @@ const createStore = client => {
         },
         [SET_TEXT_WIDTH]: ({ commit }, { width }) => {
           commit(SET_TEXT_WIDTH, width);
+        },
+        [SET_SENSE_EXPANSION]: ({ commit }, { value }) => {
+          commit(SET_SENSE_EXPANSION, value);
+        },
+        [SET_CITATION_DISPLAY]: ({ commit }, { value }) => {
+          commit(SET_CITATION_DISPLAY, value);
         },
       },
     },

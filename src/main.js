@@ -30,6 +30,7 @@ import SyntaxTreesModeReader from '@scaife-viewer/reader-syntax-trees-mode';
 import { iconMap as commonIconMap } from '@scaife-viewer/common';
 import { iconMap as audioIconMap } from '@scaife-viewer/widget-audio';
 import { iconMap as neIconMap } from '@scaife-viewer/widget-named-entities';
+import { iconMap as deIconMap } from '@scaife-viewer/widget-dictionary-entries';
 
 import App from './App.vue';
 import store, { apolloProvider } from './store';
@@ -42,6 +43,7 @@ Vue.use(SkeletonPlugin, {
     ...commonIconMap,
     ...audioIconMap,
     ...neIconMap,
+    ...deIconMap,
     ...namedEntitesReaderIconMap,
     ...imageModeReaderIconMap,
   },
