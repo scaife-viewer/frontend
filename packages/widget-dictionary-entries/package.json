@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-dictionary-entries",
-  "version": "0.3.0-rc.1",
+  "version": "0.4.0",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -13,6 +13,5 @@
     "@scaife-viewer/store": "^0.2.0",
     "graphql-tag": "^2.10.3",
     "portal-vue": "^2.1.7"
-
   }
 }

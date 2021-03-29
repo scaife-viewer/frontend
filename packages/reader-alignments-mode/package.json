@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/reader-alignments-mode",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,8 +8,8 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.3.0",
-    "@scaife-viewer/store": "^0.3.0",
+    "@scaife-viewer/common": "^0.4.0",
+    "@scaife-viewer/store": "^0.4.0",
     "graphql-tag": "^2.10.3"
   }
 }
