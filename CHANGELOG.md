@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-_TBD_
+### Fixes
+- Fix fallback value for `--sv-widget-repo-metadata-sha-font-family`
 
 ## 0.3.0 (2021-03-27)
 

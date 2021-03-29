@@ -126,7 +126,7 @@
       margin: 0.5em 0;
     }
     .sha > a {
-      font-family: var(--sv-widget-repo-metadata-sha-font-family, 'monospace');
+      font-family: var(--sv-widget-repo-metadata-sha-font-family, monospace);
     }
     .report-issue-link {
       font-size: var(--sv-report-issue-link-font-size, 10px);
