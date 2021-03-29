@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="sense-block">
-      <!-- TODO: Allow a toggle if no children? -->
+      <!-- TODO: Hide toggle option if Sense has no children -->
       <div class="toggle">
         <span class="expansion-toggle" @click.prevent="onExpand">
           <Icon :name="icon" class="fa-xs" />
@@ -108,7 +108,7 @@
       Citation,
     },
     computed: {
-      // TODO: RTL ize
+      // TODO: RTL-ize the icon
       icon() {
         return this.expanded ? 'chevron-down' : 'chevron-right';
       },
@@ -187,7 +187,8 @@
   };
 </script>
 <style lang="scss" scoped>
-  // TODO: Dynamic (if we get the right GraphQL response)
+  // TODO: Support dynamic depths (if we have depth information)
+  // coming back from GraphQL
   .depth-1 {
     margin-left: 0.3em;
   }

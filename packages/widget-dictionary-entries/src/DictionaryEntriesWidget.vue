@@ -1,6 +1,7 @@
 <template>
   <div class="dictionary-entries-widget">
-    <!-- TODO: Select the dictionary -->
+    <!-- TODO: Allow site developers or users to specify
+    dictionary -->
     <DictionaryEntry v-if="entryUrn" :entryUrn="entryUrn" />
     <DictionaryEntries v-else />
   </div>
@@ -12,8 +13,6 @@
   import { MODULE_NS } from '@scaife-viewer/store';
   import DictionaryEntry from './DictionaryEntry.vue';
   import DictionaryEntries from './DictionaryEntries.vue';
-
-  // import WidgetControls from './WidgetControls.vue';
 
   export default {
     scaifeConfig: {
@@ -28,7 +27,6 @@
       lemmaEntryURN: {
         handler(value) {
           if (this.$route.query.entryUrn === value) {
-            // prevent duplicate navigation
             return;
           }
           const query = {
@@ -41,7 +39,7 @@
     },
     computed: {
       entryUrn() {
-        // TODO: Namespace URL args
+        // TODO: Add namespacing for widget URL query params
         return this.$route.query.entryUrn;
       },
       lemmas() {

@@ -1,5 +1,4 @@
 <template>
-  <!-- non null citations? -->
   <span v-if="noRefs"></span>
   <li v-else-if="hasContent" :class="{ 'ref-only': refsOnly }">
     <ReaderLink v-if="resolveable" :urn="passageUrn" :title="passageUrn">
@@ -66,14 +65,16 @@
 </script>
 <style lang="scss" scoped>
   li.ref-only {
-    // TODO: Try these in a grid?
     display: inline-block;
     margin-right: 0.5em;
   }
   .ref {
     padding: 1px 3px 0px 0px;
     border-radius: 1px;
-    background-color: #fcfcfc;
+    background-color: var(
+      --sv-widget-dictionary-entry-citation-ref-background-color,
+      #fcfcfc
+    );
   }
   .quote {
     font-family: var(

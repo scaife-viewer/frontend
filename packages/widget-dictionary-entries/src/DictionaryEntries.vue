@@ -90,7 +90,8 @@
     },
     apollo: {
       entries: {
-        // TODO: Pass the selected dictionary
+        // TODO: Allow site developers or users to specify
+        // dictionary
         query: gql`
           query DictionaryEntries($urn: String!) {
             dictionaryEntries(reference: $urn) {

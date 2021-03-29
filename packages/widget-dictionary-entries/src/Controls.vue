@@ -2,34 +2,40 @@
   <div class="controls">
     <div class="control-rows" v-if="showConfig">
       <div class="control-row">
-        <!-- NOTE: not stateful -->
+        <!-- NOTE: Sense expansion is intentionally not stateful -->
         <div class="control-heading" title="sense expansion">
           Sense Expansion
         </div>
         <div class="control-group">
           <div
             title="collapse all"
-            @click.prevent="onSelectSenseExpansion(SENSE_EXPANSION_COLLAPSED)"
+            @click.prevent="
+              onSelectSenseExpansion(constants.SENSE_EXPANSION_COLLAPSED)
+            "
           >
             Collapse All
           </div>
-          <!-- NOTE: this is the default when loading an entry is passage -->
+          <!-- NOTE: This is the default expansion -->
           <div
             title="passage"
-            @click.prevent="onSelectSenseExpansion(SENSE_EXPANSION_PASSAGE)"
+            @click.prevent="
+              onSelectSenseExpansion(constants.SENSE_EXPANSION_PASSAGE)
+            "
           >
             Expand to Passage
           </div>
           <div
             title="expand all"
-            @click.prevent="onSelectSenseExpansion(SENSE_EXPANSION_EXPANDED)"
+            @click.prevent="
+              onSelectSenseExpansion(constants.SENSE_EXPANSION_EXPANDED)
+            "
           >
             Expand All
           </div>
         </div>
       </div>
       <div class="control-row">
-        <!-- NOTE: stateful, refs and quotes -->
+        <!-- NOTE: Citation display is stateful -->
         <div class="control-heading" title="citation display">
           Citation Display
         </div>
@@ -37,28 +43,36 @@
           <div
             title="hide"
             :class="{
-              active: isActiveCitationDisplay(CITATION_DISPLAY_HIDDEN),
+              active: isActiveCitationDisplay(
+                constants.CITATION_DISPLAY_HIDDEN,
+              ),
             }"
-            @click.prevent="onSelectCitationDisplay(CITATION_DISPLAY_HIDDEN)"
+            @click.prevent="
+              onSelectCitationDisplay(constants.CITATION_DISPLAY_HIDDEN)
+            "
           >
             Hide Citations
           </div>
           <div
             title="refs"
             :class="{
-              active: isActiveCitationDisplay(CITATION_DISPLAY_REFS),
+              active: isActiveCitationDisplay(constants.CITATION_DISPLAY_REFS),
             }"
-            @click.prevent="onSelectCitationDisplay(CITATION_DISPLAY_REFS)"
+            @click.prevent="
+              onSelectCitationDisplay(constants.CITATION_DISPLAY_REFS)
+            "
           >
             Show Refs
           </div>
           <div
             title="refs and quotes"
             :class="{
-              active: isActiveCitationDisplay(CITATION_DISPLAY_REFS_QUOTES),
+              active: isActiveCitationDisplay(
+                constants.CITATION_DISPLAY_REFS_QUOTES,
+              ),
             }"
             @click.prevent="
-              onSelectCitationDisplay(CITATION_DISPLAY_REFS_QUOTES)
+              onSelectCitationDisplay(constants.CITATION_DISPLAY_REFS_QUOTES)
             "
           >
             Show Refs / Quotes
@@ -101,14 +115,17 @@
     props: ['headword'],
     data() {
       return {
-        // TODO: best pratices?
+        showConfig: false,
+      };
+    },
+    created() {
+      this.constants = {
         CITATION_DISPLAY_REFS,
         CITATION_DISPLAY_REFS_QUOTES,
         CITATION_DISPLAY_HIDDEN,
         SENSE_EXPANSION_PASSAGE,
         SENSE_EXPANSION_EXPANDED,
         SENSE_EXPANSION_COLLAPSED,
-        showConfig: false,
       };
     },
     methods: {
@@ -149,9 +166,6 @@
       );
       font-weight: unset;
     }
-  }
-  .icon {
-    // margin-block-end: 2.0em;
   }
   .control-heading {
     color: initial;

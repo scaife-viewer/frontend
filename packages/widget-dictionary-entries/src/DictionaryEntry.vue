@@ -1,46 +1,49 @@
 <template>
-  <div v-if="entry" class="dictionary-entry" :key="entry.id">
-    <!-- TODO: Math to help with sticky "toggle" -->
-    <Portal to="dictionary-entries-widget-controls">
-      <div class="portal-content">
-        <Controls :headword="entry.headword" @clear="clearEntry" />
-      </div>
-    </Portal>
+  <div class="dictionary-entry-container">
+    <div v-if="entry" class="dictionary-entry" :key="entry.id">
+      <Portal to="dictionary-entries-widget-controls">
+        <div class="portal-content">
+          <Controls :headword="entry.headword" @clear="clearEntry" />
+        </div>
+      </Portal>
 
-    <div class="dictionary-entry-body" :key="entry.id">
-      <!-- TODO: Use a tighter follow-on query here to reduce payload size -->
-      <div
-        class="dictionary-entry-content"
-        v-if="entry.data.content"
-        v-html="entry.data.content"
-      />
-      <div class="senses">
-        <LoaderBall v-if="$apollo.queries.senses.loading" />
-        <div class="sense-list" v-else>
-          <div
-            class="sense-list-item"
-            v-for="treeNode in entry.senseTree"
-            :key="treeNode.id"
-          >
-            <Sense
-              v-if="senses.length > 0"
-              :treeNode="treeNode"
-              :senses="senses"
-              :filteredSenses="filteredSenses"
-            />
+      <div class="dictionary-entry-body" :key="entry.id">
+        <!-- TODO: Use a tighter follow-on query here to reduce payload size -->
+        <div
+          class="dictionary-entry-content"
+          v-if="entry.data.content"
+          v-html="entry.data.content"
+        />
+        <div class="senses">
+          <LoaderBall v-if="$apollo.queries.senses.loading" />
+          <div class="sense-list" v-else>
+            <div
+              class="sense-list-item"
+              v-for="treeNode in entry.senseTree"
+              :key="treeNode.id"
+            >
+              <Sense
+                v-if="senses.length > 0"
+                :treeNode="treeNode"
+                :senses="senses"
+                :filteredSenses="filteredSenses"
+              />
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <LoaderBall v-else-if="$apollo.queries.entries.loading" />
+    <template v-else>
+      <EmptyMessage>
+        No entry found for urn
+        <span class="missing-urn" :title="entryUrn">"{{ entryUrn }}"</span>
+      </EmptyMessage>
+      <a class="show-all-entries" href="#" @click.prevent="clearEntry">
+        Show all entries
+      </a>
+    </template>
   </div>
-  <LoaderBall v-else-if="$apollo.queries.entries.loading" />
-  <EmptyMessage v-else>
-    No entry found for urn "{{ entryUrn }}"
-    <!-- TODO: Better error handling -->
-    <div class="show-all-entries" @click.prevent="clearEntry">
-      Show all entries
-    </div>
-  </EmptyMessage>
 </template>
 
 <script>
@@ -259,15 +262,18 @@
     }
   }
   .dictionary-entry {
-    // TODO: refactor
     margin: 0.375em 0;
     font-family: var(--sv-widget-dictionary-entries-font-family, 'Noto Serif');
   }
   .senses {
     font-size: 12px;
   }
-  .show-all-entries {
-    font-size: initial;
-    font-family: initial;
+  .empty-message {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  a.show-all-entries {
+    font-size: var(--sv-empty-message-font-size, 14px);
   }
 </style>
