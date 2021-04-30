@@ -1,5 +1,5 @@
 <template>
-  <div class="text-alignment">
+  <div :class="['text-alignment', direction]">
     <div class="line" v-for="line in content" :key="line.ref">
       <div
         class="text-alignment-ref"
@@ -50,6 +50,7 @@
       'textWidth',
       'tokenMap',
       'recordMap',
+      'direction',
     ],
     components: { AlignmentRecordPicker },
     methods: {
@@ -101,13 +102,26 @@
     margin-bottom: 20px;
     flex: 1;
   }
+  .text-alignment.rtl {
+    direction: rtl;
+    padding-inline-start: 1rem;
+    // FIXME: Proper rtl font support, including Amiri note below
+    .line {
+      // FIXME: Load Amiri; working for me locally because I have it installed
+      font-family: 'Amiri', 'Noto Sans';
+    }
+    .text-md {
+      font-size: 24px;
+      line-height: 1.7;
+    }
+  }
   .text-alignment-ref {
     text-align: center;
     font-size: 12pt;
     color: var(--sv-alignments-alignment-ref-text-color, #69c);
     font-family: 'Noto Sans';
     margin-bottom: 5px;
-    padding-right: 0.5rem;
+    padding-inline-end: 0.5rem;
   }
   .line {
     display: flex;

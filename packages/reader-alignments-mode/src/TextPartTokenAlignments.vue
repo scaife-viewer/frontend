@@ -9,6 +9,7 @@
       :hoveringOn="hoveredAlignmentTokens"
       :textSize="textSize"
       :textWidth="textWidth"
+      :direction="textDirection(leftRef.reference)"
       @hovered="onHover"
     />
     <TextPartTokenAlignment
@@ -110,6 +111,11 @@
       onHover(alignmentTokens, number) {
         this.hoveredIndex = number || 0;
         this.hoveredAlignmentTokens = alignmentTokens;
+      },
+      textDirection(urn) {
+        // FIXME: Pass directionality as a display hint or deduce from
+        // version metadata
+        return urn.indexOf('perseus-far') > -1 ? 'rtl' : '';
       },
     },
   };
