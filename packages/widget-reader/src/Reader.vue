@@ -2,7 +2,7 @@
   <div class="reader">
     <div
       class="reader-container text"
-      :class="[`text-${textSize}`, `text-width-${textWidth}`]"
+      :class="[`text-${textSize}`, `text-width-${textWidth}`, textDirection]"
     >
       <ReaderLine v-for="line in lines" :key="line.id" :line="line" />
 
@@ -33,6 +33,12 @@
       },
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
+      },
+      textDirection() {
+        const isRtl =
+          this.$route.params.urn &&
+          this.$route.params.urn.indexOf('perseus-far') > -1;
+        return isRtl ? 'rtl' : 'ltr';
       },
       metricalMode() {
         return this.$store.getters[`${MODULE_NS}/metricalMode`];
@@ -91,6 +97,31 @@
       line-height: 1.8;
     }
     &.text-xl {
+      line-height: 1.9;
+    }
+  }
+  .text.rtl {
+    font-family: var(--widget-reader-text-font-family-rtl, 'Amiri', 'Noto Serif');
+    margin: 1em 0;
+
+    &.text-xs {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    &.text-sm {
+      font-size: 20px;
+      line-height: 1.6;
+    }
+    &.text-md {
+      font-size: 24px;
+      line-height: 1.7;
+    }
+    &.text-lg {
+      font-size: 28px;
+      line-height: 1.8;
+    }
+    &.text-xl {
+      font-size: 32px;
       line-height: 1.9;
     }
   }

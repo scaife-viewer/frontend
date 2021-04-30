@@ -6,17 +6,18 @@
       </h2>
       <ApolloQuery
         class="reader-container"
+        :class="[textDirection]"
         :query="query"
         :variables="queryVariables"
         :update="queryUpdate"
         :skip="urn === null"
       >
         <template v-slot="{ result: { data } }">
-          <Paginator :urn="data && data.previous" direction="left" />
+          <Paginator :urn="data && data.previous" :direction="pagerPrevious" />
 
           <component :is="readerComponent" :query-variables="queryVariables" />
 
-          <Paginator :urn="data && data.next" direction="right" />
+          <Paginator :urn="data && data.next" :direction="pagerNext" />
         </template>
       </ApolloQuery>
     </section>
@@ -138,6 +139,19 @@
       fullHeight() {
         return this.namedEntitiesMode;
       },
+      textDirection() {
+        const isRtl = this.urn && this.urn.version.indexOf('perseus-far') > -1;
+        const isDefaultMode =
+          !this.$route.query.mode || this.$route.query.mode === 'default';
+        debugger;
+        return isRtl && isDefaultMode ? 'rtl' : 'ltr';
+      },
+      pagerPrevious() {
+        return this.textDirection === 'ltr' ? 'left' : 'right';
+      },
+      pagerNext() {
+        return this.textDirection === 'ltr' ? 'right' : 'left';
+      }
     },
   };
 </script>
@@ -157,6 +171,7 @@
     flex: 1;
   }
   .reader-container {
+    // TODO: RTLize via .overall from SV1
     display: flex;
     align-items: baseline;
     justify-content: left;
@@ -167,5 +182,8 @@
       margin-left: auto;
       padding-top: 40px;
     }
+  }
+  .reader-container.rtl {
+    direction: rtl;
   }
 </style>
