@@ -23,8 +23,8 @@
             @mouseenter="onTokenEnter(token)"
             @mouseleave="onTokenExit"
           >
-            <span class="word-value">
-              {{ token.wordValue }}
+            <span class="value">
+              {{ token.value }}
             </span>
             <AlignmentRecordPicker
               :records="recordsForToken(token)"

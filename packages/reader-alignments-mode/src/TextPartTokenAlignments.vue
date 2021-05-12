@@ -43,7 +43,7 @@
                 node {
                   id
                   idx
-                  wordValue
+                  value
                 }
               }
             }
