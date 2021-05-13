@@ -10,9 +10,9 @@
       <ErrorMessage v-else-if="error">
         There was an error loading the requested data.
       </ErrorMessage>
-      <EmptyMessage v-else-if="data.lines.length === 0" />
+      <EmptyMessage v-else-if="data.textParts.length === 0" />
       <template v-else>
-        <Reader :lines="data.lines" />
+        <Reader :textParts="data.textParts" />
       </template>
     </template>
   </ApolloQuery>
@@ -65,9 +65,9 @@
     },
     methods: {
       queryUpdate(data) {
-        const lines = data.passageTextParts.edges.map(line => {
-          const { id, ref } = line.node;
-          const tokens = line.node.tokens.edges.map(edge => {
+        const textParts = data.passageTextParts.edges.map(textPart => {
+          const { id, ref } = textPart.node;
+          const tokens = textPart.node.tokens.edges.map(edge => {
             const { value, veRef, lemma } = edge.node;
             return {
               value,
@@ -81,7 +81,7 @@
             tokens,
           };
         });
-        return { lines };
+        return { textParts };
       },
     },
   };
@@ -110,6 +110,9 @@
     &.text-xl {
       line-height: 1.9;
     }
+  }
+  .text.rtl {
+
   }
 
   .widget-sidebar .text {

@@ -4,7 +4,7 @@
       class="reader-container text"
       :class="[`text-${textSize}`, `text-width-${textWidth}`, textDirection]"
     >
-      <ReaderLine v-for="line in lines" :key="line.id" :line="line" />
+      <ReaderTextPart v-for="textPart in textParts" :key="textPart.id" :textPart="textPart" />
 
       <Attribution v-if="showMetricalCredit" class="metrical-attribution">
         Metrical annotation &copy; 2016
@@ -22,11 +22,11 @@
 <script>
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
-  import ReaderLine from './ReaderLine.vue';
+  import ReaderTextPart from './ReaderTextPart.vue';
 
   export default {
-    components: { Attribution, EmptyMessage, ReaderLine },
-    props: ['lines'],
+    components: { Attribution, EmptyMessage, ReaderTextPart },
+    props: ['textParts'],
     computed: {
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
@@ -48,8 +48,8 @@
           return false;
         }
         const hasContent =
-          this.lines.filter(line => {
-            const { metricalAnnotations } = line;
+          this.textParts.filter(textPart => {
+            const { metricalAnnotations } = textPart;
             return metricalAnnotations[0] && metricalAnnotations[0].htmlContent;
           }).length > 0;
         return hasContent;
@@ -58,8 +58,8 @@
         if (!this.metricalMode) {
           return [];
         }
-        return this.lines.filter(line => {
-          const { metricalAnnotations } = line;
+        return this.textParts.filter(textPart => {
+          const { metricalAnnotations } = textPart;
           const annotation = metricalAnnotations[0];
           const htmlContent = annotation && annotation.htmlContent;
           return htmlContent !== undefined;
