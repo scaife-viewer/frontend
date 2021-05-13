@@ -168,4 +168,8 @@
   .text-width-full {
     max-width: 100%;
   }
+  .reader-container {
+    // REVIEW ME: Backported from SV1
+    flex: 4;
+  }
 </style>

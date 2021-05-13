@@ -143,7 +143,6 @@
         const isRtl = this.urn && this.urn.version.indexOf('perseus-far') > -1;
         const isDefaultMode =
           !this.$route.query.mode || this.$route.query.mode === 'default';
-        debugger;
         return isRtl && isDefaultMode ? 'rtl' : 'ltr';
       },
       pagerPrevious() {

@@ -1,5 +1,11 @@
 <template>
-  <div class="reader-line" :class="{ 'playing-audio': playingAudio }">
+  <div
+    class="reader-line"
+    :class="{
+      'playing-audio': playingAudio,
+      'half-line-end': isHalfLineEnd,
+    }"
+  >
     <section class="tokens" v-if="interlinearMode">
       <ReaderToken v-for="token in tokens" :key="token.veRef" :token="token" />
     </section>
@@ -69,6 +75,10 @@
       metrical() {
         return this.metricalMode && this.metricalHtml;
       },
+      isHalfLineEnd() {
+        const refDepth = (this.textPart.ref.match(/\./g) || []).length;
+        return refDepth === 3 ? this.textPart.ref.endsWith('2') : false;
+      },
     },
   };
 </script>
@@ -96,6 +106,13 @@
     }
     .line-text {
       margin-left: 1em;
+    }
+  }
+
+  .half-line-end {
+    .line-text {
+      margin-inline-start: 5%;
+      margin-block-end: 10px;
     }
   }
 
