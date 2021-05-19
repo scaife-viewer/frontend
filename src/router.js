@@ -4,6 +4,7 @@ import Router from 'vue-router';
 
 import App from './App.vue';
 import ExploreHomer from './ExploreHomer.vue';
+import Search from './Search.vue';
 
 Vue.use(Router);
 
@@ -12,6 +13,7 @@ export default new Router({
   base: '',
   routes: [
     { path: '/', component: App, name: 'home' },
+    { path: '/search', component: Search, name: 'search' },
     { path: '/explore-homer/:urn?', component: ExploreHomer, name: 'reader' },
   ],
 });
