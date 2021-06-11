@@ -55,7 +55,7 @@
     components: { AlignmentRecordPicker },
     methods: {
       emptyAlignments(token) {
-        const { start_idx: startIdx, end_idx: endIdx } = this.reference;
+        const { startIdx, endIdx } = this.reference;
         return token.idx < startIdx || token.idx > endIdx;
       },
       recordsForToken(token) {
