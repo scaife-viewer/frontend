@@ -1,20 +1,20 @@
 <template>
   <div class="alignments">
     <TextPartTokenAlignment
-      :reference="leftRef"
-      :content="left"
+      :reference="firstRef"
+      :content="first"
       :tokenMap="tokenMap"
       :recordMap="recordMap"
       :hoveringAt="hoveredIndex"
       :hoveringOn="hoveredAlignmentTokens"
       :textSize="textSize"
       :textWidth="textWidth"
-      :direction="textDirection(leftRef.reference)"
+      :direction="textDirection(firstRef.reference)"
       @hovered="onHover"
     />
     <TextPartTokenAlignment
-      :reference="rightRef"
-      :content="right"
+      :reference="secondRef"
+      :content="second"
       :tokenMap="tokenMap"
       :recordMap="recordMap"
       :hoveringAt="hoveredIndex"
@@ -23,11 +23,29 @@
       :textWidth="textWidth"
       @hovered="onHover"
     />
+    <TextPartTokenAlignment
+      v-if="thirdVersionHasContent"
+      :reference="thirdRef"
+      :content="third"
+      :tokenMap="tokenMap"
+      :recordMap="recordMap"
+      :hoveringAt="hoveredIndex"
+      :hoveringOn="hoveredAlignmentTokens"
+      :textSize="textSize"
+      :textWidth="textWidth"
+      @hovered="onHover"
+    />
+    <EmptyMessage v-else-if="hasThirdVersion" class="empty-version">
+      No records linking "{{ firstRef.versionUrn }}" and "{{
+        thirdRef.versionUrn
+      }}" were found.
+    </EmptyMessage>
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
+  import { EmptyMessage } from '@scaife-viewer/common';
 
   import TextPartTokenAlignment from './TextPartTokenAlignment.vue';
 
@@ -63,13 +81,25 @@
 
   export default {
     props: ['data', 'textSize', 'textWidth'],
-    components: { TextPartTokenAlignment },
+    components: { EmptyMessage, TextPartTokenAlignment },
     computed: {
-      leftRef() {
+      versionsCount() {
+        return this.data.references.length;
+      },
+      hasThirdVersion() {
+        return this.versionsCount >= 3;
+      },
+      thirdVersionHasContent() {
+        return this.hasThirdVersion ? this.thirdRef.tokenCount : false;
+      },
+      firstRef() {
         return this.data.references[0];
       },
-      rightRef() {
+      secondRef() {
         return this.data.references[1];
+      },
+      thirdRef() {
+        return this.data.references[2];
       },
       tokenMap() {
         return this.data.tokenMap;
@@ -79,7 +109,7 @@
       },
     },
     apollo: {
-      left: {
+      first: {
         query: passageQuery,
         variables() {
           return {
@@ -90,7 +120,7 @@
           return passageUpdate(data);
         },
       },
-      right: {
+      second: {
         query: passageQuery,
         variables() {
           return {
@@ -99,6 +129,21 @@
         },
         update(data) {
           return passageUpdate(data);
+        },
+      },
+      // TODO: Refactor support an arbitrary number of texts
+      third: {
+        query: passageQuery,
+        variables() {
+          return {
+            reference: this.data.references[2].reference,
+          };
+        },
+        update(data) {
+          return passageUpdate(data);
+        },
+        skip() {
+          return !this.thirdVersionHasContent;
         },
       },
     },
@@ -126,5 +171,9 @@
   .alignments {
     display: flex;
     justify-content: center;
+  }
+  .empty-version {
+    margin-left: 2.0em;
+    margin-right: -2.0em;
   }
 </style>

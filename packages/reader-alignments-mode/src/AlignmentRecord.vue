@@ -32,6 +32,7 @@
       margin-right: 0;
     }
   }
+  // TODO: Think through "groupings" to allow for consistent colors
   .a0 {
     background-color: var(
       --sv-reader-token-alignments-mode-alignment-record-a0-color,
