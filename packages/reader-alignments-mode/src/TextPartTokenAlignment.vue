@@ -1,6 +1,11 @@
 <template>
   <div :class="['text-alignment', direction]">
-    <div class="line" v-for="line in content" :key="line.id">
+    <div
+      class="line"
+      v-for="line in content"
+      :key="line.id"
+      :class="{ 'half-line-end': isHalfLineEnd(line) }"
+    >
       <div
         class="text-alignment-ref"
         @mouseenter="onLineEnter(line)"
@@ -93,6 +98,10 @@
       onTokenExit() {
         this.$emit('hovered', [], null);
       },
+      isHalfLineEnd(textPart) {
+        const refDepth = (textPart.ref.match(/\./g) || []).length;
+        return refDepth === 3 ? textPart.ref.endsWith('2') : false;
+      },
     },
   };
 </script>
@@ -126,6 +135,12 @@
   .line {
     display: flex;
     font-family: var(--sv-alignments-line-font-family, 'Noto Serif');
+  }
+  .half-line-end {
+    .tokens {
+      margin-inline-start: 5%;
+      margin-block-end: 10px;
+    }
   }
 
   .token:hover > ::v-deep.alignment-records-picker {
