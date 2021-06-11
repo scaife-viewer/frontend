@@ -55,6 +55,7 @@
   const passageUpdate = data =>
     data.passageTextParts.edges.map(e => {
       return {
+        id: e.node.id,
         ref: e.node.ref,
         tokens: e.node.tokens.edges.map(te => te.node),
       };

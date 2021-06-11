@@ -1,6 +1,6 @@
 <template>
   <div :class="['text-alignment', direction]">
-    <div class="line" v-for="line in content" :key="line.ref">
+    <div class="line" v-for="line in content" :key="line.id">
       <div
         class="text-alignment-ref"
         @mouseenter="onLineEnter(line)"
