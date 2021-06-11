@@ -38,6 +38,7 @@
 
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
   import RecordTokenAlignment from './RecordTokenAlignments.vue';
+  import RegroupedAlignmentsPrototype from './RegroupedAlignmentsPrototype.vue';
 
   export default {
     readerConfig: {
@@ -61,6 +62,13 @@
     computed: {
       passageHasAlignments() {
         return this.textAlignments && this.textAlignments.length > 0;
+      },
+      prototypeEnabled() {
+        return (
+          this.alignmentUrn ===
+          'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi-english-word-alignment-temp' &&
+          this.$route.params.urn.indexOf('perseus-far') > -1
+        );
       },
       recordsExistForPassage() {
         return (
@@ -88,6 +96,9 @@
       },
       //
       alignmentsComponent() {
+        if (this.prototypeEnabled) {
+          return RegroupedAlignmentsPrototype;
+        }
         const hint = this.textAlignmentRecords.displayHint;
         return hint === 'records'
           ? RecordTokenAlignment
