@@ -65,9 +65,9 @@
       },
       prototypeEnabled() {
         return (
-          this.alignmentUrn ===
-          'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi-english-word-alignment-temp' &&
-          this.$route.params.urn.indexOf('perseus-far') > -1
+          this.alignmentUrn.indexOf(
+            'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi',
+          ) > -1 && this.$route.params.urn.indexOf('perseus-far') > -1
         );
       },
       recordsExistForPassage() {

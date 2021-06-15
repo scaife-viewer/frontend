@@ -5,6 +5,7 @@
         v-for="(row, rowIdx) in groupedPassages"
         :key="passageKey(rowIdx)"
         class="alignment row text-alignment"
+        :class="{ 'half-line': isHalfLineEnd(row[0]) }"
       >
         <div v-show="false" class="alignment-ref">{{ passageKey(rowIdx) }}</div>
         <div class="columns">
@@ -14,6 +15,7 @@
             :class="{
               left: lineIdx == 0,
               right: lineIdx == 1,
+              other: lineIdx == 2,
               'half-line-end': isHalfLineEnd(line),
               rtl: textDirection(data.references[lineIdx].versionUrn) == 'rtl',
             }"
@@ -133,8 +135,13 @@
         return this.textDirection(this.data.references[0].versionUrn) === 'rtl';
       },
       groupedPassages() {
+        // HACK: Experimenting for three-alignments
         const regrouped = [];
-        if (this.second) {
+        if (this.second && this.third) {
+          this.first.forEach(function callbackFn(textPart, i) {
+            regrouped.push([textPart, this.second[i], this.third[i]]);
+          }, this);
+        } else if (this.second) {
           this.first.forEach(function callbackFn(textPart, i) {
             regrouped.push([textPart, this.second[i]]);
           }, this);
@@ -258,7 +265,8 @@
       display: flex;
       justify-content: center;
       .left,
-      .right {
+      .right,
+      .other {
         flex: 1;
       }
       .left {
@@ -267,6 +275,8 @@
       .right {
         padding-left: 0.5rem;
         padding-right: 0.25rem;
+      }
+      .other {
       }
     }
   }
@@ -283,15 +293,22 @@
       line-height: 1.7;
     }
   }
+
   .text-alignment {
-    margin-bottom: 20px;
+    margin-bottom: 1.25em;
     flex: 1;
+  }
+  .text-alignment.half-line {
+    margin-top: -1.25em;
   }
 
   .text-alignment-ref-line-ref {
     text-align: center;
-    font-size: 12pt;
-    color: var(--sv-alignments-alignment-ref-text-color, #69c);
+    // font-size: 12pt;
+    // color: var(--sv-alignments-alignment-ref-text-color, #69c);
+    // HACK: Experimenting for three-alignments
+    font-size: 8pt;
+    color: var(--sv-alignments-alignment-ref-text-color, #6699ccaf);
     font-family: 'Noto Sans';
     margin-bottom: 5px;
     padding-inline-end: 0.5rem;
