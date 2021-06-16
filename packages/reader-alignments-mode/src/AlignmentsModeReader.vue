@@ -64,11 +64,29 @@
         return this.textAlignments && this.textAlignments.length > 0;
       },
       prototypeEnabled() {
-        return (
+        const isHafezAlignment =
           this.alignmentUrn.indexOf(
             'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi',
-          ) > -1 && this.$route.params.urn.indexOf('perseus-far') > -1
-        );
+          ) > -1;
+        const isFarsiPrimaryText =
+          this.$route.params.urn.indexOf('perseus-far') > -1;
+        const isThreeWayAlignment =
+          this.alignmentUrn ===
+          // eslint-disable-next-line max-len
+          'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi-german-farsi-english-word-alignments-temp';
+        if (!isHafezAlignment) {
+          // Keep Bodin as-is
+          return false;
+        }
+        if (isThreeWayAlignment && !isFarsiPrimaryText) {
+          // NOTE: There are currently a lot of "regrouping"
+          // issues, so we don't want to show the prototype
+          // unless Farsi is the first text.
+          return false;
+        }
+        // NOTE: Otherwise, if this is a Hafez alignment, show the
+        // prototype
+        return true;
       },
       recordsExistForPassage() {
         return (
