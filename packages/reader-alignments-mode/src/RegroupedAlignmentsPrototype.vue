@@ -347,6 +347,10 @@
         #00f
       );
     }
+    background: var(
+      --sv-reader-token-alignments-mode-highlight-background-color,
+      #fea
+    );
   }
   .alignment-ref {
     text-align: center;

@@ -171,6 +171,10 @@
         #00f
       );
     }
+    background: var(
+      --sv-reader-token-alignments-mode-highlight-background-color,
+      #fea
+    );
   }
 
   .text-xs .line {
