@@ -21,7 +21,13 @@
             }"
             class="line"
           >
-            <span class="text-alignment-ref-line-ref">{{ line.ref }}</span>
+            <span
+              class="text-alignment-ref-line-ref"
+              @mouseenter="onLineEnter(line)"
+              @mouseleave="onLineExit"
+            >
+              {{ line.ref }}
+            </span>
             <span
               class="line-text tokens"
               :class="[`text-${textSize}`, `text-width-${textWidth}`]"
@@ -220,6 +226,20 @@
         // TODO: Better key
         return this.first[idx].ref;
       },
+      onLineEnter(line) {
+        const records = line.tokens.reduce((arr, token) => {
+          return [...arr, ...(this.tokenMap[token.id] || [])];
+        }, []);
+        const hovering = records.reduce((arr, record) => {
+          return [...arr, ...(this.recordMap[record] || [])];
+        }, []);
+        // this.$emit('hovered', hovering, 0);
+        this.hovered(hovering, 0);
+      },
+      onLineExit() {
+        // this.$emit('hovered', [], null);
+        this.hovered([], null);
+      },
       onTokenEnter(token) {
         // fix to only a single alignment for now
         const recordId = this.tokenMap[token.id] && this.tokenMap[token.id][0];
@@ -243,7 +263,8 @@
       },
       onPickerHover(recordId, number) {
         if (recordId && this.recordMap[recordId]) {
-          this.$emit('hovered', this.recordMap[recordId], number);
+          // this.$emit('hovered', this.recordMap[recordId], number);
+          this.hovered(this.recordMap[recordId], number);
         }
       },
     },
