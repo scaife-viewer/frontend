@@ -143,6 +143,9 @@
       groupedPassages() {
         // HACK: Experimenting for three-alignments
         const regrouped = [];
+        if (!this.first) {
+          return regrouped;
+        }
         if (this.second && this.third) {
           this.first.forEach(function callbackFn(textPart, i) {
             regrouped.push([textPart, this.second[i], this.third[i]]);
