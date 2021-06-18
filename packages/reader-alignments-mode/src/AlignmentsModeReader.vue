@@ -3,17 +3,29 @@
     <LoaderBall v-if="$apollo.loading" />
     <ErrorMessage v-else-if="errors" />
     <template v-else-if="passageHasAlignments">
-      <CustomSelect
-        v-model="selectedAlignment"
-        :options="textAlignments"
-        placeholder="Select an alignment..."
-      />
+      <div class="toolbar">
+        <CustomSelect
+          v-model="selectedAlignment"
+          :options="textAlignments"
+          placeholder="Select an alignment..."
+        />
+        <div v-show="isTextPartAlignment" class="toggle-container">
+          <a
+            href
+            @click.prevent="showEmpty = !showEmpty"
+            class="toggle-control"
+          >
+            {{ !showEmpty ? 'Show ' : 'Hide ' }} unaligned tokens
+          </a>
+        </div>
+      </div>
       <component
         v-if="recordsExistForPassage"
         :is="alignmentsComponent"
         :data="textAlignmentRecords"
         :textSize="textSize"
         :textWidth="textWidth"
+        :showEmpty="showEmpty"
       />
       <EmptyMessage
         v-else-if="canSelectAnotherAlignment"
@@ -51,6 +63,8 @@
     data() {
       return {
         errors: false,
+        // TODO: Consider vuex
+        showEmpty: false,
       };
     },
     components: {
@@ -121,6 +135,12 @@
         return hint === 'records'
           ? RecordTokenAlignment
           : TextPartTokenAlignments;
+      },
+      isTextPartAlignment() {
+        return (
+          this.recordsExistForPassage &&
+          this.alignmentsComponent !== RecordTokenAlignment
+        );
       },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
@@ -341,5 +361,15 @@
   .empty-annotations {
     text-align: center;
     margin-top: 1rem;
+  }
+  .toolbar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 1em;
+  }
+  .toggle-container {
+    padding-inline-start: 1em;
   }
 </style>

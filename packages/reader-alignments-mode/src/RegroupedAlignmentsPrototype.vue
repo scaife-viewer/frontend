@@ -39,7 +39,8 @@
                   :class="[
                     {
                       selected: selected(token),
-                      empty: emptyAlignments(token, lineIdx),
+                      empty: showEmpty && isEmpty(token),
+                      'out-of-bounds': outOfBounds(token, lineIdx),
                     },
                     `a${hoveringAt}`,
                   ]"
@@ -104,7 +105,7 @@
     });
 
   export default {
-    props: ['data', 'textSize', 'textWidth'],
+    props: ['data', 'textSize', 'textWidth', 'showEmpty'],
     components: { EmptyMessage, TextPartTokenAlignment, AlignmentRecordPicker },
     computed: {
       hoveringOn() {
@@ -204,7 +205,10 @@
       };
     },
     methods: {
-      emptyAlignments(token, refIdx) {
+      isEmpty(token) {
+        return this.tokenMap[token.id] === undefined;
+      },
+      outOfBounds(token, refIdx) {
         const reference = this.data.references[refIdx];
         const { startIdx, endIdx } = reference;
         return token.idx < startIdx || token.idx > endIdx;
@@ -347,7 +351,10 @@
     opacity: 1;
   }
   .token.empty {
-    color: var(--sv-alignments-token-no-alignments-text-color, #ccc);
+    color: var(--sv-alignments-token-no-alignments-text-color, #f06e6e);
+  }
+  .token.out-of-bounds {
+    color: var(--sv-alignments-token-out-of-bounds-text-color, #ccc);
   }
   .token {
     display: inline-block;
