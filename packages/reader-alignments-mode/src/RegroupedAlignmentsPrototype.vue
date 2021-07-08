@@ -17,7 +17,7 @@
               right: lineIdx == 1,
               other: lineIdx == 2,
               'half-line-end': isHalfLineEnd(line),
-              rtl: textDirection(data.references[lineIdx].versionUrn) == 'rtl',
+              rtl: textDirection(data.references[lineIdx].reference) == 'rtl',
             }"
             class="line"
           >
@@ -139,7 +139,7 @@
         return this.data.recordMap;
       },
       firstIsRtl() {
-        return this.textDirection(this.data.references[0].versionUrn) === 'rtl';
+        return this.textDirection(this.data.references[0].reference) === 'rtl';
       },
       groupedPassages() {
         // HACK: Experimenting for three-alignments

@@ -36,8 +36,8 @@
       @hovered="onHover"
     />
     <EmptyMessage v-else-if="hasThirdVersion" class="empty-version">
-      No records linking "{{ firstRef.versionUrn }}" and "{{
-        thirdRef.versionUrn
+      No records linking "{{ firstRef.reference }}" and "{{
+        thirdRef.reference
       }}" were found.
     </EmptyMessage>
   </div>
