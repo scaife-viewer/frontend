@@ -78,6 +78,14 @@
         return this.textAlignments && this.textAlignments.length > 0;
       },
       prototypeEnabled() {
+        const isParishAlignment =
+          this.alignmentUrn.indexOf(
+            'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment-parrish',
+          ) > -1;
+        if (isParishAlignment) {
+          return true;
+        }
+
         const isHafezAlignment =
           this.alignmentUrn.indexOf(
             'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi',
