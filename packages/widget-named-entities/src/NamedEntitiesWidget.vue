@@ -16,13 +16,26 @@
         :selected-entities="selectedEntities"
         @select="onSelect"
       />
+      <Attribution v-if="showAttribution">
+        <a
+          href="https://medium.com/pelagios/beyond-translation-building-better-greek-scholars-561ab331a1bc"
+          target="_blank"
+        >
+          Annotated by Josh Kemp
+        </a>
+      </Attribution>
     </template>
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
-  import { Lookahead, LoaderBall, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    Attribution,
+    Lookahead,
+    LoaderBall,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
   import {
     MODULE_NS,
     SELECT_NAMED_ENTITIES,
@@ -42,6 +55,7 @@
       };
     },
     components: {
+      Attribution,
       Lookahead,
       LoaderBall,
       EmptyMessage,
@@ -83,6 +97,14 @@
       },
       selectedToken() {
         return this.$store.state[MODULE_NS].selectedToken;
+      },
+      showAttribution() {
+        // TODO: Call out to the namedEntityCollection field
+        // for this information
+        return (
+          this.$route.params.urn.indexOf('tlg0012.tlg002.perseus-grc2') > -1 &&
+          this.entities.length > 0
+        );
       },
     },
     apollo: {
