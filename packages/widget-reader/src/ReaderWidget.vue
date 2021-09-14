@@ -140,7 +140,8 @@
         return this.namedEntitiesMode;
       },
       textDirection() {
-        const isRtl = this.urn && this.urn.version.indexOf('perseus-far') > -1;
+        const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
+        const isRtl = metadata && metadata.lang === 'far' ? 'rtl' : 'ltr';
         const isDefaultMode =
           !this.$route.query.mode || this.$route.query.mode === 'default';
         return isRtl && isDefaultMode ? 'rtl' : 'ltr';

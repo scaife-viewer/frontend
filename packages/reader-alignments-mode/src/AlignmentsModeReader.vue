@@ -90,8 +90,10 @@
           this.alignmentUrn.indexOf(
             'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi',
           ) > -1;
+
+        const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
         const isFarsiPrimaryText =
-          this.$route.params.urn.indexOf('perseus-far') > -1;
+          metadata && metadata.lang === 'far' ? 'rtl' : 'ltr';
         const isThreeWayAlignment =
           this.alignmentUrn ===
           // eslint-disable-next-line max-len

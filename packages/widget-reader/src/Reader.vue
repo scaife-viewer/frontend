@@ -35,9 +35,8 @@
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
       textDirection() {
-        const isRtl =
-          this.$route.params.urn &&
-          this.$route.params.urn.indexOf('perseus-far') > -1;
+        const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
+        const isRtl = metadata && metadata.lang === 'far' ? 'rtl' : 'ltr';
         return isRtl ? 'rtl' : 'ltr';
       },
       metricalMode() {
