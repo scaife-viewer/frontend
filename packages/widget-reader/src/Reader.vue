@@ -36,7 +36,7 @@
       },
       textDirection() {
         const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
-        const isRtl = metadata && metadata.lang === 'far' ? 'rtl' : 'ltr';
+        const isRtl = metadata && metadata.lang === 'far';
         return isRtl ? 'rtl' : 'ltr';
       },
       metricalMode() {

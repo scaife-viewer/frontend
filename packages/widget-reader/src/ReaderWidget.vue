@@ -141,7 +141,7 @@
       },
       textDirection() {
         const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
-        const isRtl = metadata && metadata.lang === 'far' ? 'rtl' : 'ltr';
+        const isRtl = metadata && metadata.lang === 'far';
         const isDefaultMode =
           !this.$route.query.mode || this.$route.query.mode === 'default';
         return isRtl && isDefaultMode ? 'rtl' : 'ltr';

@@ -228,7 +228,7 @@
         // FIXME: Pass directionality as a display hint or deduce from
         // version metadata
         const isFarsi =
-          urn.indexOf('perseus-far') > -1 || urn.indexOf('shamisan-far') > -1;
+          urn.indexOf('perseus-far') > -1 || urn.indexOf('shamsian-far') > -1;
         return isFarsi ? 'rtl' : '';
       },
       passageKey(idx) {
