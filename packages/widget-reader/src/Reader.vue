@@ -43,15 +43,10 @@
         return this.$store.getters[`${MODULE_NS}/metricalMode`];
       },
       showMetricalCredit() {
-        if (!this.metricalModel) {
+        if (!this.metricalMode) {
           return false;
         }
-        const hasContent =
-          this.textParts.filter(textPart => {
-            const { metricalAnnotations } = textPart;
-            return metricalAnnotations[0] && metricalAnnotations[0].htmlContent;
-          }).length > 0;
-        return hasContent;
+        return this.metricalLines.length > 0;
       },
       metricalLines() {
         if (!this.metricalMode) {
