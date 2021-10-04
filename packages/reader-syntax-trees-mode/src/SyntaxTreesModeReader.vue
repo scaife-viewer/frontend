@@ -139,19 +139,36 @@
           this.$router.replace({ query });
         },
       },
+      isIliadGreek() {
+        const urn = new URN(this.queryVariables.urn);
+        return urn.version === 'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:';
+      },
       collectionUrn() {
         // TODO:Remove hardcoded value
-        // eslint-disable-next-line max-len
-        return `urn:cite2:beyond-translation:text_annotation_collection.atlas_v1:il_gregorycrane_gAGDT`;
+        return this.isIliadGreek
+          ? // eslint-disable-next-line max-len
+            `urn:cite2:beyond-translation:text_annotation_collection.atlas_v1:il_gregorycrane_gAGDT`
+          : '';
       },
       // TODO: Refactor `queryVariables` prop
-      queryVariablesPlus() {
-        return {
-          collectionUrn: this.collectionUrn,
-          ...this.queryVariables
+      standardQuery() {
+        return gql`
+          query SyntaxTree($urn: String!) {
+            syntaxTrees(reference: $urn) {
+              edges {
+                node {
+                  id
+                  data
+                }
         }
+            }
+          }
+        `;
       },
-      query() {
+      standardVariables() {
+        return this.queryVariables;
+      },
+      specialQuery() {
         return gql`
           query SyntaxTree($urn: String!, $collectionUrn: ID!) {
             syntaxTrees(reference: $urn, collection_Urn: $collectionUrn) {
@@ -164,6 +181,20 @@
             }
           }
         `;
+      },
+      specialVariables() {
+        return {
+          collectionUrn: this.collectionUrn,
+          ...this.queryVariables,
+        };
+      },
+      queryVariablesPlus() {
+        return this.isIliadGreek
+          ? this.specialVariables
+          : this.standardVariables;
+      },
+      query() {
+        return this.isIliadGreek ? this.specialQuery : this.standardQuery;
       },
     },
   };
