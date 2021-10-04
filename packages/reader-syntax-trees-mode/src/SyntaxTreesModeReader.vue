@@ -2,7 +2,7 @@
   <ApolloQuery
     class="reader"
     :query="query"
-    :variables="queryVariables"
+    :variables="queryVariablesPlus"
     :update="queryUpdate"
   >
     <template v-slot="{ result: { error, data }, isLoading }">
@@ -139,10 +139,22 @@
           this.$router.replace({ query });
         },
       },
+      collectionUrn() {
+        // TODO:Remove hardcoded value
+        // eslint-disable-next-line max-len
+        return `urn:cite2:beyond-translation:text_annotation_collection.atlas_v1:il_gregorycrane_gAGDT`;
+      },
+      // TODO: Refactor `queryVariables` prop
+      queryVariablesPlus() {
+        return {
+          collectionUrn: this.collectionUrn,
+          ...this.queryVariables
+        }
+      },
       query() {
         return gql`
-          query SyntaxTree($urn: String!) {
-            syntaxTrees(reference: $urn) {
+          query SyntaxTree($urn: String!, $collectionUrn: ID!) {
+            syntaxTrees(reference: $urn, collection_Urn: $collectionUrn) {
               edges {
                 node {
                   id
