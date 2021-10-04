@@ -17,7 +17,7 @@
           @show="onShowMap"
         />
         <div class="entity-mode-container">
-          <Reader class="entity-reader" :lines="data.lines" />
+          <Reader class="entity-reader" :textParts="data.lines" />
           <div class="map" v-if="showMap && data.coordinatesList.length > 0">
             <SelectableEntityMap
               :key="`${mapState}-${sidebars}`"

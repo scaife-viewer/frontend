@@ -12,7 +12,7 @@
       </ErrorMessage>
       <EmptyMessage v-else-if="data.lines.length === 0" />
       <template v-else>
-        <Reader :lines="data.lines" />
+        <Reader :textParts="data.lines" />
       </template>
     </template>
   </ApolloQuery>

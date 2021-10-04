@@ -12,7 +12,7 @@
       </ErrorMessage>
       <EmptyMessage v-else-if="!(data || data.hasAnnotations)" />
       <template v-else>
-        <Reader :lines="data.lines" />
+        <Reader :textParts="data.lines" />
       </template>
     </template>
   </ApolloQuery>

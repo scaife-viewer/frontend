@@ -19,7 +19,7 @@
             v-for="image in data.images"
             :key="image.imageIdentifier"
           >
-            <Reader :lines="image.lines" />
+            <Reader :textParts="image.lines" />
             <ImageViewer
               :imageIdentifier="image.url"
               :reference="image.refs[0]"
@@ -30,7 +30,7 @@
             v-if="data.images === undefined || data.images.length === 0"
           />
         </div>
-        <Reader v-else-if="showImage === 'text'" :lines="data.lines" />
+        <Reader v-else-if="showImage === 'text'" :textParts="data.lines" />
         <template v-else-if="showImage === 'image'">
           <ImageViewer
             v-for="image in data.images"
