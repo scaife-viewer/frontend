@@ -1206,34 +1206,6 @@
     "@fortawesome/vue-fontawesome" "^0.1.8"
     lodash.debounce "^4.0.8"
 
-"@scaife-viewer/common@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@scaife-viewer/common/-/common-0.0.7.tgz#5d58113d097c414623499cc0b0c62608531c98ec"
-  integrity sha512-M3TgA3RD28gpBHVmHGDMrf7CmuY2HCR2BxFoQNU9Yi8RcdTAFvL10P3LfLKYgq9Us2WCoBHQ2unIQEWkuAFvwA==
-  dependencies:
-    "@fortawesome/fontawesome-svg-core" "^1.2.28"
-    "@fortawesome/free-solid-svg-icons" "^5.14.0"
-    "@fortawesome/vue-fontawesome" "^0.1.8"
-    lodash.debounce "^4.0.8"
-
-"@scaife-viewer/common@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@scaife-viewer/common/-/common-0.2.0.tgz#e169c311eeb5fcec9f3d54784b6f0e5cf2d08178"
-  integrity sha512-iETnuViYYqynxx/9GchjwubcN+WK7Hsb6z/G6sPBwqnNtCqGPC1AXv3R7Q7gFuUxGM0GD241p7y45uYG9+/rzg==
-  dependencies:
-    "@fortawesome/fontawesome-svg-core" "^1.2.28"
-    "@fortawesome/free-solid-svg-icons" "^5.14.0"
-    "@fortawesome/vue-fontawesome" "^0.1.8"
-    lodash.debounce "^4.0.8"
-
-"@scaife-viewer/store@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@scaife-viewer/store/-/store-0.0.10.tgz#54b51bc0616cbf1d040a7f31883f5049f1ef3989"
-  integrity sha512-6NCl5wC8FpwKeDwC/PK75AZ3auZFEjbvMSX5HJ0GSaol7O0N7KB0jR21hDh0V3ujPQ+a/tI/dEptZWk2aDCoeg==
-  dependencies:
-    "@scaife-viewer/common" "^0.0.7"
-    graphql-tag "^2.10.3"
-
 "@scaife-viewer/store@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@scaife-viewer/store/-/store-0.0.4.tgz#60a1d97ccf91c14c675987c104503e5d74bb220a"
@@ -1242,13 +1214,16 @@
     "@scaife-viewer/common" "^0.0.2"
     graphql-tag "^2.10.3"
 
-"@scaife-viewer/store@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@scaife-viewer/store/-/store-0.2.0.tgz#145cb0da0b5cfc736c05f53981a2564e58e7cb31"
-  integrity sha512-1yuB0hXcU71AT4ER4ULfyt1t10yo9q7ATi1IPKRUOJTXxPHi+I8mYHQnAuh7hx0zcivH+vlSMIRHi0K4cU9j2A==
+"@scaife-viewer/widget-reader@https://gitpkg.now.sh/scaife-viewer/frontend/packages/widget-reader?3e6e06ffbecc7f9114d8e625792f05f6bbd7bed0":
+  version "0.4.0"
+  uid "046bec0b3f15348fcc463fc14fe3bd6a1f156db1"
+  resolved "https://gitpkg.now.sh/scaife-viewer/frontend/packages/widget-reader?3e6e06ffbecc7f9114d8e625792f05f6bbd7bed0#046bec0b3f15348fcc463fc14fe3bd6a1f156db1"
   dependencies:
-    "@scaife-viewer/common" "^0.2.0"
+    "@scaife-viewer/common" "^0.4.0"
+    "@scaife-viewer/store" "^0.4.0"
+    graphql "^15.0.0"
     graphql-tag "^2.10.3"
+    vue-apollo "^3.0.4"
 
 "@soda/friendly-errors-webpack-plugin@^1.7.1":
   version "1.7.1"
