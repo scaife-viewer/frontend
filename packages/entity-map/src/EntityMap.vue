@@ -47,10 +47,7 @@
       onMapLoaded(event) {
         this.map = event.map;
         if (this.coordinatesList.length > 1) {
-          const bbox = this.coordinatesList.map(c => {
-            return [c[0], c[1]];
-          });
-          this.map.fitBounds(bbox);
+          this.map.fitBounds(this.boundingBox);
         }
       },
       getMarkerKey(entityId, idx) {
@@ -68,9 +65,9 @@
           this.$nextTick(() => {
             if (this.map !== null) {
               if (this.coordinatesList.length > 1) {
-                this.map.fitBounds(this.coordinatesList);
+                this.map.fitBounds(this.boundingBox);
               } else {
-                this.map.setCenter(this.coordinatesList[0]);
+                this.map.setCenter(this.boundingBox[0]);
               }
             }
           });
@@ -79,7 +76,9 @@
     },
     computed: {
       center() {
-        return [this.coordinatesList[0][0], this.coordinatesList[0][1]];
+        const lat = this.coordinatesList[0][0];
+        const lng = this.coordinatesList[0][1];
+        return [lng, lat];
       },
       config() {
         return this.$scaife.config.entityMap;
@@ -89,6 +88,18 @@
       },
       mapStyle() {
         return this.config.mapStyle;
+      },
+      boundingBox() {
+        // NOTE: MapBox assumes coordinates in
+        // longitue, latitude format
+        // https://soal.github.io/vue-mapbox/api/marker.html#props
+        // https://docs.mapbox.com/mapbox-gl-js/api/geography/#lnglatlike
+        // https://geojson.org/geojson-spec.html#positions
+        return this.coordinatesList.map(c => {
+          const lat = c[0];
+          const lng = c[1];
+          return [lng, lat];
+        });
       },
     },
   };

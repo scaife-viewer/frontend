@@ -1,5 +1,5 @@
 <template>
-  <MglMarker ref="marker" :coordinates="[lat, lng]" @click="onMarkerClick">
+  <MglMarker ref="marker" :coordinates="[lng, lat]" @click="onMarkerClick">
     <MglPopup
       ref="popup"
       :showed="selected"
