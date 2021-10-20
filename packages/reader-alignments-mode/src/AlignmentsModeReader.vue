@@ -77,49 +77,6 @@
       passageHasAlignments() {
         return this.textAlignments && this.textAlignments.length > 0;
       },
-      prototypeEnabled() {
-        const isParishAlignment =
-          this.alignmentUrn.indexOf(
-            'urn:cite2:scaife-viewer:alignment.v1:iliad-word-alignment-parrish',
-          ) > -1;
-        if (isParishAlignment) {
-          return true;
-        }
-
-        const isShamsianAlignment =
-          this.alignmentUrn.indexOf(
-            // eslint-disable-next-line max-len
-            'urn:cite2:scaife-viewer:alignment.v1:iliad-greek-farsi-word-alignment-32b47d02381146aeaf2eff5786e52400',
-          ) > -1;
-        if (isShamsianAlignment) {
-          return true;
-        }
-
-        const isHafezAlignment =
-          this.alignmentUrn.indexOf(
-            'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi',
-          ) > -1;
-
-        const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
-        const isFarsiPrimaryText = metadata && metadata.lang === 'far';
-        const isThreeWayAlignment =
-          this.alignmentUrn ===
-          // eslint-disable-next-line max-len
-          'urn:cite2:scaife-viewer:alignment.v1:hafez-farsi-german-farsi-english-word-alignments-temp';
-        if (!isHafezAlignment) {
-          // Keep Bodin as-is
-          return false;
-        }
-        if (isThreeWayAlignment && !isFarsiPrimaryText) {
-          // NOTE: There are currently a lot of "regrouping"
-          // issues, so we don't want to show the prototype
-          // unless Farsi is the first text.
-          return false;
-        }
-        // NOTE: Otherwise, if this is a Hafez alignment, show the
-        // prototype
-        return true;
-      },
       recordsExistForPassage() {
         return (
           this.textAlignmentRecords &&
@@ -146,13 +103,14 @@
       },
       //
       alignmentsComponent() {
-        if (this.prototypeEnabled) {
+        const { displayHint } = this.textAlignmentRecords;
+        if (displayHint === 'records') {
+          return RecordTokenAlignment;
+        }
+        if (displayHint === 'regroupedRecords') {
           return RegroupedAlignmentsPrototype;
         }
-        const hint = this.textAlignmentRecords.displayHint;
-        return hint === 'records'
-          ? RecordTokenAlignment
-          : TextPartTokenAlignments;
+        return TextPartTokenAlignments;
       },
       isTextPartAlignment() {
         return (
