@@ -39,20 +39,24 @@
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
       endpoint() {
-        return 'https://commentary-api.chs.harvard.edu/graphql';
+        return 'https://homer.chs.harvard.edu/graphql';
       },
       params() {
         const gqlQuery = `{
-          commentsOn(urn: "${this.passage}") {
-            _id
-            updated
-            latestRevision {
-              title
-              text
-            }
-            commenters {
-              _id
-              name
+          project(hostname: "homer") {
+            id
+            hostname
+            title
+            comments(urnSearch: "${this.passage}") {
+              id
+              commenters {
+                fullName
+              }
+              latestRevision {
+                id
+                title
+                text
+              }
             }
           }
         }`;
@@ -64,10 +68,10 @@
     },
     methods: {
       fetchData() {
-        fetch(this.url)
+        fetch(this.url, { method: 'get' })
           .then(response => response.json())
           .then(data => {
-            this.comments = data.data.commentsOn;
+            this.comments = data.data.project.comments;
           })
           .catch(error => {
             // eslint-disable-next-line no-console
