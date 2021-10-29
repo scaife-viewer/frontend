@@ -22,12 +22,19 @@
       @enter="onEnter"
       @leave="onLeave"
     />
+    <div class="collapse-control metadata-control">
+      <a href @click.prevent="onMetadataCollapse">{{
+        metadataCollapsed ? 'Show Metadata' : 'Hide Metadata'
+      }}</a>
+    </div>
+    <TreeMetadata v-if="!metadataCollapsed" :tree="tree" />
   </div>
 </template>
 
 <script>
   import Treant from '@scaife-viewer/vue-treant';
   import { MODULE_NS } from '@scaife-viewer/store';
+  import TreeMetadata from './TreeMetadata.vue';
 
   import Sentence from './Sentence.vue';
 
@@ -36,11 +43,13 @@
     components: {
       Sentence,
       Treant,
+      TreeMetadata,
     },
     data() {
       return {
         hoveringOn: null,
         treeCollapsed: true,
+        metadataCollapsed: true,
       };
     },
     watch: {
@@ -62,6 +71,9 @@
       },
     },
     methods: {
+      onMetadataCollapse() {
+        this.metadataCollapsed = !this.metadataCollapsed;
+      },
       onTreeCollapse() {
         this.treeCollapsed = !this.treeCollapsed;
         this.$emit('tree-collapsed');
@@ -123,6 +135,9 @@
     margin-bottom: 20px;
     .collapse-control {
       font-size: 80%;
+    }
+    .metadata-control {
+      margin-top: 0.5em;
     }
     .citation {
       text-align: center;
