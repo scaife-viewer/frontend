@@ -1,12 +1,7 @@
 <template>
   <span
     class="word"
-    :class="{
-      selected: selectedWord,
-      parent,
-      child,
-      'break-before': word.breakBefore,
-    }"
+    :class="{ selected: selectedWord, parent, child }"
     @mouseenter="onEnter"
     @mouseleave="onLeave"
     >{{ word.value }}</span
@@ -61,9 +56,5 @@
   .child {
     border-bottom: 3px solid
       var(--sv-reader-syntax-trees-mode-child-border-color, #3c3);
-  }
-  .break-before:before {
-    content: ' ';
-    display: block;
   }
 </style>
