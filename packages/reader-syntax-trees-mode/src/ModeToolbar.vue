@@ -2,7 +2,7 @@
   <div class="syntax-trees-toolbar">
     <a href :class="{ active }" @click.prevent="onShow">
       <icon :name="iconName" />
-      {{ expanded ? 'Collapse All' : 'Expand All' }}
+      {{ expanded ? 'Collapse All Trees' : 'Expand All Trees' }}
     </a>
   </div>
 </template>

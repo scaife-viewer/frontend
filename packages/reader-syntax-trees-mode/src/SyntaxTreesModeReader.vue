@@ -21,7 +21,7 @@
           :tree="tree"
           :first="index === 0"
           :expanded="expanded"
-          @collapsed="expandAll = null"
+          @tree-collapsed="expandAll = null"
         />
         <Attribution class="attributions-container" v-if="isIliadGreek">
           <hr />

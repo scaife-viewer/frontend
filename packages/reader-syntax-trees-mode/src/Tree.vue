@@ -8,12 +8,12 @@
       @word-leave="onWordLeave"
     />
     <div class="collapse-control">
-      <a href @click.prevent="onCollapse">{{
-        collapsed ? 'Show Tree' : 'Hide Tree'
+      <a href @click.prevent="onTreeCollapse">{{
+        treeCollapsed ? 'Show Tree' : 'Hide Tree'
       }}</a>
     </div>
     <Treant
-      v-if="!collapsed"
+      v-if="!treeCollapsed"
       class="syntax-tree"
       :redrawKey="sideBarState"
       :treeBankId="tree.treeBankId"
@@ -40,7 +40,7 @@
     data() {
       return {
         hoveringOn: null,
-        collapsed: true,
+        treeCollapsed: true,
       };
     },
     watch: {
@@ -48,23 +48,23 @@
         immediate: true,
         handler() {
           if (this.first && this.expanded === null) {
-            this.collapsed = false;
+            this.treeCollapsed = false;
           }
         },
       },
       expanded: {
         immediate: true,
         handler() {
-          if (this.expanded !== null && this.collapsed === this.expanded) {
-            this.collapsed = !this.expanded;
+          if (this.expanded !== null && this.treeCollapsed === this.expanded) {
+            this.treeCollapsed = !this.expanded;
           }
         },
       },
     },
     methods: {
-      onCollapse() {
-        this.collapsed = !this.collapsed;
-        this.$emit('collapsed');
+      onTreeCollapse() {
+        this.treeCollapsed = !this.treeCollapsed;
+        this.$emit('tree-collapsed');
       },
       onWordEnter({ id }) {
         this.hoveringOn = id;
