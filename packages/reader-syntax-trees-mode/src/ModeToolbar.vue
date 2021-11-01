@@ -6,29 +6,36 @@
     </a>
     <div class="attr-toggles">
       <!-- TODO: show / hide toggles based on underlying collection data -->
-      <span
+      <a
+        title="Lemma"
         :class="{ active: showLemma }"
         @click.prevent="showLemma = !showLemma"
       >
         Lemma
-      </span>
+      </a>
       <!-- TODO: Enable gloss -->
-      <span
+      <a
         v-if="false"
+        title="Gloss"
         :class="{ active: showGloss }"
         @click.prevent="showGloss = !showGloss"
       >
         Gloss
-      </span>
-      <span
+      </a>
+      <a
+        title="Relationship"
         :class="{ active: showRelationship }"
         @click.prevent="showRelationship = !showRelationship"
       >
         Relationship
-      </span>
-      <span :class="{ active: showTag }" @click.prevent="showTag = !showTag">
+      </a>
+      <a
+        title="Tag"
+        :class="{ active: showTag }"
+        @click.prevent="showTag = !showTag"
+      >
         Tag
-      </span>
+      </a>
     </div>
   </div>
 </template>
@@ -106,23 +113,39 @@
     justify-content: space-between;
     padding-bottom: 0.75rem;
 
-    .tree-toggle {
+    a {
+      margin: 0 0.5rem;
       padding: 0.25rem;
+      border-radius: 3px;
+    }
+
+    .tree-toggle {
       margin: 0;
     }
 
     .attr-toggles {
       display: flex;
-      span {
-        margin: 0 0.5rem;
-        padding: 0.25rem;
+      a {
         font-size: 14px;
-        cursor: pointer;
         text-align: center;
-        color: var(--sv-syntax-trees-mode-toolbar-text-color, #adb5bd);
+        cursor: pointer;
       }
-      span.active {
-        color: var(--sv-syntax-trees-mode-toolbar-active-text-color, #343a40);
+      a.active {
+        font-weight: 700;
+        background: var(
+          --sv-syntax-trees-mode-toolbar-link-background-color,
+          #b45141
+        );
+        color: var(--sv-syntax-trees-mode-toolbar-link-text-color, #fff);
+      }
+      // NOTE: Prevents a shift due to font-weight change
+      a::before {
+        display: block;
+        content: attr(title);
+        font-weight: 700;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
       }
     }
   }
