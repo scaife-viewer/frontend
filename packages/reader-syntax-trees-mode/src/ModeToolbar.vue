@@ -6,36 +6,29 @@
     </a>
     <div class="attr-toggles">
       <!-- TODO: show / hide toggles based on underlying collection data -->
-      <a
-        title="Lemma"
+      <span
         :class="{ active: showLemma }"
         @click.prevent="showLemma = !showLemma"
       >
         Lemma
-      </a>
+      </span>
       <!-- TODO: Enable gloss -->
-      <a
+      <span
         v-if="false"
-        title="Gloss"
         :class="{ active: showGloss }"
         @click.prevent="showGloss = !showGloss"
       >
         Gloss
-      </a>
-      <a
-        title="Relationship"
+      </span>
+      <span
         :class="{ active: showRelationship }"
         @click.prevent="showRelationship = !showRelationship"
       >
         Relationship
-      </a>
-      <a
-        title="Tag"
-        :class="{ active: showTag }"
-        @click.prevent="showTag = !showTag"
-      >
+      </span>
+      <span :class="{ active: showTag }" @click.prevent="showTag = !showTag">
         Tag
-      </a>
+      </span>
     </div>
   </div>
 </template>
@@ -113,39 +106,23 @@
     justify-content: space-between;
     padding-bottom: 0.75rem;
 
-    a {
-      margin: 0 0.5rem;
-      padding: 0.25rem;
-      border-radius: 3px;
-    }
-
     .tree-toggle {
+      padding: 0.25rem;
       margin: 0;
     }
 
     .attr-toggles {
       display: flex;
-      a {
+      span {
+        margin: 0 0.5rem;
+        padding: 0.25rem;
         font-size: 14px;
-        text-align: center;
         cursor: pointer;
+        text-align: center;
+        color: var(--sv-syntax-trees-mode-toolbar-text-color, #adb5bd);
       }
-      a.active {
-        font-weight: 700;
-        background: var(
-          --sv-syntax-trees-mode-toolbar-link-background-color,
-          #b45141
-        );
-        color: var(--sv-syntax-trees-mode-toolbar-link-text-color, #fff);
-      }
-      // NOTE: Prevents a shift due to font-weight change
-      a::before {
-        display: block;
-        content: attr(title);
-        font-weight: 700;
-        height: 0;
-        overflow: hidden;
-        visibility: hidden;
+      span.active {
+        color: var(--sv-syntax-trees-mode-toolbar-active-text-color, #343a40);
       }
     }
   }
