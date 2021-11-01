@@ -1,55 +1,34 @@
 <template>
   <div class="syntax-trees-toolbar">
-    <a href :class="{ active }" @click.prevent="onShow">
+    <a class="tree-toggle" href @click.prevent="onShow">
       <icon :name="iconName" />
       {{ expanded ? 'Collapse All Trees' : 'Expand All Trees' }}
     </a>
-    <div class="toggles">
-      <!-- TODO: show / hide toggles based on underlying data -->
-      <div class="toggle">
-        <div class="show-lemma-toggle">
-          <input
-            class="tgl tgl-flat"
-            id="toggle-lemma"
-            type="checkbox"
-            v-model="showLemma"
-          />
-          <label class="tgl-btn" for="toggle-lemma">Lemma</label>
-        </div>
-      </div>
-      <div class="toggle">
-        <div class="show-gloss-toggle">
-          <input
-            class="tgl tgl-flat"
-            id="toggle-gloss"
-            type="checkbox"
-            v-model="showGloss"
-          />
-          <label class="tgl-btn" for="toggle-gloss">Gloss</label>
-        </div>
-      </div>
-      <div class="toggle">
-        <div class="show-relation-toggle">
-          <input
-            class="tgl tgl-flat"
-            id="toggle-relation"
-            type="checkbox"
-            v-model="showRelationship"
-          />
-          <label class="tgl-btn" for="toggle-relation">Relationship</label>
-        </div>
-      </div>
-      <div class="toggle">
-        <div class="show-tag-toggle">
-          <input
-            class="tgl tgl-flat"
-            id="toggle-tag"
-            type="checkbox"
-            v-model="showTag"
-          />
-          <label class="tgl-btn" for="toggle-tag">Tag</label>
-        </div>
-      </div>
+    <div class="attr-toggles">
+      <!-- TODO: show / hide toggles based on underlying collection data -->
+      <span
+        :class="{ active: showLemma }"
+        @click.prevent="showLemma = !showLemma"
+      >
+        Lemma
+      </span>
+      <!-- TODO: Enable gloss -->
+      <span
+        v-if="false"
+        :class="{ active: showGloss }"
+        @click.prevent="showGloss = !showGloss"
+      >
+        Gloss
+      </span>
+      <span
+        :class="{ active: showRelationship }"
+        @click.prevent="showRelationship = !showRelationship"
+      >
+        Relationship
+      </span>
+      <span :class="{ active: showTag }" @click.prevent="showTag = !showTag">
+        Tag
+      </span>
     </div>
   </div>
 </template>
@@ -123,29 +102,28 @@
 
 <style lang="scss" scoped>
   .syntax-trees-toolbar {
-    display: grid;
-    grid-template-columns: 33% 1fr;
+    display: flex;
+    justify-content: space-between;
     padding-bottom: 0.75rem;
 
-    a:active {
-      outline: none;
+    .tree-toggle {
+      padding: 0.25rem;
+      margin: 0;
     }
-    a:hover {
-      border-color: var(
-        --sv-syntax-trees-mode-toolbar-link-hover-border-color,
-        #b45141
-      );
-    }
-    a.active {
-      border-color: transparent;
-    }
-    .toggles {
+
+    .attr-toggles {
       display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
-    }
-    .toggle {
-      margin-inline-start: 3em;
+      span {
+        margin: 0 0.5rem;
+        padding: 0.25rem;
+        font-size: 14px;
+        cursor: pointer;
+        text-align: center;
+        color: var(--sv-syntax-trees-mode-toolbar-text-color, #adb5bd);
+      }
+      span.active {
+        color: var(--sv-syntax-trees-mode-toolbar-active-text-color, #343a40);
+      }
     }
   }
 </style>

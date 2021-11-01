@@ -134,7 +134,7 @@
   // TODO: factor this out
   $interlinear-font-family: 'Lucida Console', Monaco, monospace;
   .tree {
-    margin-bottom: 20px;
+    margin: 1em 0;
     .collapse-control {
       font-size: 80%;
     }
