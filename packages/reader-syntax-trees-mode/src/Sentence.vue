@@ -64,6 +64,7 @@
   .sentence {
     font-family: var(--widget-reader-text-font-family, 'Noto Serif');
     line-height: 1.8;
+    display: table;
 
     &.highlighting {
       color: var(--sv-reader-syntax-trees-mode-noninvolved-text-color, #adb5bd);
@@ -101,7 +102,6 @@
   .text-width-full {
     max-width: 100%;
   }
-
   .ref {
     font-size: 10pt;
     color: var(--sv-reader-syntax-trees-mode-ref-text-color, #69c);
@@ -109,8 +109,6 @@
       --sv-reader-syntax-trees-mode-ref-font-family,
       'Noto Sans'
     );
-    min-width: 4em;
     margin-right: 1em;
-    text-align: right;
   }
 </style>

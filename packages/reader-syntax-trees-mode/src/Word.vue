@@ -5,17 +5,17 @@
     @mouseenter="onEnter"
     @mouseleave="onLeave"
   >
-    <span class="text">{{ word.value }}</span>
-    <span v-if="showLemma" class="lemma">{{
+    <div class="text">{{ word.value }}</div>
+    <div v-if="showLemma" class="lemma">{{
       valueIsh(word.lemma) || '-'
-    }}</span>
-    <span v-if="showGloss" class="gloss">{{
+    }}</div>
+    <div v-if="showGloss" class="gloss">{{
       valueIsh(word.gloss) || '-'
-    }}</span>
-    <span v-if="showRelationship" class="pos">{{
+    }}</div>
+    <div v-if="showRelationship" class="pos">{{
       valueIsh(word.relation) || '-'
-    }}</span>
-    <span v-if="showTag" class="analysis">{{ valueIsh(word.tag) || '-' }}</span>
+    }}</div>
+    <div v-if="showTag" class="analysis">{{ valueIsh(word.tag) || '-' }}</div>
   </div>
 </template>
 
@@ -102,22 +102,10 @@
   }
   // TODO: Encapsulate these styles with interlinear display mode
   .word {
-    display: inline-block;
+    display: table-cell;
     // TODO: Review these interlinear styles with @jtauber
     padding: 2px 4px;
     margin: 0 4px 10px;
-    > span {
-      display: block;
-    }
-    // TODO: Ref vs id
-    // .ref {
-    //   font-family: var(
-    //     --sv-reader-syntax-trees-mode-ref-font-family,
-    //     $interlinear-font-family
-    //   );
-    //   font-size: 0.55em;
-    //   color: var(--sv-reader-syntax-trees-mode-ref-text-color, #999);
-    // }
     .text {
       font-size: 1em;
       font-weight: 700;
