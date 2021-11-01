@@ -71,7 +71,7 @@ const getDefaultState = () => ({
   // TODO: Make this state collection-scoped (especially as far as gloss, which we
   // may not always have)
   showTag: false,
-  showRelationship: false,
+  showRelationship: true,
   showLemma: false,
   showGloss: false,
 });
