@@ -140,6 +140,7 @@
             treeBankId: tree.node.data.treebankId,
             references: tree.node.data.references,
             citation: tree.node.data.citation,
+            collectionId: tree.node.collection.id,
             urn: tree.node.urn,
           };
         });
@@ -184,7 +185,8 @@
         return urn.version === 'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:';
       },
       collectionUrn() {
-        // TODO:Remove hardcoded value
+        // TODO:Remove hardcoded value and expose a dropdown, similar to
+        // translation alignments
         return this.isIliadGreek
           ? // eslint-disable-next-line max-len
             `urn:cite2:beyond-translation:text_annotation_collection.atlas_v1:il_gregorycrane_gAGDT`
@@ -200,6 +202,9 @@
                   id
                   data
                   urn
+                  collection {
+                    id
+                  }
                 }
               }
             }
@@ -218,6 +223,9 @@
                   id
                   urn
                   data
+                  collection {
+                    id
+                  }
                 }
               }
             }

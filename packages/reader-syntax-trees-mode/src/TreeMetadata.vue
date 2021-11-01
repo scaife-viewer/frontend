@@ -37,19 +37,6 @@
       LoaderBall,
     },
     computed: {
-      collectionUrn() {
-        // FIXME: Pass in collection URN OR
-        // derive from this.tree
-        if (
-          this.tree.urn.startsWith(
-            'urn:cite2:exploreHomer:syntaxTree.v1:syntaxTree-tlg0012-',
-          )
-        ) {
-          // eslint-disable-next-line max-len
-          return 'urn:cite2:beyond-translation:text_annotation_collection.atlas_v1:il_gregorycrane_gAGDT';
-        }
-        return null;
-      },
       source() {
         return this.collection ? this.collection.data.source : null;
       },
@@ -57,26 +44,23 @@
     apollo: {
       collection: {
         query: gql`
-          query TextAnnotationCollections($collectionUrn: String!) {
-            textAnnotationCollections(urn: $collectionUrn) {
-              edges {
-                node {
-                  data
-                }
-              }
+          query TextAnnotationCollection($collectionId: ID!) {
+            textAnnotationCollection(id: $collectionId) {
+              id
+              data
             }
           }
         `,
         variables() {
           return {
-            collectionUrn: this.collectionUrn,
+            collectionId: this.tree.collectionId,
           };
         },
         update(data) {
-          return data.textAnnotationCollections.edges.map(e => e.node)[0];
+          return data.textAnnotationCollection;
         },
         skip() {
-          return this.collectionUrn == null;
+          return this.tree.collectionId == null;
         },
       },
     },
