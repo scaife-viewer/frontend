@@ -10,7 +10,7 @@
   "dependencies": {
     "@scaife-viewer/common": "^0.0.2",
     "@scaife-viewer/store": "^0.0.4",
-    "@scaife-viewer/vue-treant": "^0.4.0",
+    "@scaife-viewer/vue-treant": "https://gitpkg.now.sh/scaife-viewer/frontend/packages/vue-treant?c79824a659456660ed10719c69f909c5f618a018",
     "@scaife-viewer/widget-attributions": "^0.4.1",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.4"
