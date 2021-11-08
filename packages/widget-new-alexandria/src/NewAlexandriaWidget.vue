@@ -39,8 +39,8 @@
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
       endpoint() {
-        // FIXME: Create a production instance of the proxy
-        return 'http://localhost:8000/homer-chs-proxy/graphql/';
+        // TODO: Vanity domain
+        return 'https://chs-homer-proxy.herokuapp.com/homer-chs-proxy/graphql/';
       },
       params() {
         const gqlQuery = `{
