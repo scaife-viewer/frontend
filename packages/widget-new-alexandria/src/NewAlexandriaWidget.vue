@@ -39,24 +39,20 @@
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
       endpoint() {
-        return 'https://homer.chs.harvard.edu/graphql';
+        // FIXME: Create a production instance of the proxy
+        return 'http://localhost:8000/homer-chs-proxy/graphql/';
       },
       params() {
         const gqlQuery = `{
-          project(hostname: "homer") {
-            id
-            hostname
-            title
-            comments(urnSearch: "${this.passage}") {
-              id
-              commenters {
-                fullName
-              }
-              latestRevision {
-                id
-                title
-                text
-              }
+          commentsOn(urn: "${this.passage}") {
+            _id
+            latestRevision {
+              title
+              text
+            }
+            commenters {
+              _id
+              name
             }
           }
         }`;
@@ -68,10 +64,10 @@
     },
     methods: {
       fetchData() {
-        fetch(this.url, { method: 'get' })
+        fetch(this.url)
           .then(response => response.json())
           .then(data => {
-            this.comments = data.data.project.comments;
+            this.comments = data.data.commentsOn;
           })
           .catch(error => {
             // eslint-disable-next-line no-console
