@@ -136,9 +136,6 @@
       recordMap() {
         return this.data.recordMap;
       },
-      firstIsRtl() {
-        return this.textDirection(this.data.references[0].reference) === 'rtl';
-      },
       groupedPassages() {
         // HACK: Experimenting for three-alignments
         const regrouped = [];
@@ -158,6 +155,8 @@
       },
     },
     apollo: {
+      // TODO: Use a memoized query to get enough data to resolve
+      // this.textDirection
       first: {
         query: passageQuery,
         variables() {

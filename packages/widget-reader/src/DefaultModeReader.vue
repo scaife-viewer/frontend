@@ -111,8 +111,6 @@
       line-height: 1.9;
     }
   }
-  .text.rtl {
-  }
 
   .widget-sidebar .text {
     font-size: 14px;

@@ -38,10 +38,13 @@
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
-      textDirection() {
+      // TODO: Deduplicate with ReaderWidget
+      isRtl() {
         const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
-        const isRtl = metadata && metadata.lang === 'far';
-        return isRtl ? 'rtl' : 'ltr';
+        return metadata && metadata.lang === 'far';
+      },
+      textDirection() {
+        return this.isRtl ? 'rtl' : 'ltr';
       },
       metricalMode() {
         return this.$store.getters[`${MODULE_NS}/metricalMode`];
