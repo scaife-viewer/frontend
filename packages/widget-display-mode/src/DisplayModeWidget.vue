@@ -12,7 +12,12 @@
 </template>
 
 <script>
-  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    LAYOUT_WIDTH_WIDE,
+    SET_MAIN_LAYOUT_WIDTH_NORMAL,
+    SET_MAIN_LAYOUT_WIDTH_WIDE,
+  } from '@scaife-viewer/store';
 
   export default {
     scaifeConfig: {
@@ -33,25 +38,15 @@
       },
     },
     methods: {
-      setWideLayout() {
-        document
-          .getElementsByClassName('main-layout')[0]
-          .classList.add('main-layout-wide');
-      },
-      setNormalLayout() {
-        document
-          .getElementsByClassName('main-layout')[0]
-          .classList.remove('main-layout-wide');
-      },
       setMode(mode) {
         // TODO: Set this when entering from a URL too
         this.$store.dispatch(`${MODULE_NS}/setTextWidth`, {
           width: mode.textWidth || 'normal',
         });
         if (mode.layout === LAYOUT_WIDTH_WIDE) {
-          this.setWideLayout();
+          this.$store.dispatch(`${MODULE_NS}/${SET_MAIN_LAYOUT_WIDTH_WIDE}`);
         } else {
-          this.setNormalLayout();
+          this.$store.dispatch(`${MODULE_NS}/${SET_MAIN_LAYOUT_WIDTH_NORMAL}`);
         }
         const query = {
           ...this.$route.query,
