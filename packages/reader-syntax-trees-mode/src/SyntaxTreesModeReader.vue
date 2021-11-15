@@ -78,7 +78,8 @@
   export default {
     readerConfig: {
       label: 'Syntax Trees',
-      textWidth: 'wide',
+      layout: 'wide',
+      textWidth: 'full',
     },
     data() {
       return {
