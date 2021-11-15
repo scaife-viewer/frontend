@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@scaife-viewer/common": "^0.4.0",
+    "@scaife-viewer/store": "^0.4.0",
     "@scaife-viewer/widget-reader": "https://gitpkg.now.sh/scaife-viewer/frontend/packages/widget-reader?3e6e06ffbecc7f9114d8e625792f05f6bbd7bed0",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.4"

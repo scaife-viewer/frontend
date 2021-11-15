@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   export default {
     scaifeConfig: {
@@ -48,7 +48,7 @@
         this.$store.dispatch(`${MODULE_NS}/setTextWidth`, {
           width: mode.textWidth || 'normal',
         });
-        if (mode.layout === 'wide') {
+        if (mode.layout === LAYOUT_WIDTH_WIDE) {
           this.setWideLayout();
         } else {
           this.setNormalLayout();

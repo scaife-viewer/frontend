@@ -37,7 +37,7 @@
 
   import { Reader } from '@scaife-viewer/widget-reader';
   import { LoaderBall, ErrorMessage } from '@scaife-viewer/common';
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   import SelectableEntityMap from './SelectableEntityMap.vue';
   import EntityMapToolbar from './EntityMapToolbar.vue';
@@ -46,7 +46,7 @@
   export default {
     readerConfig: {
       label: 'Named Entities',
-      layout: 'wide',
+      layout: LAYOUT_WIDTH_WIDE,
     },
     props: {
       queryVariables: Object,

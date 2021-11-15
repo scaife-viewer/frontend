@@ -37,7 +37,7 @@
     EmptyMessage,
   } from '@scaife-viewer/common';
 
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   import { MODE_EXPAND } from './constants';
   import ModeToolbar from './ModeToolbar.vue';
@@ -78,7 +78,7 @@
   export default {
     readerConfig: {
       label: 'Syntax Trees',
-      layout: 'wide',
+      layout: LAYOUT_WIDTH_WIDE,
       textWidth: 'full',
     },
     data() {
