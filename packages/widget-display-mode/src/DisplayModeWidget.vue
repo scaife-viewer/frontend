@@ -26,20 +26,36 @@
       singleton: true,
     },
     computed: {
+      displayModeKey() {
+        return this.$store.getters[`${MODULE_NS}/displayMode`];
+      },
+      displayMode() {
+        return this.displayModes.filter(
+          mode => mode.mode === this.displayModeKey,
+        )[0];
+      },
       displayModes() {
         const { readerComponents } = this.$scaife.config;
-        const displayMode = this.$store.getters[`${MODULE_NS}/displayMode`];
         return Object.keys(readerComponents).map(key => ({
           ...readerComponents[key].readerConfig,
           component: readerComponents[key],
           mode: key,
-          active: displayMode === key,
+          active: this.displayModeKey === key,
         }));
       },
     },
     methods: {
       setMode(mode) {
-        // TODO: Set this when entering from a URL too
+        // NOTE: `displayMode` getter reads from
+        // $route.query.mode
+        const query = {
+          ...this.$route.query,
+          mode: mode.mode,
+        };
+        delete query.rs;
+        this.$router.replace({ query });
+      },
+      applyModeLayout(mode) {
         this.$store.dispatch(`${MODULE_NS}/setTextWidth`, {
           width: mode.textWidth || 'normal',
         });
@@ -48,12 +64,16 @@
         } else {
           this.$store.dispatch(`${MODULE_NS}/${SET_MAIN_LAYOUT_WIDTH_NORMAL}`);
         }
-        const query = {
-          ...this.$route.query,
-          mode: mode.mode,
-        };
-        delete query.rs;
-        this.$router.replace({ query });
+      },
+    },
+    watch: {
+      displayMode: {
+        immediate: true,
+        handler(newVal, oldVal) {
+          if (!oldVal || newVal.mode !== oldVal.mode) {
+            this.applyModeLayout(newVal);
+          }
+        },
       },
     },
   };
