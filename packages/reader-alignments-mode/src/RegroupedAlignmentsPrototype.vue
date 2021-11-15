@@ -311,14 +311,11 @@
   .line.rtl {
     direction: rtl;
     padding-inline-start: 1rem;
-    // FIXME: Proper rtl font support, including Amiri note below
-    .line {
-      font-family: var(
-        --sv-alignments-line-font-family-rtl,
-        'Amiri',
-        'Noto Sans'
-      );
-    }
+    font-family: var(
+      --sv-alignments-line-font-family-rtl,
+      'Amiri',
+      'Noto Sans'
+    );
     .text-md {
       font-size: 24px;
       line-height: 1.7;
