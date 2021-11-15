@@ -92,7 +92,7 @@
     flex: 1;
   }
   .text {
-    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+    font-family: var(--sv-widget-reader-text-font-family, 'Noto Serif');
     margin: 1em 0;
 
     &.text-xs {

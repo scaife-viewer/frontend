@@ -62,7 +62,10 @@
 
 <style lang="scss" scoped>
   .sentence {
-    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+    font-family: var(
+      --sv-reader-syntax-trees-mode-sentence-font-family,
+      'Noto Serif'
+    );
     line-height: 1.8;
     display: table;
 
