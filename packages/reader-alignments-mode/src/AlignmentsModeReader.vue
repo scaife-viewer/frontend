@@ -12,10 +12,10 @@
         <div v-show="isTextPartAlignment" class="toggle-container">
           <a
             href
-            @click.prevent="showEmpty = !showEmpty"
+            @click.prevent="highlightUnaligned = !highlightUnaligned"
             class="toggle-control"
           >
-            {{ !showEmpty ? 'Show ' : 'Hide ' }} unaligned tokens
+            {{ !highlightUnaligned ? 'Show ' : 'Hide ' }} unaligned tokens
           </a>
         </div>
       </div>
@@ -25,7 +25,7 @@
         :data="textAlignmentRecords"
         :textSize="textSize"
         :textWidth="textWidth"
-        :showEmpty="showEmpty"
+        :highlightUnaligned="highlightUnaligned"
       />
       <EmptyMessage
         v-else-if="canSelectAnotherAlignment"
@@ -63,8 +63,8 @@
     data() {
       return {
         errors: false,
-        // TODO: Consider vuex
-        showEmpty: false,
+        highlightUnaligned:
+          this.$scaife.config.highlightUnalignedTokens || false,
       };
     },
     components: {

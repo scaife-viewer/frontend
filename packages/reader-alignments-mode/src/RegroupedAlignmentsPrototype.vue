@@ -39,7 +39,7 @@
                   :class="[
                     {
                       selected: selected(token),
-                      empty: showEmpty && isEmpty(token),
+                      'is-unaligned': highlightUnaligned && isUnaligned(token),
                       'out-of-bounds': outOfBounds(token, lineIdx),
                     },
                     `a${hoveringAt}`,
@@ -103,7 +103,7 @@
     });
 
   export default {
-    props: ['data', 'textSize', 'textWidth', 'showEmpty'],
+    props: ['data', 'textSize', 'textWidth', 'highlightUnaligned'],
     components: { AlignmentRecordPicker },
     computed: {
       hoveringOn() {
@@ -203,7 +203,7 @@
       };
     },
     methods: {
-      isEmpty(token) {
+      isUnaligned(token) {
         return this.tokenMap[token.id] === undefined;
       },
       outOfBounds(token, refIdx) {
@@ -350,7 +350,7 @@
   .token:hover > ::v-deep.alignment-records-picker {
     opacity: 1;
   }
-  .token.empty {
+  .token.is-unaligned {
     color: var(--sv-alignments-token-no-alignments-text-color, #f06e6e);
   }
   .token.out-of-bounds {
