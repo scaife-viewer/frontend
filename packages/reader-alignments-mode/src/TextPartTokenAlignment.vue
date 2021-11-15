@@ -116,8 +116,11 @@
     padding-inline-start: 1rem;
     // FIXME: Proper rtl font support, including Amiri note below
     .line {
-      // FIXME: Load Amiri; working for me locally because I have it installed
-      font-family: 'Amiri', 'Noto Sans';
+      font-family: var(
+        --sv-alignments-line-font-family-rtl,
+        'Amiri',
+        'Noto Sans'
+      );
     }
     .text-md {
       font-size: 24px;
