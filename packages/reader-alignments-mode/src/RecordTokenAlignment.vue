@@ -93,7 +93,7 @@
     text-align: center;
     font-size: 12pt;
     color: var(--sv-alignments-alignment-ref-text-color, #69c);
-    font-family: 'Noto Sans';
+    font-family: var(--sv-alignments-ref-font-family, 'Noto Sans');
     margin-bottom: 5px;
   }
   .left .line {
@@ -102,7 +102,7 @@
     .line-ref {
       font-size: 10pt;
       color: var(--sv-alignments-line-ref-text-color, #69c);
-      font-family: 'Noto Sans';
+      font-family: var(--sv-alignments-line-ref-font-family, 'Noto Sans');
       min-width: 4em;
       text-align: right;
     }

@@ -128,7 +128,7 @@
     text-align: center;
     font-size: 12pt;
     color: var(--sv-alignments-alignment-ref-text-color, #69c);
-    font-family: 'Noto Sans';
+    font-family: var(--sv-alignments-alignment-ref-font-family, 'Noto Sans');
     margin-bottom: 5px;
     padding-inline-end: 0.5rem;
   }

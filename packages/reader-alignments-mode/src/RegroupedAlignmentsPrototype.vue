@@ -337,7 +337,10 @@
     // HACK: Experimenting for three-alignments
     font-size: 8pt;
     color: var(--sv-alignments-alignment-ref-text-color, #6699ccaf);
-    font-family: 'Noto Sans';
+    font-family: var(
+      --sv-alignments-ref-alignment-ref-font-family,
+      'Noto Sans'
+    );
     margin-bottom: 5px;
     padding-inline-end: 0.5rem;
   }
@@ -387,7 +390,7 @@
     text-align: center;
     font-size: 12pt;
     color: var(--sv-alignments-alignment-ref-text-color, #69c);
-    font-family: 'Noto Sans';
+    font-family: var(--sv-alignments-alignment-ref-font-family, 'Noto Sans');
     margin-bottom: 5px;
   }
   .left .line {
@@ -396,7 +399,7 @@
     .line-ref {
       font-size: 10pt;
       color: var(--sv-alignments-line-ref-text-color, #69c);
-      font-family: 'Noto Sans';
+      font-family: var(--sv-alignments-line-ref-font-family, 'Noto Sans');
       min-width: 4em;
       text-align: right;
     }

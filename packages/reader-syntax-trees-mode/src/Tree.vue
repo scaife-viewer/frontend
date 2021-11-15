@@ -145,7 +145,10 @@
       text-align: center;
       font-size: 12pt;
       color: var(--sv-reader-syntax-tree-node-refs-text-color, #69c);
-      font-family: 'Noto Sans';
+      font-family: var(
+        --sv-reader-syntax-tree-node-refs-font-family,
+        'Noto Sans'
+      );
       margin-bottom: 5px;
     }
   }
