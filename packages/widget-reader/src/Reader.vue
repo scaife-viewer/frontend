@@ -4,7 +4,11 @@
       class="reader-container text"
       :class="[`text-${textSize}`, `text-width-${textWidth}`, textDirection]"
     >
-      <ReaderTextPart v-for="textPart in textParts" :key="textPart.id" :textPart="textPart" />
+      <ReaderTextPart
+        v-for="textPart in textParts"
+        :key="textPart.id"
+        :textPart="textPart"
+      />
 
       <Attribution v-if="showMetricalCredit" class="metrical-attribution">
         Metrical annotation &copy; 2016
@@ -95,7 +99,11 @@
     }
   }
   .text.rtl {
-    font-family: var(--widget-reader-text-font-family-rtl, 'Amiri', 'Noto Serif');
+    font-family: var(
+      --widget-reader-text-font-family-rtl,
+      'Amiri',
+      'Noto Serif'
+    );
     margin: 1em 0;
 
     &.text-xs {

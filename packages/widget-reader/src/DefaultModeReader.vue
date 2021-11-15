@@ -112,7 +112,6 @@
     }
   }
   .text.rtl {
-
   }
 
   .widget-sidebar .text {

@@ -69,9 +69,7 @@
   // components; needs to be revisited ASAP.
 
   import gql from 'graphql-tag';
-  import { EmptyMessage } from '@scaife-viewer/common';
 
-  import TextPartTokenAlignment from './TextPartTokenAlignment.vue';
   import AlignmentRecordPicker from './AlignmentRecordPicker.vue';
 
   const passageQuery = gql`
@@ -106,7 +104,7 @@
 
   export default {
     props: ['data', 'textSize', 'textWidth', 'showEmpty'],
-    components: { EmptyMessage, TextPartTokenAlignment, AlignmentRecordPicker },
+    components: { AlignmentRecordPicker },
     computed: {
       hoveringOn() {
         return this.hoveredAlignmentTokens;

@@ -151,7 +151,7 @@
       },
       pagerNext() {
         return this.textDirection === 'ltr' ? 'right' : 'left';
-      }
+      },
     },
   };
 </script>

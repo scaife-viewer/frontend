@@ -6,15 +6,11 @@
     @mouseleave="onLeave"
   >
     <div class="text">{{ word.value }}</div>
-    <div v-if="showLemma" class="lemma">{{
-      valueIsh(word.lemma) || '-'
-    }}</div>
-    <div v-if="showGloss" class="gloss">{{
-      valueIsh(word.gloss) || '-'
-    }}</div>
-    <div v-if="showRelationship" class="pos">{{
-      valueIsh(word.relation) || '-'
-    }}</div>
+    <div v-if="showLemma" class="lemma">{{ valueIsh(word.lemma) || '-' }}</div>
+    <div v-if="showGloss" class="gloss">{{ valueIsh(word.gloss) || '-' }}</div>
+    <div v-if="showRelationship" class="pos">
+      {{ valueIsh(word.relation) || '-' }}
+    </div>
     <div v-if="showTag" class="analysis">{{ valueIsh(word.tag) || '-' }}</div>
   </div>
 </template>
