@@ -11,8 +11,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@scaife-viewer/common": "^0.4.0",
     "@scaife-viewer/entity-map": "^0.4.0",
-    "@scaife-viewer/widget-reader": "https://gitpkg.now.sh/scaife-viewer/frontend/packages/widget-reader?a5f11296ae52ad27d372fa8dc875d6d4c3c84efd",
-    "@scaife-viewer/store": "https://gitpkg.now.sh/scaife-viewer/frontend/packages/store?a5f11296ae52ad27d372fa8dc875d6d4c3c84efd",
+    "@scaife-viewer/widget-reader": "^0.5.0-beta.1",
+    "@scaife-viewer/store": "^0.5.0-beta.1",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.4"
   }
