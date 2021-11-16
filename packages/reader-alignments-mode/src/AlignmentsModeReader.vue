@@ -9,7 +9,7 @@
           :options="textAlignments"
           placeholder="Select an alignment..."
         />
-        <div v-show="isTextPartAlignment" class="toggle-container">
+        <div v-if="isTextPartAlignment" class="toggle-container">
           <a
             href
             @click.prevent="highlightUnaligned = !highlightUnaligned"

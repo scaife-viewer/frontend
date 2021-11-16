@@ -7,7 +7,7 @@
         class="alignment row text-alignment"
         :class="{ 'half-line': isHalfLineEnd(row[0]) }"
       >
-        <div v-show="false" class="alignment-ref">{{ passageKey(rowIdx) }}</div>
+        <div v-if="false" class="alignment-ref">{{ passageKey(rowIdx) }}</div>
         <div class="columns">
           <div
             v-for="(line, lineIdx) in row"
