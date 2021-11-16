@@ -33,9 +33,13 @@
     MODULE_NS,
     SET_PASSAGE,
     UPDATE_METADATA,
+    DISPLAY_MODE_DEFAULT,
   } from '@scaife-viewer/store';
 
+  import PassageLanguageIsRtlMixin from './mixins';
+
   export default {
+    mixins: [PassageLanguageIsRtlMixin],
     components: {
       ApolloQuery,
       Paginator,
@@ -139,19 +143,23 @@
       fullHeight() {
         return this.namedEntitiesMode;
       },
+      isDefaultDisplayMode() {
+        return (
+          this.$store.getters[`${MODULE_NS}/displayMode`] ===
+          DISPLAY_MODE_DEFAULT
+        );
+      },
       textDirection() {
-        const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
-        const isRtl = metadata && metadata.lang === 'far';
-        const isDefaultMode =
-          !this.$route.query.mode || this.$route.query.mode === 'default';
-        return isRtl && isDefaultMode ? 'rtl' : 'ltr';
+        // FIXME: Further localization required across
+        // the other display modes
+        return this.passageIsRtl && this.isDefaultDisplayMode ? 'rtl' : 'ltr';
       },
       pagerPrevious() {
         return this.textDirection === 'ltr' ? 'left' : 'right';
       },
       pagerNext() {
         return this.textDirection === 'ltr' ? 'right' : 'left';
-      }
+      },
     },
   };
 </script>
@@ -173,6 +181,7 @@
   .reader-container {
     // TODO: RTLize via .overall from SV1
     display: flex;
+    flex-direction: row;
     align-items: baseline;
     justify-content: left;
     & nav:last-child {

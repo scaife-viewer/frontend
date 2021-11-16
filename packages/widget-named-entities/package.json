@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-named-entities",
-  "version": "0.4.0",
+  "version": "0.5.0-beta.1",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -10,8 +10,8 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@scaife-viewer/common": "^0.4.0",
-    "@scaife-viewer/entity-map": "https://gitpkg.now.sh/scaife-viewer/frontend/packages/entity-map?a185873a984084e1d8b98bc68f06ebe6d0834a14",
-    "@scaife-viewer/store": "^0.4.0",
+    "@scaife-viewer/entity-map": "^0.4.0",
+    "@scaife-viewer/store": "^0.5.0-beta.1",
     "graphql-tag": "^2.10.3"
   }
 }

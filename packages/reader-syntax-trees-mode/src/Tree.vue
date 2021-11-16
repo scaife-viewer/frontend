@@ -8,12 +8,12 @@
       @word-leave="onWordLeave"
     />
     <div class="collapse-control">
-      <a href @click.prevent="onCollapse">{{
-        collapsed ? 'Show Tree' : 'Hide Tree'
+      <a href @click.prevent="onTreeCollapse">{{
+        treeCollapsed ? 'Show Tree' : 'Hide Tree'
       }}</a>
     </div>
     <Treant
-      v-if="!collapsed"
+      v-if="!treeCollapsed"
       class="syntax-tree"
       :redrawKey="sideBarState"
       :treeBankId="tree.treeBankId"
@@ -22,12 +22,19 @@
       @enter="onEnter"
       @leave="onLeave"
     />
+    <div class="collapse-control metadata-control">
+      <a href @click.prevent="onMetadataCollapse">{{
+        metadataCollapsed ? 'Show Metadata' : 'Hide Metadata'
+      }}</a>
+    </div>
+    <TreeMetadata v-if="!metadataCollapsed" :tree="tree" />
   </div>
 </template>
 
 <script>
   import Treant from '@scaife-viewer/vue-treant';
   import { MODULE_NS } from '@scaife-viewer/store';
+  import TreeMetadata from './TreeMetadata.vue';
 
   import Sentence from './Sentence.vue';
 
@@ -36,11 +43,13 @@
     components: {
       Sentence,
       Treant,
+      TreeMetadata,
     },
     data() {
       return {
         hoveringOn: null,
-        collapsed: true,
+        treeCollapsed: true,
+        metadataCollapsed: true,
       };
     },
     watch: {
@@ -48,23 +57,26 @@
         immediate: true,
         handler() {
           if (this.first && this.expanded === null) {
-            this.collapsed = false;
+            this.treeCollapsed = false;
           }
         },
       },
       expanded: {
         immediate: true,
         handler() {
-          if (this.expanded !== null && this.collapsed === this.expanded) {
-            this.collapsed = !this.expanded;
+          if (this.expanded !== null && this.treeCollapsed === this.expanded) {
+            this.treeCollapsed = !this.expanded;
           }
         },
       },
     },
     methods: {
-      onCollapse() {
-        this.collapsed = !this.collapsed;
-        this.$emit('collapsed');
+      onMetadataCollapse() {
+        this.metadataCollapsed = !this.metadataCollapsed;
+      },
+      onTreeCollapse() {
+        this.treeCollapsed = !this.treeCollapsed;
+        this.$emit('tree-collapsed');
       },
       onWordEnter({ id }) {
         this.hoveringOn = id;
@@ -119,21 +131,29 @@
 </script>
 
 <style lang="scss" scoped>
+  // TODO: factor this out
+  $interlinear-font-family: 'Lucida Console', Monaco, monospace;
   .tree {
-    margin-bottom: 20px;
+    margin: 1em 0;
     .collapse-control {
       font-size: 80%;
+    }
+    .metadata-control {
+      margin-top: 0.5em;
     }
     .citation {
       text-align: center;
       font-size: 12pt;
       color: var(--sv-reader-syntax-tree-node-refs-text-color, #69c);
-      font-family: 'Noto Sans';
+      font-family: var(
+        --sv-reader-syntax-tree-node-refs-font-family,
+        'Noto Sans'
+      );
       margin-bottom: 5px;
     }
   }
   .syntax-tree::v-deep {
-    .node.highlight .node-desc {
+    .node.highlight .node-attrs {
       color: var(--sv-reader-syntax-trees-mode-highlight-text-color, #d44);
       background: var(
         --sv-reader-syntax-trees-mode-highlight-background-color,
@@ -145,24 +165,52 @@
       );
     }
 
+    .node-attrs {
+      margin-bottom: 20px;
+      border-bottom: 3px solid transparent;
+      // TODO: pt vs px, overall size
+      font-size: 16pt;
+      line-height: 1.8em;
+      > div {
+        margin-bottom: 0;
+      }
+    }
     .node.highlight-parent {
       color: var(--sv-reader-syntax-trees-mode-parent-border-color, #66f);
     }
     .node.highlight-child {
       color: var(--sv-reader-syntax-trees-mode-child-border-color, #3c3);
     }
-    .node-name {
+    .node-relation {
       color: var(--sv-reader-syntax-tree-node-relation-text-color, #aaa);
       margin-bottom: 0;
       margin-top: 2px;
       font-size: 10pt;
     }
-    .node-desc {
+    .node-value {
       margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 16pt;
-      border-bottom: 3px solid transparent;
-      font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+      font-size: 1em;
+      font-family: var(
+        --sv-reader-syntax-tree-node-value-font-family,
+        'Noto Serif'
+      );
+    }
+    .node-lemma {
+      font-size: 0.88em;
+      color: var(--sv-reader-syntax-tree-node-lemma-text-color, #aaa);
+    }
+    .node-gloss {
+      font-size: 0.88em;
+      color: var(--sv-reader-syntax-tree-node-gloss-text-color, #aaa);
+      font-style: italic;
+    }
+    .node-tag {
+      font-family: var(
+        --sv-reader-syntax-trees-node-tag-font-family,
+        $interlinear-font-family
+      );
+      font-size: 0.66em;
+      color: var(--sv-reader-syntax-trees-node-tag-text-color, #999);
     }
     .node {
       text-align: center;

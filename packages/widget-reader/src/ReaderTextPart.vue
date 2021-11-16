@@ -76,6 +76,14 @@
         return this.metricalMode && this.metricalHtml;
       },
       isHalfLineEnd() {
+        // NOTE: This is our first attempt to provide
+        // additional formatting to text parts based on
+        // their kind and is subject to change.
+        // In particular, it is not yet very extensible.
+        const { kind } = this.textPart;
+        if (!kind === 'half-line') {
+          return false;
+        }
         const refDepth = (this.textPart.ref.match(/\./g) || []).length;
         return refDepth === 3 ? this.textPart.ref.endsWith('2') : false;
       },

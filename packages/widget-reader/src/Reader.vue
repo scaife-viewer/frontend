@@ -4,7 +4,11 @@
       class="reader-container text"
       :class="[`text-${textSize}`, `text-width-${textWidth}`, textDirection]"
     >
-      <ReaderTextPart v-for="textPart in textParts" :key="textPart.id" :textPart="textPart" />
+      <ReaderTextPart
+        v-for="textPart in textParts"
+        :key="textPart.id"
+        :textPart="textPart"
+      />
 
       <Attribution v-if="showMetricalCredit" class="metrical-attribution">
         Metrical annotation &copy; 2016
@@ -23,8 +27,10 @@
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
   import ReaderTextPart from './ReaderTextPart.vue';
+  import PassageLanguageIsRtlMixin from './mixins';
 
   export default {
+    mixins: [PassageLanguageIsRtlMixin],
     components: { Attribution, EmptyMessage, ReaderTextPart },
     props: ['textParts'],
     computed: {
@@ -35,9 +41,7 @@
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
       textDirection() {
-        const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
-        const isRtl = metadata && metadata.lang === 'far';
-        return isRtl ? 'rtl' : 'ltr';
+        return this.passageIsRtl ? 'rtl' : 'ltr';
       },
       metricalMode() {
         return this.$store.getters[`${MODULE_NS}/metricalMode`];
@@ -75,7 +79,7 @@
     justify-content: center;
   }
   .text {
-    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+    font-family: var(--sv-widget-reader-text-font-family, 'Noto Serif');
     margin: 1em 0;
 
     &.text-xs {
@@ -95,7 +99,11 @@
     }
   }
   .text.rtl {
-    font-family: var(--widget-reader-text-font-family-rtl, 'Amiri', 'Noto Serif');
+    font-family: var(
+      --sv-widget-reader-text-font-family-rtl,
+      'Amiri',
+      'Noto Serif'
+    );
     margin: 1em 0;
 
     &.text-xs {
@@ -163,7 +171,6 @@
     max-width: 100%;
   }
   .reader-container {
-    // REVIEW ME: Backported from SV1
     flex: 4;
   }
 </style>

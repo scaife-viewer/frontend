@@ -16,7 +16,7 @@
         :selected-entities="selectedEntities"
         @select="onSelect"
       />
-      <Attribution v-if="showAttribution">
+      <Attribution v-if="showKempAttribution">
         <a
           href="https://medium.com/pelagios/beyond-translation-building-better-greek-scholars-561ab331a1bc"
           target="_blank"
@@ -98,12 +98,14 @@
       selectedToken() {
         return this.$store.state[MODULE_NS].selectedToken;
       },
-      showAttribution() {
-        // TODO: Call out to the namedEntityCollection field
-        // for this information
+      showKempAttribution() {
+        // FIXME: Refactor to load attribution from the
+        // namedEntityCollection metadata
+        const odysseyUrnPrefix =
+          'urn:cite2:beyond-translation:named_entity_collection.atlas_v1:od_';
         return (
-          this.$route.params.urn.indexOf('tlg0012.tlg002.perseus-grc2') > -1 &&
-          this.entities.length > 0
+          this.entities.length > 0 &&
+          this.entities[0].collection.urn.startsWith(odysseyUrnPrefix)
         );
       },
     },
@@ -120,6 +122,9 @@
                   url
                   kind
                   data
+                  collection {
+                    urn
+                  }
                 }
               }
             }

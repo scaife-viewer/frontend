@@ -46,6 +46,7 @@
                 node {
                   id
                   ref
+                  kind
                   tokens {
                     edges {
                       node {
@@ -66,7 +67,7 @@
     methods: {
       queryUpdate(data) {
         const textParts = data.passageTextParts.edges.map(textPart => {
-          const { id, ref } = textPart.node;
+          const { id, ref, kind } = textPart.node;
           const tokens = textPart.node.tokens.edges.map(edge => {
             const { value, veRef, lemma } = edge.node;
             return {
@@ -78,6 +79,7 @@
           return {
             id,
             ref,
+            kind,
             tokens,
           };
         });
@@ -92,7 +94,7 @@
     flex: 1;
   }
   .text {
-    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+    font-family: var(--sv-widget-reader-text-font-family, 'Noto Serif');
     margin: 1em 0;
 
     &.text-xs {
@@ -110,9 +112,6 @@
     &.text-xl {
       line-height: 1.9;
     }
-  }
-  .text.rtl {
-
   }
 
   .widget-sidebar .text {

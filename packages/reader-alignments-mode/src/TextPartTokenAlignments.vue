@@ -175,7 +175,7 @@
     justify-content: center;
   }
   .empty-version {
-    margin-left: 2.0em;
-    margin-right: -2.0em;
+    margin-left: 2em;
+    margin-right: -2em;
   }
 </style>

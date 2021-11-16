@@ -54,6 +54,7 @@
     ErrorMessage,
     EmptyMessage,
   } from '@scaife-viewer/common';
+  import { LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   import ImageViewer from './ImageViewer.vue';
   import ImageViewerToolbar from './ImageViewerToolbar.vue';
@@ -62,7 +63,7 @@
   export default {
     readerConfig: {
       label: 'Folio Images',
-      layout: 'wide',
+      layout: LAYOUT_WIDTH_WIDE,
     },
     props: {
       queryVariables: Object,

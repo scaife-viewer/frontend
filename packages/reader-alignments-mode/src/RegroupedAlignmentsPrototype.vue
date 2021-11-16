@@ -7,7 +7,7 @@
         class="alignment row text-alignment"
         :class="{ 'half-line': isHalfLineEnd(row[0]) }"
       >
-        <div v-show="false" class="alignment-ref">{{ passageKey(rowIdx) }}</div>
+        <div v-if="false" class="alignment-ref">{{ passageKey(rowIdx) }}</div>
         <div class="columns">
           <div
             v-for="(line, lineIdx) in row"
@@ -39,7 +39,7 @@
                   :class="[
                     {
                       selected: selected(token),
-                      empty: showEmpty && isEmpty(token),
+                      'is-unaligned': highlightUnaligned && isUnaligned(token),
                       'out-of-bounds': outOfBounds(token, lineIdx),
                     },
                     `a${hoveringAt}`,
@@ -69,9 +69,7 @@
   // components; needs to be revisited ASAP.
 
   import gql from 'graphql-tag';
-  import { EmptyMessage } from '@scaife-viewer/common';
 
-  import TextPartTokenAlignment from './TextPartTokenAlignment.vue';
   import AlignmentRecordPicker from './AlignmentRecordPicker.vue';
 
   const passageQuery = gql`
@@ -105,8 +103,8 @@
     });
 
   export default {
-    props: ['data', 'textSize', 'textWidth', 'showEmpty'],
-    components: { EmptyMessage, TextPartTokenAlignment, AlignmentRecordPicker },
+    props: ['data', 'textSize', 'textWidth', 'highlightUnaligned'],
+    components: { AlignmentRecordPicker },
     computed: {
       hoveringOn() {
         return this.hoveredAlignmentTokens;
@@ -138,9 +136,6 @@
       recordMap() {
         return this.data.recordMap;
       },
-      firstIsRtl() {
-        return this.textDirection(this.data.references[0].reference) === 'rtl';
-      },
       groupedPassages() {
         // HACK: Experimenting for three-alignments
         const regrouped = [];
@@ -160,6 +155,8 @@
       },
     },
     apollo: {
+      // TODO: Use a memoized query to get enough data to resolve
+      // this.textDirection
       first: {
         query: passageQuery,
         variables() {
@@ -205,7 +202,7 @@
       };
     },
     methods: {
-      isEmpty(token) {
+      isUnaligned(token) {
         return this.tokenMap[token.id] === undefined;
       },
       outOfBounds(token, refIdx) {
@@ -313,11 +310,11 @@
   .line.rtl {
     direction: rtl;
     padding-inline-start: 1rem;
-    // FIXME: Proper rtl font support, including Amiri note below
-    .line {
-      // FIXME: Load Amiri; working for me locally because I have it installed
-      font-family: 'Amiri', 'Noto Sans';
-    }
+    font-family: var(
+      --sv-alignments-line-font-family-rtl,
+      'Amiri',
+      'Noto Sans'
+    );
     .text-md {
       font-size: 24px;
       line-height: 1.7;
@@ -339,7 +336,10 @@
     // HACK: Experimenting for three-alignments
     font-size: 8pt;
     color: var(--sv-alignments-alignment-ref-text-color, #6699ccaf);
-    font-family: 'Noto Sans';
+    font-family: var(
+      --sv-alignments-ref-alignment-ref-font-family,
+      'Noto Sans'
+    );
     margin-bottom: 5px;
     padding-inline-end: 0.5rem;
   }
@@ -352,7 +352,7 @@
   .token:hover > ::v-deep.alignment-records-picker {
     opacity: 1;
   }
-  .token.empty {
+  .token.is-unaligned {
     color: var(--sv-alignments-token-no-alignments-text-color, #f06e6e);
   }
   .token.out-of-bounds {
@@ -389,7 +389,7 @@
     text-align: center;
     font-size: 12pt;
     color: var(--sv-alignments-alignment-ref-text-color, #69c);
-    font-family: 'Noto Sans';
+    font-family: var(--sv-alignments-alignment-ref-font-family, 'Noto Sans');
     margin-bottom: 5px;
   }
   .left .line {
@@ -398,7 +398,7 @@
     .line-ref {
       font-size: 10pt;
       color: var(--sv-alignments-line-ref-text-color, #69c);
-      font-family: 'Noto Sans';
+      font-family: var(--sv-alignments-line-ref-font-family, 'Noto Sans');
       min-width: 4em;
       text-align: right;
     }

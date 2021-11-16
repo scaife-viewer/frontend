@@ -5,11 +5,7 @@
 </template>
 
 <script>
-  import 'treantjs';
-  import 'treantjs/Treant.css';
-  import Raphael from 'treantjs/vendor/raphael';
-
-  window.Raphael = Raphael;
+  import './vendor/Treant';
 
   export default {
     props: ['treeBankId', 'tree', 'highlighted', 'config', 'redrawKey'],
@@ -91,7 +87,9 @@
               node.classList.add('highlight');
             } else if (text.id === this.highlighted.parent) {
               node.classList.add('highlight-parent');
-            } else if (this.highlighted.children.indexOf(text.id) > -1) {
+            } else if (
+              (this.highlighted.children || []).indexOf(text.id) > -1
+            ) {
               node.classList.add('highlight-child');
             }
           });
@@ -121,3 +119,4 @@
     },
   };
 </script>
+<style src="./vendor/Treant.css"></style>
