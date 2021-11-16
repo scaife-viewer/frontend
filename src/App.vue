@@ -11,7 +11,8 @@
 <style lang="scss">
   @import url('https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&subset=greek,greek-ext,latin-ext');
   @import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
-  // FIXME: Revisit how fonts are loaded in components; prior art in SV 1 sites and Digital Sira
+  // FIXME: Revisit how fonts are loaded in components; prior art in SV 1 sites
+  //  and Digital Sira
   @import url('https://fonts.googleapis.com/css?family=Amiri:400,700&display=swap&subset=arabic');
 
   html,

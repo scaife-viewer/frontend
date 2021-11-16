@@ -190,7 +190,10 @@
     .node-value {
       margin-top: 0;
       font-size: 1em;
-      font-family: var(--sv-reader-syntax-tree-node-value-font-family, 'Noto Serif');
+      font-family: var(
+        --sv-reader-syntax-tree-node-value-font-family,
+        'Noto Serif'
+      );
     }
     .node-lemma {
       font-size: 0.88em;
