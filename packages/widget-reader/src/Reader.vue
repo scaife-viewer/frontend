@@ -27,8 +27,10 @@
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
   import ReaderTextPart from './ReaderTextPart.vue';
+  import PassageLanguageIsRtlMixin from './mixins';
 
   export default {
+    mixins: [PassageLanguageIsRtlMixin],
     components: { Attribution, EmptyMessage, ReaderTextPart },
     props: ['textParts'],
     computed: {
@@ -38,13 +40,8 @@
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
-      // TODO: Deduplicate with ReaderWidget
-      isRtl() {
-        const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
-        return metadata && metadata.lang === 'far';
-      },
       textDirection() {
-        return this.isRtl ? 'rtl' : 'ltr';
+        return this.passageIsRtl ? 'rtl' : 'ltr';
       },
       metricalMode() {
         return this.$store.getters[`${MODULE_NS}/metricalMode`];

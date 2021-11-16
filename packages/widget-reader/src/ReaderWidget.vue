@@ -36,7 +36,10 @@
     DISPLAY_MODE_DEFAULT,
   } from '@scaife-viewer/store';
 
+  import PassageLanguageIsRtlMixin from './mixins';
+
   export default {
+    mixins: [PassageLanguageIsRtlMixin],
     components: {
       ApolloQuery,
       Paginator,
@@ -146,15 +149,10 @@
           DISPLAY_MODE_DEFAULT
         );
       },
-      isRtl() {
-        // TODO: Add hook for further customization
-        const metadata = this.$store.getters[`${MODULE_NS}/metadata`];
-        return metadata && metadata.lang === 'far';
-      },
       textDirection() {
         // FIXME: Further localization required across
         // the other display modes
-        return this.isRtl && this.isDefaultDisplayMode ? 'rtl' : 'ltr';
+        return this.passageIsRtl && this.isDefaultDisplayMode ? 'rtl' : 'ltr';
       },
       pagerPrevious() {
         return this.textDirection === 'ltr' ? 'left' : 'right';

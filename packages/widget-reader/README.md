@@ -1,5 +1,11 @@
 # `widget-reader`
 
+## Configuration options
+
+`this.$scaife.config.rtlLanguages`:
+
+A `Set` object containing languages to be displayed as right-to-left.
+
 ## Fonts
 
 `--sv-widget-reader-text-font-family-rtl`
