@@ -1,27 +1,26 @@
 <template>
   <ApolloQuery
     class="reader"
+    ref="treesQuery"
     :query="query"
-    :variables="queryVariables"
+    :variables="queryVariablesPlus"
     :update="queryUpdate"
   >
-    <template v-slot="{ result: { error, data }, isLoading }">
+    <template v-slot="{ result: { error }, isLoading }">
       <LoaderBall v-if="isLoading" />
       <ErrorMessage v-else-if="error">
         There was an error loading the requested data.
       </ErrorMessage>
-      <EmptyMessage
-        v-else-if="!data || !data.trees || data.trees.length === 0"
-      />
+      <EmptyMessage v-else-if="trees.length === 0" />
       <template v-else>
         <ModeToolbar :expandAll="expandAll" @show="onShow" />
         <Tree
-          v-for="(tree, index) in data.trees"
+          v-for="(tree, index) in trees"
           :key="tree.treeBankId"
           :tree="tree"
           :first="index === 0"
           :expanded="expanded"
-          @collapsed="expandAll = null"
+          @tree-collapsed="expandAll = null"
         />
       </template>
     </template>
@@ -32,32 +31,60 @@
   import gql from 'graphql-tag';
   import { ApolloQuery } from 'vue-apollo';
 
-  import {
+  import URN, {
     LoaderBall,
     ErrorMessage,
     EmptyMessage,
   } from '@scaife-viewer/common';
 
+  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
+
   import { MODE_EXPAND } from './constants';
   import ModeToolbar from './ModeToolbar.vue';
   import Tree from './Tree.vue';
 
-  const transformForTreant = node => {
-    const text =
-      node.value === null
-        ? { name: '' }
-        : { name: node.relation, desc: node.value, id: node.id };
-
+  const generateNodeHTML = (node, options) => {
+    if (node.value === null) {
+      return null;
+    }
+    // TODO: the equivalent of `render_to_string` for Vue
+    const parts = [];
+    if (options.showRelationship) {
+      parts.push(`<div class="node-relation">${node.relation}</div>`);
+    }
+    parts.push('<div class="node-attrs">');
+    parts.push(`<div class="node-value">${node.value}</div>`);
+    if (options.showLemma) {
+      parts.push(`<div class="node-lemma">${node.lemma}</div>`);
+    }
+    if (options.showGloss) {
+      parts.push(`<div class="node-gloss">${node.gloss}</div>`);
+    }
+    if (options.showTag) {
+      parts.push(`<div class="node-tag">${node.tag}</div>`);
+    }
+    parts.push(`</div><div class="node-id">${node.id}</div>`);
+    return parts.join('\n');
+  };
+  const transformForTreant = (node, options) => {
+    const text = node.value != null ? { id: node.id } : {};
     return {
       text,
-      children: node.children.map(child => transformForTreant(child)),
+      innerHTML: generateNodeHTML(node, options),
+      children: node.children.map(child => transformForTreant(child, options)),
     };
   };
 
   export default {
     readerConfig: {
       label: 'Syntax Trees',
-      textWidth: 'wide',
+      layout: LAYOUT_WIDTH_WIDE,
+      textWidth: 'full',
+    },
+    data() {
+      return {
+        trees: [],
+      };
     },
     components: {
       ApolloQuery,
@@ -69,6 +96,13 @@
     },
     props: {
       queryVariables: Object,
+    },
+    watch: {
+      displayOptions: {
+        handler() {
+          this.queryUpdate(this.$refs.treesQuery.result.fullData);
+        },
+      },
     },
     methods: {
       onShow(expandAll) {
@@ -101,21 +135,29 @@
             }
           });
           return {
-            tree: transformForTreant(root),
+            tree: transformForTreant(root, this.displayOptions),
             words,
             wordBank,
             treeBankId: tree.node.data.treebankId,
             references: tree.node.data.references,
             citation: tree.node.data.citation,
+            collectionId: tree.node.collection.id,
+            urn: tree.node.urn,
           };
         });
 
-        return {
-          trees,
-        };
+        this.$data.trees = trees;
       },
     },
     computed: {
+      displayOptions() {
+        return {
+          showLemma: this.$store.state[MODULE_NS].showLemma,
+          showGloss: this.$store.state[MODULE_NS].showGloss,
+          showTag: this.$store.state[MODULE_NS].showTag,
+          showRelationship: this.$store.state[MODULE_NS].showRelationship,
+        };
+      },
       expanded() {
         return this.expandAll === null ? null : this.expandAll === MODE_EXPAND;
       },
@@ -139,7 +181,20 @@
           this.$router.replace({ query });
         },
       },
-      query() {
+      isIliadGreek() {
+        const urn = new URN(this.queryVariables.urn);
+        return urn.version === 'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:';
+      },
+      collectionUrn() {
+        // TODO:Remove hardcoded value and expose a dropdown, similar to
+        // translation alignments
+        return this.isIliadGreek
+          ? // eslint-disable-next-line max-len
+            `urn:cite2:beyond-translation:text_annotation_collection.atlas_v1:il_gregorycrane_gAGDT`
+          : '';
+      },
+      // TODO: Refactor `queryVariables` prop
+      standardQuery() {
         return gql`
           query SyntaxTree($urn: String!) {
             syntaxTrees(reference: $urn) {
@@ -147,11 +202,50 @@
                 node {
                   id
                   data
+                  urn
+                  collection {
+                    id
+                  }
                 }
               }
             }
           }
         `;
+      },
+      standardVariables() {
+        return this.queryVariables;
+      },
+      specialQuery() {
+        return gql`
+          query SyntaxTree($urn: String!, $collectionUrn: ID!) {
+            syntaxTrees(reference: $urn, collection_Urn: $collectionUrn) {
+              edges {
+                node {
+                  id
+                  urn
+                  data
+                  collection {
+                    id
+                  }
+                }
+              }
+            }
+          }
+        `;
+      },
+      specialVariables() {
+        return {
+          collectionUrn: this.collectionUrn,
+          ...this.queryVariables,
+        };
+      },
+      queryVariablesPlus() {
+        return this.isIliadGreek
+          ? this.specialVariables
+          : this.standardVariables;
+      },
+      query() {
+        return this.isIliadGreek ? this.specialQuery : this.standardQuery;
       },
     },
   };

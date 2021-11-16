@@ -8,6 +8,6 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "treantjs": "^1.0.0"
+    "raphael": "^2.3.0"
   }
 }

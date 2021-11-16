@@ -1206,34 +1206,6 @@
     "@fortawesome/vue-fontawesome" "^0.1.8"
     lodash.debounce "^4.0.8"
 
-"@scaife-viewer/common@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@scaife-viewer/common/-/common-0.0.7.tgz#5d58113d097c414623499cc0b0c62608531c98ec"
-  integrity sha512-M3TgA3RD28gpBHVmHGDMrf7CmuY2HCR2BxFoQNU9Yi8RcdTAFvL10P3LfLKYgq9Us2WCoBHQ2unIQEWkuAFvwA==
-  dependencies:
-    "@fortawesome/fontawesome-svg-core" "^1.2.28"
-    "@fortawesome/free-solid-svg-icons" "^5.14.0"
-    "@fortawesome/vue-fontawesome" "^0.1.8"
-    lodash.debounce "^4.0.8"
-
-"@scaife-viewer/common@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@scaife-viewer/common/-/common-0.2.0.tgz#e169c311eeb5fcec9f3d54784b6f0e5cf2d08178"
-  integrity sha512-iETnuViYYqynxx/9GchjwubcN+WK7Hsb6z/G6sPBwqnNtCqGPC1AXv3R7Q7gFuUxGM0GD241p7y45uYG9+/rzg==
-  dependencies:
-    "@fortawesome/fontawesome-svg-core" "^1.2.28"
-    "@fortawesome/free-solid-svg-icons" "^5.14.0"
-    "@fortawesome/vue-fontawesome" "^0.1.8"
-    lodash.debounce "^4.0.8"
-
-"@scaife-viewer/store@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@scaife-viewer/store/-/store-0.0.10.tgz#54b51bc0616cbf1d040a7f31883f5049f1ef3989"
-  integrity sha512-6NCl5wC8FpwKeDwC/PK75AZ3auZFEjbvMSX5HJ0GSaol7O0N7KB0jR21hDh0V3ujPQ+a/tI/dEptZWk2aDCoeg==
-  dependencies:
-    "@scaife-viewer/common" "^0.0.7"
-    graphql-tag "^2.10.3"
-
 "@scaife-viewer/store@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@scaife-viewer/store/-/store-0.0.4.tgz#60a1d97ccf91c14c675987c104503e5d74bb220a"
@@ -1242,13 +1214,16 @@
     "@scaife-viewer/common" "^0.0.2"
     graphql-tag "^2.10.3"
 
-"@scaife-viewer/store@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@scaife-viewer/store/-/store-0.2.0.tgz#145cb0da0b5cfc736c05f53981a2564e58e7cb31"
-  integrity sha512-1yuB0hXcU71AT4ER4ULfyt1t10yo9q7ATi1IPKRUOJTXxPHi+I8mYHQnAuh7hx0zcivH+vlSMIRHi0K4cU9j2A==
+"@scaife-viewer/widget-reader@https://gitpkg.now.sh/scaife-viewer/frontend/packages/widget-reader?3e6e06ffbecc7f9114d8e625792f05f6bbd7bed0":
+  version "0.4.0"
+  uid "046bec0b3f15348fcc463fc14fe3bd6a1f156db1"
+  resolved "https://gitpkg.now.sh/scaife-viewer/frontend/packages/widget-reader?3e6e06ffbecc7f9114d8e625792f05f6bbd7bed0#046bec0b3f15348fcc463fc14fe3bd6a1f156db1"
   dependencies:
-    "@scaife-viewer/common" "^0.2.0"
+    "@scaife-viewer/common" "^0.4.0"
+    "@scaife-viewer/store" "^0.4.0"
+    graphql "^15.0.0"
     graphql-tag "^2.10.3"
+    vue-apollo "^3.0.4"
 
 "@soda/friendly-errors-webpack-plugin@^1.7.1":
   version "1.7.1"
@@ -4455,6 +4430,11 @@ etag@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+
+eve-raphael@0.5.0:
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/eve-raphael/-/eve-raphael-0.5.0.tgz#17c754b792beef3fa6684d79cf5a47c63c4cda30"
+  integrity sha1-F8dUt5K+7z+maE15z1pHxjxM2jA=
 
 event-pubsub@4.3.0:
   version "4.3.0"
@@ -8838,6 +8818,13 @@ range-parser@^1.2.1, range-parser@~1.2.1:
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.1.tgz#3cf37023d199e1c24d1a55b84800c2f3e6468031"
   integrity sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==
 
+raphael@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/raphael/-/raphael-2.3.0.tgz#eabeb09dba861a1d4cee077eaafb8c53f3131f89"
+  integrity sha512-w2yIenZAQnp257XUWGni4bLMVxpUpcIl7qgxEgDIXtmSypYtlNxfXWpOBxs7LBTps5sDwhRnrToJrMUrivqNTQ==
+  dependencies:
+    eve-raphael "0.5.0"
+
 raw-body@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.4.0.tgz#a1ce6fb9c9bc356ca52e89256ab59059e13d0332"
@@ -10432,11 +10419,6 @@ tr46@^1.0.1:
   integrity sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=
   dependencies:
     punycode "^2.1.0"
-
-treantjs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/treantjs/-/treantjs-1.0.0.tgz#dbc3f053e691cf700e671ff17c6e68c924a813aa"
-  integrity sha1-28PwU+aRz3AOZx/xfG5oySSoE6o=
 
 trim-newlines@^1.0.0:
   version "1.0.0"

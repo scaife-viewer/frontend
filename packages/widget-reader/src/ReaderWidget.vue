@@ -6,17 +6,18 @@
       </h2>
       <ApolloQuery
         class="reader-container"
+        :class="[textDirection]"
         :query="query"
         :variables="queryVariables"
         :update="queryUpdate"
         :skip="urn === null"
       >
         <template v-slot="{ result: { data } }">
-          <Paginator :urn="data && data.previous" direction="left" />
+          <Paginator :urn="data && data.previous" :direction="pagerPrevious" />
 
           <component :is="readerComponent" :query-variables="queryVariables" />
 
-          <Paginator :urn="data && data.next" direction="right" />
+          <Paginator :urn="data && data.next" :direction="pagerNext" />
         </template>
       </ApolloQuery>
     </section>
@@ -32,9 +33,13 @@
     MODULE_NS,
     SET_PASSAGE,
     UPDATE_METADATA,
+    DISPLAY_MODE_DEFAULT,
   } from '@scaife-viewer/store';
 
+  import PassageLanguageIsRtlMixin from './mixins';
+
   export default {
+    mixins: [PassageLanguageIsRtlMixin],
     components: {
       ApolloQuery,
       Paginator,
@@ -138,6 +143,23 @@
       fullHeight() {
         return this.namedEntitiesMode;
       },
+      isDefaultDisplayMode() {
+        return (
+          this.$store.getters[`${MODULE_NS}/displayMode`] ===
+          DISPLAY_MODE_DEFAULT
+        );
+      },
+      textDirection() {
+        // FIXME: Further localization required across
+        // the other display modes
+        return this.passageIsRtl && this.isDefaultDisplayMode ? 'rtl' : 'ltr';
+      },
+      pagerPrevious() {
+        return this.textDirection === 'ltr' ? 'left' : 'right';
+      },
+      pagerNext() {
+        return this.textDirection === 'ltr' ? 'right' : 'left';
+      },
     },
   };
 </script>
@@ -157,7 +179,9 @@
     flex: 1;
   }
   .reader-container {
+    // TODO: RTLize via .overall from SV1
     display: flex;
+    flex-direction: row;
     align-items: baseline;
     justify-content: left;
     & nav:last-child {
@@ -167,5 +191,8 @@
       margin-left: auto;
       padding-top: 40px;
     }
+  }
+  .reader-container.rtl {
+    direction: rtl;
   }
 </style>

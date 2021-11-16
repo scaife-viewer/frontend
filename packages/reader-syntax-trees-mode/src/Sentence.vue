@@ -7,16 +7,23 @@
       selected.word !== null ? 'highlighting' : null,
     ]"
   >
-    <template v-for="word in words">
+    <span
+      class="word-container"
+      v-for="(word, position) in words"
+      :key="word.id"
+    >
+      <br v-if="word.breakBefore" />
+      <span class="ref" v-if="showRef(word, position)">{{ word.ref }}</span>
       <Word
         :key="word.id"
         :word="word"
         :selected="selected"
+        :position="position"
         @word-enter="onWordEnter"
         @word-leave="onWordLeave"
       />
-      {{ ' ' }}
-    </template>
+      <span v-if="spaceAfter(word)">{{ ' ' }}</span>
+    </span>
   </div>
 </template>
 
@@ -34,6 +41,13 @@
       onWordLeave(word) {
         this.$emit('word-leave', word);
       },
+      showRef(word, position) {
+        // TODO: Add support for toggling refs on / off
+        return (word.ref && position === 0) || word.breakBefore;
+      },
+      spaceAfter(word) {
+        return word.spaceAfter !== undefined ? word.spaceAfter : true;
+      },
     },
     computed: {
       textSize() {
@@ -48,8 +62,12 @@
 
 <style lang="scss" scoped>
   .sentence {
-    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+    font-family: var(
+      --sv-reader-syntax-trees-mode-sentence-font-family,
+      'Noto Serif'
+    );
     line-height: 1.8;
+    display: table;
 
     &.highlighting {
       color: var(--sv-reader-syntax-trees-mode-noninvolved-text-color, #adb5bd);
@@ -86,5 +104,14 @@
 
   .text-width-full {
     max-width: 100%;
+  }
+  .ref {
+    font-size: 10pt;
+    color: var(--sv-reader-syntax-trees-mode-ref-text-color, #69c);
+    font-family: var(
+      --sv-reader-syntax-trees-mode-ref-font-family,
+      'Noto Sans'
+    );
+    margin-right: 1em;
   }
 </style>

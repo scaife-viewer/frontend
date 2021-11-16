@@ -13,6 +13,10 @@ export const SET_MAIN_LAYOUT_WIDTH_NORMAL = 'setMainLayoutWidthNormal';
 export const SET_MAIN_LAYOUT_WIDTH_WIDE = 'setMainLayoutWidthWide';
 export const SET_MAIN_LAYOUT_WIDTH_WIDER = 'setMainLayoutWidthWider';
 
+export const LAYOUT_WIDTH_NORMAL = 'normal';
+export const LAYOUT_WIDTH_WIDE = 'wide';
+export const LAYOUT_WIDTH_WIDER = 'wider';
+
 export const FETCH_METADATA = 'fetchMetadata';
 export const UPDATE_METADATA = 'updateMetadata';
 export const FETCH_LIBRARY = 'fetchLibrary';

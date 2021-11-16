@@ -12,7 +12,12 @@
 </template>
 
 <script>
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    LAYOUT_WIDTH_WIDE,
+    SET_MAIN_LAYOUT_WIDTH_NORMAL,
+    SET_MAIN_LAYOUT_WIDTH_WIDE,
+  } from '@scaife-viewer/store';
 
   export default {
     scaifeConfig: {
@@ -21,43 +26,54 @@
       singleton: true,
     },
     computed: {
+      displayModeKey() {
+        return this.$store.getters[`${MODULE_NS}/displayMode`];
+      },
+      displayMode() {
+        return this.displayModes.filter(
+          mode => mode.mode === this.displayModeKey,
+        )[0];
+      },
       displayModes() {
         const { readerComponents } = this.$scaife.config;
-        const displayMode = this.$store.getters[`${MODULE_NS}/displayMode`];
         return Object.keys(readerComponents).map(key => ({
           ...readerComponents[key].readerConfig,
           component: readerComponents[key],
           mode: key,
-          active: displayMode === key,
+          active: this.displayModeKey === key,
         }));
       },
     },
     methods: {
-      setWideLayout() {
-        document
-          .getElementsByClassName('main-layout')[0]
-          .classList.add('main-layout-wide');
-      },
-      setNormalLayout() {
-        document
-          .getElementsByClassName('main-layout')[0]
-          .classList.remove('main-layout-wide');
-      },
       setMode(mode) {
-        this.$store.dispatch(`${MODULE_NS}/setTextWidth`, {
-          width: mode.textWidth || 'normal',
-        });
-        if (mode.layout === 'wide') {
-          this.setWideLayout();
-        } else {
-          this.setNormalLayout();
-        }
+        // NOTE: `displayMode` getter reads from
+        // $route.query.mode
         const query = {
           ...this.$route.query,
           mode: mode.mode,
         };
         delete query.rs;
         this.$router.replace({ query });
+      },
+      applyModeLayout(mode) {
+        this.$store.dispatch(`${MODULE_NS}/setTextWidth`, {
+          width: mode.textWidth || 'normal',
+        });
+        if (mode.layout === LAYOUT_WIDTH_WIDE) {
+          this.$store.dispatch(`${MODULE_NS}/${SET_MAIN_LAYOUT_WIDTH_WIDE}`);
+        } else {
+          this.$store.dispatch(`${MODULE_NS}/${SET_MAIN_LAYOUT_WIDTH_NORMAL}`);
+        }
+      },
+    },
+    watch: {
+      displayMode: {
+        immediate: true,
+        handler(newVal, oldVal) {
+          if (!oldVal || newVal.mode !== oldVal.mode) {
+            this.applyModeLayout(newVal);
+          }
+        },
       },
     },
   };

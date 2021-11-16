@@ -9,8 +9,9 @@
   "license": "MIT",
   "dependencies": {
     "@scaife-viewer/common": "^0.0.2",
-    "@scaife-viewer/store": "^0.0.4",
+    "@scaife-viewer/store": "^0.4.0",
     "@scaife-viewer/vue-treant": "^0.4.0",
+    "@scaife-viewer/widget-attributions": "^0.4.1",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.4"
   }

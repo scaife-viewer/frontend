@@ -3,17 +3,29 @@
     <LoaderBall v-if="$apollo.loading" />
     <ErrorMessage v-else-if="errors" />
     <template v-else-if="passageHasAlignments">
-      <CustomSelect
-        v-model="selectedAlignment"
-        :options="textAlignments"
-        placeholder="Select an alignment..."
-      />
+      <div class="toolbar">
+        <CustomSelect
+          v-model="selectedAlignment"
+          :options="textAlignments"
+          placeholder="Select an alignment..."
+        />
+        <div v-if="isTextPartAlignment" class="toggle-container">
+          <a
+            href
+            @click.prevent="highlightUnaligned = !highlightUnaligned"
+            class="toggle-control"
+          >
+            {{ !highlightUnaligned ? 'Show ' : 'Hide ' }} unaligned tokens
+          </a>
+        </div>
+      </div>
       <component
         v-if="recordsExistForPassage"
         :is="alignmentsComponent"
         :data="textAlignmentRecords"
         :textSize="textSize"
         :textWidth="textWidth"
+        :highlightUnaligned="highlightUnaligned"
       />
       <EmptyMessage
         v-else-if="canSelectAnotherAlignment"
@@ -34,15 +46,16 @@
     ReaderLink,
     CustomSelect,
   } from '@scaife-viewer/common';
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
   import RecordTokenAlignment from './RecordTokenAlignments.vue';
+  import RegroupedAlignmentsPrototype from './RegroupedAlignmentsPrototype.vue';
 
   export default {
     readerConfig: {
       label: 'Alignments',
-      layout: 'wide',
+      layout: LAYOUT_WIDTH_WIDE,
     },
     props: {
       queryVariables: Object,
@@ -50,6 +63,8 @@
     data() {
       return {
         errors: false,
+        highlightUnaligned:
+          this.$scaife.config.highlightUnalignedTokens || false,
       };
     },
     components: {
@@ -88,10 +103,20 @@
       },
       //
       alignmentsComponent() {
-        const hint = this.textAlignmentRecords.displayHint;
-        return hint === 'records'
-          ? RecordTokenAlignment
-          : TextPartTokenAlignments;
+        const { displayHint } = this.textAlignmentRecords;
+        if (displayHint === 'records') {
+          return RecordTokenAlignment;
+        }
+        if (displayHint === 'regroupedRecords') {
+          return RegroupedAlignmentsPrototype;
+        }
+        return TextPartTokenAlignments;
+      },
+      isTextPartAlignment() {
+        return (
+          this.recordsExistForPassage &&
+          this.alignmentsComponent !== RecordTokenAlignment
+        );
       },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
@@ -312,5 +337,15 @@
   .empty-annotations {
     text-align: center;
     margin-top: 1rem;
+  }
+  .toolbar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 1em;
+  }
+  .toggle-container {
+    padding-inline-start: 1em;
   }
 </style>
