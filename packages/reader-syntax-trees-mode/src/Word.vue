@@ -6,19 +6,17 @@
     @mouseleave="onLeave"
   >
     <div class="text">{{ word.value }}</div>
-    <div v-if="showLemma" class="lemma">{{ valueIsh(word.lemma) || '-' }}</div>
-    <div v-if="showGloss" class="gloss">{{ valueIsh(word.gloss) || '-' }}</div>
+    <div v-if="showLemma" class="lemma">{{ word.lemma || '-' }}</div>
+    <div v-if="showGloss" class="gloss">{{ word.gloss || '-' }}</div>
     <div v-if="showRelationship" class="pos">
-      {{ valueIsh(word.relation) || '-' }}
+      {{ word.relation || '-' }}
     </div>
-    <div v-if="showTag" class="analysis">{{ valueIsh(word.tag) || '-' }}</div>
+    <div v-if="showTag" class="analysis">{{ word.tag || '-' }}</div>
   </div>
 </template>
 
 <script>
   import { MODULE_NS } from '@scaife-viewer/store';
-
-  const ONLY_SHOW_ON_HOVER = false;
 
   export default {
     props: ['word', 'selected'],
@@ -31,12 +29,6 @@
       },
       child() {
         return (this.selected.children || []).indexOf(this.word.id) > -1;
-      },
-      showAttrs() {
-        if (ONLY_SHOW_ON_HOVER) {
-          return this.selectedWord;
-        }
-        return true;
       },
       showRelationship() {
         return this.$store.state[MODULE_NS].showRelationship;
@@ -57,15 +49,6 @@
       },
       onLeave() {
         this.$emit('word-leave', this.word);
-      },
-      valueIsh(value) {
-        // TODO: Determine if the value is even available in the dataset
-        if (this.showAttrs) {
-          return value;
-        }
-        // NOTE: Return an empty character so we maintain height with
-        // the selected word; might be able to tweak this ikn CSS
-        return '‎';
       },
     },
   };
