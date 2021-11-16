@@ -119,7 +119,4 @@
     },
   };
 </script>
-<style>
-  /* FIXME: This was done to appease rollup */
-  @import './vendor/Treant.css';
-</style>
+<style src="./vendor/Treant.css"></style>
