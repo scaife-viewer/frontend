@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+- _wip for `0.5.0-beta.1`_
+
 ## 0.4.1 (2021-03-29)
 
 ### Fixes
