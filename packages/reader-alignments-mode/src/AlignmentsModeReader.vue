@@ -247,6 +247,7 @@
                 metadata {
                   passageReferences
                   displayHint
+                  displayOptions
                 }
                 edges {
                   node {
@@ -322,6 +323,7 @@
             alignmentRecords,
             references: data.textAlignmentRecords.metadata.passageReferences,
             displayHint: data.textAlignmentRecords.metadata.displayHint,
+            displayOptions: data.textAlignmentRecords.metadata.displayOptions,
           };
         },
         error() {

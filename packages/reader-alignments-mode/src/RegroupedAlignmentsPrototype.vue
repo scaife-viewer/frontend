@@ -106,8 +106,12 @@
     props: ['data', 'textSize', 'textWidth', 'highlightUnaligned'],
     components: { AlignmentRecordPicker },
     computed: {
+      hoveringEnabled() {
+        const options = this.data.displayOptions || { hoveringEnabled: true };
+        return options.hoveringEnabled;
+      },
       hoveringOn() {
-        return this.hoveredAlignmentTokens;
+        return this.hoveringEnabled ? this.hoveredAlignmentTokens : [];
       },
       hoveringAt() {
         return this.hoveredIndex;
