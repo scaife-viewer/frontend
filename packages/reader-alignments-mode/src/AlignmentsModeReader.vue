@@ -155,6 +155,7 @@
           return {
             id: node.id,
             label: node.label,
+            items: node.items,
             relations: node.relations.edges.map(e => {
               return {
                 id: e.id,
@@ -251,6 +252,7 @@
                   node {
                     id
                     label
+                    items
                     relations {
                       edges {
                         node {
