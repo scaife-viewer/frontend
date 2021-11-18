@@ -9,7 +9,10 @@
           :options="textAlignments"
           placeholder="Select an alignment..."
         />
-        <div v-if="isTextPartAlignment" class="toggle-container">
+        <div
+          v-if="isTextPartAlignment && hoveringEnabled"
+          class="toggle-container"
+        >
           <a
             href
             @click.prevent="highlightUnaligned = !highlightUnaligned"
@@ -111,6 +114,18 @@
           return RegroupedAlignmentsPrototype;
         }
         return TextPartTokenAlignments;
+      },
+      displayOptions() {
+        const defaults = { hoveringEnabled: true };
+        return (
+          (this.textAlignmentRecords &&
+            this.textAlignmentRecords.displayOptions) ||
+          defaults
+        );
+      },
+      hoveringEnabled() {
+        const value = this.displayOptions.hoveringEnabled;
+        return value === undefined ? true : value;
       },
       isTextPartAlignment() {
         return (
