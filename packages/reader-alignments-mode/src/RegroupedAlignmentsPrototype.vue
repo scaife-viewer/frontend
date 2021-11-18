@@ -107,8 +107,8 @@
     components: { AlignmentRecordPicker },
     computed: {
       hoveringEnabled() {
-        const options = this.data.displayOptions || { hoveringEnabled: true };
-        return options.hoveringEnabled;
+        const value = this.data.displayOptions.hoveringEnabled;
+        return value === undefined ? true : value;
       },
       hoveringOn() {
         return this.hoveringEnabled ? this.hoveredAlignmentTokens : [];
