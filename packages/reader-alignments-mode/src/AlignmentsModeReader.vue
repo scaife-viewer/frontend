@@ -49,7 +49,7 @@
   import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
-  import RecordTokenAlignment from './RecordTokenAlignments.vue';
+  import RecordTokenAlignments from './RecordTokenAlignments.vue';
   import RegroupedAlignmentsPrototype from './RegroupedAlignmentsPrototype.vue';
 
   export default {
@@ -105,7 +105,7 @@
       alignmentsComponent() {
         const { displayHint } = this.textAlignmentRecords;
         if (displayHint === 'records') {
-          return RecordTokenAlignment;
+          return RecordTokenAlignments;
         }
         if (displayHint === 'regroupedRecords') {
           return RegroupedAlignmentsPrototype;
@@ -115,7 +115,7 @@
       isTextPartAlignment() {
         return (
           this.recordsExistForPassage &&
-          this.alignmentsComponent !== RecordTokenAlignment
+          this.alignmentsComponent !== RecordTokenAlignments
         );
       },
       textSize() {
