@@ -144,6 +144,7 @@
             treeBankId: tree.node.data.treebankId,
             references: tree.node.data.references,
             citation: tree.node.data.citation,
+            translations: tree.node.data.translations,
             collectionId: tree.node.collection.id,
             urn: tree.node.urn,
           };
