@@ -82,11 +82,10 @@
         const lines = parts.map(line => {
           const { id, ref } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef, lemma } = edge.node;
+            const { value, veRef } = edge.node;
             return {
               value,
               veRef,
-              lemma,
               entities: tokenLookup[veRef],
             };
           });
@@ -163,7 +162,6 @@
                         id
                         veRef
                         value
-                        lemma
                       }
                     }
                   }

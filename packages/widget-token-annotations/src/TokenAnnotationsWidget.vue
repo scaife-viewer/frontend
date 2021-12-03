@@ -52,14 +52,22 @@
                 .filter(selectedFilter)
                 .map(edge => {
                   const token = edge.node;
+                  // TODO: Improve encapsulation of additional annotation data
+                  const firstAnnotationEdge =
+                    token.annotations.edges.slice(0, 1)[0] || null;
+                  const annotationData = firstAnnotationEdge
+                    ? firstAnnotationEdge.node.data
+                    : {};
+                  const { lemma, tag } = annotationData;
+
                   return {
                     veRef: token.veRef,
                     value: token.wordValue,
-                    lemma: token.lemma,
-                    tag: token.tag,
+                    lemma,
+                    tag,
                   };
                 })
-                .filter(token => token.tag !== null);
+                .filter(token => token.tag);
             })
             .flat();
           return [...new Set(tokens)];
@@ -82,8 +90,16 @@
                         id
                         veRef
                         wordValue
-                        lemma
-                        tag
+                        annotations(first: 1) {
+                          edges {
+                            node {
+                              collection {
+                                urn
+                              }
+                              data
+                            }
+                          }
+                        }
                       }
                     }
                   }

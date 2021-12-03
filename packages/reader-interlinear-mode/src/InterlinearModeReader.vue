@@ -38,6 +38,8 @@
       queryVariables: Object,
     },
     computed: {
+      // TODO: Improve annotations subquery performance
+      // Expose UI to select collection
       query() {
         return gql`
           query Interlinear($urn: String!) {
@@ -52,9 +54,16 @@
                         id
                         veRef
                         value
-                        lemma
-                        partOfSpeech
-                        tag
+                        annotations(first: 1) {
+                          edges {
+                            node {
+                              collection {
+                                urn
+                              }
+                              data
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -66,11 +75,19 @@
       },
     },
     methods: {
+      // TODO: Figure out query and fields in the new world
       queryUpdate(data) {
         const lines = data.passageTextParts.edges.map(line => {
           const { id, ref } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef, lemma, partOfSpeech, tag } = edge.node;
+            const { value, veRef } = edge.node;
+            // TODO: Improve encapsulation of additional annotation data
+            const firstAnnotationEdge =
+              edge.node.annotations.edges.slice(0, 1)[0] || null;
+            const annotationData = firstAnnotationEdge
+              ? firstAnnotationEdge.node.data
+              : {};
+            const { lemma, partOfSpeech, tag } = annotationData;
             return {
               value,
               veRef,
