@@ -88,12 +88,16 @@
               ? firstAnnotationEdge.node.data
               : {};
             const { lemma, partOfSpeech, tag } = annotationData;
+            const glossEng = annotationData['gloss (eng)'];
+            const glossFas = annotationData['gloss (fas)'];
             return {
               value,
               veRef,
               lemma,
               partOfSpeech,
               tag,
+              glossEng,
+              glossFas,
             };
           });
           return {

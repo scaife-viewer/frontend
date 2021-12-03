@@ -12,14 +12,6 @@
       >
         Lemma
       </span>
-      <!-- TODO: Enable gloss -->
-      <span
-        v-if="false"
-        :class="{ active: showGloss }"
-        @click.prevent="showGloss = !showGloss"
-      >
-        Gloss
-      </span>
       <span
         :class="{ active: showRelationship }"
         @click.prevent="showRelationship = !showRelationship"
@@ -28,6 +20,13 @@
       </span>
       <span :class="{ active: showTag }" @click.prevent="showTag = !showTag">
         Tag
+      </span>
+      <span
+        v-if="hasGlosses"
+        :class="{ active: showGloss }"
+        @click.prevent="showGloss = !showGloss"
+      >
+        Gloss
       </span>
     </div>
   </div>
@@ -95,6 +94,17 @@
           this.$store.state[MODULE_NS].showGloss = !this.$store.state[MODULE_NS]
             .showGloss;
         },
+      },
+      passage() {
+        return this.$store.getters[`${MODULE_NS}/passage`];
+      },
+      hasGlosses() {
+        // FIXME: Derive this from an associated collection, not
+        // a hard-coded value
+        return (
+          this.passage.version ===
+          'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
+        );
       },
     },
   };

@@ -57,11 +57,14 @@
     if (options.showLemma) {
       parts.push(`<div class="node-lemma">${node.lemma}</div>`);
     }
-    if (options.showGloss) {
-      parts.push(`<div class="node-gloss">${node.gloss}</div>`);
-    }
     if (options.showTag) {
       parts.push(`<div class="node-tag">${node.tag}</div>`);
+    }
+    if (options.showGloss) {
+      parts.push(`<div class="node-gloss">${node.glossEng}</div>`);
+      parts.push(
+        `<div class="node-gloss node-gloss-rtl">${node.glossFas}</div>`,
+      );
     }
     parts.push(`</div><div class="node-id">${node.id}</div>`);
     return parts.join('\n');
@@ -153,7 +156,7 @@
       displayOptions() {
         return {
           showLemma: this.$store.state[MODULE_NS].showLemma,
-          showGloss: this.$store.state[MODULE_NS].showGloss,
+          showGloss: this.hasGlosses && this.$store.state[MODULE_NS].showGloss,
           showTag: this.$store.state[MODULE_NS].showTag,
           showRelationship: this.$store.state[MODULE_NS].showRelationship,
         };
@@ -184,6 +187,9 @@
       isIliadGreek() {
         const urn = new URN(this.queryVariables.urn);
         return urn.version === 'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:';
+      },
+      hasGlosses() {
+        return this.isIliadGreek;
       },
       collectionUrn() {
         // TODO:Remove hardcoded value and expose a dropdown, similar to

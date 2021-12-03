@@ -7,11 +7,16 @@
   >
     <div class="text">{{ word.value }}</div>
     <div v-if="showLemma" class="lemma">{{ word.lemma || '-' }}</div>
-    <div v-if="showGloss" class="gloss">{{ word.gloss || '-' }}</div>
     <div v-if="showRelationship" class="pos">
       {{ word.relation || '-' }}
     </div>
     <div v-if="showTag" class="analysis">{{ word.tag || '-' }}</div>
+    <template v-if="hasGlosses">
+      <div v-if="showGloss" class="gloss">{{ word.glossEng || '-' }}</div>
+      <div v-if="showGloss" class="gloss gloss-rtl">
+        {{ word.glossFas || '-' }}
+      </div>
+    </template>
   </div>
 </template>
 
@@ -41,6 +46,15 @@
       },
       showGloss() {
         return this.$store.state[MODULE_NS].showGloss;
+      },
+      passage() {
+        return this.$store.getters[`${MODULE_NS}/passage`];
+      },
+      hasGlosses() {
+        return (
+          this.passage.version ===
+          'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
+        );
       },
     },
     methods: {
@@ -111,6 +125,22 @@
       font-size: 0.88em;
       color: var(--sv-reader-syntax-trees-mode-gloss-text-color, #333);
       font-style: italic;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 20ch;
+    }
+    .gloss-rtl {
+      direction: rtl;
+      font-family: var(
+        --sv-reader-syntax-trees-mode-gloss-font-family-rtl,
+        'Amiri',
+        'Noto Sans'
+      );
+      font-style: initial;
+      font-size: 24px;
+      line-height: 1.7;
+      margin-inline-start: 1em;
     }
   }
   .word:not(.selected):not(.child):not(.parent) {

@@ -204,6 +204,17 @@
       color: var(--sv-reader-syntax-tree-node-gloss-text-color, #aaa);
       font-style: italic;
     }
+    .node-gloss-rtl {
+      direction: rtl;
+      font-family: var(
+        --sv-reader-syntax-tree-node-gloss-font-family-rtl,
+        'Amiri',
+        'Noto Sans'
+      );
+      font-style: initial;
+      font-size: 24px;
+      line-height: 1.7;
+    }
     .node-tag {
       font-family: var(
         --sv-reader-syntax-trees-node-tag-font-family,

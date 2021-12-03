@@ -16,6 +16,14 @@
       <span class="lemma">{{ token.lemma || '-' }}</span>
       <span class="pos">{{ token.partOfSpeech || '-' }}</span>
       <span class="analysis">{{ token.tag || '-' }}</span>
+      <template v-if="hasGlosses">
+        <span class="gloss" :title="token.glossEng">{{
+          token.glossEng || '-'
+        }}</span>
+        <span class="gloss gloss-rtl" :title="token.glossFas">{{
+          token.glossFas || '-'
+        }}</span>
+      </template>
     </template>
     <template v-else>
       <span class="text">{{ token.value }}</span
@@ -94,6 +102,15 @@
       selectedToken() {
         return this.$store.state[MODULE_NS].selectedToken;
       },
+      passage() {
+        return this.$store.getters[`${MODULE_NS}/passage`];
+      },
+      hasGlosses() {
+        return (
+          this.passage.version ===
+          'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
+        );
+      },
     },
   };
 </script>
@@ -165,6 +182,23 @@
       font-size: 0.88em;
       color: var(--sv-widget-reader-interlinear-gloss-text-color, #333);
       font-style: italic;
+      // NOTE: This prevents long glosses from
+      // breaking the interlinear layout
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 20ch;
+    }
+    .gloss-rtl {
+      direction: rtl;
+      font-family: var(
+        --sv-widget-reader-interlinear-gloss-font-family-rtl,
+        'Amiri',
+        'Noto Sans'
+      );
+      font-style: initial;
+      font-size: 24px;
+      line-height: 1.7;
     }
   }
 </style>
