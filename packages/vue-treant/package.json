@@ -8,6 +8,8 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "raphael": "^2.3.0"
+    "@panzoom/panzoom": "^4.4.3",
+    "raphael": "^2.3.0",
+    "vue-slider-component": "^3.2.15"
   }
 }
