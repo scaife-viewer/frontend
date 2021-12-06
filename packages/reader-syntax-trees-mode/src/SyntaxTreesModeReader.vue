@@ -261,6 +261,7 @@
 <style lang="scss" scoped>
   .reader {
     width: 100%;
+    margin: 0 1em;
     height: 600px;
     max-height: calc(100vh - 100px);
   }
