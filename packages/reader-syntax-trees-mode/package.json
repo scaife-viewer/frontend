@@ -11,7 +11,7 @@
     "@panzoom/panzoom": "^4.4.3",
     "@scaife-viewer/common": "^0.0.2",
     "@scaife-viewer/store": "^0.5.0-beta.1",
-    "@scaife-viewer/vue-treant": "^0.5.0-beta.1",
+    "@scaife-viewer/vue-treant": "https://gitpkg.vercel.app/scaife-viewer/frontend/packages/vue-treant?73775b34339a83e028dfab763ea20b089e955f18",
     "@scaife-viewer/widget-attributions": "^0.5.0-beta.1",
     "graphql-tag": "^2.10.3",
     "vue-apollo": "^3.0.4",
