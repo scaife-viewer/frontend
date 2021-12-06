@@ -61,9 +61,9 @@
       parts.push(`<div class="node-tag">${node.tag}</div>`);
     }
     if (options.showGloss) {
-      parts.push(`<div class="node-gloss">${node.glossEng}</div>`);
+      parts.push(`<div class="node-gloss">${node.glossEng || '-' }</div>`);
       parts.push(
-        `<div class="node-gloss node-gloss-rtl">${node.glossFas}</div>`,
+        `<div class="node-gloss node-gloss-rtl">${node.glossFas || '-'}</div>`,
       );
     }
     parts.push(`</div><div class="node-id">${node.id}</div>`);
