@@ -2,11 +2,12 @@
   <div>
     <div class="sense-block">
       <!-- TODO: Hide toggle option if Sense has no children -->
-      <div class="toggle">
+      <div class="toggle" v-if="hasCitations || hasChildren">
         <span class="expansion-toggle" @click.prevent="onExpand">
           <Icon :name="icon" class="fa-xs" />
         </span>
       </div>
+      <div class="no-toggle" v-else />
       <div class="label" v-html="sense.label" />
       <div
         class="definition"
@@ -124,12 +125,13 @@
           };
         });
       },
+      hasCitations() {
+        return this.sense && this.sense.citations.edges.length > 0;
+      },
       citations() {
-        const hasCitations =
-          this.sense &&
-          this.sense.citations.edges.length > 0 &&
-          this.showCitations;
-        return hasCitations ? this.citationNodes : [];
+        return this.showCitations && this.hasCitations
+          ? this.citationNodes
+          : [];
       },
       showCitations() {
         return (
@@ -138,6 +140,9 @@
       },
       sense() {
         return this.senses.filter(sense => sense.urn === this.treeNode.id)[0];
+      },
+      hasChildren() {
+        return this.treeNode.children && this.treeNode.children.length > 0;
       },
       visibleChildren() {
         return this.expanded ? this.treeNode.children : [];
@@ -209,6 +214,10 @@
   }
   .depth-7 {
     margin-left: 2.1em;
+  }
+  .no-toggle {
+    padding: 0px 4px;
+    margin: 0px 2px 0.5em 1em;
   }
   .expansion-toggle {
     padding: 0px 4px;
