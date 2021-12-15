@@ -3,7 +3,7 @@
     <!-- TODO: Allow site developers or users to specify
     dictionary -->
     <DictionaryEntry v-if="entryUrn" :entryUrn="entryUrn" />
-    <DictionaryEntries v-else />
+    <DictionaryEntries v-else :placeholder="placeholder" />
   </div>
 </template>
 
@@ -15,6 +15,13 @@
   import DictionaryEntries from './DictionaryEntries.vue';
 
   export default {
+    props: {
+      // TODO: Rework using slots or $scaife.config
+      placeholder: {
+        type: String,
+        default: 'Filter entries',
+      },
+    },
     scaifeConfig: {
       displayName: 'Dictionary Entries',
       portalTarget: 'dictionary-entries-widget-controls',

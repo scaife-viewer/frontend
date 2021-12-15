@@ -4,7 +4,7 @@
     <EmptyMessage v-else-if="entries.length === 0" />
     <template v-else>
       <Lookahead
-        placeholder="Filter LGO entries"
+        :placeholder="placeholder"
         :reducer="lookaheadReducer"
         :data="entries"
         @filter-data="onFilter"
@@ -41,6 +41,7 @@
     scaifeConfig: {
       displayName: 'Dictionary Entries',
     },
+    props: ['placeholder'],
     data() {
       return {
         entries: [],
