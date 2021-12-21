@@ -52,10 +52,10 @@
     // CLEAR_TOKEN
   } from '@scaife-viewer/store';
 
-  // FIXME: Rework API endpoint to use GraphQL and set proper CORS headers
-  const baseURL =
-    'https://cors-anywhere.herokuapp.com/https://scaife.perseus.org';
-
+  // FIXME: Rework API endpoint to use GraphQL and query for supported languages
+  const MORPHOLOGY_API_ENDPOINT =
+    process.env.VUE_APP_MORPHOLOGY_API_ENDPOINT ||
+    'https://sv-morphology-api.herokuapp.com/morphology/api/v1';
   export default {
     scaifeConfig: {
       displayName: 'Morphology',
@@ -108,7 +108,7 @@
         const lang = 'grc';
         if (word) {
           this.loading = true;
-          const url = `${baseURL}/morpheus/?word=${word.w}&lang=${lang}`;
+          const url = `${MORPHOLOGY_API_ENDPOINT}/?word=${word.w}&lang=${lang}`;
           const headers = new Headers({
             Accept: 'application/json',
           });
