@@ -22,10 +22,12 @@
               v-for="treeNode in entry.senseTree"
               :key="treeNode.id"
             >
+              <!-- FIXME: Determine why we needed senseForNode for Cunliffe but not LGO -->
               <Sense
-                v-if="senses.length > 0"
+                v-if="senses.length > 0 && senseForNode(senses, treeNode)"
                 :treeNode="treeNode"
                 :senses="senses"
+                :sense="senseForNode(senses, treeNode)"
                 :filteredSenses="filteredSenses"
               />
             </div>
@@ -125,6 +127,10 @@
         } else if (value === SENSE_EXPANSION_MANUAL) {
           // NOTE: this is a no-op
         }
+      },
+      senseForNode(senses, node) {
+        const matches = senses.filter(sense => sense.urn === node.id);
+        return matches.length > -1 ? matches[0] : null;
       },
     },
     computed: {

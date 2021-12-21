@@ -32,6 +32,7 @@
         <Sense
           :treeNode="child"
           :senses="senses"
+          :sense="senseForNode(senses, child)"
           :filteredSenses="filteredSenses"
           :parentIsExpanded="expanded"
         />
@@ -58,6 +59,10 @@
       },
       filteredSenses: {
         type: Array,
+        required: true,
+      },
+      sense: {
+        type: Object,
         required: true,
       },
       senses: {
@@ -138,9 +143,6 @@
           this.$store.state.scaife.citationDisplay !== 'hidden' && this.expanded
         );
       },
-      sense() {
-        return this.senses.filter(sense => sense.urn === this.treeNode.id)[0];
-      },
       hasChildren() {
         return this.treeNode.children && this.treeNode.children.length > 0;
       },
@@ -164,6 +166,10 @@
         this.$store.dispatch(`${MODULE_NS}/${SET_SENSE_EXPANSION}`, {
           value: SENSE_EXPANSION_MANUAL,
         });
+      },
+      senseForNode(senses, node) {
+        const matches = senses.filter(sense => sense.urn === node.id);
+        return matches.length > -1 ? matches[0] : null;
       },
       inFilteredSenses(urn) {
         return this.filteredSenses.filter(node => urn === node.urn).length > 0;

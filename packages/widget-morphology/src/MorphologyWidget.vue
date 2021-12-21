@@ -8,7 +8,11 @@
           <span class="pofs-decl">{{ group.pofs }} {{ group.decl }}</span>
         </div>
         <div class="entries">
-          <div :key="entry" class="entry" v-for="entry in group.infl">
+          <div
+            :key="`entry-${index}`"
+            class="entry"
+            v-for="(entry, index) in group.infl"
+          >
             <div class="form">
               <span class="stem">{{ entry.stem }}</span
               ><span v-if="entry.suff" class="suff">-{{ entry.suff }}</span>
@@ -88,7 +92,8 @@
       selectedWord() {
         if (this.selectedToken) {
           return {
-            w: this.selectedToken.value,
+            // FIXME: wordValue vs value here?
+            w: this.selectedToken.value.replace(/\p{P}/gu, ''),
           };
         }
         return null;
