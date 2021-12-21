@@ -23,6 +23,7 @@ import {
   SELECT_LINE,
   SELECT_TOKEN,
   CLEAR_TOKEN,
+  SET_SELECTED_LEMMAS,
   SET_PASSAGE,
   UPDATE_METADATA,
   PLAY_AUDIO,
@@ -174,6 +175,9 @@ const createStore = client => {
         },
         [CLEAR_TOKEN]: state => {
           state.selectedToken = null;
+        },
+        [SET_SELECTED_LEMMAS]: (state, { lemmas }) => {
+          state.selectedLemmas = lemmas;
         },
         [SELECT_LINE]: (state, ref) => {
           state.selectedLine = ref;

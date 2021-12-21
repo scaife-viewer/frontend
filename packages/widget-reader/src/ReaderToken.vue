@@ -38,6 +38,7 @@
     SELECT_TOKEN,
     CLEAR_NAMED_ENTITIES,
     SELECT_NAMED_ENTITIES,
+    SET_SELECTED_LEMMAS,
   } from '@scaife-viewer/store';
 
   export default {
@@ -48,6 +49,9 @@
           this.$store.dispatch(`${MODULE_NS}/${CLEAR_NAMED_ENTITIES}`);
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: null,
+          });
+          this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
+            lemmas: null,
           });
         } else if (
           (this.namedEntitiesMode && this.isEntity) ||

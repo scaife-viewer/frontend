@@ -31,6 +31,8 @@ export const SET_TEXT_WIDTH = 'setTextWidth';
 export const SELECT_LINE = 'selectLine';
 export const SELECT_TOKEN = 'selectToken';
 export const CLEAR_TOKEN = 'clearToken';
+// @@@ Change from `SET` to `SELECT` and `CLEAR` actions
+export const SET_SELECTED_LEMMAS = 'setSelectedLemmas';
 
 export const PLAY_AUDIO = 'playAudio';
 export const STOP_AUDIO = 'stopAudio';
