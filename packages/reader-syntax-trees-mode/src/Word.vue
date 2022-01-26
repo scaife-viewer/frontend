@@ -4,6 +4,7 @@
     :class="{ selected: selectedWord, parent, child }"
     @mouseenter="onEnter"
     @mouseleave="onLeave"
+    @click="onSelect"
   >
     <div class="text">{{ word.value }}</div>
     <div v-if="showLemma" class="lemma">{{ word.lemma || '-' }}</div>
@@ -21,11 +22,22 @@
 </template>
 
 <script>
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, SET_SELECTED_LEMMAS } from '@scaife-viewer/store';
 
   export default {
     props: ['word', 'selected'],
     computed: {
+      selectedLemmas() {
+        return this.$store.state[MODULE_NS].selectedLemma;
+      },
+      lemma() {
+        return this.word.lemma ? this.word.lemma : null;
+      },
+      lemmaIsSelected() {
+        return this.lemma
+          ? this.selectedLemmas && this.selectedLemmas.indexOf(this.lemma) > -1
+          : false;
+      },
       selectedWord() {
         return this.word.id === this.selected.word;
       },
@@ -63,6 +75,20 @@
       },
       onLeave() {
         this.$emit('word-leave', this.word);
+      },
+      onSelect() {
+        // TODO: Standardize lemma selection
+        // across reader and annotation widgets
+        if (this.lemmaIsSelected) {
+          this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
+            lemmas: null,
+          });
+        } else if (this.lemma) {
+          const lemmas = [this.lemma];
+          this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
+            lemmas,
+          });
+        }
       },
     },
   };
