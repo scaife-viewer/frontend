@@ -6,6 +6,11 @@
       interlinear: interlinearMode,
       'entity-mode': namedEntitiesMode,
       'dictionary-entries-mode': dictionaryEntriesMode,
+      'lemma-cited': dictionaryEntriesMode && token.lemmaCited,
+      'lemma-resolved':
+        dictionaryEntriesMode && !token.lemmaCited && token.lemmaResolved,
+      'lemma-excluded':
+        dictionaryEntriesMode && !token.lemmaResolved && !token.lemmaCited,
       entity: namedEntitiesMode && isEntity,
       'selected-entity': namedEntitiesMode && hasSelectedEntity,
     }"
@@ -109,6 +114,7 @@
             (entity && entity === this.entities[0])
           );
         }
+        // TODO: Colors for dictionary entries mode
         return this.selectedToken.veRef === this.token.veRef;
       },
       selectedToken() {
@@ -153,6 +159,21 @@
         --sv-widget-reader-token-selected-entity-shadow-color,
         #9f9
       ) inset;
+  }
+  :not(.token.selected) {
+    // TODO: Colorblind friendly colors
+    // #019e73
+    // #d55d00
+    // #0073b2
+    &.token.lemma-cited .text {
+      background-color: #ccc;
+    }
+    &.token.lemma-resolved .text {
+      background-color: #eee;
+    }
+    &.token.lemma-excluded .text {
+      color: #ccc;
+    }
   }
   .token.interlinear {
     display: inline-block;

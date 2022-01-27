@@ -93,9 +93,11 @@
       entries: {
         // TODO: Allow site developers or users to specify
         // dictionary
+        // TODO: Allow site developers to specify if we query dictionaries
+        // using citations via or lemmas _and_ citations
         query: gql`
           query DictionaryEntries($urn: String!) {
-            dictionaryEntries(reference: $urn) {
+            dictionaryEntries(reference: $urn, resolveUsingLemmas: true) {
               edges {
                 node {
                   id

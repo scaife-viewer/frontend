@@ -1,5 +1,10 @@
 <template>
-  <ApolloQuery :query="query" :variables="queryVariables" :update="queryUpdate">
+  <ApolloQuery
+    class="reader"
+    :query="query"
+    :variables="queryVariables"
+    :update="queryUpdate"
+  >
     <template v-slot="{ result: { error, data }, isLoading }">
       <LoaderBall v-if="isLoading" />
       <ErrorMessage v-else-if="error">
@@ -19,7 +24,11 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import { Reader } from '@scaife-viewer/widget-reader';
-  import { LoaderBall, ErrorMessage } from '@scaife-viewer/common';
+  import {
+    LoaderBall,
+    ErrorMessage,
+    normalizeString,
+  } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
@@ -50,6 +59,20 @@
       queryUpdate(data) {
         const parts = data.textParts.edges;
 
+        const lemmasCited = new Set(
+          data.citedEntries.edges.map(entry => {
+            const { headwordNormalized } = entry.node;
+            return headwordNormalized;
+          }),
+        );
+
+        const lemmasResolved = new Set(
+          data.resolvedEntries.edges.map(entry => {
+            const { headwordNormalized } = entry.node;
+            return headwordNormalized;
+          }),
+        );
+
         const lemmas = [];
         const lines = parts.map(line => {
           const { id, ref } = line.node;
@@ -65,13 +88,21 @@
               : {};
 
             const { lemma } = annotationData;
-            lemmas.push(lemma);
-
-            return {
+            let tokenAttrs = {
               value,
               veRef,
-              lemma,
             };
+            if (lemma) {
+              lemmas.push(lemma);
+              const normalizedLemma = normalizeString(lemma);
+              tokenAttrs = {
+                lemma,
+                lemmaCited: lemmasCited.has(normalizedLemma),
+                lemmaResolved: lemmasResolved.has(normalizedLemma),
+                ...tokenAttrs,
+              };
+            }
+            return tokenAttrs;
           });
           return {
             id,
@@ -91,7 +122,7 @@
       },
       query() {
         return gql`
-          query NamedEntities($urn: String!) {
+          query textPartsAndEntries($urn: String!) {
             textParts: passageTextParts(reference: $urn) {
               edges {
                 node {
@@ -119,6 +150,29 @@
                 }
               }
             }
+            citedEntries: dictionaryEntries(reference: $urn) {
+              edges {
+                node {
+                  id
+                  headword
+                  headwordNormalized
+                  urn
+                }
+              }
+            }
+            resolvedEntries: dictionaryEntries(
+              reference: $urn
+              resolveUsingLemmas: true
+            ) {
+              edges {
+                node {
+                  id
+                  headword
+                  headwordNormalized
+                  urn
+                }
+              }
+            }
           }
         `;
       },
@@ -126,4 +180,8 @@
   };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  div.reader {
+    flex: 1;
+  }
+</style>
