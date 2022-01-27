@@ -32,6 +32,7 @@ import {
   FETCH_LIBRARY,
   DISPLAY_MODE_INTERLINEAR,
   DISPLAY_MODE_METRICAL,
+  DISPLAY_MODE_DICTIONARY_ENTRIES,
   DISPLAY_MODE_NAMED_ENTITIES,
   DISPLAY_MODE_DEFAULT,
   SENSE_EXPANSION_PASSAGE,
@@ -98,6 +99,9 @@ const createStore = client => {
         },
         metricalMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_METRICAL;
+        },
+        dictionaryEntriesMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_DICTIONARY_ENTRIES;
         },
         namedEntitiesMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_NAMED_ENTITIES;

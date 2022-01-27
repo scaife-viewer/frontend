@@ -5,6 +5,7 @@
       selected,
       interlinear: interlinearMode,
       'entity-mode': namedEntitiesMode,
+      'dictionary-entries-mode': dictionaryEntriesMode,
       entity: namedEntitiesMode && isEntity,
       'selected-entity': namedEntitiesMode && hasSelectedEntity,
     }"
@@ -24,6 +25,10 @@
           token.glossFas || '-'
         }}</span>
       </template>
+    </template>
+    <template v-else-if="dictionaryEntriesMode">
+      <span :title="token.lemma" class="text">{{ token.value }}</span
+      >{{ ' ' }}
     </template>
     <template v-else>
       <span class="text">{{ token.value }}</span
@@ -75,6 +80,9 @@
       },
       namedEntitiesMode() {
         return this.$store.getters[`${MODULE_NS}/namedEntitiesMode`];
+      },
+      dictionaryEntriesMode() {
+        return this.$store.getters[`${MODULE_NS}/dictionaryEntriesMode`];
       },
       entities() {
         return (this.token && this.token.entities) || [];
