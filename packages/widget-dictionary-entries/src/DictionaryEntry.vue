@@ -22,7 +22,8 @@
               v-for="treeNode in entry.senseTree"
               :key="treeNode.id"
             >
-              <!-- FIXME: Determine why we needed senseForNode for Cunliffe but not LGO -->
+              <!-- FIXME: Determine why we needed senseForNode for
+              Cunliffe but not LGO -->
               <Sense
                 v-if="senses.length > 0 && senseForNode(senses, treeNode)"
                 :treeNode="treeNode"

@@ -48,7 +48,7 @@
             const { value, veRef } = edge.node;
             return {
               value,
-              veRef
+              veRef,
             };
           });
           return {
