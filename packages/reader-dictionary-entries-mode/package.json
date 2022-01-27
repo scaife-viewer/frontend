@@ -1,0 +1,10 @@
+{
+  "name": "@scaife-viewer/reader-dictionary-entries-mode",
+  "version": "0.5.0-beta.2",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eldarion",
+  "license": "MIT"
+}
