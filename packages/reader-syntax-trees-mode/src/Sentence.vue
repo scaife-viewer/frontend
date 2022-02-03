@@ -12,7 +12,7 @@
       v-for="(word, position) in words"
       :key="word.id"
     >
-      <br v-if="word.breakBefore" />
+      <br class="word-break-before" v-if="word.breakBefore" />
       <span class="ref" v-if="showRef(word, position)">{{ word.ref }}</span>
       <Word
         :key="word.id"
@@ -113,5 +113,11 @@
       'Noto Sans'
     );
     margin-right: 1em;
+  }
+  // h/t https://stackoverflow.com/questions/1409649/how-to-change-the-height-of-a-br
+  .word-break-before {
+    display: block; /* makes it have a width */
+    content: ''; /* clears default height */
+    margin-top: 0.667em; /* additional margin from previous word*/
   }
 </style>
