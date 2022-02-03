@@ -166,13 +166,13 @@
     // #d55d00
     // #0073b2
     &.token.lemma-cited .text {
-      background-color: #ccc;
+      background-color: #92fade;
     }
     &.token.lemma-resolved .text {
-      background-color: #eee;
+      background-color: #9ad5f5;
     }
     &.token.lemma-excluded .text {
-      color: #ccc;
+      background-color: #facba6;
     }
   }
   .token.interlinear {
