@@ -76,6 +76,11 @@ const getDefaultState = () => ({
   showRelationship: true,
   showLemma: false,
   showGloss: false,
+  // TODO: More on storage of these toggles
+  // TODO: Standardize labels (available vs resolved)
+  showCitedLemmas: true,
+  showAvailableLemmas: true,
+  showMissingLemmas: true,
 });
 
 const createStore = client => {

@@ -6,11 +6,9 @@
       interlinear: interlinearMode,
       'entity-mode': namedEntitiesMode,
       'dictionary-entries-mode': dictionaryEntriesMode,
-      'lemma-cited': dictionaryEntriesMode && token.lemmaCited,
-      'lemma-resolved':
-        dictionaryEntriesMode && !token.lemmaCited && token.lemmaResolved,
-      'lemma-excluded':
-        dictionaryEntriesMode && !token.lemmaResolved && !token.lemmaCited,
+      'lemma-cited': citedLemma,
+      'lemma-resolved': availableLemma,
+      'lemma-excluded': missingLemma,
       entity: namedEntitiesMode && isEntity,
       'selected-entity': namedEntitiesMode && hasSelectedEntity,
     }"
@@ -129,6 +127,38 @@
           'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
         );
       },
+      showCitedLemmas() {
+        return this.$store.state[MODULE_NS].showCitedLemmas;
+      },
+      showAvailableLemmas() {
+        return this.$store.state[MODULE_NS].showAvailableLemmas;
+      },
+      showMissingLemmas() {
+        return this.$store.state[MODULE_NS].showMissingLemmas;
+      },
+      citedLemma() {
+        return (
+          this.dictionaryEntriesMode &&
+          this.token.lemmaCited &&
+          this.showCitedLemmas
+        );
+      },
+      availableLemma() {
+        return (
+          this.dictionaryEntriesMode &&
+          !this.token.lemmaCited &&
+          this.token.lemmaResolved &&
+          this.showAvailableLemmas
+        );
+      },
+      missingLemma() {
+        return (
+          this.dictionaryEntriesMode &&
+          !this.token.lemmaResolved &&
+          !this.token.lemmaCited &&
+          this.showMissingLemmas
+        );
+      },
     },
   };
 </script>
@@ -161,18 +191,23 @@
       ) inset;
   }
   :not(.token.selected) {
-    // TODO: Colorblind friendly colors
-    // #019e73
-    // #d55d00
-    // #0073b2
     &.token.lemma-cited .text {
-      background-color: #92fade;
+      background-color: var(
+        --sv-widget-reader-dictionary-cited-background-color,
+        #92fade
+      );
     }
     &.token.lemma-resolved .text {
-      background-color: #9ad5f5;
+      background-color: var(
+        --sv-widget-reader-dictionary-resolved-background-color,
+        #9ad5f5
+      );
     }
     &.token.lemma-excluded .text {
-      background-color: #facba6;
+      background-color: var(
+        --sv-widget-reader-dictionary-excluded-background-color,
+        #facba6
+      );
     }
   }
   .token.interlinear {

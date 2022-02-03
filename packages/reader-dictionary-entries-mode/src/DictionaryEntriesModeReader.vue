@@ -11,6 +11,7 @@
         There was an error loading the requested data.
       </ErrorMessage>
       <template v-else>
+        <DictionaryModeToolbar />
         <div class="dictionary-entries-mode-container">
           <Reader class="dictionary-entries-reader" :textParts="data.lines" />
         </div>
@@ -31,6 +32,8 @@
   } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
+  import DictionaryModeToolbar from './DictionaryModeToolbar.vue';
+
   export default {
     readerConfig: {
       label: 'Dictionary Entries',
@@ -43,6 +46,7 @@
       LoaderBall,
       ErrorMessage,
       ApolloQuery,
+      DictionaryModeToolbar,
     },
     methods: {
       getTokenLookup(entities) {
