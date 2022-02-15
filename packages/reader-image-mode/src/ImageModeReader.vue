@@ -125,6 +125,7 @@
                     edges {
                       node {
                         id
+                        idx
                         ref
                       }
                     }
@@ -156,8 +157,12 @@
           }),
           {},
         );
+        // FIXME: Ensure relations are ordered on the server
         const images = data.imageAnnotations.edges.map(image => {
-          const refs = image.node.textParts.edges.map(e => e.node.ref);
+          const textParts = image.node.textParts.edges
+            .map(e => e.node)
+            .sort((a, b) => a.idx - b.idx);
+          const refs = textParts.map(textPart => textPart.ref);
           const refLines = refs
             .map(r => linesMap[r])
             .filter(line => line !== undefined);
