@@ -34,6 +34,10 @@
             </div>
           </div>
         </div>
+        <Attribution>
+          <hr />
+          {{ entry.dictionary.label }}
+        </Attribution>
       </div>
     </div>
     <LoaderBall v-else-if="$apollo.queries.entries.loading" />
@@ -60,7 +64,7 @@
     SENSE_EXPANSION_COLLAPSED,
     SENSE_EXPANSION_MANUAL,
   } from '@scaife-viewer/store';
-  import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
+  import { Attribution, LoaderBall, EmptyMessage } from '@scaife-viewer/common';
   import { Portal } from 'portal-vue';
 
   import Sense from './Sense.vue';
@@ -100,6 +104,7 @@
       },
     },
     components: {
+      Attribution,
       EmptyMessage,
       LoaderBall,
       Sense,
@@ -235,6 +240,9 @@
                   urn
                   senseTree
                   data
+                  dictionary {
+                    label
+                  }
                 }
               }
             }
