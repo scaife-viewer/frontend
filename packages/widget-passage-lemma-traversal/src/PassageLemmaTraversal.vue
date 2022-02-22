@@ -8,19 +8,17 @@
         /></span>
       </span>
     </div>
-    <LoaderBall v-if="$apollo.queries.passages.loading" />
-    <EmptyMessage v-else-if="passages.length === 0">
+    <LoaderBall v-if="$apollo.queries.passageTokens.loading" />
+    <EmptyMessage v-else-if="passageTokens.length === 0">
       No passages found.
     </EmptyMessage>
     <div class="passages" v-else>
-      <router-link
-        v-for="(passage, index) in passages"
+      <PassageLemmaToken
+        v-for="(token, index) in passageTokens"
         :key="`passage-${index}`"
-        :to="passageDestination(passage.urn)"
-        :class="{ selected: isSelected(passage) }"
-      >
-        {{ passage.ref }}
-      </router-link>
+        :token="token"
+        :passage="passage"
+      />
     </div>
   </div>
 </template>
@@ -29,45 +27,34 @@
   // TODO: Consider refactoring this component with portions
   // of NamedEntitiesWidget
   import gql from 'graphql-tag';
+
   import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
+
+
+  import PassageLemmaToken from './PassageLemmaToken.vue';
 
   export default {
     props: ['lemmas', 'versionUrn', 'passage'],
     components: {
       LoaderBall,
       EmptyMessage,
+      PassageLemmaToken
     },
     computed: {
       lemma() {
         return this.lemmas[0];
       },
     },
-    methods: {
-      passageDestination(passageUrn) {
-        // TODO: Persist lemma selection across page loads
-        // also impact Word and ReaderToken selections
-        return {
-          name: this.$route.name,
-          params: { urn: passageUrn },
-          query: this.$route.query,
-        };
-      },
-      isSelected(passage) {
-        // TODO: This does not (yet!) account for ranges,
-        // but we can mimic the passage siblings widget to do so in the future
-        return passage.urn === `${this.passage}`;
-      },
-    },
     apollo: {
-      passages: {
+      passageTokens: {
         query: gql`
-          query Passages($lemma: String!, $versionUrn: String!) {
-            textPartsByLemma(lemma: $lemma, versionUrn: $versionUrn) {
+          query Tokens($lemma: String!, $versionUrn: String!) {
+            tokenAnnotationsByLemma(lemma: $lemma, versionUrn: $versionUrn) {
               edges {
                 node {
                   id
-                  ref
-                  urn
+                  data
+                  textPartUrn
                 }
               }
             }
@@ -77,7 +64,9 @@
           return { lemma: this.lemma, versionUrn: this.versionUrn };
         },
         update(data) {
-          return data.textPartsByLemma.edges.map(e => e.node);
+          // TODO: Worth denorming passages, or just allow duplicates
+          // if present?
+          return data.tokenAnnotationsByLemma.edges.map(e => e.node);
         },
         skip() {
           return this.versionUrn === null;
