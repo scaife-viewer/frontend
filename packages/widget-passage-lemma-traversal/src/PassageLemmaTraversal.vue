@@ -12,14 +12,14 @@
     <EmptyMessage v-else-if="passageTokens.length === 0">
       No passages found.
     </EmptyMessage>
-    <div class="passages" v-else>
+    <table class="passages" v-else>
       <PassageLemmaToken
         v-for="(token, index) in passageTokens"
         :key="`passage-${index}`"
         :token="token"
         :passage="passage"
       />
-    </div>
+    </table>
   </div>
 </template>
 
@@ -30,7 +30,6 @@
 
   import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
 
-
   import PassageLemmaToken from './PassageLemmaToken.vue';
 
   export default {
@@ -38,7 +37,7 @@
     components: {
       LoaderBall,
       EmptyMessage,
-      PassageLemmaToken
+      PassageLemmaToken,
     },
     computed: {
       lemma() {
@@ -77,25 +76,18 @@
 </script>
 
 <style lang="scss" scoped>
-  // TODO: Unify CSS vars with dictionary entries and passage siblings
+  // TODO: Unify CSS vars with:
+  // - dictionary entries
+  // - passage siblings
+  // - token annotations
   .passages {
-    display: flex;
-    flex-direction: column;
-    // TODO: rem from siblings vs px from dictionary entry
-    a {
-      font-size: 0.7rem;
-      padding: 0.15rem 0;
-    }
-    .selected {
-      color: var(
-        --sv-widget-passage-lemma-traversal-active-text-color,
-        #000000
-      );
-      background: var(
-        --sv-widget-passage-lemma-traversal-active-background-color,
-        #dee2e6
-      );
-    }
+    border-spacing: 0 0.25em;
+    width: 100%;
+    color: var(
+      --sv-widget-passage-lemma-traversal-annotation-text-color,
+      #495057
+    );
+    font-size: 12px;
   }
   .selected-lemma {
     display: flex;

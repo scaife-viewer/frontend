@@ -1,7 +1,17 @@
 <template>
-  <router-link :to="destinationPassage" :class="{ selected }">
-    {{ textPartUrn.reference }}
-  </router-link>
+  <tr :class="{ selected }">
+    <td>
+      <router-link :to="destinationPassage">
+        {{ textPartUrn.reference }}
+      </router-link>
+    </td>
+    <td>
+      {{ token.data.wordValue }}
+    </td>
+    <td>
+      {{ token.data.tag }}
+    </td>
+  </tr>
 </template>
 
 <script>
@@ -28,3 +38,20 @@
     },
   };
 </script>
+<style scoped scss>
+  /* TODO: rem from siblings vs px from dictionary entry */
+  a {
+    font-size: 0.7rem;
+    padding: 0.15rem 0;
+  }
+  .selected {
+    color: var(--sv-widget-passage-lemma-traversal-active-text-color, #000000);
+    background: var(
+      --sv-widget-passage-lemma-traversal-active-background-color,
+      #dee2e6
+    );
+  }
+  td {
+    padding-right: 1em;
+  }
+</style>
