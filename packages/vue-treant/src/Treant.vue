@@ -10,6 +10,7 @@
               @click.prevent="
                 onResize();
                 sliderValue = 100;
+                setInitialPan();
               "
             >
               <icon name="home" />
@@ -250,6 +251,15 @@
         ).scale;
         $vm.panzoom.zoom(toScale);
       },
+      setInitialPan() {
+        const svgWidth = this.$el.querySelector(`#tree-${this.treeBankId}`)
+          .children[0].clientWidth;
+        const midPoint = (svgWidth - this.maxWidth) / 2;
+        const xCoord = midPoint * -1;
+        // panzoom is async, so we wrap the pan call
+        // https://github.com/timmywil/panzoom#a-note-on-the-async-nature-of-panzoom
+        setTimeout(() => this.panzoom.pan(xCoord, 0, { relative: true }));
+      },
       initializePanzoom() {
         const elem = this.$el.querySelector('.tree-container');
         this.panzoom = Panzoom(elem, {
@@ -260,6 +270,7 @@
         // TODO: Vue refs might be cleaner but it is what it is
         const parent = elem.parentElement;
         parent.addEventListener('wheel', this.onPanzoomMousewheel);
+        this.setInitialPan();
       },
     },
     watch: {
