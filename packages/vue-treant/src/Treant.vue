@@ -48,14 +48,8 @@
         </div>
       </div>
     </div>
-    <div
-      class="treant"
-      :style="{
-        'max-width': maxWidth,
-        'max-height': maxHeight,
-      }"
-    >
-      <div :id="`tree-${treeBankId}`" class="tree-container"></div>
+    <div class="treant" :style="treantStyles">
+      <div :id="`tree-${treeBankId}`" class="tree-container" />
     </div>
   </div>
 </template>
@@ -74,14 +68,35 @@
     data() {
       return {
         treant: null,
-        maxWidth: '50vw',
+        maxWidth: null,
         // NOTE: Setting `max-height` fits Treant into
         // the Panzoom world; if we left it unset, we would be
         // scrolling rather than panning.
-        maxHeight: '80vw',
+        maxHeight: null,
         lastEvent: null,
         sliderValue: 100,
       };
+    },
+    computed: {
+      treantStyles() {
+        if (!this.maxWidth) {
+          return {
+            'max-width': '50vw',
+            'max-height': '80vw',
+          };
+        }
+        // NOTE: Around 400 px, our layout ends up breaking, so
+        // we will bail and let the browser handle it.
+        if (this.maxWidth < 400) {
+          return {
+            width: 'auto',
+          };
+        }
+        return {
+          'max-width': `${this.maxWidth}px`,
+          'max-height': `${this.maxHeight}px`,
+        };
+      },
     },
     methods: {
       // NOTE: Slider works with max 100, but
@@ -121,9 +136,42 @@
           this.panzoom.pan(0, yOffset);
         });
       },
+      calculateMaxWidth() {
+        let width = document.body.clientWidth;
+
+        // Subtract sidebars
+        this.leftWidth = document.querySelector(
+          '.left.sidebar-wrapper',
+        ).clientWidth;
+        width -= this.leftWidth;
+
+        this.rightWidth = document.querySelector(
+          '.right.sidebar-wrapper',
+        ).clientWidth;
+        width -= this.rightWidth;
+
+        // FIXME: Standardize "CSS math" in the most compliant way possible
+        const mainWidgetElem = document.querySelector('.main-layout > .widget');
+        const mainPadding = parseInt(
+          window.getComputedStyle(mainWidgetElem).paddingLeft,
+          10,
+        );
+
+        const paginatorWidth = document.querySelector('.paginator').clientWidth;
+
+        const readerElem = document.querySelector('.reader');
+        const readerMargin = parseInt(
+          window.getComputedStyle(readerElem).marginLeft,
+          10,
+        );
+        const everythingElse =
+          (mainPadding + paginatorWidth + readerMargin) * 2;
+        width -= everythingElse;
+        return width;
+      },
       setConstraints() {
-        this.maxWidth = `${this.$parent.$parent.$el.clientWidth}px`;
-        this.maxHeight = `${this.$parent.$parent.$el.clientHeight}px`;
+        this.maxHeight = this.$parent.$parent.$el.clientHeight;
+        this.maxWidth = this.calculateMaxWidth();
       },
       onResize() {
         this.treant.destroy();
@@ -274,6 +322,10 @@
 </script>
 <style src="./vendor/Treant.css"></style>
 <style lang="scss">
+  .tree-container {
+    // NOTE: This is set to ensure that the entire tree can be drawn
+    width: 100vw;
+  }
   .controls-container {
     display: flex;
     flex-direction: column-reverse;
