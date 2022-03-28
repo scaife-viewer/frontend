@@ -185,12 +185,18 @@
           this.$router.replace({ query });
         },
       },
+      passage() {
+        // TODO: passage
+        return new URN(this.queryVariables.urn);
+      },
       isIliadGreek() {
-        const urn = new URN(this.queryVariables.urn);
-        return urn.version === 'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:';
+        return (
+          this.passage.version ===
+          'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
+        );
       },
       hasGlosses() {
-        return this.isIliadGreek;
+        return this.passage.textGroup === 'tlg0012';
       },
       collectionUrn() {
         // TODO:Remove hardcoded value and expose a dropdown, similar to

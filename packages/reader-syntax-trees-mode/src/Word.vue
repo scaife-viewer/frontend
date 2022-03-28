@@ -51,10 +51,7 @@
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
       hasGlosses() {
-        return (
-          this.passage.version ===
-          'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
-        );
+        return this.passage.textGroup === 'tlg0012';
       },
     },
     methods: {
