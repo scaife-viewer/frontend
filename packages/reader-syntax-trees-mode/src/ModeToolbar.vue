@@ -101,10 +101,7 @@
       hasGlosses() {
         // FIXME: Derive this from an associated collection, not
         // a hard-coded value
-        return (
-          this.passage.version ===
-          'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
-        );
+        return this.passage.textGroup === 'tlg0012';
       },
     },
   };

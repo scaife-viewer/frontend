@@ -101,6 +101,7 @@
         );
       },
       selected() {
+        // lemma resume; 11:48 - 11:54
         if (!this.selectedToken) {
           return false;
         }
@@ -122,10 +123,7 @@
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
       hasGlosses() {
-        return (
-          this.passage.version ===
-          'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
-        );
+        return this.passage.textGroup === 'tlg0012';
       },
       showCitedLemmas() {
         return this.$store.state[MODULE_NS].showCitedLemmas;
