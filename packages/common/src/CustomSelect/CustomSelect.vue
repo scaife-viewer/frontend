@@ -66,7 +66,8 @@
     border: 1px solid var(--sv-custom-select-options-border-color, #dee2e6);
     background: var(--sv-custom-select-options-background-color, white);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
-    z-index: 999;
+    // FIXME: Review z-indexes throghout
+    z-index: 1001;
   }
   .custom-select--selected {
     border: 1px solid var(--sv-custom-select-selected-border-color, #dee2e6);
