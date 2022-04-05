@@ -10,14 +10,14 @@
         @filter-data="onFilter"
       />
       <div
-        v-for="entry in filteredEntries"
-        :key="entry.id"
-        :title="entry.urn"
+        v-for="[headword, entries] in entriesByHeadwordMap"
+        :key="entries[0].id"
+        :title="entries[0].urn"
         class="dictionary-entry"
       >
-        <div class="headword" @click.prevent="entrySelected(entry)">
+        <div class="headword" @click.prevent="entrySelected(entries[0])">
           <span>
-            {{ entry.headword }}
+            {{ headword }}
           </span>
         </div>
       </div>
@@ -87,6 +87,17 @@
     computed: {
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
+      },
+      entriesByHeadwordMap() {
+        const byHeadword = new Map();
+        this.entries.forEach(entry => {
+          // TODO: Consider normalizing these server-side?
+          const key = entry.headword.normalize('NFKC');
+          const lookupValue = byHeadword.get(key) || [];
+          lookupValue.push(entry);
+          byHeadword.set(key, lookupValue);
+        });
+        return byHeadword;
       },
     },
     apollo: {
