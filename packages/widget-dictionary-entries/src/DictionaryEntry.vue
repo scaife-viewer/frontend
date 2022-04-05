@@ -35,8 +35,17 @@
           </div>
         </div>
         <Attribution>
-          <hr />
+          <div class="dictionary-label-divider" />
+          <CustomSelect
+            v-if="siblingEntryValues.length > 0"
+            class="sibling-entry-select"
+            v-model="selectedEntryValue"
+            :options="siblingEntryValues"
+            placeholder="Select an alignment..."
+          />
+          <span v-else>
           {{ entry.dictionary.label }}
+          </span>
         </Attribution>
       </div>
     </div>
@@ -64,7 +73,12 @@
     SENSE_EXPANSION_COLLAPSED,
     SENSE_EXPANSION_MANUAL,
   } from '@scaife-viewer/store';
-  import { Attribution, LoaderBall, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    Attribution,
+    CustomSelect,
+    LoaderBall,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
   import { Portal } from 'portal-vue';
 
   import Sense from './Sense.vue';
@@ -83,9 +97,22 @@
         entries: [],
         passageSenseUrns: [],
         filteredSenses: [],
+        selectedEntryValue: null,
       };
     },
     watch: {
+      entry() {
+        this.selectedEntryValue = {
+          title: this.entry.dictionary.label,
+          value: this.entry.urn,
+        };
+      },
+      selectedEntryValue(value) {
+        const newUrn = value.value;
+        if (newUrn !== this.entry.urn) {
+          this.changeEntry(newUrn);
+        }
+      },
       urn() {
         this.$store.dispatch(`${MODULE_NS}/${SET_SENSE_EXPANSION}`, {
           value: SENSE_EXPANSION_PASSAGE,
@@ -110,12 +137,16 @@
       Sense,
       Portal,
       Controls,
+      CustomSelect,
     },
     methods: {
       clearEntry() {
+        return this.changeEntry(undefined);
+      },
+      changeEntry(entryUrn) {
         const query = {
           ...this.$route.query,
-          entryUrn: undefined,
+          entryUrn,
         };
         this.$router.replace({ query });
       },
@@ -151,6 +182,16 @@
       },
       expandPassageSenses() {
         return this.senseExpansion === SENSE_EXPANSION_PASSAGE;
+      },
+      siblingEntryValues() {
+        if (!this.siblings) {
+          return [];
+        }
+        return this.siblings
+          .filter(sibling => sibling.urn != this.entryUrn)
+          .map(sibling => {
+            return { title: sibling.dictionary.label, value: sibling.urn };
+          });
       },
     },
     apollo: {
@@ -255,6 +296,37 @@
           return data.dictionaryEntries.edges.map(e => e.node);
         },
       },
+      siblings: {
+        // TODO: Determine if resolveUsingLemmas should be used
+        // TODO: Add the ability to exclude the same entry
+        // TODO: Handle "normalized" issues here; be it through $lemma
+        // or some other lookup where we aren't aggressively normalizing
+        query: gql`
+          query Siblings($lemma: String!) {
+            dictionaryEntries(lemma: $lemma, resolveUsingLemmas: true) {
+              edges {
+                node {
+                  id
+                  urn
+                  dictionary {
+                    label
+                  }
+                }
+              }
+            }
+          }
+        `,
+        // TODO: Lemmas not populated
+        variables() {
+          return { lemma: this.entry.headword.normalize('NFKC') };
+        },
+        update(data) {
+          return data.dictionaryEntries.edges.map(e => e.node);
+        },
+        skip() {
+          return !this.entry;
+        },
+      },
     },
   };
 </script>
@@ -290,5 +362,12 @@
   }
   a.show-all-entries {
     font-size: var(--sv-empty-message-font-size, 14px);
+  }
+  .sibling-entry-select {
+    font-size: 12px;
+  }
+  .dictionary-label-divider {
+    margin-top: 0.5em;
+    border-top: 1px solid #868e96;
   }
 </style>
