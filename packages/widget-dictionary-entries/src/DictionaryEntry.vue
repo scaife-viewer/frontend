@@ -352,6 +352,10 @@
     margin: 0.375em 0;
     font-family: var(--sv-widget-dictionary-entries-font-family, 'Noto Serif');
   }
+  // FIXME: Document BI change for LGO
+  .dictionary-entry-body {
+    font-size: var(--sv-widget-dictionary-entries-font-size, 14px);
+  }
   .senses {
     font-size: 12px;
   }
@@ -369,5 +373,27 @@
   .dictionary-label-divider {
     margin-top: 0.5em;
     border-top: 1px solid #868e96;
+  }
+  // FIXME: Centralize styles (possibly with a style include and scoped selectors)
+  ::v-deep .depth-1 {
+    margin-left: 0.3em;
+  }
+  ::v-deep .depth-2 {
+    margin-left: 0.6em;
+  }
+  ::v-deep .depth-3 {
+    margin-left: 0.9em;
+  }
+  ::v-deep .depth-4 {
+    margin-left: 1.2em;
+  }
+  ::v-deep .depth-5 {
+    margin-left: 1.5em;
+  }
+  ::v-deep .depth-6 {
+    margin-left: 1.8em;
+  }
+  ::v-deep .depth-7 {
+    margin-left: 2.1em;
   }
 </style>
