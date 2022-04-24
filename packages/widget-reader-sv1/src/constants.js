@@ -1,0 +1,9 @@
+import keykey from 'keykey';
+
+export default keykey(
+  'READER_LOAD',
+  'READER_SET_SELECTED_TOKEN',
+  'READER_SELECT_TOKEN_RANGE',
+  'READER_TOGGLE_SIDEBAR_LEFT',
+  'READER_TOGGLE_SIDEBAR_RIGHT',
+);
