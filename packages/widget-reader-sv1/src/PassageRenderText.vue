@@ -20,7 +20,7 @@
 
   export default {
     name: 'passage-render-text',
-    props: ['text', 'highlighting'],
+    props: ['text', 'highlighting', 'commentary'],
     watch: {
       text: 'prepareText',
     },
@@ -40,6 +40,7 @@
     provide() {
       return {
         highlighting: this.highlighting,
+        commentary: this.commentary,
       };
     },
     created() {

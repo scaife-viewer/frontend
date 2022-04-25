@@ -6,6 +6,8 @@
         c: clickable,
         selected,
         highlighted,
+        commentary: highlightCommentaries && commentaries.length > 0,
+        'selected-commentary': highlightCommentaries && hasSelectedCommentary,
       },
     ]"
     @click="handleClick"
@@ -30,10 +32,35 @@
     // NOTE: We're injecting highlighting because the state
     // will not be passed when initializing this component
     // https://vuejs.org/guide/components/provide-inject.html
-    inject: ['highlighting'],
+    inject: ['highlighting', 'commentary'],
     computed: {
       idx() {
         return `${this.w}[${this.i}]`;
+      },
+      highlightCommentaries() {
+        return this.$store.getters[`${READER_NS}/showCommentary`];
+      },
+      syncCommentary() {
+        // TODO: Integrate this with the "scroll to" affordance
+        return this.$store.state.reader.syncCommentary;
+      },
+      commentaries() {
+        if (!this.commentary) {
+          return [];
+        }
+        const { commentariesHash } = this.$store.state.reader;
+        return commentariesHash[this.veRef] || [];
+      },
+      selectedCommentaries() {
+        return this.$store.state.reader.selectedCommentaries || [];
+      },
+      hasSelectedCommentary() {
+        return (
+          this.commentaries.filter(
+            id =>
+              this.selectedCommentaries.filter(sid => sid === id).length > 0,
+          ).length > 0
+        );
       },
       addressable() {
         return this.visible && this.highlighting;
@@ -50,7 +77,7 @@
         return this.addressable && this.annotations.has(this.idx);
       },
       annotations() {
-        return this.$store.getters['reader/annotations'];
+        return this.$store.getters[`${READER_NS}/annotations`];
       },
       selected() {
         return this.hasAnnotations
@@ -63,6 +90,35 @@
           : false;
       },
     },
+    watch: {
+      hasSelectedCommentary: {
+        // FIXME: immediate:true breaks highlighting from URL
+        immediate: true,
+        handler(newVal) {
+          if (newVal && !this.selected) {
+            // TODO: Unify selection along this model;
+            // we can update the highlight still but can use this internally
+            this.$store
+              .dispatch(`${READER_NS}/${constants.READER_SET_SELECTED_TOKEN}`, {
+                token: this.idx,
+              })
+              .then(() => {
+                // revisit the "scroll into view" functionality here
+                if (this.syncCommentary) {
+                  this.$nextTick(() => {
+                    this.$el.scrollIntoView();
+                  });
+                }
+              });
+          } else if (!newVal && this.selected) {
+            this.$store.dispatch(
+              `${READER_NS}/${constants.READER_SET_SELECTED_TOKEN}`,
+              { token: null },
+            );
+          }
+        },
+      },
+    },
     methods: {
       processTokenClick(evt) {
         if (evt.metaKey && this.selected) {
@@ -70,6 +126,9 @@
           this.$store.dispatch(
             `${READER_NS}/${constants.READER_SET_SELECTED_TOKEN}`,
             { token: null },
+          );
+          this.$store.dispatch(
+            `${READER_NS}/${constants.READER_CLEAR_SELECTED_COMMENTARIES}`,
           );
         } else if (evt.shiftKey) {
           // add to selection
@@ -83,6 +142,12 @@
             `${READER_NS}/${constants.READER_SET_SELECTED_TOKEN}`,
             { token: this.idx },
           );
+          if (this.commentaries) {
+            this.$store.dispatch(
+              `${READER_NS}/${constants.READER_SET_SELECTED_COMMENTARIES}`,
+              { commentaries: this.commentaries },
+            );
+          }
         }
         evt.stopPropagation();
       },

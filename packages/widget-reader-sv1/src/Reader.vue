@@ -91,6 +91,7 @@
                     <passage-render-text
                       :text="leftPassageText"
                       :highlighting="true"
+                      :commentary="true"
                     />
                   </template>
                 </div>
@@ -145,6 +146,7 @@
                   <passage-render-text
                     :text="leftPassageText"
                     :highlighting="true"
+                    :commentary="true"
                   />
                 </template>
               </div>
