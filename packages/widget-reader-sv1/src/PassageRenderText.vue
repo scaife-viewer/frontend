@@ -15,7 +15,7 @@
   import constants from './constants';
   import TextLoader from './components/TextLoader.vue';
   import TextPart from './TextPart.vue';
-  import InlineToken from './InlineToken.vue';
+  import CompiledToken from './CompiledToken.vue';
   import RefLower from './RefLower.vue';
 
   export default {
@@ -108,7 +108,7 @@
           components: {
             RefLower,
             TextPart,
-            t: InlineToken,
+            t: CompiledToken,
           },
         };
       },
