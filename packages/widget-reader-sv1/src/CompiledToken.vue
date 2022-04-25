@@ -24,6 +24,8 @@
       t: { type: String, required: true },
       w: { type: String, required: true },
       i: { type: String, required: true },
+      passageIdx: { type: String, required: false },
+      veRef: { type: String, required: false },
     },
     // NOTE: We're injecting highlighting because the state
     // will not be passed when initializing this component
