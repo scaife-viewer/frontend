@@ -2,7 +2,7 @@
   <tr :class="{ selected }">
     <td>
       <router-link :to="destinationPassage">
-        {{ textPartUrn.reference }}
+        {{ versionAbbreviation }} {{ textPartUrn.reference }}
       </router-link>
     </td>
     <td>
@@ -22,6 +22,11 @@
     computed: {
       textPartUrn() {
         return new URN(this.token.textPartUrn);
+      },
+      versionAbbreviation() {
+        // # FIXME: This is a hack for demo only
+        const isIliad = this.textPartUrn.work === 'tlg0012.tlg001.perseus-grc2';
+        return isIliad ? 'Il.' : 'Od.';
       },
       destinationPassage() {
         // TODO: Persist lemma selection across page loads
