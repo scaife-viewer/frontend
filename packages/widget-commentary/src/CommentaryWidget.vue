@@ -454,6 +454,7 @@
       color: $gray-600;
       display: flex;
       justify-content: space-between;
+      cursor: pointer;
     }
     // TODO: scaife framework setting
     // do we want this widget to do this on hover too?
