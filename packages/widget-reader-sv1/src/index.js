@@ -1,3 +1,5 @@
-import Reader from './Reader.vue';
+import CompiledToken from './CompiledToken.vue';
 
-export default Reader;
+export default CompiledToken;
+
+export { CompiledToken };
