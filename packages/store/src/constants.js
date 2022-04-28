@@ -1,3 +1,4 @@
+// TODO: revisit keykey
 export const MODULE_NS = 'scaife';
 
 // Skeleton
@@ -51,3 +52,8 @@ export const SENSE_EXPANSION_PASSAGE = 'passage';
 export const SENSE_EXPANSION_EXPANDED = 'expanded';
 export const SENSE_EXPANSION_COLLAPSED = 'collapsed';
 export const SENSE_EXPANSION_MANUAL = 'manual';
+
+export const TOGGLE_READER_SYNC_COMMENTARY = 'toggleReaderSyncCommentary';
+export const SET_COMMENTARIES = 'setCommentaries';
+export const SET_SELECTED_COMMENTARIES = 'setSelectedCommentaries';
+export const CLEAR_SELECTED_COMMENTARIES = 'clearSelectedCommentaries';

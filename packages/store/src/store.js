@@ -35,6 +35,10 @@ import {
   DISPLAY_MODE_DEFAULT,
   SENSE_EXPANSION_PASSAGE,
   CITATION_DISPLAY_REFS_QUOTES,
+  TOGGLE_READER_SYNC_COMMENTARY,
+  SET_COMMENTARIES,
+  SET_SELECTED_COMMENTARIES,
+  CLEAR_SELECTED_COMMENTARIES,
 } from './constants';
 
 const displayName = name => {
@@ -74,6 +78,9 @@ const getDefaultState = () => ({
   showRelationship: true,
   showLemma: false,
   showGloss: false,
+  syncCommentary: false,
+  selectedCommentaries: [],
+  commentariesHash: {},
 });
 
 const createStore = client => {
@@ -116,6 +123,10 @@ const createStore = client => {
           return mode || DISPLAY_MODE_DEFAULT;
         },
         selectedLemmas: state => state.selectedLemmas,
+        showCommentary: (_, __, rootState) => {
+          const { commentary } = rootState.route.query;
+          return commentary === 'y';
+        },
       },
       mutations: {
         [SET_MAIN_LAYOUT_WIDTH_NORMAL]: state => {
@@ -210,6 +221,18 @@ const createStore = client => {
         },
         [SET_CITATION_DISPLAY]: (state, value) => {
           state.citationDisplay = value;
+        },
+        [TOGGLE_READER_SYNC_COMMENTARY]: state => {
+          state.syncCommentary = !state.syncCommentary;
+        },
+        [SET_COMMENTARIES]: (state, lookup) => {
+          state.commentariesHash = lookup;
+        },
+        [SET_SELECTED_COMMENTARIES]: (state, { commentaries }) => {
+          state.selectedCommentaries = commentaries;
+        },
+        [CLEAR_SELECTED_COMMENTARIES]: state => {
+          state.selectedCommentaries = [];
         },
       },
       actions: {
@@ -347,6 +370,18 @@ const createStore = client => {
         },
         [SET_CITATION_DISPLAY]: ({ commit }, { value }) => {
           commit(SET_CITATION_DISPLAY, value);
+        },
+        [TOGGLE_READER_SYNC_COMMENTARY]: ({ commit }) => {
+          commit(TOGGLE_READER_SYNC_COMMENTARY);
+        },
+        [SET_COMMENTARIES]: ({ commit }, { lookup }) => {
+          commit(SET_COMMENTARIES, lookup);
+        },
+        [SET_SELECTED_COMMENTARIES]: ({ commit }, { commentaries }) => {
+          commit(SET_SELECTED_COMMENTARIES, { commentaries });
+        },
+        [CLEAR_SELECTED_COMMENTARIES]: ({ commit }) => {
+          commit(CLEAR_SELECTED_COMMENTARIES, { commentaries: [] });
         },
       },
     },

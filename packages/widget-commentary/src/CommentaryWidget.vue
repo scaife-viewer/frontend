@@ -100,16 +100,17 @@
   </base-widget>
 </template>
 <script>
-  import URN, {
-    Attribution,
-    CustomSelect,
-    EmptyMessage,
-  } from '@scaife-viewer/common';
+  import URN, { CustomSelect, EmptyMessage } from '@scaife-viewer/common';
 
   import gql from 'graphql-tag';
 
-  import { MODULE_NS } from '@scaife-viewer/store';
-  // import constants from '../../constants';
+  import {
+    MODULE_NS,
+    TOGGLE_READER_SYNC_COMMENTARY,
+    SET_COMMENTARIES,
+    SET_SELECTED_COMMENTARIES,
+    CLEAR_SELECTED_COMMENTARIES,
+  } from '@scaife-viewer/store';
   import CommentaryLine from './CommentaryLine.vue';
 
   const ALL_WITNESSES = { value: null, title: 'All Witnesses' };
@@ -147,10 +148,10 @@
         return this.passage.urn;
       },
       showCommentary() {
-        return this.$store.getters['reader/showCommentary'];
+        return this.$store.getters[`${MODULE_NS}/showCommentary`];
       },
       syncCommentary() {
-        const value = this.$store.state.reader.syncCommentary;
+        const value = this.$store.state[MODULE_NS].syncCommentary;
         // TODO: getters, etc;
         console.log(`[DEBUG] Sync commentary token: ${value}`);
         return value;
@@ -192,7 +193,7 @@
         return this.passage.urn;
       },
       selectedCommentaries() {
-        return this.$store.state.reader.selectedCommentaries || [];
+        return this.$store.state[MODULE_NS].selectedCommentaries || [];
       },
       passage() {
         return this.$store.getters['reader/passage'];
@@ -224,7 +225,9 @@
             // TODO: Proper mutation
             // OPTION B: Filter via selected lines
             const lookup = this.buildTokenLookup(newVal);
-            this.$store.dispatch('reader/READER_SET_COMMENTARIES', { lookup });
+            this.$store.dispatch(`${MODULE_NS}/${SET_COMMENTARIES}`, {
+              lookup,
+            });
           }
         },
       },
@@ -256,7 +259,7 @@
         this.$router.replace({ query });
       },
       toggleCommentarySync() {
-        this.$store.commit('reader/READER_TOGGLE_SYNC_COMMENTARY');
+        this.$store.dispatch(`${MODULE_NS}/${TOGGLE_READER_SYNC_COMMENTARY}`);
       },
       onSelect(commentary) {
         // TODO: Prefer actions here
@@ -267,13 +270,13 @@
           this.selectedCommentaries.filter(id => commentary.id === id).length >
           0;
         if (isCurrentlySelected) {
-          this.$store.dispatch('reader/READER_CLEAR_SELECTED_COMMENTARIES');
+          this.$store.dispatch(`${MODULE_NS}/${CLEAR_SELECTED_COMMENTARIES}`);
           // this.$store.dispatch(
           //   `reader/${constants.READER_SET_SELECTED_TOKEN}`,
           //   { token: null },
           // );
         } else {
-          this.$store.dispatch('reader/READER_SET_SELECTED_COMMENTARIES', {
+          this.$store.dispatch(`${MODULE_NS}/${SET_SELECTED_COMMENTARIES}`, {
             commentaries: [commentary.id],
           });
         }

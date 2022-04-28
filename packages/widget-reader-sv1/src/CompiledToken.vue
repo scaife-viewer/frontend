@@ -16,8 +16,16 @@
   </span>
 </template>
 <script>
+  import {
+    MODULE_NS,
+    CLEAR_SELECTED_COMMENTARIES,
+    SET_SELECTED_COMMENTARIES,
+  } from '@scaife-viewer/store';
+
+  // TODO: Deprecate constants
   import constants from './constants';
 
+  // TODO: Deprecate READER_NS
   const READER_NS = 'reader';
 
   export default {
@@ -38,21 +46,21 @@
         return `${this.w}[${this.i}]`;
       },
       highlightCommentaries() {
-        return this.$store.getters[`${READER_NS}/showCommentary`];
+        return this.$store.getters[`${MODULE_NS}/showCommentary`];
       },
       syncCommentary() {
         // TODO: Integrate this with the "scroll to" affordance
-        return this.$store.state.reader.syncCommentary;
+        return this.$store.state[MODULE_NS].syncCommentary;
       },
       commentaries() {
         if (!this.commentary) {
           return [];
         }
-        const { commentariesHash } = this.$store.state.reader;
+        const { commentariesHash } = this.$store.state[MODULE_NS];
         return commentariesHash[this.veRef] || [];
       },
       selectedCommentaries() {
-        return this.$store.state.reader.selectedCommentaries || [];
+        return this.$store.state[MODULE_NS].selectedCommentaries || [];
       },
       hasSelectedCommentary() {
         return (
@@ -70,7 +78,8 @@
       },
       clickable() {
         return (
-          this.addressable && this.$store.state.reader.textMode === 'clickable'
+          this.addressable &&
+          this.$store.state[READER_NS].textMode === 'clickable'
         );
       },
       hasAnnotations() {
@@ -127,9 +136,7 @@
             `${READER_NS}/${constants.READER_SET_SELECTED_TOKEN}`,
             { token: null },
           );
-          this.$store.dispatch(
-            `${READER_NS}/${constants.READER_CLEAR_SELECTED_COMMENTARIES}`,
-          );
+          this.$store.dispatch(`${MODULE_NS}/${CLEAR_SELECTED_COMMENTARIES}`);
         } else if (evt.shiftKey) {
           // add to selection
           this.$store.dispatch(
@@ -143,10 +150,9 @@
             { token: this.idx },
           );
           if (this.commentaries) {
-            this.$store.dispatch(
-              `${READER_NS}/${constants.READER_SET_SELECTED_COMMENTARIES}`,
-              { commentaries: this.commentaries },
-            );
+            this.$store.dispatch(`${MODULE_NS}/${SET_SELECTED_COMMENTARIES}`, {
+              commentaries: this.commentaries,
+            });
           }
         }
         evt.stopPropagation();
