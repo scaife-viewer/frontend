@@ -6,5 +6,8 @@
     "access": "public"
   },
   "author": "Eldarion",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "keykey": "^3.0.0"
+  }
 }
