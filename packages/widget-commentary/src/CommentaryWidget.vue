@@ -47,13 +47,10 @@
           </span>
         </div>
         <div class="toolbar">
-          <!-- TODO: Fix z-index issues -->
           <CustomSelect
             v-model="selectedWitness"
-            class="bootstrap-override"
             :options="witnesses"
             placeholder="Select an alignment..."
-            style="z-index: 1001"
           />
         </div>
         <EmptyMessage v-if="invalidReff">
@@ -74,6 +71,7 @@
             :key="fragment"
             class="line"
             :class="{ selected: isMultiSelected(lines) }"
+            :id="`line-${lines[0].id}`"
           >
             <div class="fragment" @click.prevent="onSelect(lines[0])">
               <em>
@@ -151,10 +149,7 @@
         return this.$store.getters[`${MODULE_NS}/showCommentary`];
       },
       syncCommentary() {
-        const value = this.$store.state[MODULE_NS].syncCommentary;
-        // TODO: getters, etc;
-        console.log(`[DEBUG] Sync commentary token: ${value}`);
-        return value;
+        return this.$store.state[MODULE_NS].syncCommentary;
       },
       show() {
         // TODO: Restore the previous functionality where we used a 404
@@ -237,8 +232,16 @@
             const id = newVal[0];
             this.$nextTick(() => {
               if (this.syncCommentary) {
-                this.$el.scrollIntoView();
-                document.querySelector(`#${id}`).scrollIntoView();
+                // TODO: Prefer using named refs and a few view events
+                const selector = `#line-${id}`;
+                const $lineElem = document.querySelector(selector);
+                $lineElem.scrollIntoView();
+
+                // TODO: This could / should also be a ref
+                const offset = this.$el.parentElement.querySelector(
+                  '.sticky-block',
+                ).clientHeight;
+                this.$el.parentElement.scrollTop -= offset;
               }
             });
           }
