@@ -404,13 +404,22 @@
     // TODO: scaife framework setting
     // do we want this widget to do this on hover too?
     margin: 0.375rem 0;
+
+    // TODO: SV1 / SV2 difference with sidebar margin
+    padding: 0px 7px;
   }
   .line.selected {
     background: var(
       --sv-widget-commentaries-selected-background-color,
       #f8f9fa
     );
+    // TODO: margin-left commented out
+    // due to SV 1 / SV 2 difference
     // margin-left: -10px;
+    // SV 2
+    // .widget-sidebar .body>div {
+    //     margin: 0 2em;
+    // }
     padding: 3px 7px;
     border-left: 3px solid
       var(--sv-widget-commentaries-selected-border-color, #343a40);
