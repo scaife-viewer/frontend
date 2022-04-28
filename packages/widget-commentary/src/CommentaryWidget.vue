@@ -6,44 +6,46 @@
     <!-- TODO: Fix min height issues -->
     <div slot="body">
       <div :key="urn.absolute" class="commentary-container">
-        <!-- TODO: Put these behind a cog and revisit labels -->
-        <!-- Sync mode scroll to token could change the icon color -->
-        <span @click="toggleHighlight()">
-          <div class="mode">
-            <a :class="[{ active: !showCommentary }]">
-              hide
-            </a>
-            <a :class="[{ active: showCommentary }]">
-              show
-            </a>
-          </div>
-          <div class="help">
-            <span v-if="!showCommentary">
-              commentary annotations are hidden
-            </span>
-            <span v-else>
-              commentary annotations are shown
-            </span>
-          </div>
-        </span>
-        <span @click="toggleCommentarySync()">
-          <div style="margin-top: 1.0em;" class="mode">
-            <a :class="[{ active: !syncCommentary }]">
-              independent
-            </a>
-            <a :class="[{ active: syncCommentary }]">
-              sync
-            </a>
-          </div>
-          <div class="help">
-            <span v-if="!syncCommentary">
-              scroll commentary independently
-            </span>
-            <span v-else>
-              scroll to an annotation when selected
-            </span>
-          </div>
-        </span>
+        <div class="commentary-container-controls">
+          <!-- TODO: Put these behind a cog and revisit labels -->
+          <!-- Sync mode scroll to token could change the icon color -->
+          <span @click="toggleHighlight()">
+            <div class="mode">
+              <a :class="[{ active: !showCommentary }]">
+                hide
+              </a>
+              <a :class="[{ active: showCommentary }]">
+                show
+              </a>
+            </div>
+            <div class="help">
+              <span v-if="!showCommentary">
+                commentary annotations are hidden
+              </span>
+              <span v-else>
+                commentary annotations are shown
+              </span>
+            </div>
+          </span>
+          <span @click="toggleCommentarySync()">
+            <div class="mode sync-mode">
+              <a :class="[{ active: !syncCommentary }]">
+                independent
+              </a>
+              <a :class="[{ active: syncCommentary }]">
+                sync
+              </a>
+            </div>
+            <div class="help">
+              <span v-if="!syncCommentary">
+                scroll commentary independently
+              </span>
+              <span v-else>
+                scroll to an annotation when selected
+              </span>
+            </div>
+          </span>
+        </div>
         <div class="toolbar">
           <!-- TODO: Fix z-index issues -->
           <CustomSelect
@@ -389,15 +391,61 @@
 </script>
 
 <style lang="scss" scoped>
+  // TODO: Standardize color variables
+  // across SV packages; standards with fallback probably ok.
+  $gray-200: #e9ecef;
+  $gray-500: #adb5bd;
+  $gray-600: #868e96;
+  $gray-700: #495057;
+  $black: #000;
+
   .commentary-container {
     width: 100%;
   }
+
+  .commentary-container-controls {
+    // TODO: revisit /refactor with other controls, e.g.
+    // text-width-control
+    // NOTE: These styles
+    .mode a {
+      padding: 3px 6px;
+
+      font-family: var(
+        --sv-widget-commentary-controls-font-family,
+        'Noto Serif'
+      );
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: $gray-500;
+      &.active {
+        color: $black;
+        &:hover {
+          color: $black;
+        }
+      }
+      &:hover {
+        color: $gray-700;
+        background: $gray-200;
+      }
+    }
+    .sync-mode {
+      margin-top: 1em;
+    }
+    .help {
+      margin-left: 6px;
+      font-size: 11px;
+      color: $gray-600;
+    }
+  }
+
   .line {
-    font-family: var(--sv-widget-scholia-line-font-family, 'Noto Serif');
+    font-family: var(--sv-widget-commentaries-font-family, 'Noto Serif');
     font-size: 14px;
     .fragment {
       font-weight: 200;
-      color: gray;
+      color: $gray-600;
       display: flex;
       justify-content: space-between;
     }
