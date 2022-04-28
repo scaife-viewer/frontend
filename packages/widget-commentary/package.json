@@ -6,5 +6,9 @@
     "access": "public"
   },
   "author": "Eldarion",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@scaife-viewer/common": "^0.4.0",
+    "graphql-tag": "^2.12.6"
+  }
 }
