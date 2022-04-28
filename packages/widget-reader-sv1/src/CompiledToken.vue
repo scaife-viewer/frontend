@@ -159,3 +159,68 @@
     },
   };
 </script>
+<style lang="scss" scoped>
+  $selected-color: #def;
+  $highlight-color: #fea;
+  $commentary-color: #ff6;
+  $selected-commentary-color: #9f9;
+
+  span.w.c:hover {
+    cursor: pointer;
+  }
+  span.w.selected,
+  span.w.highlighted,
+  span.w.commentary {
+    border-style: solid;
+    border-width: 0 0.1em 0.1em 0.15em;
+    margin: 0 -0.1em -0.1em -0.15em;
+  }
+  span.w.selected {
+    background-color: var(
+      --sv-widget-reader-token-selected-color,
+      $selected-color
+    );
+    border-color: var(--sv-widget-reader-token-selected-color, $selected-color);
+  }
+  span.w.highlighted {
+    border-color: var(
+      --sv-widget-reader-token-highlight-color,
+      $highlight-color
+    );
+    &:not(.selected):not(.commentary) {
+      background-color: var(
+        --sv-widget-reader-token-highlight-color,
+        $highlight-color
+      );
+    }
+    &.selected,
+    &.commentary {
+      border-width: 0.2em;
+    }
+  }
+
+  span.w.commentary {
+    background-color: var(
+      --sv-widget-reader-token-commentary-color,
+      $commentary-color
+    );
+    &:not(.highlighted) {
+      border-color: var(
+        --sv-widget-reader-token-commentary-color,
+        $commentary-color
+      );
+    }
+  }
+  span.w.selected-commentary {
+    background-color: var(
+      --sv-widget-reader-token-commentary-selected-color,
+      $selected-commentary-color
+    );
+    &:not(.highlighted) {
+      border-color: var(
+        --sv-widget-reader-token-commentary-selected-color,
+        $selected-commentary-color
+      );
+    }
+  }
+</style>
