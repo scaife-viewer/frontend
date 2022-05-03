@@ -306,7 +306,7 @@
             dictionaryEntries(
               lemma: $lemma
               resolveUsingLemmas: true
-              normalizedLemmas: true
+              normalizeLemmas: true
             ) {
               edges {
                 node {
