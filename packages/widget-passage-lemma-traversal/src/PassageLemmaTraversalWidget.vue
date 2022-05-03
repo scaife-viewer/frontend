@@ -26,7 +26,7 @@
       PassageLemmaTraversal,
     },
     scaifeConfig: {
-      displayName: 'Passages with Lemma',
+      displayName: 'Lemma Occurrences',
     },
     computed: {
       passage() {
