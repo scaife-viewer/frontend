@@ -9,7 +9,7 @@
       </span>
     </div>
     <LoaderBall v-if="$apollo.queries.passageTokens.loading" />
-    <EmptyMessage v-else-if="passageTokens.length === 0">
+    <EmptyMessage v-else-if="passageTokens && passageTokens.length === 0">
       No passages found.
     </EmptyMessage>
     <table class="passages" v-else>
@@ -68,7 +68,7 @@
           return data.tokenAnnotationsByLemma.edges.map(e => e.node);
         },
         skip() {
-          return this.versionUrn === null;
+          return this.versionUrn === null || !this.lemma;
         },
       },
     },
