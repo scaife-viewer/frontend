@@ -303,7 +303,11 @@
         // or some other lookup where we aren't aggressively normalizing
         query: gql`
           query Siblings($lemma: String!) {
-            dictionaryEntries(lemma: $lemma, resolveUsingLemmas: true) {
+            dictionaryEntries(
+              lemma: $lemma
+              resolveUsingLemmas: true
+              normalizedLemmas: true
+            ) {
               edges {
                 node {
                   id

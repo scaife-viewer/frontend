@@ -167,6 +167,7 @@
             resolvedEntries: dictionaryEntries(
               reference: $urn
               resolveUsingLemmas: true
+              resolveUsingLemmasAndCitations: false
             ) {
               edges {
                 node {

@@ -121,7 +121,12 @@
         // using citations via or lemmas _and_ citations
         query: gql`
           query DictionaryEntries($urn: String!) {
-            dictionaryEntries(reference: $urn, resolveUsingLemmas: true) {
+            dictionaryEntries(
+              reference: $urn
+              resolveUsingLemmas: true
+              resolveUsingLemmasAndCitations: true
+              normalizeLemmas: false
+            ) {
               edges {
                 node {
                   id
