@@ -14,12 +14,23 @@
       <div
         v-for="[headword, entries] in entriesByHeadwordMap"
         :key="entries[0].id"
-        :title="entries[0].urn"
         class="dictionary-entry"
       >
         <div class="headword" @click.prevent="entrySelected(entries[0])">
           <span>
             {{ headword }}
+            <template v-for="entry in entries">
+              <!-- NOTE: This indicates that an entry matches a citaiton,
+              but was not resolved to a lemma  -->
+              <!-- TODO: Only do this a single time -->
+              <span
+                v-if="!entry.matchesPassageLemma"
+                :key="entry.id"
+                title="Indicates that the entry is resolved solely via citation"
+              >
+                *</span
+              >
+            </template>
           </span>
         </div>
       </div>
@@ -117,6 +128,7 @@
                   headword
                   headwordNormalized
                   urn
+                  matchesPassageLemma
                 }
               }
             }
