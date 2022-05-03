@@ -44,7 +44,7 @@
             placeholder="Select an alignment..."
           />
           <span v-else>
-          {{ entry.dictionary.label }}
+            {{ entry.dictionary.label }}
           </span>
         </Attribution>
       </div>
@@ -378,7 +378,8 @@
     margin-top: 0.5em;
     border-top: 1px solid #868e96;
   }
-  // FIXME: Centralize styles (possibly with a style include and scoped selectors)
+  // FIXME: Centralize styles
+  // (possibly with a style include and scoped selectors)
   ::v-deep .depth-1 {
     margin-left: 0.3em;
   }
