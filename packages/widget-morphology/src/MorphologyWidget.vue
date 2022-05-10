@@ -129,6 +129,13 @@
                 this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
                   lemmas,
                 });
+              } else if (this.selectedToken.lemma) {
+                // TODO: Allow the user to choose between the retrieved
+                // and annotated lemma(s)
+                this.morphBody = null;
+                this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
+                  lemmas: [this.selectedToken.lemma],
+                });
               } else {
                 this.reset();
               }
@@ -137,7 +144,6 @@
             .catch(error => {
               this.reset();
               console.log(error.message);
-              debugger;
             });
         }
       },
