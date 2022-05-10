@@ -299,21 +299,19 @@
         },
       },
       siblings: {
-        // TODO: Determine if resolveUsingLemmas should be used
-        // TODO: Add the ability to exclude the same entry
-        // TODO: Handle "normalized" issues here; be it through $lemma
-        // or some other lookup where we aren't aggressively normalizing
+        // NOTE: This query uses the normalized lemma (to mirror)
+        // resolveUsingLemmas on the `DictionaryEntries` component.
+        // Logeion in particular seems to have more "healing";
+        // for our purposes, we're just looking at the normalized version
+        // (not excluding marks)
         query: gql`
           query Siblings($lemma: String!) {
-            dictionaryEntries(
-              lemma: $lemma
-              resolveUsingLemmas: true
-              normalizeLemmas: true
-            ) {
+            dictionaryEntries(lemma: $lemma, normalizeLemmas: false) {
               edges {
                 node {
                   id
                   urn
+                  headword
                   dictionary {
                     label
                   }
