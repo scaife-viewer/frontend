@@ -101,7 +101,7 @@
     watch: {
       entry() {
         this.selectedEntryValue = {
-          title: this.entry.dictionary.label,
+          title: this.dictionarySelectionTitle(this.entry),
           value: this.entry.urn,
         };
       },
@@ -167,6 +167,9 @@
         const matches = senses.filter(sense => sense.urn === node.id);
         return matches.length > -1 ? matches[0] : null;
       },
+      dictionarySelectionTitle(entry) {
+        return `${entry.headword} :: ${entry.dictionary.label}`;
+      }
     },
     computed: {
       passage() {
@@ -188,7 +191,8 @@
         return this.siblings
           .filter(sibling => sibling.urn != this.entryUrn)
           .map(sibling => {
-            return { title: sibling.dictionary.label, value: sibling.urn };
+            const title = this.dictionarySelectionTitle(sibling);
+            return { title, value: sibling.urn };
           });
       },
     },
