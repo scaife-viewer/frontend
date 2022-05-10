@@ -189,7 +189,7 @@
           return [];
         }
         return this.siblings
-          .filter(sibling => sibling.urn != this.entryUrn)
+          .filter(sibling => sibling.urn !== this.entryUrn)
           .map(sibling => {
             const title = this.dictionarySelectionTitle(sibling);
             return { title, value: sibling.urn };
