@@ -60,7 +60,7 @@
   }
   .custom-select--options {
     position: absolute;
-    top: 40px;
+    margin-top: 3px;
     left: 0;
     right: 0;
     border: 1px solid var(--sv-custom-select-options-border-color, #dee2e6);
