@@ -34,17 +34,17 @@
             </div>
           </div>
         </div>
-          <div class="dictionary-label-divider" />
-          <CustomSelect
-            v-if="siblingEntryValues.length > 0"
-            class="sibling-entry-select"
-            v-model="selectedEntryValue"
-            :options="siblingEntryValues"
-            placeholder="Select an alignment..."
-          />
-          <Attribution v-else>
-            {{ entry.dictionary.label }}
-          </Attribution>
+        <div class="dictionary-label-divider" />
+        <CustomSelect
+          v-if="siblingEntryValues.length > 0"
+          class="sibling-entry-select"
+          v-model="selectedEntryValue"
+          :options="siblingEntryValues"
+          placeholder="Select an alignment..."
+        />
+        <Attribution v-else>
+          {{ entry.dictionary.label }}
+        </Attribution>
       </div>
     </div>
     <LoaderBall v-else-if="$apollo.queries.entries.loading" />
@@ -169,7 +169,7 @@
       },
       dictionarySelectionTitle(entry) {
         return `${entry.headword} :: ${entry.dictionary.label}`;
-      }
+      },
     },
     computed: {
       passage() {

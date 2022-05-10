@@ -25,11 +25,7 @@
   import { ApolloQuery } from 'vue-apollo';
 
   import { Reader } from '@scaife-viewer/widget-reader';
-  import {
-    LoaderBall,
-    ErrorMessage,
-    normalizeString,
-  } from '@scaife-viewer/common';
+  import { LoaderBall, ErrorMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import DictionaryModeToolbar from './DictionaryModeToolbar.vue';
