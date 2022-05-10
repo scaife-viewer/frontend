@@ -1,33 +1,53 @@
 <template>
   <div class="dictionary-mode-toolbar">
-    <span
-      :class="{ active: showCited }"
-      class="cited"
-      @click.prevent="showCited = !showCited"
-    >
-      Cited
-    </span>
-    <span
-      :class="{ active: showAvailable }"
-      class="available"
-      @click.prevent="showAvailable = !showAvailable"
-    >
-      Available
-    </span>
-    <span
-      :class="{ active: showMissing }"
-      class="missing"
-      @click.prevent="showMissing = !showMissing"
-    >
-      Missing
-    </span>
+    <div>
+      <span
+        :class="{ active: showCited }"
+        class="cited"
+        @click.prevent="showCited = !showCited"
+      >
+        Cited
+      </span>
+      <span
+        :class="{ active: showAvailable }"
+        class="available"
+        @click.prevent="showAvailable = !showAvailable"
+      >
+        Available
+      </span>
+      <span
+        :class="{ active: showMissing }"
+        class="missing"
+        @click.prevent="showMissing = !showMissing"
+      >
+        Missing
+      </span>
+    </div>
+    <CustomSelect
+      class="dictionary-select"
+      v-model="selectedDictionary"
+      :options="dictionaryValues"
+    />
   </div>
 </template>
 
 <script>
+  import gql from 'graphql-tag';
+  import { CustomSelect } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
+    components: {
+      CustomSelect,
+    },
+    data() {
+      return {
+        selectedDictionary: {
+          title: 'All Dictionaries',
+          value: null,
+        },
+      };
+    },
     computed: {
       showCited: {
         get() {
@@ -59,6 +79,50 @@
           ].showMissingLemmas;
         },
       },
+      sortedDictionaries() {
+        if (!this.dictionaries) {
+          return [];
+        }
+        const sortedDictionaries = [...this.dictionaries];
+        return sortedDictionaries.sort((a, b) =>
+          a.label.localeCompare(b.label),
+        );
+      },
+      dictionaryValues() {
+        const values = this.sortedDictionaries.map(dictionary => {
+          return {
+            title: dictionary.label,
+            value: dictionary.urn,
+          };
+        });
+        console.log(values);
+        values.push({
+          title: 'All Dictionaries',
+          value: null,
+        });
+        return values.filter(
+          value => value.value !== this.selectedDictionary.value,
+        );
+      },
+    },
+    apollo: {
+      dictionaries: {
+        query: gql`
+          query Dictionaries {
+            dictionaries {
+              edges {
+                node {
+                  label
+                  urn
+                }
+              }
+            }
+          }
+        `,
+        update(data) {
+          return data.dictionaries.edges.map(e => e.node);
+        },
+      },
     },
   };
 </script>
@@ -66,6 +130,7 @@
 <style lang="scss" scoped>
   .dictionary-mode-toolbar {
     display: flex;
+    justify-content: space-evenly;
     padding-bottom: 0.75rem;
     span {
       margin: 0 0.5rem;
@@ -96,5 +161,9 @@
         );
       }
     }
+  }
+  .dictionary-select {
+    margin-top: -10px;
+    min-width: 33%;
   }
 </style>
