@@ -85,7 +85,7 @@
       lookaheadReducer(data, query) {
         const normalizedQuery = normalizeString(query);
         return data.filter(entry =>
-          entry.headwordNormalized.includes(normalizedQuery),
+          entry.headwordNormalizedStripped.includes(normalizedQuery),
         );
       },
     },
@@ -103,7 +103,7 @@
       },
       entriesByHeadwordMap() {
         const byHeadword = new Map();
-        this.entries.forEach(entry => {
+        this.filteredEntries.forEach(entry => {
           const key = entry.headwordNormalized;
           const lookupValue = byHeadword.get(key) || [];
           lookupValue.push(entry);
@@ -131,6 +131,7 @@
                   id
                   headword
                   headwordNormalized
+                  headwordNormalizedStripped
                   urn
                   matchesPassageLemma
                 }
