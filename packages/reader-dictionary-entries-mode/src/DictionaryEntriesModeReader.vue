@@ -98,7 +98,10 @@
             };
             if (lemma) {
               lemmas.push(lemma);
-              const normalizedLemma = normalizeString(lemma);
+              // TODO: Revisit normalizeString as noMarksNormalized
+              // and leave NFKC.toLowerCase as something else
+              // const normalizedLemma = normalizeString(lemma);
+              const normalizedLemma = lemma.normalize('NFKC').toLowerCase();
               tokenAttrs = {
                 lemma,
                 lemmaCited: lemmasCited.has(normalizedLemma),
