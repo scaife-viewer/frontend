@@ -2,7 +2,7 @@
   <ApolloQuery
     class="reader"
     :query="query"
-    :variables="queryVariables"
+    :variables="variables"
     :update="queryUpdate"
   >
     <template v-slot="{ result: { error, data }, isLoading }">
@@ -127,9 +127,19 @@
       selectedEntities() {
         return this.$store.state[MODULE_NS].selectedNamedEntities;
       },
+      selectedDictionaryUrn() {
+        return this.$store.getters[`${MODULE_NS}/selectedDictionaryUrn`];
+      },
+      variables() {
+        const variables = {
+          ...this.queryVariables,
+        };
+        variables.dictionaryUrn = this.selectedDictionaryUrn;
+        return variables;
+      },
       query() {
         return gql`
-          query textPartsAndEntries($urn: String!) {
+          query textPartsAndEntries($urn: String!, $dictionaryUrn: ID) {
             textParts: passageTextParts(reference: $urn) {
               edges {
                 node {
@@ -157,7 +167,10 @@
                 }
               }
             }
-            citedEntries: dictionaryEntries(reference: $urn) {
+            citedEntries: dictionaryEntries(
+              reference: $urn
+              dictionary_Urn: $dictionaryUrn
+            ) {
               edges {
                 node {
                   id
@@ -171,6 +184,7 @@
               reference: $urn
               resolveUsingLemmas: true
               resolveUsingLemmasAndCitations: false
+              dictionary_Urn: $dictionaryUrn
             ) {
               edges {
                 node {
