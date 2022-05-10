@@ -54,3 +54,5 @@ export const SENSE_EXPANSION_PASSAGE = 'passage';
 export const SENSE_EXPANSION_EXPANDED = 'expanded';
 export const SENSE_EXPANSION_COLLAPSED = 'collapsed';
 export const SENSE_EXPANSION_MANUAL = 'manual';
+
+export const SET_SELECTED_DICTIONARY_OPTION = 'setSelectedDictionaryOption';

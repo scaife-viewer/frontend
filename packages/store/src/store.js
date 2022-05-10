@@ -37,6 +37,7 @@ import {
   DISPLAY_MODE_DEFAULT,
   SENSE_EXPANSION_PASSAGE,
   CITATION_DISPLAY_REFS_QUOTES,
+  SET_SELECTED_DICTIONARY_OPTION,
 } from './constants';
 
 const displayName = name => {
@@ -81,6 +82,10 @@ const getDefaultState = () => ({
   showCitedLemmas: true,
   showAvailableLemmas: true,
   showMissingLemmas: true,
+  selectedDictionaryOption: {
+    title: 'All Dictionaries',
+    value: null,
+  },
 });
 
 const createStore = client => {
@@ -126,6 +131,7 @@ const createStore = client => {
           return mode || DISPLAY_MODE_DEFAULT;
         },
         selectedLemmas: state => state.selectedLemmas,
+        selectedDictionaryUrn: state => state.selectedDictionaryOption.value,
       },
       mutations: {
         [SET_MAIN_LAYOUT_WIDTH_NORMAL]: state => {
@@ -223,6 +229,9 @@ const createStore = client => {
         },
         [SET_CITATION_DISPLAY]: (state, value) => {
           state.citationDisplay = value;
+        },
+        [SET_SELECTED_DICTIONARY_OPTION]: (state, value) => {
+          state.selectedDictionaryOption = value;
         },
       },
       actions: {
@@ -360,6 +369,9 @@ const createStore = client => {
         },
         [SET_CITATION_DISPLAY]: ({ commit }, { value }) => {
           commit(SET_CITATION_DISPLAY, value);
+        },
+        [SET_SELECTED_DICTIONARY_OPTION]: ({ commit }, { value }) => {
+          commit(SET_SELECTED_DICTIONARY_OPTION, value);
         },
       },
     },

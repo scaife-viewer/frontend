@@ -24,9 +24,10 @@
       </span>
     </div>
     <CustomSelect
+      v-if="dictionaryOptions.length > 1"
       class="dictionary-select"
-      v-model="selectedDictionary"
-      :options="dictionaryValues"
+      v-model="selectedDictionaryOption"
+      :options="dictionaryOptions"
     />
   </div>
 </template>
@@ -34,19 +35,14 @@
 <script>
   import gql from 'graphql-tag';
   import { CustomSelect } from '@scaife-viewer/common';
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SET_SELECTED_DICTIONARY_OPTION,
+  } from '@scaife-viewer/store';
 
   export default {
     components: {
       CustomSelect,
-    },
-    data() {
-      return {
-        selectedDictionary: {
-          title: 'All Dictionaries',
-          value: null,
-        },
-      };
     },
     computed: {
       showCited: {
@@ -79,6 +75,22 @@
           ].showMissingLemmas;
         },
       },
+      selectedDictionaryOption: {
+        get() {
+          return this.$store.state[MODULE_NS].selectedDictionaryOption;
+        },
+        set(value) {
+          this.$store.dispatch(
+            `${MODULE_NS}/${SET_SELECTED_DICTIONARY_OPTION}`,
+            {
+              value,
+            },
+          );
+        },
+      },
+      selectedDictionaryUrn() {
+        return this.$store.getters[`${MODULE_NS}/selectedDictionaryUrn`];
+      },
       sortedDictionaries() {
         if (!this.dictionaries) {
           return [];
@@ -88,24 +100,31 @@
           a.label.localeCompare(b.label),
         );
       },
-      dictionaryValues() {
-        const values = this.sortedDictionaries.map(dictionary => {
-          return {
-            title: dictionary.label,
-            value: dictionary.urn,
-          };
-        });
-        console.log(values);
-        values.push({
+      dictionaryOptions() {
+        const defaultOption = {
           title: 'All Dictionaries',
           value: null,
-        });
-        return values.filter(
-          value => value.value !== this.selectedDictionary.value,
+        };
+        const options = [];
+        if (this.sortedDictionaries) {
+          const sortedOptions = this.sortedDictionaries.map(dictionary => {
+            return {
+              title: dictionary.label,
+              value: dictionary.urn,
+            };
+          });
+          options.push(...sortedOptions);
+        }
+        options.push(defaultOption);
+        // Exclude the selected option from possible options
+        return options.filter(
+          option => option.value !== this.selectedDictionaryOption.value,
         );
       },
     },
     apollo: {
+      // TODO: Make dictionaries context aware
+      // e.g. work, language, etc
       dictionaries: {
         query: gql`
           query Dictionaries {
