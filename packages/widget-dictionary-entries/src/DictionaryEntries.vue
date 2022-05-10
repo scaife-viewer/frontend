@@ -104,8 +104,7 @@
       entriesByHeadwordMap() {
         const byHeadword = new Map();
         this.entries.forEach(entry => {
-          // TODO: Consider normalizing these server-side?
-          const key = entry.headword.normalize('NFKC');
+          const key = entry.headwordNormalized;
           const lookupValue = byHeadword.get(key) || [];
           lookupValue.push(entry);
           byHeadword.set(key, lookupValue);
