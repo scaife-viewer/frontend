@@ -34,7 +34,6 @@
             </div>
           </div>
         </div>
-        <Attribution>
           <div class="dictionary-label-divider" />
           <CustomSelect
             v-if="siblingEntryValues.length > 0"
@@ -43,10 +42,9 @@
             :options="siblingEntryValues"
             placeholder="Select an alignment..."
           />
-          <span v-else>
+          <Attribution v-else>
             {{ entry.dictionary.label }}
-          </span>
-        </Attribution>
+          </Attribution>
       </div>
     </div>
     <LoaderBall v-else-if="$apollo.queries.entries.loading" />
