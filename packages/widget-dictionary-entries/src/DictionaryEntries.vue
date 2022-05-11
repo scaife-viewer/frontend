@@ -3,9 +3,7 @@
     <LoaderBall v-if="$apollo.queries.entries.loading" />
     <EmptyMessage v-else-if="entries.length === 0" />
     <template v-else>
-      <!-- FIXME: restore -->
       <Lookahead
-        v-if="false"
         :placeholder="placeholder"
         :reducer="lookaheadReducer"
         :data="entries"
