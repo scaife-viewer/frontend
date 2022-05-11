@@ -17,18 +17,11 @@
         <div class="headword" @click.prevent="entrySelected(entries[0])">
           <span>
             {{ headword }}
-            <template v-for="entry in entries">
-              <!-- NOTE: This indicates that an entry matches a citaiton,
-              but was not resolved to a lemma  -->
-              <!-- TODO: Only do this a single time -->
-              <span
-                v-if="!entry.matchesPassageLemma"
-                :key="entry.id"
-                title="Indicates that the entry is resolved solely via citation"
-              >
-                *</span
-              >
-            </template>
+            <span
+              title="Indicates that the entry is resolved solely via citation"
+              v-if="isResolvedByCitationOnly(entries)"
+              >*</span
+            >
           </span>
         </div>
       </div>
@@ -85,6 +78,9 @@
         return data.filter(entry =>
           entry.headwordNormalizedStripped.includes(normalizedQuery),
         );
+      },
+      isResolvedByCitationOnly(entries) {
+        return entries.filter(entry => !entry.matchesPassageLemma).length > 0;
       },
     },
     watch: {
