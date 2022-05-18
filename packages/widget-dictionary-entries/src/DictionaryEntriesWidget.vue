@@ -52,24 +52,54 @@
       lemmas() {
         return this.$store.getters[`${MODULE_NS}/selectedLemmas`];
       },
+      selectedDictionaryUrn() {
+        return this.$store.getters[`${MODULE_NS}/selectedDictionaryUrn`];
+      },
+      dictionaryEntriesMode() {
+        return this.$store.getters[`${MODULE_NS}/dictionaryEntriesMode`];
+      },
+      preferEntryMatchingSelectedDictionary() {
+        return this.selectedDictionaryUrn && this.dictionaryEntriesMode;
+      },
+      candidateLemmaEntries() {
+        const hasLemmaEntries =
+          this.lemmaEntries && this.lemmaEntries.length > 0;
+        if (hasLemmaEntries) {
+          let matchingEntries = [];
+          if (this.selectedDictionaryUrn) {
+            matchingEntries = this.lemmaEntries.filter(
+              entry => entry.dictionary.urn === this.selectedDictionaryUrn,
+            );
+          }
+          return matchingEntries.length > 0
+            ? matchingEntries
+            : this.lemmaEntries;
+        }
+        return [];
+      },
       lemmaEntryURN() {
-        return this.lemmaEntries && this.lemmaEntries.length > 0
-          ? this.lemmaEntries[0].urn
+        return this.candidateLemmaEntries.length > 0
+          ? this.candidateLemmaEntries[0].urn
           : null;
       },
     },
     apollo: {
       lemmaEntries: {
-        // TODO: Pass the configured dictionary
-        // and possibly add $scaife config value for also
-        // filtering against reference
+        // TODO: Make the widget configurable to
+        // query for entries with citations and use
+        // this hint in candidateLemmaEntries
+        // TODO: Tweak query to include dictionary.urn
+        // only if `dictionaryEntriesMode` is true
         query: gql`
           query DictionaryEntries($lemma: String!) {
-            dictionaryEntries(lemma: $lemma, first: 1) {
+            dictionaryEntries(lemma: $lemma) {
               edges {
                 node {
                   id
                   urn
+                  dictionary {
+                    urn
+                  }
                 }
               }
             }
