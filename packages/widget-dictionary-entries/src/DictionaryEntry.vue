@@ -119,6 +119,9 @@
       senseExpansion() {
         this.updateSenses();
       },
+      senses() {
+        this.updateSenses();
+      },
       passageSenseUrns: {
         immediate: false,
         handler() {
