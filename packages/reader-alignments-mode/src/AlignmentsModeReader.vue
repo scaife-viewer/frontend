@@ -263,6 +263,7 @@
                   passageReferences
                   displayHint
                   displayOptions
+                  languageMap
                 }
                 edges {
                   node {
@@ -339,6 +340,7 @@
             references: data.textAlignmentRecords.metadata.passageReferences,
             displayHint: data.textAlignmentRecords.metadata.displayHint,
             displayOptions: data.textAlignmentRecords.metadata.displayOptions,
+            languageMap: data.textAlignmentRecords.metadata.languageMap,
           };
         },
         error() {

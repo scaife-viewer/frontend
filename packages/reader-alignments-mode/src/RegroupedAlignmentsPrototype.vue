@@ -67,6 +67,7 @@
 <script>
   // HACK: This entire component has been sliced and diced from the other two
   // components; needs to be revisited ASAP.
+  import URN from '@scaife-viewer/common';
 
   import gql from 'graphql-tag';
 
@@ -139,6 +140,9 @@
       },
       recordMap() {
         return this.data.recordMap;
+      },
+      languageMap() {
+        return this.data.languageMap;
       },
       groupedPassages() {
         // HACK: Experimenting for three-alignments
@@ -226,10 +230,9 @@
         this.onHover(alignmentTokens, number);
       },
       textDirection(urn) {
-        // FIXME: Pass directionality as a display hint or deduce from
-        // version metadata
-        const isFarsi =
-          urn.indexOf('perseus-far') > -1 || urn.indexOf('shamsian-far') > -1;
+        // FIXME: Refactor with RTL_LANGUAGES
+        const urnObj = new URN(urn);
+        const isFarsi = this.languageMap[urnObj.version] === 'far';
         return isFarsi ? 'rtl' : '';
       },
       passageKey(idx) {
