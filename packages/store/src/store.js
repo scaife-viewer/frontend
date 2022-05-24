@@ -38,6 +38,10 @@ import {
   SENSE_EXPANSION_PASSAGE,
   CITATION_DISPLAY_REFS_QUOTES,
   SET_SELECTED_DICTIONARY_OPTION,
+  TOGGLE_READER_SYNC_COMMENTARY,
+  SET_COMMENTARIES,
+  SET_SELECTED_COMMENTARIES,
+  CLEAR_SELECTED_COMMENTARIES,
 } from './constants';
 
 const displayName = name => {
@@ -86,6 +90,9 @@ const getDefaultState = () => ({
     title: 'All Dictionaries',
     value: null,
   },
+  syncCommentary: false,
+  selectedCommentaries: [],
+  commentariesHash: {},
 });
 
 const createStore = client => {
@@ -132,6 +139,10 @@ const createStore = client => {
         },
         selectedLemmas: state => state.selectedLemmas,
         selectedDictionaryUrn: state => state.selectedDictionaryOption.value,
+        showCommentary: (_, __, rootState) => {
+          const { commentary } = rootState.route.query;
+          return commentary === 'y';
+        },
       },
       mutations: {
         [SET_MAIN_LAYOUT_WIDTH_NORMAL]: state => {
@@ -232,6 +243,18 @@ const createStore = client => {
         },
         [SET_SELECTED_DICTIONARY_OPTION]: (state, value) => {
           state.selectedDictionaryOption = value;
+        },
+        [TOGGLE_READER_SYNC_COMMENTARY]: state => {
+          state.syncCommentary = !state.syncCommentary;
+        },
+        [SET_COMMENTARIES]: (state, lookup) => {
+          state.commentariesHash = lookup;
+        },
+        [SET_SELECTED_COMMENTARIES]: (state, { commentaries }) => {
+          state.selectedCommentaries = commentaries;
+        },
+        [CLEAR_SELECTED_COMMENTARIES]: state => {
+          state.selectedCommentaries = [];
         },
       },
       actions: {
@@ -372,6 +395,18 @@ const createStore = client => {
         },
         [SET_SELECTED_DICTIONARY_OPTION]: ({ commit }, { value }) => {
           commit(SET_SELECTED_DICTIONARY_OPTION, value);
+        },
+        [TOGGLE_READER_SYNC_COMMENTARY]: ({ commit }) => {
+          commit(TOGGLE_READER_SYNC_COMMENTARY);
+        },
+        [SET_COMMENTARIES]: ({ commit }, { lookup }) => {
+          commit(SET_COMMENTARIES, lookup);
+        },
+        [SET_SELECTED_COMMENTARIES]: ({ commit }, { commentaries }) => {
+          commit(SET_SELECTED_COMMENTARIES, { commentaries });
+        },
+        [CLEAR_SELECTED_COMMENTARIES]: ({ commit }) => {
+          commit(CLEAR_SELECTED_COMMENTARIES, { commentaries: [] });
         },
       },
     },

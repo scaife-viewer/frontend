@@ -1,6 +1,6 @@
 <template>
-  <div class="custom-select">
-    <div class="custom-select--selected" @click="open = !open">
+  <div class="sv-custom-select">
+    <div class="sv-custom-select--selected" @click="open = !open">
       <div class="title">
         <div v-if="value" class="label">{{ value.title }}</div>
         <div v-else-if="placeholder" class="placeholder label">
@@ -9,7 +9,7 @@
       </div>
       <div class="chevron"><icon name="chevron-down" /></div>
     </div>
-    <div class="custom-select--options" v-if="open">
+    <div class="sv-custom-select--options" v-if="open">
       <CustomSelectOption
         v-for="(option, index) in options"
         :key="index"
@@ -54,11 +54,11 @@
 </script>
 
 <style lang="scss" scoped>
-  .custom-select {
+  .sv-custom-select {
     position: relative;
     margin: 10px 0;
   }
-  .custom-select--options {
+  .sv-custom-select--options {
     position: absolute;
     margin-top: 3px;
     left: 0;
@@ -69,7 +69,7 @@
     // FIXME: Review z-indexes throghout
     z-index: 1001;
   }
-  .custom-select--selected {
+  .sv-custom-select--selected {
     border: 1px solid var(--sv-custom-select-selected-border-color, #dee2e6);
     border-radius: 3px;
     padding: 0.5rem 0.75rem;
