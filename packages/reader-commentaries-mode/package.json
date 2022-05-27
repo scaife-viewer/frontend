@@ -1,0 +1,17 @@
+{
+  "name": "@scaife-viewer/reader-commentaries-mode",
+  "version": "0.5.0-beta.2",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eldarion",
+  "license": "MIT",
+  "dependencies": {
+    "@scaife-viewer/common": "^0.4.0",
+    "@scaife-viewer/store": "^0.5.0-beta.1",
+    "@scaife-viewer/widget-reader": "^0.5.0-beta.1",
+    "graphql-tag": "^2.10.3",
+    "vue-apollo": "^3.0.4"
+  }
+}

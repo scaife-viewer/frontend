@@ -10,6 +10,7 @@ import {
   DISPLAY_MODE_METRICAL,
   DISPLAY_MODE_DICTIONARY_ENTRIES,
   DISPLAY_MODE_NAMED_ENTITIES,
+  DISPLAY_MODE_COMMENTARIES,
   DISPLAY_MODE_SYNTAX_TREES,
   DISPLAY_MODE_DEFAULT,
 } from '@scaife-viewer/store';
@@ -23,6 +24,8 @@ import ImageModeReader, {
 } from '@scaife-viewer/reader-image-mode';
 // eslint-disable-next-line max-len
 import DictionaryEntriesModeReader from '@scaife-viewer/reader-dictionary-entries-mode';
+
+import CommentariesModeReader from '@scaife-viewer/reader-commentaries-mode';
 
 import NamedEntitiesModeReader, {
   iconMap as namedEntitesReaderIconMap,
@@ -62,6 +65,7 @@ Vue.use(SkeletonPlugin, {
       [DISPLAY_MODE_ALIGNMENTS]: AlignmentsModeReader,
       [DISPLAY_MODE_FOLIO]: ImageModeReader,
       [DISPLAY_MODE_NAMED_ENTITIES]: NamedEntitiesModeReader,
+      [DISPLAY_MODE_COMMENTARIES]: CommentariesModeReader,
       [DISPLAY_MODE_DICTIONARY_ENTRIES]: DictionaryEntriesModeReader,
       [DISPLAY_MODE_METRICAL]: MetricalModeReader,
       [DISPLAY_MODE_INTERLINEAR]: InterlinearModeReader,

@@ -11,6 +11,8 @@
       'lemma-excluded': missingLemma,
       entity: namedEntitiesMode && isEntity,
       'selected-entity': namedEntitiesMode && hasSelectedEntity,
+      commentary: commentariesMode && isCommentary,
+      'selected-commentary': commentariesMode && hasSelectedCommentary,
     }"
     @click="onSelect"
   >
@@ -47,6 +49,7 @@
     CLEAR_NAMED_ENTITIES,
     SELECT_NAMED_ENTITIES,
     SET_SELECTED_LEMMAS,
+    SET_SELECTED_COMMENTARIES,
   } from '@scaife-viewer/store';
 
   export default {
@@ -61,20 +64,32 @@
           this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
             lemmas: null,
           });
-        } else if (
-          (this.namedEntitiesMode && this.isEntity) ||
-          !this.namedEntitiesMode
-        ) {
+          this.$store.dispatch(`${MODULE_NS}/${SET_SELECTED_COMMENTARIES}`, {
+            commentaries: this.commentaries,
+          });
+        } else {
           this.$store.dispatch(`${MODULE_NS}/${SELECT_NAMED_ENTITIES}`, {
             entities: this.entities,
           });
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: this.token,
           });
+          this.$store.dispatch(`${MODULE_NS}/${SET_SELECTED_COMMENTARIES}`, {
+            commentaries: this.commentaries,
+          });
         }
       },
     },
     computed: {
+      commentary() {
+        // NOTE: backwards-compatible with SV 1
+        return this.commentariesMode;
+      },
+      veRef() {
+        // TODO: For backwards compatibility with SV1
+        // Would be good to align the API between major versions.
+        return this.token.veRef;
+      },
       selectedEntities() {
         return this.$store.state[MODULE_NS].selectedNamedEntities;
       },
@@ -86,6 +101,10 @@
       },
       dictionaryEntriesMode() {
         return this.$store.getters[`${MODULE_NS}/dictionaryEntriesMode`];
+      },
+      // TODO: Splat from store; revisit docs
+      commentariesMode() {
+        return this.$store.getters[`${MODULE_NS}/commentariesMode`];
       },
       entities() {
         return (this.token && this.token.entities) || [];
@@ -101,7 +120,6 @@
         );
       },
       selected() {
-        // lemma resume; 11:48 - 11:54
         if (!this.selectedToken) {
           return false;
         }
@@ -157,6 +175,35 @@
           this.showMissingLemmas
         );
       },
+      highlightCommentaries() {
+        return this.$store.getters[`${MODULE_NS}/showCommentary`];
+      },
+      // syncCommentary() {
+      //   // TODO: Integrate this with the "scroll to" affordance
+      //   //
+      //   return this.$store.state[MODULE_NS].syncCommentary;
+      // },
+      commentaries() {
+        if (!this.commentary) {
+          return [];
+        }
+        const { commentariesHash } = this.$store.state[MODULE_NS];
+        return commentariesHash[this.veRef] || [];
+      },
+      isCommentary() {
+        return this.commentaries.length > 0;
+      },
+      selectedCommentaries() {
+        return this.$store.state[MODULE_NS].selectedCommentaries || [];
+      },
+      hasSelectedCommentary() {
+        return (
+          this.commentaries.filter(
+            id =>
+              this.selectedCommentaries.filter(sid => sid === id).length > 0,
+          ).length > 0
+        );
+      },
     },
   };
 </script>
@@ -176,13 +223,14 @@
   .token.entity-mode:not(.entity) .text {
     cursor: inherit;
   }
-  .token.entity .text {
+  .token.entity .text, .token.commentary .text {
     box-shadow: 0 -10px 0px var(
         --sv-widget-reader-token-entity-shadow-color,
         #ff6
       ) inset;
   }
-  .token.selected-entity .text {
+  // TODO: revisit highlight / selection implementation
+  .token.selected-entity .text, .token.selected-commentary .text {
     box-shadow: 0 -10px 0px var(
         --sv-widget-reader-token-selected-entity-shadow-color,
         #9f9

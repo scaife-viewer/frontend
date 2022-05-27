@@ -34,6 +34,7 @@ import {
   DISPLAY_MODE_METRICAL,
   DISPLAY_MODE_DICTIONARY_ENTRIES,
   DISPLAY_MODE_NAMED_ENTITIES,
+  DISPLAY_MODE_COMMENTARIES,
   DISPLAY_MODE_DEFAULT,
   SENSE_EXPANSION_PASSAGE,
   CITATION_DISPLAY_REFS_QUOTES,
@@ -122,6 +123,9 @@ const createStore = client => {
         },
         namedEntitiesMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_NAMED_ENTITIES;
+        },
+        commentariesMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_COMMENTARIES;
         },
         urn: (state, getters, rootState) => {
           if (!rootState.route) {
