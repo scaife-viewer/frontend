@@ -119,6 +119,7 @@
       return {
         selectedWitness: ALL_WITNESSES,
         witnesses: [],
+        commentaryCollectionUrn: this.$scaife.config.commentaryCollectionUrn,
       };
     },
     computed: {
@@ -327,7 +328,7 @@
       buildWitnesses() {
         const witnessLookup = {};
         this.lines.forEach(line => {
-          const witnesses = line.data.witnesses || [{value: null, label: ''}];
+          const witnesses = line.data.witnesses || [{ value: null, label: '' }];
           witnesses.forEach(witness => {
             // FIXME: Clashing IDs?
             witnessLookup[witness.value] = witness;
@@ -350,8 +351,8 @@
     apollo: {
       lines: {
         query: gql`
-          query Scholia($urn: String!) {
-            textAnnotations(reference: $urn) {
+          query Scholia($urn: String!, $collectionUrn: ID) {
+            textAnnotations(reference: $urn, collection_Urn: $collectionUrn) {
               edges {
                 node {
                   id
@@ -363,7 +364,10 @@
           }
         `,
         variables() {
-          return { urn: `${this.urn}` };
+          return {
+            urn: `${this.urn}`,
+            collectionUrn: this.commentaryCollectionUrn || '',
+          };
         },
         update(data) {
           const annotations = data.textAnnotations.edges.map(e => ({

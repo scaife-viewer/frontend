@@ -123,6 +123,7 @@
     data() {
       // TODO: Set component local toggle that drives the store
       // to toggle commentary highlighting on / off in the reader.
+      // TODO: Support commentaryCollectionUrn
       return {
         selectedWitness: ALL_WITNESSES,
         witnesses: [],
