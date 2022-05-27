@@ -15,6 +15,7 @@
   import FixedSkeleton from '@scaife-viewer/skeleton';
 
   import ReaderWidget from '@scaife-viewer/widget-reader';
+  import { CommentaryWidgetSV2 } from '@scaife-viewer/widget-commentary';
   import RepoMetadataWidget from '@scaife-viewer/widget-repo-metadata';
   import MetadataWidget from '@scaife-viewer/widget-metadata';
   // FIXME: Restore once we've synchronized ATLAS branches
@@ -84,6 +85,7 @@
           WordListWidget,
           NewAlexandriaWidget,
           ScholiaWidget,
+          CommentaryWidgetSV2,
         ];
       },
       main() {
