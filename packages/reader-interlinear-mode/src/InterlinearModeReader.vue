@@ -54,6 +54,7 @@
                         id
                         veRef
                         value
+                        transliteratedWordValue
                         annotations(first: 1) {
                           edges {
                             node {
@@ -80,7 +81,7 @@
         const lines = data.passageTextParts.edges.map(line => {
           const { id, ref } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef } = edge.node;
+            const { value, veRef, transliteratedWordValue } = edge.node;
             // TODO: Improve encapsulation of additional annotation data
             const firstAnnotationEdge =
               edge.node.annotations.edges.slice(0, 1)[0] || null;
@@ -93,6 +94,7 @@
             return {
               value,
               veRef,
+              transliteratedWordValue,
               lemma,
               partOfSpeech,
               tag,

@@ -18,7 +18,10 @@
   >
     <template v-if="interlinearMode">
       <span class="ref">{{ token.veRef }}</span>
-      <span class="text">{{ token.value }}</span>
+      <span class="text">{{ token.value || ' ' }}</span>
+      <span class="text-transliterated">{{
+        token.transliteratedWordValue
+      }}</span>
       <span class="lemma">{{ token.lemma || '-' }}</span>
       <span class="pos">{{ token.partOfSpeech || '-' }}</span>
       <span class="analysis">{{ token.tag || '-' }}</span>
@@ -275,6 +278,9 @@
       font-size: 1em;
       font-weight: 700;
       color: var(--sv-widget-reader-interlinear-text-color, #000);
+    }
+    .text-transliterated {
+      font-weight: unset;
     }
     .lemma {
       font-size: 0.88em;

@@ -54,6 +54,8 @@
     }
     parts.push('<div class="node-attrs">');
     parts.push(`<div class="node-value">${node.value}</div>`);
+    // TODO: Dynamic options for transliteratedWordValue
+    // TODO: Timing on transliteration process
     if (options.showLemma) {
       parts.push(`<div class="node-lemma">${node.lemma}</div>`);
     }
