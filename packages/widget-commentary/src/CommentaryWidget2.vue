@@ -123,6 +123,18 @@
       };
     },
     computed: {
+      // FIXME: Better GraphQL filters
+      // available, or type the data better within GraphQL
+      filteredCollectionUrn() {
+        if (
+          this.commentaryCollectionUrn &&
+          this.passage &&
+          this.passage.textGroup === 'tlg0012'
+        ) {
+          return this.commentaryCollectionUrn;
+        }
+        return undefined;
+      },
       refDepth() {
         return this.urn.reference.split('-')[0].split('.').length;
       },
@@ -150,7 +162,7 @@
       showWitnesses() {
         // TODO: tie this into $scaife.config and also set
         // defaults in the widget itself, would require passing upstream
-        return false;
+        return this.passage && this.passage.textGroup !== 'tlg0012';
       },
       showToolbar() {
         // TODO: Rework this as slots?
@@ -366,7 +378,7 @@
         variables() {
           return {
             urn: `${this.urn}`,
-            collectionUrn: this.commentaryCollectionUrn || '',
+            collectionUrn: this.filteredCollectionUrn || '',
           };
         },
         update(data) {
