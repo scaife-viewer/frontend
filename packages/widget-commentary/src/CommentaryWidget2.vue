@@ -70,7 +70,7 @@
         >
           <div class="fragment" @click.prevent="onSelect(lines[0])">
             <em>
-              {{ fragment }}
+              {{ fragmentLabel(fragment) }}
               <span v-if="lines.length > 1"> ({{ lines.length }}) </span>
               <!-- TODO: For debugging -->
               <!-- {{ lines[0].data.sortKey.toLocaleString() }} -->
@@ -102,6 +102,7 @@
   import CommentaryLine from './CommentaryLine.vue';
 
   const ALL_WITNESSES = { value: null, title: 'All Witnesses' };
+  const FRAGMENT_DELIM = '�';
 
   export default {
     scaifeConfig: {
@@ -190,14 +191,19 @@
         return filteredToWitness;
       },
       filteredFragmentMap() {
-        const byFragment = new Map();
+        const groupedByFragment = new Map();
         this.filteredLines.forEach(line => {
-          const key = line.data.fragment;
-          const lookupValue = byFragment.get(key) || [];
+          const { fragment, veRefs } = line.data;
+          // NOTE: fragment + veRefs gives us a unique key,
+          // in cases where we have the exact same fragment in
+          // a given passage
+          // TODO: Backport to SV1 version
+          const key = [fragment, ...veRefs].join(FRAGMENT_DELIM);
+          const lookupValue = groupedByFragment.get(key) || [];
           lookupValue.push(line);
-          byFragment.set(key, lookupValue);
+          groupedByFragment.set(key, lookupValue);
         });
-        return byFragment;
+        return groupedByFragment;
       },
       urn() {
         return this.$store.getters[`${MODULE_NS}/urn`];
@@ -358,6 +364,9 @@
         // c.f. alignments
 
         this.witnesses = [ALL_WITNESSES, ...this.buildWitnesses()];
+      },
+      fragmentLabel(fragment) {
+        return fragment.split(FRAGMENT_DELIM)[0];
       },
     },
     apollo: {
