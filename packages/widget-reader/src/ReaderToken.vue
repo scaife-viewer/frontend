@@ -280,7 +280,7 @@
       color: var(--sv-widget-reader-interlinear-text-color, #000);
     }
     .text-transliterated {
-      font-weight: unset;
+      font-family: 'Arial';
     }
     .lemma {
       font-size: 0.88em;
