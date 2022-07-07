@@ -56,6 +56,12 @@
     parts.push(`<div class="node-value">${node.value}</div>`);
     // TODO: Dynamic options for transliteratedWordValue
     // TODO: Timing on transliteration process
+    if (options.showTransliteration) {
+      parts.push(
+        `<div class="node-transliteration">` +
+          `${node.transliteratedWordValue}</div>`,
+      );
+    }
     if (options.showLemma) {
       parts.push(`<div class="node-lemma">${node.lemma}</div>`);
     }
@@ -158,6 +164,7 @@
     computed: {
       displayOptions() {
         return {
+          showTransliteration: this.$store.state[MODULE_NS].showTransliteration,
           showLemma: this.$store.state[MODULE_NS].showLemma,
           showGloss: this.hasGlosses && this.$store.state[MODULE_NS].showGloss,
           showTag: this.$store.state[MODULE_NS].showTag,

@@ -80,6 +80,7 @@ const getDefaultState = () => ({
   // (especially as far as gloss, which we may not always have)
   showTag: false,
   showRelationship: true,
+  showTransliteration: false,
   showLemma: false,
   showGloss: false,
   // TODO: More on storage of these toggles

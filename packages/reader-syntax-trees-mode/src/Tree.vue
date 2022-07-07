@@ -226,6 +226,11 @@
         'Noto Serif'
       );
     }
+    .node-transliterated-text {
+      margin-top: 0;
+      font-size: 1em;
+      font-family: Arial;
+    }
     .node-lemma {
       font-size: 0.88em;
       color: var(--sv-reader-syntax-tree-node-lemma-text-color, #aaa);

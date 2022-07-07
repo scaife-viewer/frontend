@@ -7,6 +7,9 @@
     @click="onSelect"
   >
     <div class="text">{{ word.value }}</div>
+    <div v-if="showTransliteration" class="text-transliterated">
+      {{ word.transliteratedWordValue || '-' }}
+    </div>
     <div v-if="showLemma" class="lemma">{{ word.lemma || '-' }}</div>
     <div v-if="showRelationship" class="pos">
       {{ word.relation || '-' }}
@@ -52,6 +55,9 @@
       },
       showTag() {
         return this.$store.state[MODULE_NS].showTag;
+      },
+      showTransliteration() {
+        return this.$store.state[MODULE_NS].showTransliteration;
       },
       showLemma() {
         return this.$store.state[MODULE_NS].showLemma;
@@ -126,6 +132,9 @@
       font-size: 1em;
       font-weight: 700;
       color: var(--sv-reader-syntax-trees-mode-text-color, #000);
+    }
+    .text-transliterated {
+      font-family: 'Arial';
     }
     .lemma {
       font-size: 0.88em;

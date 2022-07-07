@@ -7,6 +7,12 @@
     <div class="attr-toggles">
       <!-- TODO: show / hide toggles based on underlying collection data -->
       <span
+        :class="{ active: showTransliteration }"
+        @click.prevent="showTransliteration = !showTransliteration"
+      >
+        Transliteration
+      </span>
+      <span
         :class="{ active: showLemma }"
         @click.prevent="showLemma = !showLemma"
       >
@@ -84,6 +90,16 @@
         set() {
           this.$store.state[MODULE_NS].showLemma = !this.$store.state[MODULE_NS]
             .showLemma;
+        },
+      },
+      showTransliteration: {
+        get() {
+          return this.$store.state[MODULE_NS].showTransliteration;
+        },
+        set() {
+          this.$store.state[MODULE_NS].showTransliteration = !this.$store.state[
+            MODULE_NS
+          ].showTransliteration;
         },
       },
       showGloss: {
