@@ -37,7 +37,15 @@
     EmptyMessage,
   } from '@scaife-viewer/common';
 
-  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    LAYOUT_WIDTH_WIDE,
+    SHOW_TRANSLITERATION,
+    SHOW_LEMMA,
+    SHOW_RELATIONSHIP,
+    SHOW_TAG,
+    SHOW_GLOSS,
+  } from '@scaife-viewer/store';
 
   import { MODE_EXPAND } from './constants';
   import ModeToolbar from './ModeToolbar.vue';
@@ -91,6 +99,13 @@
       label: 'Syntax Trees',
       layout: LAYOUT_WIDTH_WIDE,
       textWidth: 'full',
+      annotationDefaults: {
+        [SHOW_TRANSLITERATION]: false,
+        [SHOW_LEMMA]: false,
+        [SHOW_RELATIONSHIP]: true,
+        [SHOW_TAG]: false,
+        [SHOW_GLOSS]: false,
+      },
     },
     data() {
       return {

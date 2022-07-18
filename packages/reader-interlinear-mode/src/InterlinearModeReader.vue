@@ -29,9 +29,24 @@
     EmptyMessage,
   } from '@scaife-viewer/common';
 
+  import {
+    SHOW_TRANSLITERATION,
+    SHOW_LEMMA,
+    SHOW_RELATIONSHIP,
+    SHOW_TAG,
+    SHOW_GLOSS,
+  } from '@scaife-viewer/store';
+
   export default {
     readerConfig: {
       label: 'Interlinear',
+      annotationDefaults: {
+        [SHOW_TRANSLITERATION]: true,
+        [SHOW_LEMMA]: true,
+        [SHOW_RELATIONSHIP]: true,
+        [SHOW_TAG]: true,
+        [SHOW_GLOSS]: true,
+      },
     },
     components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage, Reader },
     props: {
