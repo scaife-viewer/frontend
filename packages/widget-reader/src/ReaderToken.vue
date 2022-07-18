@@ -19,19 +19,33 @@
     <template v-if="interlinearMode">
       <span class="ref">{{ token.veRef }}</span>
       <span class="text">{{ token.value || ' ' }}</span>
-      <span class="text-transliterated">{{
-        token.transliteratedWordValue
+      <span
+        v-if="showAnnotation(SHOW_TRANSLITERATION)"
+        class="text-transliterated"
+        >{{ token.transliteratedWordValue }}</span
+      >
+      <span v-if="showAnnotation(SHOW_LEMMA)" class="lemma">{{
+        token.lemma || '-'
       }}</span>
-      <span class="lemma">{{ token.lemma || '-' }}</span>
-      <span class="pos">{{ token.partOfSpeech || '-' }}</span>
-      <span class="analysis">{{ token.tag || '-' }}</span>
+      <span v-if="showAnnotation(SHOW_RELATIONSHIP)" class="pos">{{
+        token.partOfSpeech || '-'
+      }}</span>
+      <span v-if="showAnnotation(SHOW_TAG)" class="analysis">{{
+        token.tag || '-'
+      }}</span>
       <template v-if="hasGlosses">
-        <span class="gloss" :title="token.glossEng">{{
-          token.glossEng || '-'
-        }}</span>
-        <span class="gloss gloss-rtl" :title="token.glossFas">{{
-          token.glossFas || '-'
-        }}</span>
+        <span
+          v-if="showAnnotation(SHOW_GLOSS)"
+          class="gloss"
+          :title="token.glossEng"
+          >{{ token.glossEng || '-' }}</span
+        >
+        <span
+          v-if="showAnnotation('showGloss')"
+          class="gloss gloss-rtl"
+          :title="token.glossFas"
+          >{{ token.glossFas || '-' }}</span
+        >
       </template>
     </template>
     <template v-else-if="dictionaryEntriesMode">
@@ -53,6 +67,12 @@
     SELECT_NAMED_ENTITIES,
     SET_SELECTED_LEMMAS,
     SET_SELECTED_COMMENTARIES,
+    SHOW_TRANSLITERATION,
+    SHOW_LEMMA,
+    SHOW_RELATIONSHIP,
+    SHOW_TAG,
+    SHOW_GLOSS,
+
   } from '@scaife-viewer/store';
 
   export default {
@@ -82,6 +102,21 @@
           });
         }
       },
+      showAnnotation(propertyName) {
+        return this.interlinearMode
+          ? this.$store.state[MODULE_NS][propertyName]
+          : false;
+      },
+    },
+    data() {
+      // TODO: Constants versus data?
+      return {
+        SHOW_TRANSLITERATION,
+        SHOW_LEMMA,
+        SHOW_RELATIONSHIP,
+        SHOW_TAG,
+        SHOW_GLOSS,
+      }
     },
     computed: {
       commentary() {

@@ -12,6 +12,7 @@
       </ErrorMessage>
       <EmptyMessage v-else-if="data.lines.length === 0" />
       <template v-else>
+        <InterlinearModeToolbar />
         <Reader :textParts="data.lines" />
       </template>
     </template>
@@ -37,6 +38,9 @@
     SHOW_GLOSS,
   } from '@scaife-viewer/store';
 
+
+  import InterlinearModeToolbar from './InterlinearModeToolbar.vue';
+
   export default {
     readerConfig: {
       label: 'Interlinear',
@@ -48,7 +52,14 @@
         [SHOW_GLOSS]: true,
       },
     },
-    components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage, Reader },
+    components: {
+      ApolloQuery,
+      LoaderBall,
+      ErrorMessage,
+      EmptyMessage,
+      Reader,
+      InterlinearModeToolbar,
+    },
     props: {
       queryVariables: Object,
     },
