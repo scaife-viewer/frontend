@@ -50,6 +50,7 @@
       child() {
         return (this.selected.children || []).indexOf(this.word.id) > -1;
       },
+      // TODO: Prefer constants
       showRelationship() {
         return this.$store.state[MODULE_NS].showRelationship;
       },

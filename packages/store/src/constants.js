@@ -63,3 +63,9 @@ export const TOGGLE_READER_SYNC_COMMENTARY = 'toggleReaderSyncCommentary';
 export const SET_COMMENTARIES = 'setCommentaries';
 export const SET_SELECTED_COMMENTARIES = 'setSelectedCommentaries';
 export const CLEAR_SELECTED_COMMENTARIES = 'clearSelectedCommentaries';
+
+export const SHOW_TRANSLITERATION = 'showTransliteration';
+export const SHOW_LEMMA = 'showLemma';
+export const SHOW_RELATIONSHIP = 'showRelationship';
+export const SHOW_TAG = 'showTag';
+export const SHOW_GLOSS = 'showGloss';

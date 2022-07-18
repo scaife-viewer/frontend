@@ -43,6 +43,11 @@ import {
   SET_COMMENTARIES,
   SET_SELECTED_COMMENTARIES,
   CLEAR_SELECTED_COMMENTARIES,
+  SHOW_TRANSLITERATION,
+  SHOW_LEMMA,
+  SHOW_RELATIONSHIP,
+  SHOW_TAG,
+  SHOW_GLOSS,
 } from './constants';
 
 const displayName = name => {
@@ -78,11 +83,11 @@ const getDefaultState = () => ({
   // Could also impact interlinear
   // TODO: Make this state collection-scoped
   // (especially as far as gloss, which we may not always have)
-  showTag: false,
-  showRelationship: true,
-  showTransliteration: false,
-  showLemma: false,
-  showGloss: false,
+  [SHOW_TRANSLITERATION]: false,
+  [SHOW_LEMMA]: false,
+  [SHOW_RELATIONSHIP]: true,
+  [SHOW_TAG]: false,
+  [SHOW_GLOSS]: false,
   // TODO: More on storage of these toggles
   // TODO: Standardize labels (available vs resolved)
   showCitedLemmas: true,

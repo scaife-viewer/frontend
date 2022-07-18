@@ -20,12 +20,13 @@
 
 <script>
   import { MODULE_NS } from '@scaife-viewer/store';
-  import { MODE_EXPAND, MODE_COMPRESS, TOGGLES } from './constants';
+  import { TOKEN_ANNOTATION_TOGGLES } from '@scaife-viewer/common';
+  import { MODE_EXPAND, MODE_COMPRESS } from './constants';
 
   export default {
     props: ['expandAll'],
     data() {
-      return { toggles: TOGGLES };
+      return { toggles: TOKEN_ANNOTATION_TOGGLES };
     },
     methods: {
       onShow() {
