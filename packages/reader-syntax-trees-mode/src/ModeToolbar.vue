@@ -7,32 +7,12 @@
     <div class="attr-toggles">
       <!-- TODO: show / hide toggles based on underlying collection data -->
       <span
-        :class="{ active: showTransliteration }"
-        @click.prevent="showTransliteration = !showTransliteration"
+        v-for="([propertyName, label], toggleIdx) in toggles"
+        :key="toggleIdx"
+        :class="{ active: isActive(propertyName) }"
+        @click.prevent="toggleProperty(propertyName)"
       >
-        Transliteration
-      </span>
-      <span
-        :class="{ active: showLemma }"
-        @click.prevent="showLemma = !showLemma"
-      >
-        Lemma
-      </span>
-      <span
-        :class="{ active: showRelationship }"
-        @click.prevent="showRelationship = !showRelationship"
-      >
-        Relationship
-      </span>
-      <span :class="{ active: showTag }" @click.prevent="showTag = !showTag">
-        Tag
-      </span>
-      <span
-        v-if="hasGlosses"
-        :class="{ active: showGloss }"
-        @click.prevent="showGloss = !showGloss"
-      >
-        Gloss
+        {{ label }}
       </span>
     </div>
   </div>
@@ -40,10 +20,13 @@
 
 <script>
   import { MODULE_NS } from '@scaife-viewer/store';
-  import { MODE_EXPAND, MODE_COMPRESS } from './constants';
+  import { MODE_EXPAND, MODE_COMPRESS, TOGGLES } from './constants';
 
   export default {
     props: ['expandAll'],
+    data() {
+      return { toggles: TOGGLES };
+    },
     methods: {
       onShow() {
         this.$emit(
@@ -52,6 +35,12 @@
             ? MODE_EXPAND
             : MODE_COMPRESS,
         );
+      },
+      toggleProperty(propertyName) {
+        this[[propertyName]] = !this[propertyName];
+      },
+      isActive(propertyName) {
+        return this[[propertyName]];
       },
     },
     computed: {
