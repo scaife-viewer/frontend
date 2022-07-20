@@ -22,14 +22,30 @@
           </a>
         </div>
       </div>
-      <component
-        v-if="recordsExistForPassage"
-        :is="alignmentsComponent"
-        :data="textAlignmentRecords"
-        :textSize="textSize"
-        :textWidth="textWidth"
-        :highlightUnaligned="highlightUnaligned"
-      />
+      <template v-if="recordsExistForPassage">
+        <component
+          :is="alignmentsComponent"
+          :data="textAlignmentRecords"
+          :textSize="textSize"
+          :textWidth="textWidth"
+          :highlightUnaligned="highlightUnaligned"
+        />
+        <template v-if="showMetadata">
+          <!--
+            FIXME: Remove hard-coded URNs once we have a solution for missing
+            data
+          -->
+          <div class="collapse-control metadata-control">
+            <a href @click.prevent="onMetadataCollapse">{{
+              metadataCollapsed ? 'Show Metadata' : 'Hide Metadata'
+            }}</a>
+          </div>
+          <AlignmentsMetadata
+            v-if="!metadataCollapsed"
+            :alignment="selectedAlignment"
+          />
+        </template>
+      </template>
       <EmptyMessage
         v-else-if="canSelectAnotherAlignment"
         class="empty-annotations"
@@ -51,6 +67,7 @@
   } from '@scaife-viewer/common';
   import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
+  import AlignmentsMetadata from './AlignmentsMetadata.vue';
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
   import RecordTokenAlignments from './RecordTokenAlignments.vue';
   import RegroupedAlignmentsPrototype from './RegroupedAlignmentsPrototype.vue';
@@ -68,6 +85,7 @@
         errors: false,
         highlightUnaligned:
           this.$scaife.config.highlightUnalignedTokens || false,
+        metadataCollapsed: true,
       };
     },
     components: {
@@ -75,10 +93,17 @@
       EmptyMessage,
       ErrorMessage,
       ReaderLink,
+      AlignmentsMetadata,
     },
     computed: {
       passageHasAlignments() {
         return this.textAlignments && this.textAlignments.length > 0;
+      },
+      showMetadata() {
+        const critoAlignments = this.textAlignments.filter(
+          alignment => alignment.value.indexOf('crito') > -1,
+        );
+        return critoAlignments.length > 0;
       },
       recordsExistForPassage() {
         return (
@@ -179,6 +204,9 @@
             }),
           };
         });
+      },
+      onMetadataCollapse() {
+        this.metadataCollapsed = !this.metadataCollapsed;
       },
     },
     apollo: {
@@ -368,5 +396,9 @@
   }
   .toggle-container {
     padding-inline-start: 1em;
+  }
+  .collapse-control {
+    font-size: 80%;
+    margin-bottom: 0.5em;
   }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="attributions-container">
+    <!-- TODO: handle empty scenarios -->
     <div
       :key="roleGroup[0]"
       class="attribution-row"
