@@ -84,7 +84,9 @@
                 versionLabel: version.data.metadata.label,
                 workLabel: work.data.metadata.label,
                 textGroupLabel: textGroup.data.metadata.label,
-                urn: version.data.metadata.firstPassageUrn || version.data.urn,
+                versionUrn: version.data.urn,
+                firstPassageUrn:
+                  version.data.metadata.firstPassageUrn || version.data.urn,
               };
             });
           });
@@ -116,6 +118,7 @@
         });
       },
       onFilter(data, query) {
+        // TODO: Regroup results similar to SV 1
         this.searchResults = data;
         if (query) {
           this.displaySearchResults = true;
