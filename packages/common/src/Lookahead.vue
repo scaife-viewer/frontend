@@ -7,6 +7,7 @@
         :placeholder="placeholder"
         @input="onInput"
       />
+      <!-- TODO: Add an affordance for clearing query -->
     </div>
   </div>
 </template>
@@ -32,7 +33,7 @@
         // Prevents intermediate flash reload of stale data on query reset.
         if (this.reduce) {
           this.results = this.reducer(this.data, this.query);
-          this.$emit('filter-data', this.results);
+          this.$emit('filter-data', this.results, this.query);
         }
         this.reduce = true;
       },
