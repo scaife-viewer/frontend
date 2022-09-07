@@ -40,6 +40,7 @@
       resetQuery() {
         this.query = '';
         this.reduce = false;
+        this.$emit('filter-data', this.results, this.query);
       },
       onInput() {
         debounce(e => {
