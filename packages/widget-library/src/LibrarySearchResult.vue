@@ -1,17 +1,25 @@
 <template>
   <div class="search-result" @click="handleClick">
-    <div>
-      <span class="tg-label">{{ result.textGroupLabel }}</span>
-      <span class="work-label">{{ result.workLabel }}</span>
-    </div>
-    <ReaderLink
-      :title="result.versionLabel"
-      :urn="result.firstPassageUrn"
-      :noQuery="true"
-      :class="{ highlight }"
+    <div
+      v-for="(versions, workIdx) in versionsByWork"
+      :key="workIdx"
+      class="result-row"
     >
-      {{ result.versionLabel }}
-    </ReaderLink>
+      <div>
+        <span class="tg-label">{{ textGroupLabel }}</span>
+        <span class="work-label">{{ workLabel(versions[0]) }}</span>
+      </div>
+      <ReaderLink
+        v-for="(version, idx) in versions"
+        :key="idx"
+        :title="version.versionLabel"
+        :urn="version.firstPassageUrn"
+        :noQuery="true"
+        :class="{ highlight: highlight(version), 'version-link': true }"
+      >
+        {{ version.versionLabel }}
+      </ReaderLink>
+    </div>
   </div>
 </template>
 
@@ -26,13 +34,25 @@
       ReaderLink,
     },
     computed: {
+      textGroupLabel() {
+        return this.versions[0].textGroupLabel;
+      },
+      versions() {
+        return this.result;
+      },
       readerUrn() {
         return this.$store.getters[`${MODULE_NS}/urn`];
       },
-      highlight() {
-        return (
-          this.readerUrn && this.readerUrn.version === this.result.versionUrn
-        );
+      versionsByWork() {
+        const byWork = new Map();
+        this.result.forEach(version => {
+          const key = version.workUrn;
+          const versions = byWork.get(key) || [];
+          versions.push(version);
+          byWork.set(key, versions);
+        });
+        const regrouped = byWork.values();
+        return regrouped;
       },
     },
     methods: {
@@ -44,6 +64,12 @@
           query: this.$route.query,
         });
       },
+      highlight(version) {
+        return this.readerUrn && this.readerUrn.version === version.versionUrn;
+      },
+      workLabel(version) {
+        return version.workLabel;
+      },
     },
   };
 </script>
@@ -52,6 +78,9 @@
   .search-result {
     font-size: 0.8em;
     margin: 0.75em 0;
+  }
+  .result-row {
+    margin-bottom: 1em;
   }
   .tg-label {
     font-weight: bold;
@@ -64,5 +93,9 @@
   }
   .highlight {
     font-weight: 700;
+  }
+  .version-link {
+    margin: 0.25em 0;
+    display: block;
   }
 </style>

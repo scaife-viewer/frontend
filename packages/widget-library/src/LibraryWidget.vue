@@ -12,7 +12,7 @@
       <!-- TODO: Affordance for clearing results -->
       <div v-if="displaySearchResults">
         <LibrarySearchResult
-          v-for="(result, idx) in searchResults"
+          v-for="(result, idx) in regroupedResults"
           :key="idx"
           :result="result"
         />
@@ -83,7 +83,9 @@
               return {
                 versionLabel: version.data.metadata.label,
                 workLabel: work.data.metadata.label,
+                workUrn: work.data.urn,
                 textGroupLabel: textGroup.data.metadata.label,
+                textGroupUrn: textGroup.data.urn,
                 versionUrn: version.data.urn,
                 firstPassageUrn:
                   version.data.metadata.firstPassageUrn || version.data.urn,
@@ -98,6 +100,17 @@
           .reduce((a, b) => {
             return a.concat(b);
           });
+      },
+      regroupedResults() {
+        const byTextGroup = new Map();
+        this.searchResults.forEach(version => {
+          const key = version.textGroupUrn
+          const versions = byTextGroup.get(key) || [];
+          versions.push(version);
+          byTextGroup.set(key, versions);
+        });
+        const regrouped = byTextGroup.values();
+        return regrouped;
       },
     },
     methods: {
