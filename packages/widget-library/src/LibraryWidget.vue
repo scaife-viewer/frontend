@@ -47,9 +47,12 @@
         `,
         update(data) {
           const nid = data.tree.tree[0];
-          return nid.children.reduce((a, b) => {
+          const nidReduced = nid.children.reduce((a, b) => {
             return a.concat(b.children);
           }, []);
+          return this.alphaSortTextGroups
+            ? this.sortedTextGroups(nidReduced)
+            : nidReduced;
         },
       },
     },
@@ -104,13 +107,17 @@
       regroupedResults() {
         const byTextGroup = new Map();
         this.searchResults.forEach(version => {
-          const key = version.textGroupUrn
+          const key = version.textGroupUrn;
           const versions = byTextGroup.get(key) || [];
           versions.push(version);
           byTextGroup.set(key, versions);
         });
         const regrouped = byTextGroup.values();
         return regrouped;
+      },
+      alphaSortTextGroups() {
+        const { alphaSortTextGroups } = this.$scaife.config;
+        return alphaSortTextGroups !== undefined ? alphaSortTextGroups : true;
       },
     },
     methods: {
@@ -138,6 +145,12 @@
         } else {
           this.displaySearchResults = false;
         }
+      },
+      // TODO: Prefer a site-develoepr configurable callback
+      sortedTextGroups(data) {
+        return data.sort((a, b) =>
+          a.data.metadata.label.localeCompare(b.data.metadata.label),
+        );
       },
     },
   };
