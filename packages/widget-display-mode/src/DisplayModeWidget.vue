@@ -1,17 +1,21 @@
 <template>
   <div class="display-mode-widget">
-    <div
-      v-for="mode in displayModes"
-      :key="mode.mode"
-      :class="{ active: mode.active }"
-      @click.prevent="setMode(mode)"
-    >
-      {{ mode.label }}
-    </div>
+    <LoaderBall v-if="$apollo.queries.displayModeHints.loading" />
+    <template v-else>
+      <div
+        v-for="mode in displayModes"
+        :key="mode.mode"
+        :class="{ active: mode.active }"
+        @click.prevent="setMode(mode)"
+      >
+        {{ mode.label }}
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
+  import gql from 'graphql-tag';
   import {
     MODULE_NS,
     LAYOUT_WIDTH_WIDE,
@@ -26,6 +30,10 @@
       singleton: true,
     },
     computed: {
+      version() {
+        const urn = this.$store.getters[`${MODULE_NS}/urn`];
+        return urn ? urn.version : null;
+      },
       displayModeKey() {
         return this.$store.getters[`${MODULE_NS}/displayMode`];
       },
@@ -41,7 +49,32 @@
           component: readerComponents[key],
           mode: key,
           active: this.displayModeKey === key,
+          available: this.displayModeHints ? this.displayModeHints[key] : false,
         }));
+      },
+    apollo: {
+      displayModeHints: {
+        query: gql`
+          query DisplayModeHints($urn: String!) {
+            versions(urn: $urn) {
+              edges {
+                node {
+                  id
+                  displayModeHints
+                }
+              }
+            }
+          }
+        `,
+        variables() {
+          return { urn: `${this.version}` };
+        },
+        update(data) {
+          return data.versions.edges[0].node.displayModeHints;
+        },
+        skip() {
+          return this.version === null;
+        },
       },
     },
     methods: {
