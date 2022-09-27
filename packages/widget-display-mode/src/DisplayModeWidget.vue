@@ -122,6 +122,16 @@
       displayMode: {
         immediate: true,
         handler(newVal, oldVal) {
+          if (
+            newVal &&
+            this.availableDisplayModes.length &&
+            !newVal.available
+          ) {
+            // NOTE: This is a guard rail added to prevent the user
+            // from navigating into a bad reader state
+            this.setMode({ mode: DISPLAY_MODE_DEFAULT });
+            return;
+          }
           if (!oldVal || newVal.mode !== oldVal.mode) {
             this.applyModeLayout(newVal);
             this.applyAnnotationToggles(newVal);
