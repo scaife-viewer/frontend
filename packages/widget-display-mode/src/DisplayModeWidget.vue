@@ -3,7 +3,7 @@
     <LoaderBall v-if="$apollo.queries.displayModeHints.loading" />
     <template v-else>
       <div
-        v-for="mode in displayModes"
+        v-for="mode in availableDisplayModes"
         :key="mode.mode"
         :class="{ active: mode.active }"
         @click.prevent="setMode(mode)"
@@ -18,6 +18,7 @@
   import gql from 'graphql-tag';
   import {
     MODULE_NS,
+    DISPLAY_MODE_DEFAULT,
     LAYOUT_WIDTH_WIDE,
     SET_MAIN_LAYOUT_WIDTH_NORMAL,
     SET_MAIN_LAYOUT_WIDTH_WIDE,
@@ -52,6 +53,15 @@
           available: this.displayModeHints ? this.displayModeHints[key] : false,
         }));
       },
+      availableDisplayModes() {
+        if (this.displayModeHints) {
+          return this.displayModes.filter(mode => mode.available);
+        }
+        return this.displayModes.filter(
+          mode => mode.mode === DISPLAY_MODE_DEFAULT,
+        );
+      },
+    },
     apollo: {
       displayModeHints: {
         query: gql`
