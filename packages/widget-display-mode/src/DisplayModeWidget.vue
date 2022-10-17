@@ -124,7 +124,8 @@
         handler(newVal, oldVal) {
           if (
             newVal &&
-            this.availableDisplayModes.length &&
+            this.$apollo.queries.displayModeHints &&
+            !this.$apollo.queries.displayModeHints.loading &&
             !newVal.available
           ) {
             // NOTE: This is a guard rail added to prevent the user
