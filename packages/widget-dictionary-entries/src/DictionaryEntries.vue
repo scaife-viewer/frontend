@@ -97,6 +97,9 @@
       },
       entriesByHeadwordMap() {
         const byHeadword = new Map();
+        if (!this.filteredEntries) {
+          return byHeadword;
+        };
         this.filteredEntries.forEach(entry => {
           const key = entry.headwordNormalized;
           const lookupValue = byHeadword.get(key) || [];
