@@ -27,6 +27,8 @@ export const SET_CITATION_DISPLAY = 'setCitationDisplay';
 
 export const SELECT_NAMED_ENTITIES = 'selectNamedEntities';
 export const CLEAR_NAMED_ENTITIES = 'clearNamedEntities';
+export const SELECT_GRAMMATICAL_ENTRIES = 'selectGrammaticalEntries';
+export const CLEAR_GRAMMATICAL_ENTRIES = 'clearGrammaticalEnries';
 export const SET_TEXT_SIZE = 'setTextSize';
 export const SET_TEXT_WIDTH = 'setTextWidth';
 export const SELECT_LINE = 'selectLine';

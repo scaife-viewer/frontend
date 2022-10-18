@@ -48,6 +48,8 @@ import {
   SHOW_RELATIONSHIP,
   SHOW_TAG,
   SHOW_GLOSS,
+  SELECT_GRAMMATICAL_ENTRIES,
+  CLEAR_GRAMMATICAL_ENTRIES,
 } from './constants';
 
 const displayName = name => {
@@ -75,6 +77,7 @@ const getDefaultState = () => ({
   selectedLine: null,
   selectedToken: null,
   selectedNamedEntities: [],
+  selectedGrammaticalEntries: [],
   // TODO: Add action to set selectedLemmas from selected token(s)
   selectedLemmas: [],
   senseExpansion: SENSE_EXPANSION_PASSAGE,
@@ -230,6 +233,12 @@ const createStore = client => {
         [CLEAR_NAMED_ENTITIES]: state => {
           state.selectedNamedEntities = [];
         },
+        [SELECT_GRAMMATICAL_ENTRIES]: (state, entries) => {
+          state.selectedGrammaticalEntries = entries;
+        },
+        [CLEAR_GRAMMATICAL_ENTRIES]: state => {
+          state.selectedGrammaticalEntries = [];
+        },
         [FETCH_METADATA]: (state, metadata) => {
           state.metadata = metadata;
         },
@@ -321,6 +330,12 @@ const createStore = client => {
         },
         [CLEAR_NAMED_ENTITIES]: ({ commit }) => {
           commit(CLEAR_NAMED_ENTITIES);
+        },
+        [SELECT_GRAMMATICAL_ENTRIES]: ({ commit }, { entries }) => {
+          commit(SELECT_GRAMMATICAL_ENTRIES, entries);
+        },
+        [CLEAR_GRAMMATICAL_ENTRIES]: ({ commit }) => {
+          commit(CLEAR_GRAMMATICAL_ENTRIES);
         },
         [FETCH_METADATA]: ({ commit }) => {
           client
