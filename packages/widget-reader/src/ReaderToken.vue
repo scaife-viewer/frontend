@@ -5,12 +5,16 @@
       selected,
       interlinear: interlinearMode,
       'entity-mode': namedEntitiesMode,
+      'grammatical-entries-mode': grammaticalEntriesMode,
       'dictionary-entries-mode': dictionaryEntriesMode,
       'lemma-cited': citedLemma,
       'lemma-resolved': availableLemma,
       'lemma-excluded': missingLemma,
       entity: namedEntitiesMode && isEntity,
       'selected-entity': namedEntitiesMode && hasSelectedEntity,
+      'grammatical-entry': grammaticalEntriesMode && isGrammaticalEntry,
+      'selected-grammatical-entry':
+        grammaticalEntriesMode && hasSelectedGrammaticalEntry,
       commentary: commentariesMode && isCommentary,
       'selected-commentary': commentariesMode && hasSelectedCommentary,
     }"
@@ -65,6 +69,8 @@
     SELECT_TOKEN,
     CLEAR_NAMED_ENTITIES,
     SELECT_NAMED_ENTITIES,
+    CLEAR_GRAMMATICAL_ENTRIES,
+    SELECT_GRAMMATICAL_ENTRIES,
     SET_SELECTED_LEMMAS,
     SET_SELECTED_COMMENTARIES,
     SHOW_TRANSLITERATION,
@@ -81,6 +87,7 @@
       onSelect() {
         if (this.selected) {
           this.$store.dispatch(`${MODULE_NS}/${CLEAR_NAMED_ENTITIES}`);
+          this.$store.dispatch(`${MODULE_NS}/${CLEAR_GRAMMATICAL_ENTRIES}`);
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: null,
           });
@@ -93,6 +100,9 @@
         } else {
           this.$store.dispatch(`${MODULE_NS}/${SELECT_NAMED_ENTITIES}`, {
             entities: this.entities,
+          });
+          this.$store.dispatch(`${MODULE_NS}/${SELECT_GRAMMATICAL_ENTRIES}`, {
+            entries: this.grammaticalEntries,
           });
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: this.token,
@@ -116,7 +126,7 @@
         SHOW_RELATIONSHIP,
         SHOW_TAG,
         SHOW_GLOSS,
-      }
+      };
     },
     computed: {
       commentary() {
@@ -131,8 +141,14 @@
       selectedEntities() {
         return this.$store.state[MODULE_NS].selectedNamedEntities;
       },
+      selectedGrammaticalEntries() {
+        return this.$store.state[MODULE_NS].selectedGrammaticalEntries;
+      },
       interlinearMode() {
         return this.$store.getters[`${MODULE_NS}/interlinearMode`];
+      },
+      grammaticalEntriesMode() {
+        return this.$store.getters[`${MODULE_NS}/grammaticalEntriesMode`];
       },
       namedEntitiesMode() {
         return this.$store.getters[`${MODULE_NS}/namedEntitiesMode`];
@@ -157,6 +173,21 @@
           ).length > 0
         );
       },
+      grammaticalEntries() {
+        return (this.token && this.token.grammaticalEntries) || [];
+      },
+      isGrammaticalEntry() {
+        return this.grammaticalEntries.length > 0;
+      },
+      hasSelectedGrammaticalEntry() {
+        return (
+          this.grammaticalEntries.filter(
+            id =>
+              this.selectedGrammaticalEntries.filter(sid => sid === id).length >
+              0,
+          ).length > 0
+        );
+      },
       selected() {
         if (!this.selectedToken) {
           return false;
@@ -167,6 +198,14 @@
           return (
             veRef === this.token.veRef ||
             (entity && entity === this.entities[0])
+          );
+        }
+        if (this.grammaticalEntriesMode) {
+          const { grammaticalEntries, veRef } = this.selectedToken;
+          const entry = grammaticalEntries[0];
+          return (
+            veRef === this.token.veRef ||
+            (entry && entry === this.grammaticalEntries[0])
           );
         }
         // TODO: Colors for dictionary entries mode
@@ -261,14 +300,18 @@
   .token.entity-mode:not(.entity) .text {
     cursor: inherit;
   }
-  .token.entity .text, .token.commentary .text {
+  .token.entity .text,
+  .token.grammatical-entry .text,
+  .token.commentary .text {
     box-shadow: 0 -10px 0px var(
         --sv-widget-reader-token-entity-shadow-color,
         #ff6
       ) inset;
   }
   // TODO: revisit highlight / selection implementation
-  .token.selected-entity .text, .token.selected-commentary .text {
+  .token.selected-entity .text,
+  .token.selected-grammatical-entry .text,
+  .token.selected-commentary .text {
     box-shadow: 0 -10px 0px var(
         --sv-widget-reader-token-selected-entity-shadow-color,
         #9f9

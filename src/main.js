@@ -12,6 +12,7 @@ import {
   DISPLAY_MODE_NAMED_ENTITIES,
   DISPLAY_MODE_COMMENTARIES,
   DISPLAY_MODE_SYNTAX_TREES,
+  DISPLAY_MODE_GRAMMATICAL_ENTRIES,
   DISPLAY_MODE_DEFAULT,
 } from '@scaife-viewer/store';
 import { SkeletonPlugin } from '@scaife-viewer/skeleton';
@@ -30,6 +31,9 @@ import CommentariesModeReader from '@scaife-viewer/reader-commentaries-mode';
 import NamedEntitiesModeReader, {
   iconMap as namedEntitesReaderIconMap,
 } from '@scaife-viewer/reader-named-entities-mode';
+// eslint-disable-next-line max-len
+import GrammaticalEntriesModeReader from '@scaife-viewer/reader-grammatical-entries-mode';
+
 import MetricalModeReader from '@scaife-viewer/reader-metrical-mode';
 import InterlinearModeReader from '@scaife-viewer/reader-interlinear-mode';
 import SyntaxTreesModeReader from '@scaife-viewer/reader-syntax-trees-mode';
@@ -71,6 +75,7 @@ Vue.use(SkeletonPlugin, {
       [DISPLAY_MODE_COMMENTARIES]: CommentariesModeReader,
       [DISPLAY_MODE_ALIGNMENTS]: AlignmentsModeReader,
       [DISPLAY_MODE_SYNTAX_TREES]: SyntaxTreesModeReader,
+      [DISPLAY_MODE_GRAMMATICAL_ENTRIES]: GrammaticalEntriesModeReader,
     },
     citationSchemeMap: {
       book: 'Books',

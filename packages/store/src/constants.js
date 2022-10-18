@@ -48,6 +48,7 @@ export const DISPLAY_MODE_DICTIONARY_ENTRIES = 'dictionary-entries';
 export const DISPLAY_MODE_NAMED_ENTITIES = 'named-entities';
 export const DISPLAY_MODE_COMMENTARIES = 'commentaries';
 export const DISPLAY_MODE_SYNTAX_TREES = 'syntax-trees';
+export const DISPLAY_MODE_GRAMMATICAL_ENTRIES = 'grammatical-entries';
 export const DISPLAY_MODE_DEFAULT = 'default';
 
 export const CITATION_DISPLAY_REFS = 'refs';

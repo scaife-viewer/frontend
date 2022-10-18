@@ -50,6 +50,7 @@ import {
   SHOW_GLOSS,
   SELECT_GRAMMATICAL_ENTRIES,
   CLEAR_GRAMMATICAL_ENTRIES,
+  DISPLAY_MODE_GRAMMATICAL_ENTRIES,
 } from './constants';
 
 const displayName = name => {
@@ -132,6 +133,9 @@ const createStore = client => {
         },
         namedEntitiesMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_NAMED_ENTITIES;
+        },
+        grammaticalEntriesMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_GRAMMATICAL_ENTRIES;
         },
         commentariesMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_COMMENTARIES;
