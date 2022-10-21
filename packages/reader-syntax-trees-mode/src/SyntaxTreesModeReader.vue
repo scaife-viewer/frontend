@@ -43,7 +43,7 @@
     SHOW_TRANSLITERATION,
     SHOW_LEMMA,
     SHOW_RELATIONSHIP,
-    SHOW_TAG,
+    SHOW_MORPH_TAG,
     SHOW_GLOSS,
   } from '@scaife-viewer/store';
 
@@ -103,7 +103,7 @@
         [SHOW_TRANSLITERATION]: false,
         [SHOW_LEMMA]: false,
         [SHOW_RELATIONSHIP]: true,
-        [SHOW_TAG]: false,
+        [SHOW_MORPH_TAG]: false,
         [SHOW_GLOSS]: false,
       },
     },

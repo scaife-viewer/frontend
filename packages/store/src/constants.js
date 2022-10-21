@@ -70,5 +70,5 @@ export const CLEAR_SELECTED_COMMENTARIES = 'clearSelectedCommentaries';
 export const SHOW_TRANSLITERATION = 'showTransliteration';
 export const SHOW_LEMMA = 'showLemma';
 export const SHOW_RELATIONSHIP = 'showRelationship';
-export const SHOW_TAG = 'showTag';
+export const SHOW_MORPH_TAG = 'showTag';
 export const SHOW_GLOSS = 'showGloss';

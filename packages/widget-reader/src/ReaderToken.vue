@@ -34,7 +34,7 @@
       <span v-if="showAnnotation(SHOW_RELATIONSHIP)" class="pos">{{
         token.partOfSpeech || '-'
       }}</span>
-      <span v-if="showAnnotation(SHOW_TAG)" class="analysis">{{
+      <span v-if="showAnnotation(SHOW_MORPH_TAG)" class="analysis">{{
         token.tag || '-'
       }}</span>
       <template v-if="hasGlosses">
@@ -76,7 +76,7 @@
     SHOW_TRANSLITERATION,
     SHOW_LEMMA,
     SHOW_RELATIONSHIP,
-    SHOW_TAG,
+    SHOW_MORPH_TAG,
     SHOW_GLOSS,
 
   } from '@scaife-viewer/store';
@@ -124,7 +124,7 @@
         SHOW_TRANSLITERATION,
         SHOW_LEMMA,
         SHOW_RELATIONSHIP,
-        SHOW_TAG,
+        SHOW_MORPH_TAG,
         SHOW_GLOSS,
       };
     },
