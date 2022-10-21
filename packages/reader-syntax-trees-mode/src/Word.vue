@@ -14,7 +14,7 @@
     <div v-if="showRelationship" class="pos">
       {{ word.relation || '-' }}
     </div>
-    <div v-if="showTag" class="analysis">{{ word.tag || '-' }}</div>
+    <div v-if="showMorphTag" class="analysis">{{ word.tag || '-' }}</div>
     <template v-if="hasGlosses">
       <div v-if="showGloss" class="gloss">{{ word.glossEng || '-' }}</div>
       <div v-if="showGloss" class="gloss gloss-rtl">
@@ -25,7 +25,11 @@
 </template>
 
 <script>
-  import { MODULE_NS, SET_SELECTED_LEMMAS } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SET_SELECTED_LEMMAS,
+    SHOW_MORPH_TAG,
+  } from '@scaife-viewer/store';
 
   export default {
     props: ['word', 'selected'],
@@ -54,8 +58,8 @@
       showRelationship() {
         return this.$store.state[MODULE_NS].showRelationship;
       },
-      showTag() {
-        return this.$store.state[MODULE_NS].showTag;
+      showMorphTag() {
+        return this.$store.state[MODULE_NS][SHOW_MORPH_TAG];
       },
       showTransliteration() {
         return this.$store.state[MODULE_NS].showTransliteration;

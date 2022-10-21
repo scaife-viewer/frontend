@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, SHOW_MORPH_TAG } from '@scaife-viewer/store';
   import { TOKEN_ANNOTATION_TOGGLES } from '@scaife-viewer/common';
 
   export default {
@@ -46,13 +46,14 @@
           ].showRelationship;
         },
       },
-      showTag: {
+      showMorphTag: {
         get() {
-          return this.$store.state[MODULE_NS].showTag;
+          return this.$store.state[MODULE_NS][SHOW_MORPH_TAG];
         },
         set() {
-          this.$store.state[MODULE_NS].showTag = !this.$store.state[MODULE_NS]
-            .showTag;
+          this.$store.state[MODULE_NS][SHOW_MORPH_TAG] = !this.$store.state[
+            MODULE_NS
+          ][SHOW_MORPH_TAG];
         },
       },
       showLemma: {

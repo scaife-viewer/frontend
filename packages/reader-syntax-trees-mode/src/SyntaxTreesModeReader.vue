@@ -73,7 +73,7 @@
     if (options.showLemma) {
       parts.push(`<div class="node-lemma">${node.lemma}</div>`);
     }
-    if (options.showTag) {
+    if (options.showMorphTag) {
       parts.push(`<div class="node-tag">${node.tag}</div>`);
     }
     if (options.showGloss) {
@@ -182,7 +182,7 @@
           showTransliteration: this.$store.state[MODULE_NS].showTransliteration,
           showLemma: this.$store.state[MODULE_NS].showLemma,
           showGloss: this.hasGlosses && this.$store.state[MODULE_NS].showGloss,
-          showTag: this.$store.state[MODULE_NS].showTag,
+          showMorphTag: this.$store.state[MODULE_NS][SHOW_MORPH_TAG],
           showRelationship: this.$store.state[MODULE_NS].showRelationship,
         };
       },
