@@ -15,6 +15,9 @@
       {{ word.relation || '-' }}
     </div>
     <div v-if="showMorphTag" class="analysis">{{ word.tag || '-' }}</div>
+    <div v-if="showGrammaticalTags" class="analysis">
+      {{ grammaticalTags }}
+    </div>
     <template v-if="hasGlosses">
       <div v-if="showGloss" class="gloss">{{ word.glossEng || '-' }}</div>
       <div v-if="showGloss" class="gloss gloss-rtl">
@@ -29,6 +32,7 @@
     MODULE_NS,
     SET_SELECTED_LEMMAS,
     SHOW_MORPH_TAG,
+    SHOW_GRAMMATICAL_TAGS,
   } from '@scaife-viewer/store';
 
   export default {
@@ -61,6 +65,9 @@
       showMorphTag() {
         return this.$store.state[MODULE_NS][SHOW_MORPH_TAG];
       },
+      showGrammaticalTags() {
+        return this.$store.state[MODULE_NS][SHOW_GRAMMATICAL_TAGS];
+      },
       showTransliteration() {
         return this.$store.state[MODULE_NS].showTransliteration;
       },
@@ -75,6 +82,11 @@
       },
       hasGlosses() {
         return this.passage.textGroup === 'tlg0012';
+      },
+      grammaticalTags() {
+        return this.word.grammaticalTags
+          ? this.word.grammaticalTags.join('|')
+          : '-';
       },
     },
     methods: {

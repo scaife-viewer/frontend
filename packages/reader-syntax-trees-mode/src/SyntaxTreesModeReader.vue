@@ -44,6 +44,7 @@
     SHOW_LEMMA,
     SHOW_RELATIONSHIP,
     SHOW_MORPH_TAG,
+    SHOW_GRAMMATICAL_TAGS,
     SHOW_GLOSS,
   } from '@scaife-viewer/store';
 
@@ -76,6 +77,12 @@
     if (options.showMorphTag) {
       parts.push(`<div class="node-tag">${node.tag}</div>`);
     }
+    if (options[SHOW_GRAMMATICAL_TAGS]) {
+      const grammaticalTags = node.grammaticalTags
+        ? node.grammaticalTags.join('|')
+        : '-';
+      parts.push(`<div class="node-tag">${grammaticalTags}</div>`);
+    }
     if (options.showGloss) {
       parts.push(`<div class="node-gloss">${node.glossEng || '-'}</div>`);
       parts.push(
@@ -104,6 +111,7 @@
         [SHOW_LEMMA]: false,
         [SHOW_RELATIONSHIP]: true,
         [SHOW_MORPH_TAG]: false,
+        [SHOW_GRAMMATICAL_TAGS]: false,
         [SHOW_GLOSS]: false,
       },
     },
@@ -134,7 +142,34 @@
       onShow(expandAll) {
         this.expandAll = expandAll;
       },
+      extractGrammaticalTags(textPartEdges) {
+        // TODO: Optimize when this query is invoked
+        // TODO: Tighten up mapping by either
+        // A) Tying tokens to words more explicitly upstream
+        // B) Resolving words to to tokens using subrefs or
+        // lemmas
+        const tagsByRefWord = new Map();
+        textPartEdges.forEach(textPartEdge => {
+          textPartEdge.node.tokens.edges.forEach(tokenEdge => {
+            const { veRef, wordValue } = tokenEdge.node;
+            const ref = veRef.split('.t')[0];
+            const key = `${ref}-${wordValue}`;
+            tokenEdge.node.gramatticalEntries.edges.forEach(grammaticalEdge => {
+              const { label } = grammaticalEdge.node;
+              const lookupValue = tagsByRefWord.get(key) || [];
+              lookupValue.push(label);
+              tagsByRefWord.set(key, lookupValue);
+            });
+          });
+        });
+        return tagsByRefWord;
+      },
       queryUpdate(data) {
+        // NOTE: We are only invoking these for Iliad Greek
+        // because we don't have any further grammars at this time.
+        const grammaticalTagsByRefWord = this.isIliadGreek
+          ? this.extractGrammaticalTags(data.passageTextParts.edges)
+          : new Map();
         const trees = data.syntaxTrees.edges.map(tree => {
           const words = tree.node.data.words.map(word => ({
             ...word,
@@ -159,6 +194,10 @@
             } else {
               wordBank[word.headId].children.push(word);
             }
+            const subRefKey = `${word.ref}-${word.value}`;
+            // eslint-disable-next-line no-param-reassign
+            word.grammaticalTags =
+              grammaticalTagsByRefWord.get(subRefKey) || null;
           });
           return {
             tree: transformForTreant(root, this.displayOptions),
@@ -183,6 +222,9 @@
           showLemma: this.$store.state[MODULE_NS].showLemma,
           showGloss: this.hasGlosses && this.$store.state[MODULE_NS].showGloss,
           showMorphTag: this.$store.state[MODULE_NS][SHOW_MORPH_TAG],
+          [SHOW_GRAMMATICAL_TAGS]: this.$store.state[MODULE_NS][
+            SHOW_GRAMMATICAL_TAGS
+          ],
           showRelationship: this.$store.state[MODULE_NS].showRelationship,
         };
       },
@@ -263,6 +305,30 @@
                   data
                   collection {
                     id
+                  }
+                }
+              }
+            }
+            passageTextParts(reference: $urn) {
+              edges {
+                node {
+                  id
+                  tokens {
+                    edges {
+                      node {
+                        id
+                        veRef
+                        wordValue
+                        gramatticalEntries {
+                          edges {
+                            node {
+                              id
+                              label
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }

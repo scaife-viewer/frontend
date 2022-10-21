@@ -19,7 +19,11 @@
 </template>
 
 <script>
-  import { MODULE_NS, SHOW_MORPH_TAG } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SHOW_MORPH_TAG,
+    SHOW_GRAMMATICAL_TAGS,
+  } from '@scaife-viewer/store';
   import { TOKEN_ANNOTATION_TOGGLES } from '@scaife-viewer/common';
   import { MODE_EXPAND, MODE_COMPRESS } from './constants';
 
@@ -72,6 +76,15 @@
           this.$store.state[MODULE_NS][SHOW_MORPH_TAG] = !this.$store.state[
             MODULE_NS
           ][SHOW_MORPH_TAG];
+        },
+      },
+      [SHOW_GRAMMATICAL_TAGS]: {
+        get() {
+          return this.$store.state[MODULE_NS][SHOW_GRAMMATICAL_TAGS];
+        },
+        set() {
+          this.$store.state[MODULE_NS][SHOW_GRAMMATICAL_TAGS] = !this.$store
+            .state[MODULE_NS][SHOW_GRAMMATICAL_TAGS];
         },
       },
       showLemma: {
