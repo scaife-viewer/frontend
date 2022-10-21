@@ -35,6 +35,7 @@
     SHOW_LEMMA,
     SHOW_RELATIONSHIP,
     SHOW_MORPH_TAG,
+    SHOW_GRAMMATICAL_TAGS,
     SHOW_GLOSS,
   } from '@scaife-viewer/store';
 
@@ -49,6 +50,7 @@
         [SHOW_LEMMA]: true,
         [SHOW_RELATIONSHIP]: true,
         [SHOW_MORPH_TAG]: true,
+        [SHOW_GRAMMATICAL_TAGS]: true,
         [SHOW_GLOSS]: true,
       },
     },

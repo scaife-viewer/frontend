@@ -4,6 +4,7 @@ import {
   SHOW_LEMMA,
   SHOW_RELATIONSHIP,
   SHOW_MORPH_TAG,
+  SHOW_GRAMMATICAL_TAGS,
   SHOW_GLOSS,
 } from '@scaife-viewer/store';
 
@@ -13,5 +14,6 @@ export const TOKEN_ANNOTATION_TOGGLES = new Map([
   [SHOW_LEMMA, 'Lemma'],
   [SHOW_RELATIONSHIP, 'Relationship'],
   [SHOW_MORPH_TAG, 'Morph. Tag'],
+  [SHOW_GRAMMATICAL_TAGS, 'Gram. Tags'],
   [SHOW_GLOSS, 'Gloss'],
 ]);

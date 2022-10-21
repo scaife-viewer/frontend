@@ -71,4 +71,5 @@ export const SHOW_TRANSLITERATION = 'showTransliteration';
 export const SHOW_LEMMA = 'showLemma';
 export const SHOW_RELATIONSHIP = 'showRelationship';
 export const SHOW_MORPH_TAG = 'showMorphTag';
+export const SHOW_GRAMMATICAL_TAGS = 'showGrammaticalTags';
 export const SHOW_GLOSS = 'showGloss';

@@ -16,7 +16,11 @@
 </template>
 
 <script>
-  import { MODULE_NS, SHOW_MORPH_TAG } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SHOW_MORPH_TAG,
+    SHOW_GRAMMATICAL_TAGS,
+  } from '@scaife-viewer/store';
   import { TOKEN_ANNOTATION_TOGGLES } from '@scaife-viewer/common';
 
   export default {
@@ -54,6 +58,15 @@
           this.$store.state[MODULE_NS][SHOW_MORPH_TAG] = !this.$store.state[
             MODULE_NS
           ][SHOW_MORPH_TAG];
+        },
+      },
+      showGrammaticalTags: {
+        get() {
+          return this.$store.state[MODULE_NS][SHOW_GRAMMATICAL_TAGS];
+        },
+        set() {
+          this.$store.state[MODULE_NS][SHOW_GRAMMATICAL_TAGS] = !this.$store
+            .state[MODULE_NS][SHOW_GRAMMATICAL_TAGS];
         },
       },
       showLemma: {

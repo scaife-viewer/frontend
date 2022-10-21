@@ -47,6 +47,7 @@ import {
   SHOW_LEMMA,
   SHOW_RELATIONSHIP,
   SHOW_MORPH_TAG,
+  SHOW_GRAMMATICAL_TAGS,
   SHOW_GLOSS,
   SELECT_GRAMMATICAL_ENTRIES,
   CLEAR_GRAMMATICAL_ENTRIES,
@@ -91,6 +92,7 @@ const getDefaultState = () => ({
   [SHOW_LEMMA]: false,
   [SHOW_RELATIONSHIP]: true,
   [SHOW_MORPH_TAG]: false,
+  [SHOW_GRAMMATICAL_TAGS]: false,
   [SHOW_GLOSS]: false,
   // TODO: More on storage of these toggles
   // TODO: Standardize labels (available vs resolved)
