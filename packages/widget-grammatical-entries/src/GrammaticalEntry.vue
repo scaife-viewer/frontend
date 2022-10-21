@@ -4,16 +4,16 @@
       class="grammatical-entry-title"
       @click.prevent="$emit('select', entry)"
     >
-      <span>
-        {{ entry.label }}
+      <span class="title" :class="{ selected }">
+        {{ entry.data.title }}
       </span>
       <span v-if="selected">x</span>
     </div>
     <div class="grammatical-entry-body" v-if="selected" :key="entry.id">
       <div
         class="grammatical-entry-content"
-        v-if="entry.data.content"
-        v-html="entry.data.content"
+        v-if="entry.data.description"
+        v-html="entry.data.description"
       />
     </div>
   </div>
@@ -64,13 +64,14 @@
   .grammatical-entry {
     margin: 0.375rem 0;
   }
+  // FIXME: Merge more styles in from dictionary entries widget
   .grammatical-entry-title {
     display: flex;
     justify-content: space-between;
     font-size: 14px;
     color: var(--sv-widget-grammatical-entries-title-text-color, #343a40);
     cursor: pointer;
-    &:hover {
+    &:hover, .selected {
       font-weight: 600;
     }
   }
