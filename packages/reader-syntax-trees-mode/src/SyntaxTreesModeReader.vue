@@ -154,7 +154,7 @@
             const { veRef, wordValue } = tokenEdge.node;
             const ref = veRef.split('.t')[0];
             const key = `${ref}-${wordValue}`;
-            tokenEdge.node.gramatticalEntries.edges.forEach(grammaticalEdge => {
+            tokenEdge.node.grammaticalEntries.edges.forEach(grammaticalEdge => {
               const { label } = grammaticalEdge.node;
               const lookupValue = tagsByRefWord.get(key) || [];
               lookupValue.push(label);
@@ -319,7 +319,7 @@
                         id
                         veRef
                         wordValue
-                        gramatticalEntries {
+                        grammaticalEntries {
                           edges {
                             node {
                               id

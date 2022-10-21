@@ -30,6 +30,7 @@
     EmptyMessage,
   } from '@scaife-viewer/common';
 
+  // TODO: Toggle refs on / off
   import {
     SHOW_TRANSLITERATION,
     SHOW_LEMMA,
@@ -93,7 +94,7 @@
                             }
                           }
                         }
-                        gramatticalEntries {
+                        grammaticalEntries {
                           edges {
                             node {
                               label
@@ -126,10 +127,9 @@
             const { lemma, partOfSpeech, tag } = annotationData;
             const glossEng = annotationData['gloss (eng)'];
             const glossFas = annotationData['gloss (fas)'];
-            // FIXME: grammatical typo
-            const grammmaticalEntryEdges =
-              tokenEdge.node.gramatticalEntries.edges;
-            const grammaticalTags = grammmaticalEntryEdges.map(geEdge => {
+            const grammaticalEntryEdges =
+              tokenEdge.node.grammaticalEntries.edges;
+            const grammaticalTags = grammaticalEntryEdges.map(geEdge => {
               return geEdge.node.label;
             });
             return {

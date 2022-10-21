@@ -9,6 +9,11 @@
       </span>
       <span v-if="selected">x</span>
     </div>
+    <!-- TODO: Improve display by moving from "body"
+    to "explanation" and "examples" fields.
+
+    This would require a data change upstream.
+     -->
     <div class="grammatical-entry-body" v-if="selected" :key="entry.id">
       <div
         class="grammatical-entry-content"
