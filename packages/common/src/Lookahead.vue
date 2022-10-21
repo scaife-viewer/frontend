@@ -40,7 +40,11 @@
       resetQuery() {
         this.query = '';
         this.reduce = false;
-        this.$emit('filter-data', this.results, this.query);
+        // FIXME: Since $route changes trigger lookahead changes,
+        // we may want to make the filter-data callback
+        // have a reset argument; for now, we'll just pass
+        // back the data.
+        this.$emit('filter-data', this.data, this.query);
       },
       onInput() {
         debounce(e => {
