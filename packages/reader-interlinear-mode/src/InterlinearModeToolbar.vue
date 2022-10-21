@@ -60,7 +60,7 @@
           ][SHOW_MORPH_TAG];
         },
       },
-      showGrammaticalTags: {
+      [SHOW_GRAMMATICAL_TAGS]: {
         get() {
           return this.$store.state[MODULE_NS][SHOW_GRAMMATICAL_TAGS];
         },

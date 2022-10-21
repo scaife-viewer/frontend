@@ -37,6 +37,9 @@
       <span v-if="showAnnotation(SHOW_MORPH_TAG)" class="analysis">{{
         token.tag || '-'
       }}</span>
+      <span v-if="showAnnotation(SHOW_GRAMMATICAL_TAGS)" class="analysis">
+        {{ grammaticalTags }}
+      </span>
       <template v-if="hasGlosses">
         <span
           v-if="showAnnotation(SHOW_GLOSS)"
@@ -77,6 +80,7 @@
     SHOW_LEMMA,
     SHOW_RELATIONSHIP,
     SHOW_MORPH_TAG,
+    SHOW_GRAMMATICAL_TAGS,
     SHOW_GLOSS,
 
   } from '@scaife-viewer/store';
@@ -125,6 +129,7 @@
         SHOW_LEMMA,
         SHOW_RELATIONSHIP,
         SHOW_MORPH_TAG,
+        SHOW_GRAMMATICAL_TAGS,
         SHOW_GLOSS,
       };
     },
@@ -280,6 +285,13 @@
               this.selectedCommentaries.filter(sid => sid === id).length > 0,
           ).length > 0
         );
+      },
+      grammaticalTags() {
+        // TODO: We may need to surface the underlying
+        // GraphQL id in the future
+        return this.token.grammaticalTags.length
+          ? this.token.grammaticalTags.join('|')
+          : '-';
       },
     },
   };

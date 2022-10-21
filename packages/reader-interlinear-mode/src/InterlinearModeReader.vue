@@ -93,6 +93,13 @@
                             }
                           }
                         }
+                        gramatticalEntries {
+                          edges {
+                            node {
+                              label
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -108,17 +115,23 @@
       queryUpdate(data) {
         const lines = data.passageTextParts.edges.map(line => {
           const { id, ref } = line.node;
-          const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef, transliteratedWordValue } = edge.node;
+          const tokens = line.node.tokens.edges.map(tokenEdge => {
+            const { value, veRef, transliteratedWordValue } = tokenEdge.node;
             // TODO: Improve encapsulation of additional annotation data
             const firstAnnotationEdge =
-              edge.node.annotations.edges.slice(0, 1)[0] || null;
+              tokenEdge.node.annotations.edges.slice(0, 1)[0] || null;
             const annotationData = firstAnnotationEdge
               ? firstAnnotationEdge.node.data
               : {};
             const { lemma, partOfSpeech, tag } = annotationData;
             const glossEng = annotationData['gloss (eng)'];
             const glossFas = annotationData['gloss (fas)'];
+            // FIXME: grammatical typo
+            const grammmaticalEntryEdges =
+              tokenEdge.node.gramatticalEntries.edges;
+            const grammaticalTags = grammmaticalEntryEdges.map(geEdge => {
+              return geEdge.node.label;
+            });
             return {
               value,
               veRef,
@@ -126,6 +139,7 @@
               lemma,
               partOfSpeech,
               tag,
+              grammaticalTags,
               glossEng,
               glossFas,
             };
