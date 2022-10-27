@@ -12,9 +12,15 @@
       />
       <!-- TODO: Attribution tied to collection of selected entry -->
       <Attribution v-if="showShamsianAttribution">
-        <a href="https://orcid.org/0000-0003-3743-4278" target="_blank">
-          Grammar by Farnoosh Shamsian
-        </a>
+        <hr />
+        From the
+        <a href="https://didakta.vercel.app" target="_blank"
+          >Didakta Modular Grammar</a
+        >
+        by
+        <a href="https://orcid.org/0000-0003-3743-4278" target="_blank"
+          >Farnoosh Shamsian</a
+        >
       </Attribution>
       <!-- TODO: Select collection -->
     </template>
@@ -81,11 +87,10 @@
         // FIXME: Refactor to load attribution from the
         // GrammaticalEntryCollection metadata
         // FIXME: URN
-        const odysseyUrnPrefix =
-          'urn:cite2:beyond-translation:named_entry_collection.atlas_v1:od_';
         return (
           this.entries.length > 0 &&
-          this.entries[0].collection.urn.startsWith(odysseyUrnPrefix)
+          this.entries[0].collection.urn ===
+            'urn:cite2:beyond-tranlsation:grammatical_entry_collection.atlas_v1:didakta_shamsian'
         );
       },
     },
