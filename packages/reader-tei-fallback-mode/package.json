@@ -1,0 +1,9 @@
+{
+  "name": "@scaife-viewer/reader-tei-fallback-mode",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "CETEIcean": "^1.7.1"
+  }
+}

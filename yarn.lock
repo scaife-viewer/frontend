@@ -1682,6 +1682,11 @@
     mkdirp-promise "^5.0.1"
     mz "^2.5.0"
 
+CETEIcean@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/CETEIcean/-/CETEIcean-1.7.1.tgz#5e4b92c275925921cf0e02bb19fb40c9ea4cb211"
+  integrity sha512-IssXP6BLKlaploKivvAmBOtS94x8DRLrsHa6pQwrzjctgrTNMckeC1ter5eRCuQvpKSx2jkMJZKegKdwJHoYrQ==
+
 JSONStream@^1.0.4, JSONStream@^1.3.4:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.5.tgz#3208c1f08d3a4d99261ab64f92302bc15e111ca0"
