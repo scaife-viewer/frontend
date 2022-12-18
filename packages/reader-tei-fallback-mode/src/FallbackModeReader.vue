@@ -76,3 +76,11 @@
     },
   };
 </script>
+
+<style lang="scss" scoped>
+
+  // TODO: Revisit dynamic styles
+  ::v-deep *[data-tei-fallback] {
+    @import './CETEIcean.scss';
+  }
+</style>
