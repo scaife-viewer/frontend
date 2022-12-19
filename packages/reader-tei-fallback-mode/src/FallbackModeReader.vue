@@ -13,9 +13,9 @@
       <EmptyMessage v-else-if="!data" />
       <template v-else>
         <!-- TODO: Prevent duplicate paint -->
-        {{ initViewer(data) }}
         <div
           :class="{ shown: css, hidden: !css }"
+          :key="urn"
           data-tei-fallback="true"
           id="TEI"
         ></div>
@@ -53,14 +53,26 @@
     data() {
       return {
         css: null,
+        queryUpdateData: null,
       };
+    },
+    watch: {
+      queryUpdateData: {
+        handler(newVal) {
+          this.initViewer(newVal);
+        },
+      },
     },
     methods: {
       debugEvent($event) {
         console.log(document.getSelection().toString());
       },
       queryUpdate(data) {
-        return data.passageTextParts.edges[0].node.metadata;
+        const value = data.passageTextParts.edges[0].node.metadata;
+        // TODO: I couldn't figure out how to watch the query directly, so this
+        // is a hack
+        this.queryUpdateData = value;
+        return value;
       },
       initViewer(data) {
         const { css, content } = data;
@@ -86,6 +98,9 @@
       },
     },
     computed: {
+      urn() {
+        return this.queryVariables.urn;
+      },
       query() {
         // TODO: Support querying for CSS from the version in a performant way
         return gql`
