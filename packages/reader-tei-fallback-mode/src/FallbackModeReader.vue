@@ -12,8 +12,14 @@
       </ErrorMessage>
       <EmptyMessage v-else-if="!data" />
       <template v-else>
+        <!-- TODO: Prevent duplicate paint -->
         {{ initViewer(data) }}
-        <div data-tei-fallback="true" id="TEI"></div>
+        <div
+          :class="{ shown: css, hidden: !css }"
+          data-tei-fallback="true"
+          id="TEI"
+        ></div>
+        <component :is="'style'" v-if="css" v-html="css" type="text/css" />
       </template>
     </template>
   </ApolloQuery>
@@ -33,6 +39,8 @@
     EmptyMessage,
   } from '@scaife-viewer/common';
 
+  const sass = require('sass.js');
+
   export default {
     readerConfig: {
       label: 'Fallback',
@@ -42,23 +50,35 @@
     props: {
       queryVariables: Object,
     },
+    data() {
+      return {
+        css: null,
+      };
+    },
     methods: {
       queryUpdate(data) {
-        return data.passageTextParts.edges[0].node.metadata.content;
+        return data.passageTextParts.edges[0].node.metadata;
       },
       initViewer(data) {
-        // NOTE: nextTick is required because of the v-else; we may want
-        // to revisit this.
+        const { css, content } = data;
+        // NOTE: v-else on "data" requires us to use nextTick;
+        // we could also create the element outside of apollo
+        const $vm = this;
         this.$nextTick(() => {
           const CETEIcean = new CETEI();
-          CETEIcean.makeHTML5(data, function(teiData) {
+          CETEIcean.makeHTML5(content, function(teiData) {
             document.getElementById('TEI').appendChild(teiData);
           });
+        });
+
+        sass.compile(`[data-tei-fallback]{${css}}`, function(result) {
+          $vm.css = result.text;
         });
       },
     },
     computed: {
       query() {
+        // TODO: Support querying for CSS from the version in a performant way
         return gql`
           query Fallback($urn: String!) {
             passageTextParts(reference: $urn) {
@@ -78,8 +98,17 @@
 </script>
 
 <style lang="scss" scoped>
+  div.reader {
+    flex: 1;
+  }
+  // TODO: Revisit text size / width styling from other readers
+  .shown {
+    display: block;
+  }
+  .hidden {
+    display: none;
+  }
 
-  // TODO: Revisit dynamic styles
   ::v-deep *[data-tei-fallback] {
     @import './CETEIcean.scss';
   }
