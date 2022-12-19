@@ -56,6 +56,9 @@
       };
     },
     methods: {
+      debugEvent($event) {
+        console.log(document.getSelection().toString());
+      },
       queryUpdate(data) {
         return data.passageTextParts.edges[0].node.metadata;
       },
@@ -68,6 +71,12 @@
           const CETEIcean = new CETEI();
           CETEIcean.makeHTML5(content, function(teiData) {
             document.getElementById('TEI').appendChild(teiData);
+            // TODO: Allow clicks to drive selection, e.g. the morphology
+            // widget.
+            // Determine if we want to use mouseup or dblclick
+            // document.addEventListener('dblclick', event => {
+            //   $vm.debugEvent(event);
+            // });
           });
         });
 
