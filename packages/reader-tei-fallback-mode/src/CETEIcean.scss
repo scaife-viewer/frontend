@@ -527,11 +527,12 @@ tei-listwit > tei-witness {
 tei-witness > tei-listwit {
   display: inline;
 }
+// FIXME: Override upstream?
 tei-witness > tei-listwit > tei-head {
-  display: inline;
+  // display: inline;
 }
 tei-witness > tei-listwit > tei-witness {
-  display: inline;
+  // display: inline;
 }
 tei-locus {
   display: none;
