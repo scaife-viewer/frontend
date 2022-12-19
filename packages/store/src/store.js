@@ -36,6 +36,7 @@ import {
   DISPLAY_MODE_NAMED_ENTITIES,
   DISPLAY_MODE_COMMENTARIES,
   DISPLAY_MODE_DEFAULT,
+  DISPLAY_MODE_FALLBACK,
   SENSE_EXPANSION_PASSAGE,
   CITATION_DISPLAY_REFS_QUOTES,
   SET_SELECTED_DICTIONARY_OPTION,
@@ -141,6 +142,9 @@ const createStore = client => {
         },
         commentariesMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_COMMENTARIES;
+        },
+        fallbackMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_FALLBACK;
         },
         urn: (state, getters, rootState) => {
           if (!rootState.route) {

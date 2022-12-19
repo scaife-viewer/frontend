@@ -19,6 +19,7 @@
   import {
     MODULE_NS,
     DISPLAY_MODE_DEFAULT,
+    DISPLAY_MODE_FALLBACK,
     LAYOUT_WIDTH_WIDE,
     SET_MAIN_LAYOUT_WIDTH_NORMAL,
     SET_MAIN_LAYOUT_WIDTH_WIDE,
@@ -130,8 +131,13 @@
           ) {
             // NOTE: This is a guard rail added to prevent the user
             // from navigating into a bad reader state
-            this.setMode({ mode: DISPLAY_MODE_DEFAULT });
-            return;
+            // FIXME: We might want an additional check to switch between
+            // default and fallback modes; below is a start.
+            let toSet = DISPLAY_MODE_DEFAULT;
+            if (newVal.mode === DISPLAY_MODE_DEFAULT && !newVal.available) {
+              toSet = DISPLAY_MODE_FALLBACK;
+            }
+            this.setMode({ mode: toSet });
           }
           if (!oldVal || newVal.mode !== oldVal.mode) {
             this.applyModeLayout(newVal);
