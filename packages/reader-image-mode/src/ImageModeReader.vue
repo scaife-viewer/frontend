@@ -23,6 +23,7 @@
             <ImageViewer
               :imageIdentifier="image.url"
               :reference="image.refs[0]"
+              :roi="data.roi"
             />
           </div>
           <EmptyMessage
@@ -103,6 +104,10 @@
                   kind
                   urn
                   ref
+                  roi {
+                    data
+                    coordinatesValue
+                  }
                   tokens {
                     edges {
                       node {
@@ -143,12 +148,12 @@
       },
       queryUpdate(data) {
         const lines = data.passageTextParts.edges.map(line => {
-          const { id, kind, ref } = line.node;
+          const { id, kind, ref, roi } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
             const { value, veRef } = edge.node;
             return { value, veRef };
           });
-          return { id, kind, ref, tokens };
+          return { id, kind, ref, roi, tokens };
         });
         const linesMap = lines.reduce(
           (map, line) => ({
@@ -157,6 +162,7 @@
           }),
           {},
         );
+        const roi = lines.map(line => line.roi);
         // FIXME: Ensure relations are ordered on the server
         const images = data.imageAnnotations.edges.map(image => {
           const textParts = image.node.textParts.edges
@@ -178,9 +184,10 @@
           imageIdentifier: data.imageAnnotations.edges.length
             ? data.imageAnnotations.edges[0].node.imageIdentifier
             : null,
+          roi,
         };
       },
-    },
+    }
   };
 </script>
 

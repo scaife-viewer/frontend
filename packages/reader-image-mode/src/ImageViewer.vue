@@ -39,9 +39,10 @@
 <script>
   import OpenSeadragon from 'openseadragon';
   import { Attribution } from '@scaife-viewer/common';
+  import { MODULE_NS } from '@scaife-viewer/store';
 
   export default {
-    props: ['imageIdentifier', 'reference'],
+    props: ['imageIdentifier', 'reference', 'roi'],
     data() {
       return {
         viewer: null,
@@ -57,6 +58,13 @@
           this.updateImage();
         },
       },
+      selectedLine: {
+        immediate: true,
+        handler() {
+          this.drawRects();
+          return this.$store.state[MODULE_NS].selectedLine
+        }
+      },
       viewer: {
         immediate: true,
         handler() {
@@ -67,6 +75,9 @@
     computed: {
       identifier() {
         return `image-viewer-${this.reference}`;
+      },
+      selectedLine() {
+        return this.$store.state[MODULE_NS].selectedLine
       },
       viewerOptions() {
         return {
@@ -87,6 +98,28 @@
         if (this.imageIdentifier && this.viewer) {
           this.viewer.open([`${this.imageIdentifier}info.json`]);
         }
+      },
+      drawRects() {
+        if (!this.viewer) {
+          return;
+        }
+        const roi = this.$props.roi;
+
+        roi.forEach(_r => {
+          _r.forEach(r => {
+            const overlay = document.createElement('div');
+            overlay.id = r.coordinatesValue;
+            overlay.style.backgroundColor = 'greenyellow';
+            overlay.style.opacity = 0.5;
+            const location = r.coordinatesValue.split(',').map(s => parseFloat(s));
+            console.log(location)
+            this.viewer.addOverlay({
+              element: overlay,
+              location: new OpenSeadragon.Rect(...location)
+            });
+            console.log('overlay added?')
+          });
+        });
       },
       initViewer() {
         if (!this.viewer) {
@@ -139,6 +172,11 @@
     .viewer {
       width: 100%;
       flex: 1;
+    }
+
+    .highlight {
+      background-color: greenyellow;
+      opacity: 0.5;
     }
 
     .link {
