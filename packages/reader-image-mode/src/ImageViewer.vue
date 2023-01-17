@@ -97,9 +97,8 @@ export default {
       }
     },
     clearRoiOverlays() {
-      const elements = document.getElementsByClassName('roi-highlight');
-      while (elements.length > 0) {
-        elements[0].parentNode.removeChild(elements[0]);
+      if (this.viewer && this.viewer.currentOverlays.length > 0) {
+        this.viewer.clearOverlays();
       }
     },
     drawRoiOverlays() {
