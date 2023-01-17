@@ -162,7 +162,7 @@
           }),
           {},
         );
-        const roi = lines.map(line => line.roi);
+        const roi = lines.map(line => ({ref: line.ref, roi: line.roi}));
         // FIXME: Ensure relations are ordered on the server
         const images = data.imageAnnotations.edges.map(image => {
           const textParts = image.node.textParts.edges
