@@ -12,6 +12,7 @@
     <div class="line" v-else>
       <div class="line-ref" @click="onLineSelect">
         <Icon v-if="playingAudio" name="volume-up" />
+        <Icon v-if="folioMode" name="highlighter" />
         {{ textPart.ref }}
       </div>
       <div
@@ -19,7 +20,7 @@
         v-if="metricalMode && metricalHtml"
         v-html="metricalHtml"
       />
-      <div class="line-text" v-else>
+      <div class="line-text" :class="{highlight: isTranscriptionHighlighted}" v-else>
         <ReaderToken
           v-for="token in tokens"
           :key="token.veRef"
@@ -60,6 +61,9 @@
       tokens() {
         return this.textPart.tokens;
       },
+      folioMode() {
+        return this.$store.getters[`${MODULE_NS}/displayMode`] === 'folio';
+      },
       interlinearMode() {
         return this.$store.getters[`${MODULE_NS}/interlinearMode`];
       },
@@ -87,6 +91,11 @@
         const refDepth = (this.textPart.ref.match(/\./g) || []).length;
         return refDepth === 3 ? this.textPart.ref.endsWith('2') : false;
       },
+      isTranscriptionHighlighted() {
+        const highlightedRef = this.$store.getters[`${MODULE_NS}/highlightedTranscription`];
+
+        return highlightedRef === this.textPart.ref;
+      },
     },
   };
 </script>
@@ -98,6 +107,10 @@
   .line {
     display: flex;
     align-items: baseline;
+
+    .highlight {
+      background: yellow;
+    }
     .line-ref {
       font-size: 10pt;
       color: var(--sv-widget-reader-line-ref-text-color, #69c);

@@ -15,6 +15,14 @@
           <a :id="`${reference}-full-page`" class="link" title="Toggle full page">
             <icon name="window-maximize" />
           </a>
+          <a
+            :id="`${reference}-highlight-roi`"
+            class="link"
+            title="Highlight regions of interest"
+            @click.prevent="showClickableRois = !showClickableRois"
+          >
+            <icon name="highlighter" />
+          </a>
         </small>
       </span>
     </div>
@@ -35,7 +43,7 @@
 <script>
 import OpenSeadragon from 'openseadragon';
 import { Attribution } from '@scaife-viewer/common';
-import { MODULE_NS } from '@scaife-viewer/store';
+import { MODULE_NS, HIGHLIGHT_TRANSCRIPTION } from '@scaife-viewer/store';
 
 export default {
   props: ['imageIdentifier', 'reference', 'roi'],
@@ -44,6 +52,7 @@ export default {
       viewer: null,
       displayViewer: false,
       errorMessage: null,
+      showClickableRois: false,
     };
   },
   components: { Attribution },
@@ -59,7 +68,14 @@ export default {
       handler() {
         this.clearRoiOverlays();
         this.drawRoiOverlays();
-        return this.$store.state[MODULE_NS].selectedLine
+        return this.$store.state[MODULE_NS].selectedLine;
+      }
+    },
+    showClickableRois(show) {
+      this.clearRoiOverlays();
+
+      if (show) {
+        this.drawClickableRoiOverlays();
       }
     },
     viewer: {
@@ -101,6 +117,26 @@ export default {
         this.viewer.clearOverlays();
       }
     },
+    drawClickableRoiOverlays() {
+      this.$props.roi.forEach(r => r.roi.forEach(roi => {
+        const element = createClickableOverlay(roi.coordinatesValue);
+        const location = createRect(roi.coordinatesValue, this.viewer);
+
+        this.viewer.addOverlay({
+          element,
+          location,
+        });
+
+        new OpenSeadragon.MouseTracker({
+          element: element,
+          clickHandler: _evt => {
+            this.$store.dispatch(`${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`, {
+              ref: r.ref,
+            });
+          },
+        });
+      }));
+    },
     drawRoiOverlays() {
       if (!this.viewer) {
         return;
@@ -114,30 +150,20 @@ export default {
         // but from 0 to height / width on the vertical axis."
         // https://github.com/openseadragon/openseadragon/issues/2046#issuecomment-940360219
         // https://github.com/openseadragon/openseadragon/issues/1793
-        // This is why we have drift on the vertical axis; the percentage-based
-        //  y / height coordinates from IIIF must be changed to their viewport coordinate values
+        // This is why we have drift on the vertical axis: the percentage-based
+        // y / height coordinates from IIIF must be changed to their viewport coordinate values
         // imageToViewportRectangle converts from an image in pixels
         // to viewport units
        */
 
-      roi.filter(r => selectedLine.endsWith(r.ref)).forEach(line => {
+      roi.filter(r => selectedLine.endsWith(r.ref)).forEach(_r => {
         // it is possible for a line to have multiple
         // regions of interest, although usually there
         // will only be one.
-        line.roi.forEach(r => {
+        _r.roi.forEach(r => {
           const overlay = createOverlay(r.coordinatesValue);
-          const location = r.coordinatesValue.split(',').map(s => parseFloat(s));
-          // Transform dimensions from percentages to pixels
-          const imageX = this.viewer.source.dimensions.x;
-          const imageY = this.viewer.source.dimensions.y;
-          const pixelDimensions = [
-            location[0] * imageX,
-            location[1] * imageY,
-            location[2] * imageX,
-            location[3] * imageY,
-          ];
+          const rect = createRect(r.coordinatesValue, this.viewer);
 
-          const rect = this.viewer.viewport.imageToViewportRectangle(...pixelDimensions);
           this.viewer.addOverlay({
             element: overlay,
             location: rect,
@@ -168,13 +194,34 @@ export default {
   },
 };
 
+function createClickableOverlay(coordinatesValue) {
+  const overlay = document.createElement('div');
+  overlay.className = "roi-clickable";
+  overlay.id = coordinatesValue;
+
+  return overlay;
+}
+
 function createOverlay(coordinatesValue) {
   const overlay = document.createElement('div');
   overlay.className = "roi-highlight";
   overlay.id = coordinatesValue;
-  overlay.style.border = '4px solid darkslategray';
-  overlay.style.opacity = 0.6;
+
   return overlay;
+}
+
+function createRect(coordinatesValue, viewer) {
+  const location = coordinatesValue.split(',').map(s => parseFloat(s));
+  const imageX = viewer.source.dimensions.x;
+  const imageY = viewer.source.dimensions.y;
+  const pixelDimensions = [
+    location[0] * imageX,
+    location[1] * imageY,
+    location[2] * imageX,
+    location[3] * imageY,
+  ];
+
+  return viewer.viewport.imageToViewportRectangle(...pixelDimensions);
 }
 </script>
 
@@ -193,6 +240,21 @@ function createOverlay(coordinatesValue) {
     padding-left: 0;
   }
 }
+
+.roi-clickable {
+  border: 4px solid lightgoldenrodyellow;
+  opacity: 0.1;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.roi-highlight {
+  border: 4px solid darkslategray;
+  opacity: 0.6;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -205,11 +267,6 @@ function createOverlay(coordinatesValue) {
   .viewer {
     width: 100%;
     flex: 1;
-  }
-
-  .highlight {
-    background-color: greenyellow;
-    opacity: 0.5;
   }
 
   .link {
