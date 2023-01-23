@@ -152,14 +152,24 @@ export default {
         // to viewport units
        */
 
-      roi.filter(r => selectedLine.endsWith(r.ref)).forEach(_r => {
+      roi.filter(r => selectedLine.endsWith(r.ref)).forEach(line => {
         // it is possible for a line to have multiple
         // regions of interest, although usually there
         // will only be one.
-        _r.roi.forEach(r => {
+        line.roi.forEach(r => {
           const overlay = createOverlay(r.coordinatesValue);
-          const rect = createRect(r.coordinatesValue, this.viewer);
+          const location = r.coordinatesValue.split(',').map(s => parseFloat(s));
+          // Transform dimensions from percentages to pixels
+          const imageX = this.viewer.source.dimensions.x;
+          const imageY = this.viewer.source.dimensions.y;
+          const pixelDimensions = [
+            location[0] * imageX,
+            location[1] * imageY,
+            location[2] * imageX,
+            location[3] * imageY,
+          ];
 
+          const rect = this.viewer.viewport.imageToViewportRectangle(...pixelDimensions);
           this.viewer.addOverlay({
             element: overlay,
             location: rect,
@@ -202,7 +212,6 @@ function createOverlay(coordinatesValue) {
   const overlay = document.createElement('div');
   overlay.className = "roi-highlight";
   overlay.id = coordinatesValue;
-
   return overlay;
 }
 
