@@ -108,13 +108,39 @@ export default {
       const selectedLine = this.$store.state[MODULE_NS].selectedLine;
       const roi = this.$props.roi;
 
-      roi.filter(r => selectedLine.endsWith(r.ref)).forEach(_r => {
-        _r.roi.forEach(r => {
+      /*
+        https://codepen.io/jacobwegner/pen/QWBqLXo
+        // "By default the viewport coordinates go from 0 to 1 along the horizontal axis,
+        // but from 0 to height / width on the vertical axis."
+        // https://github.com/openseadragon/openseadragon/issues/2046#issuecomment-940360219
+        // https://github.com/openseadragon/openseadragon/issues/1793
+        // This is why we have drift on the vertical axis; the percentage-based
+        //  y / height coordinates from IIIF must be changed to their viewport coordinate values
+        // imageToViewportRectangle converts from an image in pixels
+        // to viewport units
+       */
+
+      roi.filter(r => selectedLine.endsWith(r.ref)).forEach(line => {
+        // it is possible for a line to have multiple
+        // regions of interest, although usually there
+        // will only be one.
+        line.roi.forEach(r => {
           const overlay = createOverlay(r.coordinatesValue);
           const location = r.coordinatesValue.split(',').map(s => parseFloat(s));
+          // Transform dimensions from percentages to pixels
+          const imageX = this.viewer.source.dimensions.x;
+          const imageY = this.viewer.source.dimensions.y;
+          const pixelDimensions = [
+            location[0] * imageX,
+            location[1] * imageY,
+            location[2] * imageX,
+            location[3] * imageY,
+          ];
+
+          const rect = this.viewer.viewport.imageToViewportRectangle(...pixelDimensions);
           this.viewer.addOverlay({
             element: overlay,
-            location: new OpenSeadragon.Rect(...location),
+            location: rect,
           });
         });
       });
@@ -147,7 +173,7 @@ function createOverlay(coordinatesValue) {
   overlay.className = "roi-highlight";
   overlay.id = coordinatesValue;
   overlay.style.border = '4px solid darkslategray';
-  overlay.style.opacity = 0.8;
+  overlay.style.opacity = 0.6;
   return overlay;
 }
 </script>
