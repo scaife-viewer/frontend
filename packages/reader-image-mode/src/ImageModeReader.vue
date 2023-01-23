@@ -192,7 +192,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .image-mode {
+.image-mode {
     flex: 1;
     &.both {
       .image-mode-container {
@@ -211,6 +211,10 @@
       }
       .image-mode-container,
       .image-mode-container .image-folio {
+        // this property is causing the viewer
+        // to be too small when viewing only one
+        // or a few lines, e.g., at
+        // /explore-homer/urn:cts:greekLit:tlg0012.tlg001.msA-folios:12r.1.1?mode=folio
         height: unset;
       }
     }
