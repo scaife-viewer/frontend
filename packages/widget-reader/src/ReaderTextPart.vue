@@ -12,7 +12,6 @@
     <div class="line" v-else>
       <div class="line-ref" @click="onLineSelect">
         <Icon v-if="playingAudio" name="volume-up" />
-        <Icon v-if="folioMode" name="highlighter" />
         {{ textPart.ref }}
       </div>
       <div
@@ -60,9 +59,6 @@
       },
       tokens() {
         return this.textPart.tokens;
-      },
-      folioMode() {
-        return this.$store.getters[`${MODULE_NS}/displayMode`] === 'folio';
       },
       interlinearMode() {
         return this.$store.getters[`${MODULE_NS}/interlinearMode`];
