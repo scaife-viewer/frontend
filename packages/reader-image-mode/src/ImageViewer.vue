@@ -18,6 +18,7 @@
           <a
             :id="`${reference}-highlight-roi`"
             class="link"
+            :class="{active: showClickableRois}"
             title="Highlight regions of interest"
             @click.prevent="showClickableRois = !showClickableRois"
           >
@@ -269,6 +270,8 @@ function createRect(coordinatesValue, viewer) {
     flex: 1;
   }
 
+  $link-base-color: var(--sv-reader-image-mode-openseadragon-hover-link-text-color, #fff);
+  $link-highlight-color: var(--sv-reader-image-mode-openseadragon-hover-link-background-color, #b45141);
   .link {
     font-size: 18px;
     cursor: pointer;
@@ -277,11 +280,14 @@ function createRect(coordinatesValue, viewer) {
     border-radius: 3px;
   }
 
+  .active {
+    color: $link-base-color;
+    background: $link-highlight-color;
+  }
+
   .link:hover {
-    color: var(--sv-reader-image-mode-openseadragon-hover-link-text-color,
-        #fff);
-    background: var(--sv-reader-image-mode-openseadragon-hover-link-background-color,
-        #b45141);
+    color: $link-base-color;
+    background: $link-highlight-color;
   }
 
   .error {
