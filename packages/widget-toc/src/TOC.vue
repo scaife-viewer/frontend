@@ -43,7 +43,10 @@
             ? this.getCitePayloadInTocsContext(urn)
             : this.getCitePayloadInReaderContext(urn);
         }
-        const query = { toc: this.$route.query.toc };
+        const query = {
+          ...this.$route.query,
+          toc: this.$route.query.toc
+        };
         return this.$route.query.toc
           ? { name: 'reader', params: { urn }, query }
           : { name: 'reader', params: { urn } };

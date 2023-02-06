@@ -23,6 +23,7 @@
   // import PassageCitationTOCWidget from '@scaife-viewer/widget-passage-citation-toc';
   import PassageReferenceWidget from '@scaife-viewer/widget-passage-reference';
   import PassageAncestorsWidget from '@scaife-viewer/widget-passage-ancestors';
+  import TOCWidget from '@scaife-viewer/widget-toc';
   import PassageSiblingsWidget from '@scaife-viewer/widget-passage-siblings';
   import PassageChildrenWidget from '@scaife-viewer/widget-passage-children';
   import LibraryWidget from '@scaife-viewer/widget-library';
@@ -68,6 +69,7 @@
           PassageAncestorsWidget,
           PassageSiblingsWidget,
           PassageChildrenWidget,
+          TOCWidget,
         ];
       },
       right() {

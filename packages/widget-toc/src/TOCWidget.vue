@@ -73,7 +73,7 @@
         return reducers.tocReducer;
       },
       endpoint() {
-        return this.$scaife.endpoints.tocEndpoint;
+        return this.$scaife.config.endpoints.tocEndpoint;
       },
       returnToRootPayload() {
         return this.context === 'tocs'
