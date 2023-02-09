@@ -64,7 +64,13 @@
   .toc-grid {
     display: grid;
     align-items: baseline;
-    grid-template-columns: auto 9.25fr;
+    // NOTE: Prior behavior was auto 9.25fr;
+    // This may be better implemented as an ordered
+    // unordered list than a grid
+    grid-template-columns: var(
+      --sv-widget-toc-toc-grid-grid-template-columns,
+      auto
+    );
     grid-column-gap: 1em;
     > * {
       margin-bottom: 0.33em;
@@ -78,8 +84,11 @@
     color: var(--sv-widget-toc-ref-text-color, #69c);
     font-family: var(--sv-widget-toc-ref-font-family, 'Noto Sans');
     text-align: left;
+    // NOTE: Set to block to display refs
+    display: var(--sv-widget-toc-ref-display, none);
   }
   .item {
     flex-direction: column;
+    display: var(--sv-widget-toc-item-display, grid);
   }
 </style>
