@@ -31,10 +31,14 @@
         return { path: 'tocs', query: { urn } };
       },
       getCitePayloadInReaderContext(urn) {
+        const query = {
+          ...this.$route.query,
+          toc: urn.toString(),
+        }
         return {
           name: 'reader',
           params: { urn: this.passage.toString() },
-          query: { toc: urn.toString() },
+          query,
         };
       },
       getPayload(urn) {
