@@ -1,35 +1,24 @@
 <template>
-  <ApolloQuery
-    class="reader"
-    ref="treesQuery"
-    :query="query"
-    :variables="queryVariablesPlus"
-    :update="queryUpdate"
-  >
-    <template v-slot="{ result: { error }, isLoading }">
-      <LoaderBall v-if="isLoading" />
-      <ErrorMessage v-else-if="error">
-        There was an error loading the requested data.
-      </ErrorMessage>
-      <EmptyMessage v-else-if="trees.length === 0" />
-      <template v-else>
-        <ModeToolbar :expandAll="expandAll" @show="onShow" />
-        <Tree
-          v-for="(tree, index) in trees"
-          :key="tree.treeBankId"
-          :tree="tree"
-          :first="index === 0"
-          :expanded="expanded"
-          @tree-collapsed="expandAll = null"
-        />
-      </template>
+  <div class="syntax-trees-mode-reader">
+    <LoaderBall v-if="$apollo.loading" />
+    <ErrorMessage v-else-if="errors" />
+    <EmptyMessage v-else-if="trees.length === 0" />
+    <template v-else>
+      <ModeToolbar :expandAll="expandAll" @show="onShow" />
+      <Tree
+        v-for="(tree, index) in trees"
+        :key="tree.treeBankId"
+        :tree="tree"
+        :first="index === 0"
+        :expanded="expanded"
+        @tree-collapsed="expandAll = null"
+      />
     </template>
-  </ApolloQuery>
+  </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
-  import { ApolloQuery } from 'vue-apollo';
 
   import URN, {
     LoaderBall,
@@ -118,10 +107,10 @@
     data() {
       return {
         trees: [],
+        errors: false,
       };
     },
     components: {
-      ApolloQuery,
       LoaderBall,
       ErrorMessage,
       EmptyMessage,
@@ -133,8 +122,10 @@
     },
     watch: {
       displayOptions: {
+        // TODO: Determine why this handler is here
         handler() {
-          this.queryUpdate(this.$refs.treesQuery.result.fullData);
+          console.log('displayOptions handler')
+          // this.queryUpdate(this.$refs.treesQuery.result.fullData);
         },
       },
     },
@@ -213,6 +204,7 @@
         });
 
         this.$data.trees = trees;
+        return trees;
       },
     },
     computed: {
@@ -349,6 +341,22 @@
       },
       query() {
         return this.isIliadGreek ? this.specialQuery : this.standardQuery;
+      },
+    },
+    apollo: {
+      treesRefactor: {
+        query() {
+          return this.query;
+        },
+        variables() {
+          return this.queryVariablesPlus;
+        },
+        update(data) {
+          return this.queryUpdate(data);
+        },
+        error() {
+          this.errors = true;
+        },
       },
     },
   };
