@@ -119,6 +119,7 @@
         this.$emit('leave');
       },
       onTreeLoaded() {
+        // FIXME: Remove querySelector deps?
         const nodes = this.$el.querySelectorAll('.node');
         nodes.forEach(node => {
           node.addEventListener('mouseenter', this.onNodeEnter);
@@ -171,7 +172,9 @@
         return width;
       },
       setConstraints() {
-        this.maxHeight = this.$parent.$parent.$el.clientHeight;
+        this.maxHeight = document.querySelector(
+          '.reader-container',
+        ).clientHeight;
         this.maxWidth = this.calculateMaxWidth();
       },
       onResize() {
