@@ -137,18 +137,15 @@
               if (data.Body && data.Body.length > 0) {
                 this.morphBody = data.Body;
                 const lemmas = [];
-                this.morphBody.forEach(({ hdwd }) => {
-                  lemmas.push(hdwd);
-                });
+                if (this.selectedToken.lemma) {
+                  lemmas.push(this.selectedToken.lemma);
+                } else {
+                  this.morphBody.forEach(({ hdwd }) => {
+                    lemmas.push(hdwd);
+                  });
+                }
                 this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
-                  lemmas,
-                });
-              } else if (this.selectedToken.lemma) {
-                // TODO: Allow the user to choose between the retrieved
-                // and annotated lemma(s)
-                this.morphBody = null;
-                this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
-                  lemmas: [this.selectedToken.lemma],
+                  lemmas: lemmas.slice(0, 1),
                 });
               } else {
                 this.reset();
