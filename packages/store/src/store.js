@@ -156,6 +156,7 @@ const createStore = client => {
           const { mode } = rootState.route.query;
           return mode || DISPLAY_MODE_DEFAULT;
         },
+        selectedToken: state => state.selectedToken,
         selectedLemmas: state => state.selectedLemmas,
         selectedDictionaryUrn: state => state.selectedDictionaryOption.value,
         showCommentary: (_, __, rootState) => {

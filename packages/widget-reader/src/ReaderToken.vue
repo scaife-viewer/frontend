@@ -108,6 +108,7 @@
           this.$store.dispatch(`${MODULE_NS}/${SELECT_GRAMMATICAL_ENTRIES}`, {
             entries: this.grammaticalEntries,
           });
+          // FIXME: Refactor this with lemma for selection
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: this.token,
           });
