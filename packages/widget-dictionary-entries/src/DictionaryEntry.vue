@@ -287,6 +287,7 @@
                   senseTree
                   data
                   dictionary {
+                    id
                     label
                   }
                 }
