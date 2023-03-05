@@ -28,11 +28,14 @@
     EmptyMessage,
     ErrorMessage,
   } from '@scaife-viewer/common';
-  import { MODULE_NS } from '@scaife-viewer/store';
+
+  const displayNameCallback = (rootGetters, $scaife) => {
+    return $scaife.config.commentariesDisplayModeLabel || 'Commentaries';
+  };
 
   export default {
     readerConfig: {
-      label: 'Commentaries',
+      label: displayNameCallback,
     },
     props: {
       queryVariables: Object,

@@ -8,7 +8,7 @@
         :class="{ active: mode.active }"
         @click.prevent="setMode(mode)"
       >
-        {{ mode.label }}
+        {{ displayModeLabel(mode.label) }}
       </div>
     </template>
   </div>
@@ -16,6 +16,7 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { displayName } from '@scaife-viewer/common';
   import {
     MODULE_NS,
     DISPLAY_MODE_DEFAULT,
@@ -118,6 +119,9 @@
           });
         }
       },
+      displayModeLabel(name) {
+        return displayName(name, this.$store.getters, this.$scaife)
+      }
     },
     watch: {
       displayMode: {
