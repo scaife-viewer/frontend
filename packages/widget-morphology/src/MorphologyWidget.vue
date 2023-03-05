@@ -7,6 +7,7 @@
         :class="{ selected: group.selected }"
         v-for="group in groups"
         :key="group.uri"
+        @click="handleClick(group)"
       >
         <div class="head">
           <span class="hdwd">{{ group.hdwd }}</span>
@@ -162,6 +163,12 @@
         this.morphBody = null;
         this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
           lemmas: null,
+        });
+      },
+      handleClick(group) {
+        const lemmas = [group.hdwd];
+        this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
+          lemmas,
         });
       },
       selected(headword) {
