@@ -32,8 +32,9 @@
 
 <script>
   import { MODULE_NS } from '@scaife-viewer/store';
+  import { displayName } from '@scaife-viewer/common';
 
-  import utils from '../utils';
+
   import EditLayoutButton from './EditLayoutButton.vue';
   import MainWidget from './MainWidget.vue';
   import WidgetEditor from '../editor/WidgetEditor.vue';
@@ -48,7 +49,7 @@
     computed: {
       widgetHeader() {
         return this.widget
-          ? utils.displayName(this.widget.scaifeConfig.displayName)
+          ? displayName(this.widget.scaifeConfig.displayName)
           : '';
       },
       flexSize() {

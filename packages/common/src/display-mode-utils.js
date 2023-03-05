@@ -7,6 +7,4 @@ const displayName = (name, rootGetters, $scaife) => {
   return isCallable ? name(rootGetters, $scaife) : name;
 };
 
-export default {
-  displayName,
-};
+export default displayName;
