@@ -181,7 +181,6 @@
         this.treant.destroy();
         this.panzoom.destroy();
         this.$nextTick(() => {
-          this.setConstraints();
           this.drawTree();
         });
       },
@@ -311,6 +310,7 @@
       },
       redrawKey() {
         this.onResize();
+        this.setConstraints();
       },
       tree() {
         this.onResize();
