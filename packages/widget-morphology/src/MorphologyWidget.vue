@@ -2,7 +2,12 @@
   <div class="morphology">
     <LoaderBall v-if="loading" />
     <div v-else-if="morphBody">
-      <div class="group" v-for="group in morphBody" :key="group.uri">
+      <div
+        class="group"
+        :class="{ selected: group.selected }"
+        v-for="group in groups"
+        :key="group.uri"
+      >
         <div class="head">
           <span class="hdwd">{{ group.hdwd }}</span>
           <span class="pofs-decl">{{ group.pofs }} {{ group.decl }}</span>
@@ -87,7 +92,7 @@
         return this.$store.state[MODULE_NS].selectedToken;
       },
       selectedLemmas() {
-        return this.$store.state[MODULE_NS].selectedLemma;
+        return this.$store.getters[`${MODULE_NS}/selectedLemmas`];
       },
       selectedWord() {
         if (this.selectedToken) {
@@ -100,6 +105,15 @@
       },
       isScaifeViewerVersion1() {
         return this.$scaife.config.sv1;
+      },
+      groups() {
+        return this.morphBody.map(group => {
+          const isSelected = this.selected(group.hdwd);
+          return {
+            selected: isSelected,
+            ...group,
+          };
+        });
       },
     },
     methods: {
@@ -152,6 +166,11 @@
         this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
           lemmas: null,
         });
+      },
+      selected(headword) {
+        return this.selectedLemmas
+          ? this.selectedLemmas.filter(lemma => lemma === headword).length > 0
+          : false;
       },
     },
   };
@@ -230,6 +249,16 @@
           color: var(--sv-widget-morphology-legend-color, #868e96);
         }
       }
+    }
+    &.selected {
+      background: var(
+        --sv-widget-morphology-selected-background-color,
+        #f8f9fa
+      );
+      margin-left: -10px;
+      padding: 3px 7px;
+      border-left: 3px solid
+        var(--sv-widget-morphology-selected-border-color, #343a40);
     }
   }
 </style>
