@@ -317,6 +317,7 @@
                   urn
                   headword
                   dictionary {
+                    id
                     label
                   }
                 }
