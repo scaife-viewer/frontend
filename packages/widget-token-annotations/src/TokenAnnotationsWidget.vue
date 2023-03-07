@@ -38,9 +38,13 @@
       },
       tokens() {
         const selectedFilter = edge => {
+          // FIXME: This should only be a veRef check,
+          // but words have no veRefs, and we now set selected
+          // token using word.
           return (
             this.selectedToken === null ||
-            this.selectedToken.veRef === edge.node.veRef
+            this.selectedToken.veRef === edge.node.veRef ||
+            this.selectedToken.value === edge.node.wordValue
           );
         };
 
