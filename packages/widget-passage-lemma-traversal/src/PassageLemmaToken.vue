@@ -25,8 +25,22 @@
       },
       versionAbbreviation() {
         // # FIXME: This is a hack for demo only
+        // TODO: Find a canonical lookup and factor this out to the data side.
         const isIliad = this.textPartUrn.work === 'tlg0012.tlg001.perseus-grc2';
-        return isIliad ? 'Il.' : 'Od.';
+        if (isIliad) {
+          return 'Il.';
+        }
+        const isOdyssey =
+          this.textPartUrn.work === 'tlg0012.tlg002.perseus-grc2';
+        if (isOdyssey) {
+          return 'Odl.';
+        }
+        const isAnabasis =
+          this.textPartUrn.work === 'tlg0032.tlg006.perseus-grc2';
+        if (isAnabasis) {
+          return 'An.';
+        }
+        return '';
       },
       destinationPassage() {
         // TODO: Persist lemma selection across page loads
