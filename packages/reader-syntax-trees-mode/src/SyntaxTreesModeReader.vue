@@ -12,7 +12,11 @@
         />
       </div>
       <template v-if="trees && trees.length > 0">
-        <ModeToolbar :expandAll="expandAll" @show="onShow" />
+        <ModeToolbar
+          :expandAll="expandAll"
+          :availableToggles="availableToggles"
+          @show="onShow"
+        />
         <Tree
           v-for="(tree, index) in transformedTrees"
           :key="tree.treeBankId"
@@ -35,6 +39,7 @@
     ErrorMessage,
     EmptyMessage,
     CustomSelect,
+    TOKEN_ANNOTATION_TOGGLES,
   } from '@scaife-viewer/common';
 
   import {
@@ -153,6 +158,24 @@
           }
         },
       },
+      metadata: {
+        handler(newValue) {
+          if (!newValue) {
+            return;
+          }
+          [...TOKEN_ANNOTATION_TOGGLES].forEach(entry => {
+            const [propertyName] = entry;
+            let value = false;
+            if (this.isAvailable(propertyName)) {
+              value = this.$options.readerConfig.annotationDefaults[
+                propertyName
+              ];
+            }
+            this.$store.state[MODULE_NS][propertyName] = value;
+          });
+        },
+        immediate: true,
+      },
     },
     methods: {
       onShow(expandAll) {
@@ -229,6 +252,18 @@
         });
         return trees;
       },
+      isAvailable(propertyName) {
+        if (propertyName === SHOW_TRANSLITERATION) {
+          return this.metadata.lang === 'grc';
+        }
+        if (propertyName === SHOW_GRAMMATICAL_TAGS) {
+          return this.passage.textGroup === 'tlg0012';
+        }
+        if (propertyName === SHOW_RELATIONSHIP) {
+          return this.passage.nss === 'greekLit';
+        }
+        return true;
+      },
     },
     computed: {
       passageHasTrees() {
@@ -297,9 +332,16 @@
           this.$router.replace({ query });
         },
       },
+      metadata() {
+        return this.$store.getters[`${MODULE_NS}/metadata`];
+      },
       passage() {
         // TODO: passage
         return new URN(this.queryVariables.urn);
+      },
+      availableToggles() {
+        const toggles = [...TOKEN_ANNOTATION_TOGGLES];
+        return toggles.filter(entry => this.isAvailable(entry[0]));
       },
       isIliadGreek() {
         return (

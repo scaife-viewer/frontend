@@ -7,7 +7,7 @@
     <div class="attr-toggles">
       <!-- TODO: show / hide toggles based on underlying collection data -->
       <span
-        v-for="([propertyName, label], toggleIdx) in toggles"
+        v-for="([propertyName, label], toggleIdx) in availableToggles"
         :key="toggleIdx"
         :class="{ active: isActive(propertyName) }"
         @click.prevent="toggleProperty(propertyName)"
@@ -28,7 +28,7 @@
   import { MODE_EXPAND, MODE_COMPRESS } from './constants';
 
   export default {
-    props: ['expandAll'],
+    props: ['expandAll', 'availableToggles'],
     data() {
       // TODO: Show / hide toggles depending on underlying data.
       // e.g., glaux trees won't support all of the toggles.
