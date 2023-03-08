@@ -108,15 +108,6 @@
           this.$store.dispatch(`${MODULE_NS}/${SET_MAIN_LAYOUT_WIDTH_NORMAL}`);
         }
       },
-      applyAnnotationToggles(mode) {
-        const { annotationDefaults } = mode;
-        if (annotationDefaults) {
-          Object.entries(annotationDefaults).forEach(entry => {
-            const [propertyName, value] = entry;
-            this.$store.state[MODULE_NS][propertyName] = value;
-          });
-        }
-      },
     },
     watch: {
       displayMode: {
@@ -135,7 +126,6 @@
           }
           if (!oldVal || newVal.mode !== oldVal.mode) {
             this.applyModeLayout(newVal);
-            this.applyAnnotationToggles(newVal);
           }
         },
       },
