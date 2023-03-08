@@ -18,9 +18,9 @@
     <div v-if="showGrammaticalTags" class="analysis">
       {{ grammaticalTags }}
     </div>
-    <template v-if="hasGlosses">
-      <div v-if="showGloss" class="gloss">{{ word.glossEng || '-' }}</div>
-      <div v-if="showGloss" class="gloss gloss-rtl">
+    <template v-if="showGloss">
+      <div class="gloss">{{ word.glossEng || '-' }}</div>
+      <div v-if="hasArabicGlosses" class="gloss gloss-rtl">
         {{ word.glossFas || '-' }}
       </div>
     </template>
@@ -89,7 +89,7 @@
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
-      hasGlosses() {
+      hasArabicGlosses() {
         return this.passage.textGroup === 'tlg0012';
       },
       grammaticalTags() {
