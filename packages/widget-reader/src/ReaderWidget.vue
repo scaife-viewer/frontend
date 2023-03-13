@@ -70,11 +70,15 @@
     watch: {
       urn: {
         immediate: true,
-        handler() {
-          this.$nextTick(() => {
-            this.$parent.$el.scrollTop = 0;
-          });
-          if (this.urn) {
+        handler(newValue, oldValue) {
+          if (newValue) {
+            if (oldValue && oldValue.toString() === newValue.toString()) {
+              return;
+            }
+            this.$nextTick(() => {
+              this.$parent.$el.scrollTop = 0;
+            });
+
             this.$store.dispatch(
               `${MODULE_NS}/${SET_PASSAGE}`,
               { urn: this.urn.toString() },

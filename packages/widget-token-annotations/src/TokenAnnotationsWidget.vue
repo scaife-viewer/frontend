@@ -17,7 +17,7 @@
 <script>
   import gql from 'graphql-tag';
   import { EmptyMessage } from '@scaife-viewer/common';
-  import { MODULE_NS, CLEAR_TOKEN } from '@scaife-viewer/store';
+  import { MODULE_NS, CLEAR_TOKEN, SELECT_TOKEN } from '@scaife-viewer/store';
 
   export default {
     scaifeConfig: {
@@ -38,12 +38,18 @@
       },
       tokens() {
         const selectedFilter = edge => {
+          // FIXME: This should only be a veRef check,
+          // but words have no veRefs, and we now set selected
+          // token using word.
           return (
             this.selectedToken === null ||
-            this.selectedToken.veRef === edge.node.veRef
+            this.selectedToken.veRef === edge.node.veRef ||
+            this.selectedToken.value === edge.node.wordValue
           );
         };
 
+        // FIXME: Add unit tests; we lost functionality in WordListWidget
+        // due to the refactor to token annotations
         if (this.lines && this.lines.length > 0) {
           const tokens = this.lines
             .map(line => {
@@ -117,6 +123,22 @@
         skip() {
           return this.urn === null;
         },
+      },
+    },
+    watch: {
+      // FIXME: This helps us to restitch selected lemma into selected word
+      selectedToken(newValue) {
+        if (
+          newValue &&
+          !newValue.lemma &&
+          this.tokens[0].veRef === newValue.veRef
+        ) {
+          const token = {
+            ...newValue,
+            lemma: this.tokens[0].lemma,
+          };
+          this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, { token });
+        }
       },
     },
   };
