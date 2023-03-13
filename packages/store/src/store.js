@@ -90,7 +90,7 @@ const getDefaultState = () => ({
   // (especially as far as gloss, which we may not always have)
   [SHOW_TRANSLITERATION]: false,
   [SHOW_LEMMA]: false,
-  [SHOW_RELATIONSHIP]: true,
+  [SHOW_RELATIONSHIP]: false,
   [SHOW_MORPH_TAG]: false,
   [SHOW_GRAMMATICAL_TAGS]: false,
   [SHOW_GLOSS]: false,
