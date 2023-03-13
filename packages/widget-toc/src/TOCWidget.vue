@@ -136,21 +136,22 @@
 </script>
 
 <style lang="scss" scoped>
-  .toc-widget {
+  div.toc-widget {
     flex-direction: column;
     justify-content: flex-start;
-    width: 100%;
+    margin: 10px;
   }
   .lookahead-container {
     align-items: center;
     margin-bottom: 0.66em;
+    display: flex;
     .form-group {
       width: 90%;
     }
   }
   .icon {
     color: var(--sv-widget-toc-icon-text-color, black);
-    margin-left: 0.66em;
+    margin-left: 1.33em;
     &.urn {
       cursor: pointer;
     }
