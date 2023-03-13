@@ -1,21 +1,20 @@
 <template>
-  <ApolloQuery
-    class="reader"
-    ref="treesQuery"
-    :query="query"
-    :variables="queryVariablesPlus"
-    :update="queryUpdate"
-  >
-    <template v-slot="{ result: { error }, isLoading }">
-      <LoaderBall v-if="isLoading" />
-      <ErrorMessage v-else-if="error">
-        There was an error loading the requested data.
-      </ErrorMessage>
-      <EmptyMessage v-else-if="trees.length === 0" />
-      <template v-else>
+  <div class="reader">
+    <LoaderBall v-if="$apollo.loading" />
+    <ErrorMessage v-else-if="errors" />
+    <template v-else-if="passageHasTrees">
+      <div class="toolbar">
+        <!-- TODO: Experiment with moving the toolbar into the toggles -->
+        <CustomSelect
+          v-model="selectedCollection"
+          :options="treeCollections"
+          placeholder="Select a collection..."
+        />
+      </div>
+      <template v-if="trees && trees.length > 0">
         <ModeToolbar :expandAll="expandAll" @show="onShow" />
         <Tree
-          v-for="(tree, index) in trees"
+          v-for="(tree, index) in transformedTrees"
           :key="tree.treeBankId"
           :tree="tree"
           :first="index === 0"
@@ -24,17 +23,18 @@
         />
       </template>
     </template>
-  </ApolloQuery>
+    <EmptyMessage v-else />
+  </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
-  import { ApolloQuery } from 'vue-apollo';
 
   import URN, {
     LoaderBall,
     ErrorMessage,
     EmptyMessage,
+    CustomSelect,
   } from '@scaife-viewer/common';
 
   import {
@@ -117,14 +117,14 @@
     },
     data() {
       return {
-        trees: [],
+        errors: false,
       };
     },
     components: {
-      ApolloQuery,
       LoaderBall,
       ErrorMessage,
       EmptyMessage,
+      CustomSelect,
       ModeToolbar,
       Tree,
     },
@@ -132,9 +132,25 @@
       queryVariables: Object,
     },
     watch: {
-      displayOptions: {
+      selectedCollection: {
+        handler(value) {
+          if (value && value.value !== this.collectionUrn) {
+            this.collectionUrn = value.value;
+          }
+        },
+      },
+      treeCollections: {
         handler() {
-          this.queryUpdate(this.$refs.treesQuery.result.fullData);
+          if (this.collectionUrn === undefined) {
+            if (this.treeCollections.length > 0) {
+              const value = this.treeCollections[0];
+              const query = {
+                ...this.$route.query,
+                collectionUrn: value.value,
+              };
+              this.$router.replace({ query });
+            }
+          }
         },
       },
     },
@@ -167,7 +183,7 @@
       queryUpdate(data) {
         // NOTE: We are only invoking these for Iliad Greek
         // because we don't have any further grammars at this time.
-        const grammaticalTagsByRefWord = this.isIliadGreek
+        const grammaticalTagsByRefWord = this.isCustomCollection
           ? this.extractGrammaticalTags(data.passageTextParts.edges)
           : new Map();
         const trees = data.syntaxTrees.edges.map(tree => {
@@ -200,7 +216,7 @@
               grammaticalTagsByRefWord.get(subRefKey) || null;
           });
           return {
-            tree: transformForTreant(root, this.displayOptions),
+            root,
             words,
             wordBank,
             treeBankId: tree.node.data.treebankId,
@@ -211,11 +227,41 @@
             urn: tree.node.urn,
           };
         });
-
-        this.$data.trees = trees;
+        return trees;
       },
     },
     computed: {
+      passageHasTrees() {
+        return this.treeCollections && this.treeCollections.length > 0;
+      },
+      transformedTrees() {
+        if (!this.trees) {
+          return [];
+        }
+        return this.trees.map(tree => {
+          return {
+            ...tree,
+            // NOTE: We need to "rebind" the tree here based on the selected
+            // display options
+            tree: transformForTreant(tree.root, this.displayOptions),
+          };
+        });
+      },
+      collectionUrn: {
+        get() {
+          return this.$route.query.collectionUrn;
+        },
+        set(value) {
+          if (value === undefined) {
+            return;
+          }
+          const query = {
+            ...this.$route.query,
+            collectionUrn: value,
+          };
+          this.$router.replace({ query });
+        },
+      },
       displayOptions() {
         return {
           showTransliteration: this.$store.state[MODULE_NS].showTransliteration,
@@ -261,22 +307,21 @@
           'urn:cts:greekLit:tlg0012.tlg001.perseus-grc2:'
         );
       },
+      isCustomCollection() {
+        return (
+          this.isIliadGreek &&
+          // eslint-disable-next-line max-len, prettier/prettier
+          this.collectionUrn === 'urn:cite2:beyond-translation:text_annotation_collection.atlas_v1:il_gregorycrane_gAGDT'
+        );
+      },
       hasGlosses() {
         return this.passage.textGroup === 'tlg0012';
-      },
-      collectionUrn() {
-        // TODO:Remove hardcoded value and expose a dropdown, similar to
-        // translation alignments
-        return this.isIliadGreek
-          ? // eslint-disable-next-line max-len
-            `urn:cite2:beyond-translation:text_annotation_collection.atlas_v1:il_gregorycrane_gAGDT`
-          : '';
       },
       // TODO: Refactor `queryVariables` prop
       standardQuery() {
         return gql`
-          query SyntaxTree($urn: String!) {
-            syntaxTrees(reference: $urn) {
+          query SyntaxTree($urn: String!, $collectionUrn: ID!) {
+            syntaxTrees(reference: $urn, collection_Urn: $collectionUrn) {
               edges {
                 node {
                   id
@@ -292,7 +337,10 @@
         `;
       },
       standardVariables() {
-        return this.queryVariables;
+        return {
+          collectionUrn: this.collectionUrn,
+          ...this.queryVariables,
+        };
       },
       specialQuery() {
         return gql`
@@ -343,12 +391,99 @@
         };
       },
       queryVariablesPlus() {
-        return this.isIliadGreek
+        return this.isCustomCollection
           ? this.specialVariables
           : this.standardVariables;
       },
       query() {
-        return this.isIliadGreek ? this.specialQuery : this.standardQuery;
+        return this.isCustomCollection ? this.specialQuery : this.standardQuery;
+      },
+      skip() {
+        return !this.collectionUrn;
+      },
+    },
+    apollo: {
+      trees: {
+        query() {
+          return this.query;
+        },
+        variables() {
+          return this.queryVariablesPlus;
+        },
+        update(data) {
+          return this.queryUpdate(data);
+        },
+        error() {
+          this.errors = true;
+        },
+        skip() {
+          return !this.collectionUrn;
+        },
+      },
+      selectedCollection: {
+        query: gql`
+          query TreeCollections($urn: String!) {
+            textAnnotationCollections(urn: $urn) {
+              edges {
+                node {
+                  id
+                  label
+                  urn
+                }
+              }
+            }
+          }
+        `,
+        skip() {
+          return !this.collectionUrn;
+        },
+        update(data) {
+          return data.textAnnotationCollections.edges.map(e => {
+            return {
+              value: e.node.urn,
+              title: e.node.label,
+            };
+          })[0];
+        },
+        variables() {
+          return {
+            urn: this.collectionUrn,
+          };
+        },
+        error() {
+          this.errors = true;
+        },
+      },
+      // TODO: Allow this query to be scoped so we actually only get
+      // tree collections
+      treeCollections: {
+        query: gql`
+          query TreeCollections($urn: String!) {
+            textAnnotationCollections(reference: $urn) {
+              edges {
+                node {
+                  id
+                  label
+                  urn
+                }
+              }
+            }
+          }
+        `,
+        variables() {
+          return this.queryVariables;
+        },
+        update(data) {
+          return data.textAnnotationCollections.edges.map(e => {
+            return {
+              value: e.node.urn,
+              title: e.node.label,
+            };
+          });
+        },
+        error() {
+          this.errors = true;
+        },
       },
     },
   };
@@ -360,5 +495,16 @@
     margin: 0 1em;
     height: 600px;
     max-height: calc(100vh - 100px);
+  }
+  .toolbar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 1em;
+  }
+  .empty-annotations {
+    text-align: center;
+    margin-top: 1rem;
   }
 </style>

@@ -30,6 +30,8 @@
   export default {
     props: ['expandAll'],
     data() {
+      // TODO: Show / hide toggles depending on underlying data.
+      // e.g., glaux trees won't support all of the toggles.
       return { toggles: TOKEN_ANNOTATION_TOGGLES };
     },
     methods: {
