@@ -13,6 +13,7 @@ import {
   DISPLAY_MODE_COMMENTARIES,
   DISPLAY_MODE_SYNTAX_TREES,
   DISPLAY_MODE_GRAMMATICAL_ENTRIES,
+  DISPLAY_MODE_FALLBACK,
   DISPLAY_MODE_DEFAULT,
 } from '@scaife-viewer/store';
 import { SkeletonPlugin } from '@scaife-viewer/skeleton';
@@ -33,6 +34,7 @@ import NamedEntitiesModeReader, {
 } from '@scaife-viewer/reader-named-entities-mode';
 // eslint-disable-next-line max-len
 import GrammaticalEntriesModeReader from '@scaife-viewer/reader-grammatical-entries-mode';
+import FallbackModeReader from '@scaife-viewer/reader-tei-fallback-mode';
 
 import MetricalModeReader from '@scaife-viewer/reader-metrical-mode';
 import InterlinearModeReader from '@scaife-viewer/reader-interlinear-mode';
@@ -80,6 +82,7 @@ Vue.use(SkeletonPlugin, {
       [DISPLAY_MODE_ALIGNMENTS]: AlignmentsModeReader,
       [DISPLAY_MODE_SYNTAX_TREES]: SyntaxTreesModeReader,
       [DISPLAY_MODE_GRAMMATICAL_ENTRIES]: GrammaticalEntriesModeReader,
+      [DISPLAY_MODE_FALLBACK]: FallbackModeReader,
     },
     citationSchemeMap: {
       book: 'Books',

@@ -8,7 +8,7 @@
         :class="{ active: mode.active }"
         @click.prevent="setMode(mode)"
       >
-        {{ mode.label }}
+        {{ displayModeLabel(mode.label) }}
       </div>
     </template>
   </div>
@@ -16,9 +16,11 @@
 
 <script>
   import gql from 'graphql-tag';
+  import { displayName } from '@scaife-viewer/common';
   import {
     MODULE_NS,
     DISPLAY_MODE_DEFAULT,
+    DISPLAY_MODE_FALLBACK,
     LAYOUT_WIDTH_WIDE,
     SET_MAIN_LAYOUT_WIDTH_NORMAL,
     SET_MAIN_LAYOUT_WIDTH_WIDE,
@@ -108,6 +110,9 @@
           this.$store.dispatch(`${MODULE_NS}/${SET_MAIN_LAYOUT_WIDTH_NORMAL}`);
         }
       },
+      displayModeLabel(name) {
+        return displayName(name, this.$store.getters, this.$scaife)
+      }
     },
     watch: {
       displayMode: {
@@ -121,8 +126,13 @@
           ) {
             // NOTE: This is a guard rail added to prevent the user
             // from navigating into a bad reader state
-            this.setMode({ mode: DISPLAY_MODE_DEFAULT });
-            return;
+            // FIXME: We might want an additional check to switch between
+            // default and fallback modes; below is a start.
+            let toSet = DISPLAY_MODE_DEFAULT;
+            if (newVal.mode === DISPLAY_MODE_DEFAULT && !newVal.available) {
+              toSet = DISPLAY_MODE_FALLBACK;
+            }
+            this.setMode({ mode: toSet });
           }
           if (!oldVal || newVal.mode !== oldVal.mode) {
             this.applyModeLayout(newVal);

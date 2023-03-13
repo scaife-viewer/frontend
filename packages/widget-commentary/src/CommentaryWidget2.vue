@@ -100,12 +100,15 @@
     CLEAR_SELECTED_COMMENTARIES,
   } from '@scaife-viewer/store';
   import CommentaryLine from './CommentaryLine.vue';
-
+  // TODO: Refactor default ALL_ label to callback too
   const ALL_WITNESSES = { value: null, title: 'All Witnesses' };
 
+  const displayNameCallback = (rootGetters, $scaife) => {
+    return $scaife.config.commentaryWidgetLabel || ' Commentary';
+  };
   export default {
     scaifeConfig: {
-      displayName: 'Commentary',
+      displayName: displayNameCallback,
     },
     // name: 'CommentaryWidget2',
     components: {

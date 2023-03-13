@@ -32,7 +32,8 @@
 
 <script>
   import { PortalTarget } from 'portal-vue';
-  import utils from '../utils';
+  import { displayName } from '@scaife-viewer/common';
+
   import SidebarWidget from './SidebarWidget.vue';
   import WidgetEditor from '../editor/WidgetEditor.vue';
 
@@ -41,7 +42,7 @@
     components: { WidgetEditor, SidebarWidget, PortalTarget },
     methods: {
       displayName(name) {
-        return utils.displayName(name, this.$store.getters, this.$scaife);
+        return displayName(name, this.$store.getters, this.$scaife);
       },
     },
   };

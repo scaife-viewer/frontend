@@ -88,6 +88,10 @@
         // FIXME: Determine if backend supports language
         return true;
       },
+      lang() {
+        const { metadata } = this.$store.state['scaife'];
+        return metadata ? metadata.lang : '';
+      },
       // FIXME: Review for SV 1 compatiblity
       selectedToken() {
         return this.$store.state[MODULE_NS].selectedToken;
@@ -123,9 +127,7 @@
         if (!word) {
           this.reset();
         }
-        // FIXME: Set language in SV 1 / SV 2
-        // const { lang } = this.text.metadata;
-        const lang = 'grc';
+        const { lang } = this;
         if (word) {
           this.loading = true;
           const url = `${MORPHOLOGY_API_ENDPOINT}/?word=${word.w}&lang=${lang}`;
