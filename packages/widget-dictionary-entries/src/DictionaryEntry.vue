@@ -287,6 +287,7 @@
                   senseTree
                   data
                   dictionary {
+                    id
                     label
                   }
                 }
@@ -316,6 +317,7 @@
                   urn
                   headword
                   dictionary {
+                    id
                     label
                   }
                 }

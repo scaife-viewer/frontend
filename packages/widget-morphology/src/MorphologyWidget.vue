@@ -2,7 +2,13 @@
   <div class="morphology">
     <LoaderBall v-if="loading" />
     <div v-else-if="morphBody">
-      <div class="group" v-for="group in morphBody" :key="group.uri">
+      <div
+        class="group"
+        :class="{ selected: group.selected }"
+        v-for="group in groups"
+        :key="group.uri"
+        @click="handleClick(group)"
+      >
         <div class="head">
           <span class="hdwd">{{ group.hdwd }}</span>
           <span class="pofs-decl">{{ group.pofs }} {{ group.decl }}</span>
@@ -91,7 +97,7 @@
         return this.$store.state[MODULE_NS].selectedToken;
       },
       selectedLemmas() {
-        return this.$store.state[MODULE_NS].selectedLemma;
+        return this.$store.getters[`${MODULE_NS}/selectedLemmas`];
       },
       selectedWord() {
         if (this.selectedToken) {
@@ -104,6 +110,15 @@
       },
       isScaifeViewerVersion1() {
         return this.$scaife.config.sv1;
+      },
+      groups() {
+        return this.morphBody.map(group => {
+          const isSelected = this.selected(group.hdwd);
+          return {
+            selected: isSelected,
+            ...group,
+          };
+        });
       },
     },
     methods: {
@@ -125,18 +140,15 @@
               if (data.Body && data.Body.length > 0) {
                 this.morphBody = data.Body;
                 const lemmas = [];
-                this.morphBody.forEach(({ hdwd }) => {
-                  lemmas.push(hdwd);
-                });
+                if (this.selectedToken.lemma) {
+                  lemmas.push(this.selectedToken.lemma);
+                } else {
+                  this.morphBody.forEach(({ hdwd }) => {
+                    lemmas.push(hdwd);
+                  });
+                }
                 this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
-                  lemmas,
-                });
-              } else if (this.selectedToken.lemma) {
-                // TODO: Allow the user to choose between the retrieved
-                // and annotated lemma(s)
-                this.morphBody = null;
-                this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
-                  lemmas: [this.selectedToken.lemma],
+                  lemmas: lemmas.slice(0, 1),
                 });
               } else {
                 this.reset();
@@ -154,6 +166,17 @@
         this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
           lemmas: null,
         });
+      },
+      handleClick(group) {
+        const lemmas = [group.hdwd];
+        this.$store.commit(`${MODULE_NS}/${SET_SELECTED_LEMMAS}`, {
+          lemmas,
+        });
+      },
+      selected(headword) {
+        return this.selectedLemmas
+          ? this.selectedLemmas.filter(lemma => lemma === headword).length > 0
+          : false;
       },
     },
   };
@@ -232,6 +255,16 @@
           color: var(--sv-widget-morphology-legend-color, #868e96);
         }
       }
+    }
+    &.selected {
+      background: var(
+        --sv-widget-morphology-selected-background-color,
+        #f8f9fa
+      );
+      margin-left: -10px;
+      padding: 3px 7px;
+      border-left: 3px solid
+        var(--sv-widget-morphology-selected-border-color, #343a40);
     }
   }
 </style>

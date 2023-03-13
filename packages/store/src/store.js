@@ -91,7 +91,7 @@ const getDefaultState = () => ({
   // (especially as far as gloss, which we may not always have)
   [SHOW_TRANSLITERATION]: false,
   [SHOW_LEMMA]: false,
-  [SHOW_RELATIONSHIP]: true,
+  [SHOW_RELATIONSHIP]: false,
   [SHOW_MORPH_TAG]: false,
   [SHOW_GRAMMATICAL_TAGS]: false,
   [SHOW_GLOSS]: false,
@@ -160,6 +160,7 @@ const createStore = client => {
           const { mode } = rootState.route.query;
           return mode || DISPLAY_MODE_DEFAULT;
         },
+        selectedToken: state => state.selectedToken,
         selectedLemmas: state => state.selectedLemmas,
         selectedDictionaryUrn: state => state.selectedDictionaryOption.value,
         showCommentary: (_, __, rootState) => {

@@ -20,7 +20,7 @@
       </Attribution>
       <Attribution v-if="showGammarCredit" class="reader-attribution">
         From the
-        <a href="https://didakta.vercel.app" target="_blank"
+        <a href="https://github.com/farnoosh-shamsian/Didakta" target="_blank"
           >Didakta Modular Grammar</a
         >
         by

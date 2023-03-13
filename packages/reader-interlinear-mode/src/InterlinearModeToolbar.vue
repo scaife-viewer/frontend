@@ -1,10 +1,10 @@
 <template>
   <div class="interlinear-mode-toolbar">
     <div class="attr-toggles">
-      <!-- TODO: show / hide toggles based on underlying collection data -->
-      <!-- TODO: Factor out further common -->
+      <!-- TODO: Factor out further common functionality
+      with SyntaxTreesModeReader -->
       <span
-        v-for="([propertyName, label], toggleIdx) in toggles"
+        v-for="([propertyName, label], toggleIdx) in availableToggles"
         :key="toggleIdx"
         :class="{ active: isActive(propertyName) }"
         @click.prevent="toggleProperty(propertyName)"
@@ -21,13 +21,9 @@
     SHOW_MORPH_TAG,
     SHOW_GRAMMATICAL_TAGS,
   } from '@scaife-viewer/store';
-  import { TOKEN_ANNOTATION_TOGGLES } from '@scaife-viewer/common';
 
   export default {
-    props: ['expandAll'],
-    data() {
-      return { toggles: TOKEN_ANNOTATION_TOGGLES };
-    },
+    props: ['expandAll', 'availableToggles'],
     methods: {
       toggleProperty(propertyName) {
         this[[propertyName]] = !this[propertyName];
@@ -96,14 +92,6 @@
           this.$store.state[MODULE_NS].showGloss = !this.$store.state[MODULE_NS]
             .showGloss;
         },
-      },
-      passage() {
-        return this.$store.getters[`${MODULE_NS}/passage`];
-      },
-      hasGlosses() {
-        // FIXME: Derive this from an associated collection, not
-        // a hard-coded value
-        return this.passage.textGroup === 'tlg0012';
       },
     },
   };

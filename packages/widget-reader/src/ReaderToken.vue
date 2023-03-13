@@ -40,20 +40,18 @@
       <span v-if="showAnnotation(SHOW_GRAMMATICAL_TAGS)" class="analysis">
         {{ grammaticalTags }}
       </span>
-      <template v-if="hasGlosses">
-        <span
-          v-if="showAnnotation(SHOW_GLOSS)"
-          class="gloss"
-          :title="token.glossEng"
-          >{{ token.glossEng || '-' }}</span
-        >
-        <span
-          v-if="showAnnotation('showGloss')"
-          class="gloss gloss-rtl"
-          :title="token.glossFas"
-          >{{ token.glossFas || '-' }}</span
-        >
-      </template>
+      <span
+        v-if="showAnnotation(SHOW_GLOSS)"
+        class="gloss"
+        :title="token.glossEng"
+        >{{ token.glossEng || '-' }}</span
+      >
+      <span
+        v-if="showAnnotation(SHOW_GLOSS) && hasArabicGlosses"
+        class="gloss gloss-rtl"
+        :title="token.glossFas"
+        >{{ token.glossFas || '-' }}</span
+      >
     </template>
     <template v-else-if="dictionaryEntriesMode">
       <span :title="token.lemma" class="text">{{ token.value }}</span
@@ -82,7 +80,6 @@
     SHOW_MORPH_TAG,
     SHOW_GRAMMATICAL_TAGS,
     SHOW_GLOSS,
-
   } from '@scaife-viewer/store';
 
   export default {
@@ -108,6 +105,7 @@
           this.$store.dispatch(`${MODULE_NS}/${SELECT_GRAMMATICAL_ENTRIES}`, {
             entries: this.grammaticalEntries,
           });
+          // FIXME: Refactor this with lemma for selection
           this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
             token: this.token,
           });
@@ -222,7 +220,8 @@
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
-      hasGlosses() {
+      hasArabicGlosses() {
+        // FIXME: Refactor as a collection level attr
         return this.passage.textGroup === 'tlg0012';
       },
       showCitedLemmas() {

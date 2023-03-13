@@ -119,6 +119,7 @@
         this.$emit('leave');
       },
       onTreeLoaded() {
+        // FIXME: Remove querySelector deps?
         const nodes = this.$el.querySelectorAll('.node');
         nodes.forEach(node => {
           node.addEventListener('mouseenter', this.onNodeEnter);
@@ -171,14 +172,15 @@
         return width;
       },
       setConstraints() {
-        this.maxHeight = this.$parent.$parent.$el.clientHeight;
+        this.maxHeight = document.querySelector(
+          '.reader-container',
+        ).clientHeight;
         this.maxWidth = this.calculateMaxWidth();
       },
       onResize() {
         this.treant.destroy();
         this.panzoom.destroy();
         this.$nextTick(() => {
-          this.setConstraints();
           this.drawTree();
         });
       },
@@ -308,6 +310,7 @@
       },
       redrawKey() {
         this.onResize();
+        this.setConstraints();
       },
       tree() {
         this.onResize();

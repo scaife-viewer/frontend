@@ -18,9 +18,9 @@
     <div v-if="showGrammaticalTags" class="analysis">
       {{ grammaticalTags }}
     </div>
-    <template v-if="hasGlosses">
-      <div v-if="showGloss" class="gloss">{{ word.glossEng || '-' }}</div>
-      <div v-if="showGloss" class="gloss gloss-rtl">
+    <template v-if="showGloss">
+      <div class="gloss">{{ word.glossEng || '-' }}</div>
+      <div v-if="hasArabicGlosses" class="gloss gloss-rtl">
         {{ word.glossFas || '-' }}
       </div>
     </template>
@@ -31,6 +31,7 @@
   import {
     MODULE_NS,
     SET_SELECTED_LEMMAS,
+    SELECT_TOKEN,
     SHOW_MORPH_TAG,
     SHOW_GRAMMATICAL_TAGS,
   } from '@scaife-viewer/store';
@@ -40,6 +41,14 @@
     computed: {
       selectedLemmas() {
         return this.$store.state[MODULE_NS].selectedLemma;
+      },
+      selectedToken() {
+        return this.$store.getters[`${MODULE_NS}/selectedToken`];
+      },
+      wordIsSelected() {
+        return this.word
+          ? this.selectedToken && this.selectedToken.value === this.word.value
+          : false;
       },
       lemma() {
         return this.word.lemma ? this.word.lemma : null;
@@ -80,7 +89,7 @@
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
-      hasGlosses() {
+      hasArabicGlosses() {
         return this.passage.textGroup === 'tlg0012';
       },
       grammaticalTags() {
@@ -97,6 +106,22 @@
         this.$emit('word-leave', this.word);
       },
       onSelect() {
+        // TODO: Link this via subref? and fire SELECTED_TOKEN handler?
+        // veRef: 1.1.1.t1
+        if (this.wordIsSelected) {
+          this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
+            token: null,
+          });
+        } else {
+          const token = {
+            lemma: this.lemma,
+            value: this.word.value,
+          };
+          this.$store.dispatch(`${MODULE_NS}/${SELECT_TOKEN}`, {
+            token,
+          });
+        }
+
         // TODO: Standardize lemma selection
         // across reader and annotation widgets
         if (this.lemmaIsSelected) {
