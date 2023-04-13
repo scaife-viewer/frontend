@@ -90,6 +90,7 @@ Vue.use(SkeletonPlugin, {
     dictionaryEntries: {
       showCitationResolutionHint: true,
       resolveUsingNormalizedLemmas: false,
+      selectDictionaries: true,
     },
     pageTitle: title => `SV Demo | ${title}`,
   },

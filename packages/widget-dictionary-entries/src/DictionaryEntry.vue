@@ -34,17 +34,19 @@
             </div>
           </div>
         </div>
-        <div class="dictionary-label-divider" />
-        <CustomSelect
-          v-if="siblingEntryValues.length > 0"
-          class="sibling-entry-select"
-          v-model="selectedEntryValue"
-          :options="siblingEntryValues"
-          placeholder="Select an alignment..."
-        />
-        <Attribution v-else>
-          {{ entry.dictionary.label }}
-        </Attribution>
+        <template v-if="selectDictionaries">
+          <div class="dictionary-label-divider" />
+          <CustomSelect
+            v-if="siblingEntryValues.length > 0"
+            class="sibling-entry-select"
+            v-model="selectedEntryValue"
+            :options="siblingEntryValues"
+            placeholder="Select an alignment..."
+          />
+          <Attribution v-else>
+            {{ entry.dictionary.label }}
+          </Attribution>
+        </template>
       </div>
     </div>
     <LoaderBall v-else-if="$apollo.queries.entries.loading" />
@@ -198,6 +200,11 @@
             return { title, value: sibling.urn };
           });
       },
+      selectDictionaries() {
+        const fallback = true;
+        const config = this.$scaife.config.dictionaryEntries;
+        return config ? config.selectDictionaries : fallback;
+      }
     },
     apollo: {
       // NOTE: this query gets all possible senses and everything needed
