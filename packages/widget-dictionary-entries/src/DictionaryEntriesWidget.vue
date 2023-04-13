@@ -82,6 +82,11 @@
           ? this.candidateLemmaEntries[0].urn
           : null;
       },
+      resolveUsingNormalizedLemmas() {
+        const fallback = false;
+        const config = this.$scaife.config.dictionaryEntries;
+        return config ? config.resolveUsingNormalizedLemmas : fallback;
+      }
     },
     apollo: {
       lemmaEntries: {
@@ -91,8 +96,8 @@
         // TODO: Tweak query to include dictionary.urn
         // only if `dictionaryEntriesMode` is true
         query: gql`
-          query DictionaryEntries($lemma: String!) {
-            dictionaryEntries(lemma: $lemma) {
+          query DictionaryEntries($lemma: String!, $normalizeLemmas: Boolean!) {
+            dictionaryEntries(lemma: $lemma, normalizeLemmas: $normalizeLemmas ) {
               edges {
                 node {
                   id
@@ -107,7 +112,7 @@
           }
         `,
         variables() {
-          return { lemma: `${this.lemmas[0]}` };
+          return { lemma: `${this.lemmas[0]}`, normalizeLemmas: this.resolveUsingNormalizedLemmas, };
         },
         update(data) {
           return data.dictionaryEntries.edges.map(e => e.node);
