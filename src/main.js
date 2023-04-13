@@ -87,6 +87,9 @@ Vue.use(SkeletonPlugin, {
     citationSchemeMap: {
       book: 'Books',
     },
+    dictionaryEntries: {
+      showCitationResolutionHint: true,
+    },
     pageTitle: title => `SV Demo | ${title}`,
   },
 });
