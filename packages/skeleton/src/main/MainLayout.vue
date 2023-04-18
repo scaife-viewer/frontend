@@ -34,7 +34,6 @@
   import { MODULE_NS } from '@scaife-viewer/store';
   import { displayName } from '@scaife-viewer/common';
 
-
   import EditLayoutButton from './EditLayoutButton.vue';
   import MainWidget from './MainWidget.vue';
   import WidgetEditor from '../editor/WidgetEditor.vue';

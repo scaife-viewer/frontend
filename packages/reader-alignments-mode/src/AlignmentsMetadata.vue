@@ -8,8 +8,6 @@
 <script>
   import gql from 'graphql-tag';
 
-  import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
-
   // TODO: Factor out attributions data model and components
   // FIXME: Remove attributions as dependency
   // TODO: Refactor with TreeMetadata
@@ -21,8 +19,6 @@
     props: ['alignment'],
     components: {
       Attributions,
-      EmptyMessage,
-      LoaderBall,
     },
     computed: {
       source() {

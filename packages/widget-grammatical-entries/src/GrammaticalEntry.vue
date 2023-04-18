@@ -76,7 +76,8 @@
     font-size: 14px;
     color: var(--sv-widget-grammatical-entries-title-text-color, #343a40);
     cursor: pointer;
-    &:hover, .selected {
+    &:hover,
+    .selected {
       font-weight: 600;
     }
   }

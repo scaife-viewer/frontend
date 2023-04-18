@@ -34,7 +34,7 @@
         const query = {
           ...this.$route.query,
           toc: urn.toString(),
-        }
+        };
         return {
           name: 'reader',
           params: { urn: this.passage.toString() },
@@ -49,7 +49,7 @@
         }
         const query = {
           ...this.$route.query,
-          toc: this.$route.query.toc
+          toc: this.$route.query.toc,
         };
         return this.$route.query.toc
           ? { name: 'reader', params: { urn }, query }

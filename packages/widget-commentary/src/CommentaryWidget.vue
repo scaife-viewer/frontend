@@ -1,8 +1,6 @@
 <template>
   <base-widget v-if="show" class="commentary">
-    <span slot="header">
-      Commentary
-    </span>
+    <span slot="header"> Commentary </span>
     <!-- TODO: Fix min height issues -->
     <div slot="body">
       <div :key="urn.absolute" class="commentary-container">
@@ -11,38 +9,26 @@
           <!-- Sync mode scroll to token could change the icon color -->
           <span @click="toggleHighlight()">
             <div class="mode">
-              <a :class="[{ active: !showCommentary }]">
-                hide
-              </a>
-              <a :class="[{ active: showCommentary }]">
-                show
-              </a>
+              <a :class="[{ active: !showCommentary }]"> hide </a>
+              <a :class="[{ active: showCommentary }]"> show </a>
             </div>
             <div class="help">
               <span v-if="!showCommentary">
                 commentary annotations are hidden
               </span>
-              <span v-else>
-                commentary annotations are shown
-              </span>
+              <span v-else> commentary annotations are shown </span>
             </div>
           </span>
           <span @click="toggleCommentarySync()">
             <div class="mode sync-mode">
-              <a :class="[{ active: !syncCommentary }]">
-                independent
-              </a>
-              <a :class="[{ active: syncCommentary }]">
-                sync
-              </a>
+              <a :class="[{ active: !syncCommentary }]"> independent </a>
+              <a :class="[{ active: syncCommentary }]"> sync </a>
             </div>
             <div class="help">
               <span v-if="!syncCommentary">
                 scroll commentary independently
               </span>
-              <span v-else>
-                scroll to an annotation when selected
-              </span>
+              <span v-else> scroll to an annotation when selected </span>
             </div>
           </span>
         </div>
@@ -77,11 +63,7 @@
               <em>
                 {{ fragment }}
                 <span v-if="lines.length > 1"> ({{ lines.length }}) </span>
-                <!-- TODO: For debugging -->
-                <!-- {{ lines[0].data.sortKey.toLocaleString() }} -->
               </em>
-              <!-- TODO: Revisit with CompiledInlineToken -->
-              <!-- <span v-if="isMultiSelected(lines)"><icon name="location-arrow" /></span> -->
             </div>
             <template v-if="isMultiSelected(lines)">
               <CommentaryLine
@@ -92,7 +74,6 @@
             </template>
           </div>
         </template>
-        <!-- TODO: Provide attribution information; may not be required everywhere -->
       </div>
     </div>
   </base-widget>
@@ -199,16 +180,6 @@
       },
     },
     watch: {
-      selectedWords: {
-        handler(newVal) {
-          // TODO: backport from SV2 (which will require further
-          // hash map manipulation)
-          // if (this.selectedCommentaries) {
-          //   debugger;
-          //   this.$store.state.prototype.selectedCommentaries = [];
-          // }
-        },
-      },
       lines: {
         handler() {
           this.updateWitnesses();
