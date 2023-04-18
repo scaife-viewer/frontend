@@ -16,6 +16,22 @@
       <div class="label">Language:</div>
       <div class="value">{{ metadata.humanLang }}</div>
     </div>
+    <div class="metadata-row" v-if="showEditor">
+      <div class="label">Editor:</div>
+      <div class="value">
+        <a :href="metadata.editor.url" target="_blank">{{
+          metadata.editor.name
+        }}</a>
+      </div>
+    </div>
+    <div class="metadata-row" v-if="showRepository">
+      <div class="label">Repository:</div>
+      <div class="value">
+        <a :href="metadata.repository.url" target="_blank">{{
+          metadata.repository.name
+        }}</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,6 +39,20 @@
   export default {
     name: 'Metadata',
     props: ['metadata', 'versionUrn'],
+    computed: {
+      showEditor() {
+        const fallback = true;
+        const config = this.$scaife.config.metadata;
+        const shown = config ? config.showEditor : fallback;
+        return shown && this.metadata.editor;
+      },
+      showRepository() {
+        const fallback = true;
+        const config = this.$scaife.config.metadata;
+        const shown = config ? config.showRepository : fallback;
+        return shown && this.metadata.repository;
+      },
+    },
   };
 </script>
 
