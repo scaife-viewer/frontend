@@ -15,6 +15,7 @@
   import FixedSkeleton from '@scaife-viewer/skeleton';
 
   import ReaderWidget from '@scaife-viewer/widget-reader';
+  import { CommentaryWidgetSV2 } from '@scaife-viewer/widget-commentary';
   import RepoMetadataWidget from '@scaife-viewer/widget-repo-metadata';
   import MetadataWidget from '@scaife-viewer/widget-metadata';
   // FIXME: Restore once we've synchronized ATLAS branches
@@ -22,11 +23,17 @@
   // import PassageCitationTOCWidget from '@scaife-viewer/widget-passage-citation-toc';
   import PassageReferenceWidget from '@scaife-viewer/widget-passage-reference';
   import PassageAncestorsWidget from '@scaife-viewer/widget-passage-ancestors';
+  import TOCWidget from '@scaife-viewer/widget-toc';
   import PassageSiblingsWidget from '@scaife-viewer/widget-passage-siblings';
   import PassageChildrenWidget from '@scaife-viewer/widget-passage-children';
   import LibraryWidget from '@scaife-viewer/widget-library';
   import TokenAnnotationWidget from '@scaife-viewer/widget-token-annotations';
+  import MorphologyWidget from '@scaife-viewer/widget-morphology';
   import NamedEntitiesWidget from '@scaife-viewer/widget-named-entities';
+  // eslint-disable-next-line max-len
+  import GrammaticalEntriesWidget from '@scaife-viewer/widget-grammatical-entries';
+  // eslint-disable-next-line max-len
+  import PassageLemmaTraversalWidget from '@scaife-viewer/widget-passage-lemma-traversal';
   // eslint-disable-next-line max-len
   import DictionaryEntriesWidget from '@scaife-viewer/widget-dictionary-entries';
   import DisplayModeWidget from '@scaife-viewer/widget-display-mode';
@@ -63,6 +70,7 @@
           PassageAncestorsWidget,
           PassageSiblingsWidget,
           PassageChildrenWidget,
+          TOCWidget,
         ];
       },
       right() {
@@ -74,11 +82,15 @@
           AudioWidget,
           DisplayModeWidget,
           NamedEntitiesWidget,
+          GrammaticalEntriesWidget,
+          PassageLemmaTraversalWidget,
           DictionaryEntriesWidget,
           TokenAnnotationWidget,
+          MorphologyWidget,
           WordListWidget,
           NewAlexandriaWidget,
           ScholiaWidget,
+          CommentaryWidgetSV2,
         ];
       },
       main() {

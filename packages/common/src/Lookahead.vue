@@ -7,6 +7,7 @@
         :placeholder="placeholder"
         @input="onInput"
       />
+      <!-- TODO: Add an affordance for clearing query -->
     </div>
   </div>
 </template>
@@ -32,13 +33,18 @@
         // Prevents intermediate flash reload of stale data on query reset.
         if (this.reduce) {
           this.results = this.reducer(this.data, this.query);
-          this.$emit('filter-data', this.results);
+          this.$emit('filter-data', this.results, this.query);
         }
         this.reduce = true;
       },
       resetQuery() {
         this.query = '';
         this.reduce = false;
+        // FIXME: Since $route changes trigger lookahead changes,
+        // we may want to make the filter-data callback
+        // have a reset argument; for now, we'll just pass
+        // back the data.
+        this.$emit('filter-data', this.data, this.query);
       },
       onInput() {
         debounce(e => {

@@ -57,14 +57,26 @@
       },
     },
     computed: {
+      usesItems() {
+        // TODO: Further refactor these components
+        // and the parent GraphQL query to only query
+        // for items when the displayHint calls for it.
+        // This works for now with minimal impact on
+        // query / render speed.
+        return this.record.items !== null;
+      },
       label() {
         return this.record.label;
       },
       left() {
-        return this.extractLines(this.record.relations[0]);
+        return this.usesItems
+          ? this.record.items[0]
+          : this.extractLines(this.record.relations[0]);
       },
       right() {
-        return this.extractLines(this.record.relations[1]);
+        return this.usesItems
+          ? this.record.items[1]
+          : this.extractLines(this.record.relations[1]);
       },
     },
   };

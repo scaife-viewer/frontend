@@ -53,7 +53,6 @@
                         id
                         veRef
                         value
-                        lemma
                       }
                     }
                   }
@@ -69,11 +68,10 @@
         const textParts = data.passageTextParts.edges.map(textPart => {
           const { id, ref, kind } = textPart.node;
           const tokens = textPart.node.tokens.edges.map(edge => {
-            const { value, veRef, lemma } = edge.node;
+            const { value, veRef } = edge.node;
             return {
               value,
               veRef,
-              lemma,
             };
           });
           return {

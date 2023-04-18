@@ -25,6 +25,11 @@
       singleton: true,
     },
     components: { Attribution, EmptyMessage },
+    data() {
+      return {
+        scholiaCollectionUrn: this.$scaife.config.scholiaCollectionUrn,
+      };
+    },
     computed: {
       urn() {
         return this.$store.getters[`${MODULE_NS}/urn`];
@@ -33,8 +38,8 @@
     apollo: {
       lines: {
         query: gql`
-          query Scholia($urn: String!) {
-            textAnnotations(reference: $urn) {
+          query Scholia($urn: String!, $collectionUrn: ID) {
+            textAnnotations(reference: $urn, collection_Urn: $collectionUrn) {
               edges {
                 node {
                   id
@@ -46,7 +51,10 @@
           }
         `,
         variables() {
-          return { urn: this.urn.absolute };
+          return {
+            urn: this.urn.absolute,
+            collectionUrn: this.scholiaCollectionUrn || '',
+          };
         },
         update(data) {
           return data.textAnnotations.edges.map(e => {

@@ -10,12 +10,22 @@
         :textPart="textPart"
       />
 
-      <Attribution v-if="showMetricalCredit" class="metrical-attribution">
+      <Attribution v-if="showMetricalCredit" class="reader-attribution">
         Metrical annotation &copy; 2016
         <a href="https://hypotactic.com/" target="_blank">David Chamberlain</a>
         under
         <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
           >CC BY 4.0 License</a
+        >
+      </Attribution>
+      <Attribution v-if="showGammarCredit" class="reader-attribution">
+        From the
+        <a href="https://github.com/farnoosh-shamsian/Didakta" target="_blank"
+          >Didakta Modular Grammar</a
+        >
+        by
+        <a href="https://orcid.org/0000-0003-3743-4278" target="_blank"
+          >Farnoosh Shamsian</a
         >
       </Attribution>
       <EmptyMessage class="reader-empty-annotations" v-if="showMetricalEmpty" />
@@ -46,11 +56,30 @@
       metricalMode() {
         return this.$store.getters[`${MODULE_NS}/metricalMode`];
       },
+      grammaticalEntriesMode() {
+        return this.$store.getters[`${MODULE_NS}/grammaticalEntriesMode`];
+      },
       showMetricalCredit() {
         if (!this.metricalMode) {
           return false;
         }
         return this.metricalLines.length > 0;
+      },
+      showGammarCredit() {
+        if (!this.grammaticalEntriesMode) {
+          return false;
+        }
+        const tokensHaveEntries =
+          this.textParts
+            .map(textPart => {
+              return textPart.tokens.map(token => {
+                const entries = token.grammaticalEntries;
+                return entries && entries.length > 0;
+              });
+            })
+            .flat()
+            .filter(hasEntries => hasEntries).length > 0;
+        return tokensHaveEntries;
       },
       metricalLines() {
         if (!this.metricalMode) {
@@ -149,7 +178,7 @@
     font-size: 24px;
   }
 
-  .metrical-attribution {
+  .reader-attribution {
     margin-top: 1rem;
     text-align: center;
   }

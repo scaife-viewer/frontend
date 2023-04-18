@@ -7,38 +7,33 @@
     <div class="attr-toggles">
       <!-- TODO: show / hide toggles based on underlying collection data -->
       <span
-        :class="{ active: showLemma }"
-        @click.prevent="showLemma = !showLemma"
+        v-for="([propertyName, label], toggleIdx) in availableToggles"
+        :key="toggleIdx"
+        :class="{ active: isActive(propertyName) }"
+        @click.prevent="toggleProperty(propertyName)"
       >
-        Lemma
-      </span>
-      <!-- TODO: Enable gloss -->
-      <span
-        v-if="false"
-        :class="{ active: showGloss }"
-        @click.prevent="showGloss = !showGloss"
-      >
-        Gloss
-      </span>
-      <span
-        :class="{ active: showRelationship }"
-        @click.prevent="showRelationship = !showRelationship"
-      >
-        Relationship
-      </span>
-      <span :class="{ active: showTag }" @click.prevent="showTag = !showTag">
-        Tag
+        {{ label }}
       </span>
     </div>
   </div>
 </template>
 
 <script>
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SHOW_MORPH_TAG,
+    SHOW_GRAMMATICAL_TAGS,
+  } from '@scaife-viewer/store';
+  import { TOKEN_ANNOTATION_TOGGLES } from '@scaife-viewer/common';
   import { MODE_EXPAND, MODE_COMPRESS } from './constants';
 
   export default {
-    props: ['expandAll'],
+    props: ['expandAll', 'availableToggles'],
+    data() {
+      // TODO: Show / hide toggles depending on underlying data.
+      // e.g., glaux trees won't support all of the toggles.
+      return { toggles: TOKEN_ANNOTATION_TOGGLES };
+    },
     methods: {
       onShow() {
         this.$emit(
@@ -47,6 +42,12 @@
             ? MODE_EXPAND
             : MODE_COMPRESS,
         );
+      },
+      toggleProperty(propertyName) {
+        this[[propertyName]] = !this[propertyName];
+      },
+      isActive(propertyName) {
+        return this[[propertyName]];
       },
     },
     computed: {
@@ -69,13 +70,23 @@
           ].showRelationship;
         },
       },
-      showTag: {
+      showMorphTag: {
         get() {
-          return this.$store.state[MODULE_NS].showTag;
+          return this.$store.state[MODULE_NS][SHOW_MORPH_TAG];
         },
         set() {
-          this.$store.state[MODULE_NS].showTag = !this.$store.state[MODULE_NS]
-            .showTag;
+          this.$store.state[MODULE_NS][SHOW_MORPH_TAG] = !this.$store.state[
+            MODULE_NS
+          ][SHOW_MORPH_TAG];
+        },
+      },
+      [SHOW_GRAMMATICAL_TAGS]: {
+        get() {
+          return this.$store.state[MODULE_NS][SHOW_GRAMMATICAL_TAGS];
+        },
+        set() {
+          this.$store.state[MODULE_NS][SHOW_GRAMMATICAL_TAGS] = !this.$store
+            .state[MODULE_NS][SHOW_GRAMMATICAL_TAGS];
         },
       },
       showLemma: {
@@ -87,6 +98,16 @@
             .showLemma;
         },
       },
+      showTransliteration: {
+        get() {
+          return this.$store.state[MODULE_NS].showTransliteration;
+        },
+        set() {
+          this.$store.state[MODULE_NS].showTransliteration = !this.$store.state[
+            MODULE_NS
+          ].showTransliteration;
+        },
+      },
       showGloss: {
         get() {
           return this.$store.state[MODULE_NS].showGloss;
@@ -95,6 +116,14 @@
           this.$store.state[MODULE_NS].showGloss = !this.$store.state[MODULE_NS]
             .showGloss;
         },
+      },
+      passage() {
+        return this.$store.getters[`${MODULE_NS}/passage`];
+      },
+      hasGlosses() {
+        // FIXME: Derive this from an associated collection, not
+        // a hard-coded value
+        return this.passage.textGroup === 'tlg0012';
       },
     },
   };

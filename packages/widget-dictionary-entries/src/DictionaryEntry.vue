@@ -22,15 +22,29 @@
               v-for="treeNode in entry.senseTree"
               :key="treeNode.id"
             >
+              <!-- FIXME: Determine why we needed senseForNode for
+              Cunliffe but not LGO -->
               <Sense
-                v-if="senses.length > 0"
+                v-if="senses.length > 0 && senseForNode(senses, treeNode)"
                 :treeNode="treeNode"
                 :senses="senses"
+                :sense="senseForNode(senses, treeNode)"
                 :filteredSenses="filteredSenses"
               />
             </div>
           </div>
         </div>
+        <div class="dictionary-label-divider" />
+        <CustomSelect
+          v-if="siblingEntryValues.length > 0"
+          class="sibling-entry-select"
+          v-model="selectedEntryValue"
+          :options="siblingEntryValues"
+          placeholder="Select an alignment..."
+        />
+        <Attribution v-else>
+          {{ entry.dictionary.label }}
+        </Attribution>
       </div>
     </div>
     <LoaderBall v-else-if="$apollo.queries.entries.loading" />
@@ -57,7 +71,12 @@
     SENSE_EXPANSION_COLLAPSED,
     SENSE_EXPANSION_MANUAL,
   } from '@scaife-viewer/store';
-  import { LoaderBall, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    Attribution,
+    CustomSelect,
+    LoaderBall,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
   import { Portal } from 'portal-vue';
 
   import Sense from './Sense.vue';
@@ -76,15 +95,31 @@
         entries: [],
         passageSenseUrns: [],
         filteredSenses: [],
+        selectedEntryValue: null,
       };
     },
     watch: {
+      entry() {
+        this.selectedEntryValue = {
+          title: this.dictionarySelectionTitle(this.entry),
+          value: this.entry.urn,
+        };
+      },
+      selectedEntryValue(value) {
+        const newUrn = value.value;
+        if (newUrn !== this.entry.urn) {
+          this.changeEntry(newUrn);
+        }
+      },
       urn() {
         this.$store.dispatch(`${MODULE_NS}/${SET_SENSE_EXPANSION}`, {
           value: SENSE_EXPANSION_PASSAGE,
         });
       },
       senseExpansion() {
+        this.updateSenses();
+      },
+      senses() {
         this.updateSenses();
       },
       passageSenseUrns: {
@@ -97,17 +132,22 @@
       },
     },
     components: {
+      Attribution,
       EmptyMessage,
       LoaderBall,
       Sense,
       Portal,
       Controls,
+      CustomSelect,
     },
     methods: {
       clearEntry() {
+        return this.changeEntry(undefined);
+      },
+      changeEntry(entryUrn) {
         const query = {
           ...this.$route.query,
-          entryUrn: undefined,
+          entryUrn,
         };
         this.$router.replace({ query });
       },
@@ -126,6 +166,13 @@
           // NOTE: this is a no-op
         }
       },
+      senseForNode(senses, node) {
+        const matches = senses.filter(sense => sense.urn === node.id);
+        return matches.length > -1 ? matches[0] : null;
+      },
+      dictionarySelectionTitle(entry) {
+        return `${entry.headword} :: ${entry.dictionary.label}`;
+      },
     },
     computed: {
       passage() {
@@ -139,6 +186,17 @@
       },
       expandPassageSenses() {
         return this.senseExpansion === SENSE_EXPANSION_PASSAGE;
+      },
+      siblingEntryValues() {
+        if (!this.siblings) {
+          return [];
+        }
+        return this.siblings
+          .filter(sibling => sibling.urn !== this.entryUrn)
+          .map(sibling => {
+            const title = this.dictionarySelectionTitle(sibling);
+            return { title, value: sibling.urn };
+          });
       },
     },
     apollo: {
@@ -228,6 +286,10 @@
                   urn
                   senseTree
                   data
+                  dictionary {
+                    id
+                    label
+                  }
                 }
               }
             }
@@ -238,6 +300,40 @@
         },
         update(data) {
           return data.dictionaryEntries.edges.map(e => e.node);
+        },
+      },
+      siblings: {
+        // NOTE: This query uses the normalized lemma (to mirror)
+        // resolveUsingLemmas on the `DictionaryEntries` component.
+        // Logeion in particular seems to have more "healing";
+        // for our purposes, we're just looking at the normalized version
+        // (not excluding marks)
+        query: gql`
+          query Siblings($lemma: String!) {
+            dictionaryEntries(lemma: $lemma, normalizeLemmas: false) {
+              edges {
+                node {
+                  id
+                  urn
+                  headword
+                  dictionary {
+                    id
+                    label
+                  }
+                }
+              }
+            }
+          }
+        `,
+        // TODO: Lemmas not populated
+        variables() {
+          return { lemma: this.entry.headword.normalize('NFKC') };
+        },
+        update(data) {
+          return data.dictionaryEntries.edges.map(e => e.node);
+        },
+        skip() {
+          return !this.entry;
         },
       },
     },
@@ -265,6 +361,10 @@
     margin: 0.375em 0;
     font-family: var(--sv-widget-dictionary-entries-font-family, 'Noto Serif');
   }
+  // FIXME: Document BI change for LGO
+  .dictionary-entry-body {
+    font-size: var(--sv-widget-dictionary-entries-font-size, 14px);
+  }
   .senses {
     font-size: 12px;
   }
@@ -275,5 +375,35 @@
   }
   a.show-all-entries {
     font-size: var(--sv-empty-message-font-size, 14px);
+  }
+  .sibling-entry-select {
+    font-size: 12px;
+  }
+  .dictionary-label-divider {
+    margin-top: 0.5em;
+    border-top: 1px solid #868e96;
+  }
+  // FIXME: Centralize styles
+  // (possibly with a style include and scoped selectors)
+  ::v-deep .depth-1 {
+    margin-left: 0.3em;
+  }
+  ::v-deep .depth-2 {
+    margin-left: 0.6em;
+  }
+  ::v-deep .depth-3 {
+    margin-left: 0.9em;
+  }
+  ::v-deep .depth-4 {
+    margin-left: 1.2em;
+  }
+  ::v-deep .depth-5 {
+    margin-left: 1.5em;
+  }
+  ::v-deep .depth-6 {
+    margin-left: 1.8em;
+  }
+  ::v-deep .depth-7 {
+    margin-left: 2.1em;
   }
 </style>

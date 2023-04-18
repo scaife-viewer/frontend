@@ -10,6 +10,8 @@ import CustomSelect from './CustomSelect/CustomSelect.vue';
 import URN from './URN';
 import iconMap from './icons';
 import normalizeString from './language-utils';
+import displayName from './display-mode-utils';
+import { TOKEN_ANNOTATION_TOGGLES } from './constants';
 
 export default URN;
 
@@ -25,4 +27,6 @@ export {
   Paginator,
   iconMap,
   normalizeString,
+  TOKEN_ANNOTATION_TOGGLES,
+  displayName,
 };

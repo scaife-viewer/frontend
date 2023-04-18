@@ -2,11 +2,12 @@
   <div>
     <div class="sense-block">
       <!-- TODO: Hide toggle option if Sense has no children -->
-      <div class="toggle">
+      <div class="toggle" v-if="hasCitations || hasChildren">
         <span class="expansion-toggle" @click.prevent="onExpand">
           <Icon :name="icon" class="fa-xs" />
         </span>
       </div>
+      <div class="no-toggle" v-else />
       <div class="label" v-html="sense.label" />
       <div
         class="definition"
@@ -31,6 +32,7 @@
         <Sense
           :treeNode="child"
           :senses="senses"
+          :sense="senseForNode(senses, child)"
           :filteredSenses="filteredSenses"
           :parentIsExpanded="expanded"
         />
@@ -57,6 +59,10 @@
       },
       filteredSenses: {
         type: Array,
+        required: true,
+      },
+      sense: {
+        type: Object,
         required: true,
       },
       senses: {
@@ -124,20 +130,21 @@
           };
         });
       },
+      hasCitations() {
+        return this.sense && this.sense.citations.edges.length > 0;
+      },
       citations() {
-        const hasCitations =
-          this.sense &&
-          this.sense.citations.edges.length > 0 &&
-          this.showCitations;
-        return hasCitations ? this.citationNodes : [];
+        return this.showCitations && this.hasCitations
+          ? this.citationNodes
+          : [];
       },
       showCitations() {
         return (
           this.$store.state.scaife.citationDisplay !== 'hidden' && this.expanded
         );
       },
-      sense() {
-        return this.senses.filter(sense => sense.urn === this.treeNode.id)[0];
+      hasChildren() {
+        return this.treeNode.children && this.treeNode.children.length > 0;
       },
       visibleChildren() {
         return this.expanded ? this.treeNode.children : [];
@@ -159,6 +166,10 @@
         this.$store.dispatch(`${MODULE_NS}/${SET_SENSE_EXPANSION}`, {
           value: SENSE_EXPANSION_MANUAL,
         });
+      },
+      senseForNode(senses, node) {
+        const matches = senses.filter(sense => sense.urn === node.id);
+        return matches.length > -1 ? matches[0] : null;
       },
       inFilteredSenses(urn) {
         return this.filteredSenses.filter(node => urn === node.urn).length > 0;
@@ -209,6 +220,10 @@
   }
   .depth-7 {
     margin-left: 2.1em;
+  }
+  .no-toggle {
+    padding: 0px 4px;
+    margin: 0px 2px 0.5em 1em;
   }
   .expansion-toggle {
     padding: 0px 4px;

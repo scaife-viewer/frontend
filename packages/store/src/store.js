@@ -23,6 +23,7 @@ import {
   SELECT_LINE,
   SELECT_TOKEN,
   CLEAR_TOKEN,
+  SET_SELECTED_LEMMAS,
   SET_PASSAGE,
   UPDATE_METADATA,
   PLAY_AUDIO,
@@ -31,10 +32,27 @@ import {
   FETCH_LIBRARY,
   DISPLAY_MODE_INTERLINEAR,
   DISPLAY_MODE_METRICAL,
+  DISPLAY_MODE_DICTIONARY_ENTRIES,
   DISPLAY_MODE_NAMED_ENTITIES,
+  DISPLAY_MODE_COMMENTARIES,
   DISPLAY_MODE_DEFAULT,
+  DISPLAY_MODE_FALLBACK,
   SENSE_EXPANSION_PASSAGE,
   CITATION_DISPLAY_REFS_QUOTES,
+  SET_SELECTED_DICTIONARY_OPTION,
+  TOGGLE_READER_SYNC_COMMENTARY,
+  SET_COMMENTARIES,
+  SET_SELECTED_COMMENTARIES,
+  CLEAR_SELECTED_COMMENTARIES,
+  SHOW_TRANSLITERATION,
+  SHOW_LEMMA,
+  SHOW_RELATIONSHIP,
+  SHOW_MORPH_TAG,
+  SHOW_GRAMMATICAL_TAGS,
+  SHOW_GLOSS,
+  SELECT_GRAMMATICAL_ENTRIES,
+  CLEAR_GRAMMATICAL_ENTRIES,
+  DISPLAY_MODE_GRAMMATICAL_ENTRIES,
 } from './constants';
 
 const displayName = name => {
@@ -62,6 +80,7 @@ const getDefaultState = () => ({
   selectedLine: null,
   selectedToken: null,
   selectedNamedEntities: [],
+  selectedGrammaticalEntries: [],
   // TODO: Add action to set selectedLemmas from selected token(s)
   selectedLemmas: [],
   senseExpansion: SENSE_EXPANSION_PASSAGE,
@@ -70,10 +89,24 @@ const getDefaultState = () => ({
   // Could also impact interlinear
   // TODO: Make this state collection-scoped
   // (especially as far as gloss, which we may not always have)
-  showTag: false,
-  showRelationship: true,
-  showLemma: false,
-  showGloss: false,
+  [SHOW_TRANSLITERATION]: false,
+  [SHOW_LEMMA]: false,
+  [SHOW_RELATIONSHIP]: false,
+  [SHOW_MORPH_TAG]: false,
+  [SHOW_GRAMMATICAL_TAGS]: false,
+  [SHOW_GLOSS]: false,
+  // TODO: More on storage of these toggles
+  // TODO: Standardize labels (available vs resolved)
+  showCitedLemmas: true,
+  showAvailableLemmas: true,
+  showMissingLemmas: true,
+  selectedDictionaryOption: {
+    title: 'All Dictionaries',
+    value: null,
+  },
+  syncCommentary: false,
+  selectedCommentaries: [],
+  commentariesHash: {},
 });
 
 const createStore = client => {
@@ -98,8 +131,20 @@ const createStore = client => {
         metricalMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_METRICAL;
         },
+        dictionaryEntriesMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_DICTIONARY_ENTRIES;
+        },
         namedEntitiesMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_NAMED_ENTITIES;
+        },
+        grammaticalEntriesMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_GRAMMATICAL_ENTRIES;
+        },
+        commentariesMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_COMMENTARIES;
+        },
+        fallbackMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_FALLBACK;
         },
         urn: (state, getters, rootState) => {
           if (!rootState.route) {
@@ -115,7 +160,13 @@ const createStore = client => {
           const { mode } = rootState.route.query;
           return mode || DISPLAY_MODE_DEFAULT;
         },
+        selectedToken: state => state.selectedToken,
         selectedLemmas: state => state.selectedLemmas,
+        selectedDictionaryUrn: state => state.selectedDictionaryOption.value,
+        showCommentary: (_, __, rootState) => {
+          const { commentary } = rootState.route.query;
+          return commentary === 'y';
+        },
       },
       mutations: {
         [SET_MAIN_LAYOUT_WIDTH_NORMAL]: state => {
@@ -175,6 +226,9 @@ const createStore = client => {
         [CLEAR_TOKEN]: state => {
           state.selectedToken = null;
         },
+        [SET_SELECTED_LEMMAS]: (state, { lemmas }) => {
+          state.selectedLemmas = lemmas;
+        },
         [SELECT_LINE]: (state, ref) => {
           state.selectedLine = ref;
         },
@@ -189,6 +243,12 @@ const createStore = client => {
         },
         [CLEAR_NAMED_ENTITIES]: state => {
           state.selectedNamedEntities = [];
+        },
+        [SELECT_GRAMMATICAL_ENTRIES]: (state, entries) => {
+          state.selectedGrammaticalEntries = entries;
+        },
+        [CLEAR_GRAMMATICAL_ENTRIES]: state => {
+          state.selectedGrammaticalEntries = [];
         },
         [FETCH_METADATA]: (state, metadata) => {
           state.metadata = metadata;
@@ -210,6 +270,21 @@ const createStore = client => {
         },
         [SET_CITATION_DISPLAY]: (state, value) => {
           state.citationDisplay = value;
+        },
+        [SET_SELECTED_DICTIONARY_OPTION]: (state, value) => {
+          state.selectedDictionaryOption = value;
+        },
+        [TOGGLE_READER_SYNC_COMMENTARY]: state => {
+          state.syncCommentary = !state.syncCommentary;
+        },
+        [SET_COMMENTARIES]: (state, lookup) => {
+          state.commentariesHash = lookup;
+        },
+        [SET_SELECTED_COMMENTARIES]: (state, { commentaries }) => {
+          state.selectedCommentaries = commentaries;
+        },
+        [CLEAR_SELECTED_COMMENTARIES]: state => {
+          state.selectedCommentaries = [];
         },
       },
       actions: {
@@ -266,6 +341,12 @@ const createStore = client => {
         },
         [CLEAR_NAMED_ENTITIES]: ({ commit }) => {
           commit(CLEAR_NAMED_ENTITIES);
+        },
+        [SELECT_GRAMMATICAL_ENTRIES]: ({ commit }, { entries }) => {
+          commit(SELECT_GRAMMATICAL_ENTRIES, entries);
+        },
+        [CLEAR_GRAMMATICAL_ENTRIES]: ({ commit }) => {
+          commit(CLEAR_GRAMMATICAL_ENTRIES);
         },
         [FETCH_METADATA]: ({ commit }) => {
           client
@@ -347,6 +428,21 @@ const createStore = client => {
         },
         [SET_CITATION_DISPLAY]: ({ commit }, { value }) => {
           commit(SET_CITATION_DISPLAY, value);
+        },
+        [SET_SELECTED_DICTIONARY_OPTION]: ({ commit }, { value }) => {
+          commit(SET_SELECTED_DICTIONARY_OPTION, value);
+        },
+        [TOGGLE_READER_SYNC_COMMENTARY]: ({ commit }) => {
+          commit(TOGGLE_READER_SYNC_COMMENTARY);
+        },
+        [SET_COMMENTARIES]: ({ commit }, { lookup }) => {
+          commit(SET_COMMENTARIES, lookup);
+        },
+        [SET_SELECTED_COMMENTARIES]: ({ commit }, { commentaries }) => {
+          commit(SET_SELECTED_COMMENTARIES, { commentaries });
+        },
+        [CLEAR_SELECTED_COMMENTARIES]: ({ commit }) => {
+          commit(CLEAR_SELECTED_COMMENTARIES, { commentaries: [] });
         },
       },
     },

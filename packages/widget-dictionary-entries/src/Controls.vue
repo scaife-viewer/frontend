@@ -197,6 +197,8 @@
   }
   .control-rows {
     margin-bottom: 1em;
+    background: #f7f7f7;
+    padding: 0 0.5em;
   }
   .control-row {
     margin-top: 0.5em;

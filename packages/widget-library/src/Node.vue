@@ -42,6 +42,12 @@
         handler() {
           if (this.nodeUrnIndex > -1) {
             this.expanded = true;
+          } else {
+            // FIXME: Backwards incompatible change
+            // This is being done so that when we navigate to a new
+            // passage, we close up the expansion toggles.
+            // This could be site / user-configurable.
+            this.expanded = false;
           }
         },
       },

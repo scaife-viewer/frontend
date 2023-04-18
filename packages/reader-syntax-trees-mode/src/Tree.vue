@@ -7,6 +7,22 @@
       @word-enter="onWordEnter"
       @word-leave="onWordLeave"
     />
+    <!-- TODO: Determine best extensibility hooks here -->
+    <div v-if="hasTranslations" class="collapse-control">
+      <a href @click.prevent="onTranslationCollapse">{{
+        translationCollapsed
+          ? `Show ${translationsLabel}`
+          : `Hide ${translationsLabel}`
+      }}</a>
+    </div>
+    <template v-if="hasTranslations && !translationCollapsed">
+      <Translation
+        v-for="(translation, idx) in translations"
+        :key="idx"
+        :content="translation[0]"
+        :lang="translation[1]"
+      />
+    </template>
     <div class="collapse-control">
       <a href @click.prevent="onTreeCollapse">{{
         treeCollapsed ? 'Show Tree' : 'Hide Tree'
@@ -34,14 +50,16 @@
 <script>
   import Treant from '@scaife-viewer/vue-treant';
   import { MODULE_NS } from '@scaife-viewer/store';
-  import TreeMetadata from './TreeMetadata.vue';
 
+  import Translation from './Translation.vue';
+  import TreeMetadata from './TreeMetadata.vue';
   import Sentence from './Sentence.vue';
 
   export default {
     props: ['tree', 'expanded', 'first'],
     components: {
       Sentence,
+      Translation,
       Treant,
       TreeMetadata,
     },
@@ -50,6 +68,7 @@
         hoveringOn: null,
         treeCollapsed: true,
         metadataCollapsed: true,
+        translationCollapsed: true,
       };
     },
     watch: {
@@ -58,6 +77,7 @@
         handler() {
           if (this.first && this.expanded === null) {
             this.treeCollapsed = false;
+            this.translationCollapsed = false;
           }
         },
       },
@@ -73,6 +93,9 @@
     methods: {
       onMetadataCollapse() {
         this.metadataCollapsed = !this.metadataCollapsed;
+      },
+      onTranslationCollapse() {
+        this.translationCollapsed = !this.translationCollapsed;
       },
       onTreeCollapse() {
         this.treeCollapsed = !this.treeCollapsed;
@@ -92,6 +115,16 @@
       },
     },
     computed: {
+      hasTranslations() {
+        return this.translations.length > 0;
+      },
+      translationsLabel() {
+        // TODO: Revisit the best pluralize implementation and use it throghout
+        return this.translations.length > 1 ? 'Translations' : 'Translation';
+      },
+      translations() {
+        return this.tree.translations || [];
+      },
       selected() {
         return {
           word: this.hoveringOn,
@@ -137,9 +170,7 @@
     margin: 1em 0;
     .collapse-control {
       font-size: 80%;
-    }
-    .metadata-control {
-      margin-top: 0.5em;
+      margin-bottom: 0.5em;
     }
     .citation {
       text-align: center;
@@ -195,6 +226,11 @@
         'Noto Serif'
       );
     }
+    .node-transliterated-text {
+      margin-top: 0;
+      font-size: 1em;
+      font-family: Arial;
+    }
     .node-lemma {
       font-size: 0.88em;
       color: var(--sv-reader-syntax-tree-node-lemma-text-color, #aaa);
@@ -203,6 +239,17 @@
       font-size: 0.88em;
       color: var(--sv-reader-syntax-tree-node-gloss-text-color, #aaa);
       font-style: italic;
+    }
+    .node-gloss-rtl {
+      direction: rtl;
+      font-family: var(
+        --sv-reader-syntax-tree-node-gloss-font-family-rtl,
+        'Amiri',
+        'Noto Sans'
+      );
+      font-style: initial;
+      font-size: 24px;
+      line-height: 1.7;
     }
     .node-tag {
       font-family: var(

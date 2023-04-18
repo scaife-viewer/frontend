@@ -83,8 +83,8 @@
     watch: {
       entities: {
         immediate: true,
-        handler() {
-          this.filteredEntities = this.entities;
+        handler(newValue) {
+          this.filteredEntities = newValue;
         },
       },
     },

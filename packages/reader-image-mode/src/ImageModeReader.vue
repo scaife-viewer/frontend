@@ -109,7 +109,6 @@
                         id
                         veRef
                         value
-                        lemma
                       }
                     }
                   }
@@ -126,6 +125,7 @@
                     edges {
                       node {
                         id
+                        idx
                         ref
                       }
                     }
@@ -145,8 +145,8 @@
         const lines = data.passageTextParts.edges.map(line => {
           const { id, kind, ref } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef, lemma } = edge.node;
-            return { value, veRef, lemma };
+            const { value, veRef } = edge.node;
+            return { value, veRef };
           });
           return { id, kind, ref, tokens };
         });
@@ -157,8 +157,12 @@
           }),
           {},
         );
+        // FIXME: Ensure relations are ordered on the server
         const images = data.imageAnnotations.edges.map(image => {
-          const refs = image.node.textParts.edges.map(e => e.node.ref);
+          const textParts = image.node.textParts.edges
+            .map(e => e.node)
+            .sort((a, b) => a.idx - b.idx);
+          const refs = textParts.map(textPart => textPart.ref);
           const refLines = refs
             .map(r => linesMap[r])
             .filter(line => line !== undefined);
