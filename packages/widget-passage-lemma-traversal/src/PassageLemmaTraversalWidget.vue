@@ -7,9 +7,7 @@
       :passage="passage"
       @clear="clearSelectedLemma"
     />
-    <EmptyMessage v-else>
-      No lemma selected
-    </EmptyMessage>
+    <EmptyMessage v-else> No lemma selected </EmptyMessage>
   </div>
 </template>
 

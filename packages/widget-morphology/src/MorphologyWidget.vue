@@ -89,7 +89,7 @@
         return true;
       },
       lang() {
-        const { metadata } = this.$store.state['scaife'];
+        const { metadata } = this.$store.state.scaife;
         return metadata ? metadata.lang : '';
       },
       // FIXME: Review for SV 1 compatiblity

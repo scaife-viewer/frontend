@@ -30,6 +30,7 @@
   import TokenAnnotationWidget from '@scaife-viewer/widget-token-annotations';
   import MorphologyWidget from '@scaife-viewer/widget-morphology';
   import NamedEntitiesWidget from '@scaife-viewer/widget-named-entities';
+  // eslint-disable-next-line max-len
   import GrammaticalEntriesWidget from '@scaife-viewer/widget-grammatical-entries';
   // eslint-disable-next-line max-len
   import PassageLemmaTraversalWidget from '@scaife-viewer/widget-passage-lemma-traversal';

@@ -8,38 +8,26 @@
         <!-- Sync mode scroll to token could change the icon color -->
         <span @click="toggleHighlight()">
           <div class="mode">
-            <a :class="[{ active: !showCommentary }]">
-              hide
-            </a>
-            <a :class="[{ active: showCommentary }]">
-              show
-            </a>
+            <a :class="[{ active: !showCommentary }]"> hide </a>
+            <a :class="[{ active: showCommentary }]"> show </a>
           </div>
           <div class="help">
             <span v-if="!showCommentary">
               commentary annotations are hidden
             </span>
-            <span v-else>
-              commentary annotations are shown
-            </span>
+            <span v-else> commentary annotations are shown </span>
           </div>
         </span>
         <span @click="toggleCommentarySync()">
           <div class="mode sync-mode">
-            <a :class="[{ active: !syncCommentary }]">
-              independent
-            </a>
-            <a :class="[{ active: syncCommentary }]">
-              sync
-            </a>
+            <a :class="[{ active: !syncCommentary }]"> independent </a>
+            <a :class="[{ active: syncCommentary }]"> sync </a>
           </div>
           <div class="help">
             <span v-if="!syncCommentary">
               scroll commentary independently
             </span>
-            <span v-else>
-              scroll to an annotation when selected
-            </span>
+            <span v-else> scroll to an annotation when selected </span>
           </div>
         </span>
       </div>
@@ -72,18 +60,13 @@
             <em>
               {{ fragment }}
               <span v-if="lines.length > 1"> ({{ lines.length }}) </span>
-              <!-- TODO: For debugging -->
-              <!-- {{ lines[0].data.sortKey.toLocaleString() }} -->
             </em>
-            <!-- TODO: Revisit with CompiledInlineToken -->
-            <!-- <span v-if="isMultiSelected(lines)"><icon name="location-arrow" /></span> -->
           </div>
           <template v-if="isMultiSelected(lines)">
             <CommentaryLine v-for="line in lines" :key="line.id" :line="line" />
           </template>
         </div>
       </template>
-      <!-- TODO: Provide attribution information; may not be required everywhere -->
     </div>
   </div>
 </template>
@@ -111,6 +94,7 @@
       displayName: displayNameCallback,
     },
     // name: 'CommentaryWidget2',
+    // TODO: Provide attribution functionality
     components: {
       EmptyMessage,
       CustomSelect,
@@ -130,8 +114,9 @@
         return this.urn.reference.split('-')[0].split('.').length;
       },
       invalidReff() {
+        // FIXME: Make compatible with SV1 version
+        // return this.refDepth !== 2;
         return false;
-        return this.refDepth !== 2;
       },
       healedPassage() {
         if (this.invalidReff) {
@@ -204,16 +189,6 @@
       },
     },
     watch: {
-      selectedWords: {
-        handler(newVal) {
-          // TODO: backport from SV2 (which will require further
-          // hash map manipulation)
-          // if (this.selectedCommentaries) {
-          //   debugger;
-          //   this.$store.state.prototype.selectedCommentaries = [];
-          // }
-        },
-      },
       lines: {
         handler() {
           this.updateWitnesses();
@@ -391,14 +366,15 @@
           // The best sort key is indeed using path / IDX,
           // so we should think about how we want to do that with ingestion.
           // FIXME: fallback
+          // TODO: Standardize sorting with SV1
+          // return annotations.sort(
+          //   (a, b) =>
+          //     a.data.sortKey[0][0] - b.data.sortKey[0][0] ||
+          //     a.data.sortKey[0][1] - b.data.sortKey[0][1] ||
+          //     a.data.sortKey[0][2] - b.data.sortKey[0][2] ||
+          //     a.data.sortKey[1] - b.data.sortKey[1],
+          // );
           return annotations;
-          return annotations.sort(
-            (a, b) =>
-              a.data.sortKey[0][0] - b.data.sortKey[0][0] ||
-              a.data.sortKey[0][1] - b.data.sortKey[0][1] ||
-              a.data.sortKey[0][2] - b.data.sortKey[0][2] ||
-              a.data.sortKey[1] - b.data.sortKey[1],
-          );
         },
         skip() {
           return this.urn === null || this.invalidReff;

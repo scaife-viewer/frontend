@@ -111,8 +111,8 @@
         }
       },
       displayModeLabel(name) {
-        return displayName(name, this.$store.getters, this.$scaife)
-      }
+        return displayName(name, this.$store.getters, this.$scaife);
+      },
     },
     watch: {
       displayMode: {
