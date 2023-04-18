@@ -19,7 +19,9 @@
             {{ headword }}
             <span
               title="Indicates that the entry is resolved solely via citation"
-              v-if="isResolvedByCitationOnly(entries)"
+              v-if="
+                showCitationResolutionHint && isResolvedByCitationOnly(entries)
+              "
               >*</span
             >
           </span>
@@ -107,6 +109,11 @@
           byHeadword.set(key, lookupValue);
         });
         return byHeadword;
+      },
+      showCitationResolutionHint() {
+        const fallback = true;
+        const config = this.$scaife.config.dictionaryEntries;
+        return config ? config.showCitationResolutionHint : fallback;
       },
     },
     apollo: {
