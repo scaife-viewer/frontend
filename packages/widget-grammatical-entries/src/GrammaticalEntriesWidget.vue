@@ -87,10 +87,13 @@
         // FIXME: Refactor to load attribution from the
         // GrammaticalEntryCollection metadata
         // FIXME: URN
+        /* eslint-disable max-len */
+        const didaktaUrn =
+          'urn:cite2:beyond-tranlsation:grammatical_entry_collection.atlas_v1:didakta_shamsian';
+        /* eslint-enable max-len */
         return (
           this.entries.length > 0 &&
-          this.entries[0].collection.urn ===
-            'urn:cite2:beyond-tranlsation:grammatical_entry_collection.atlas_v1:didakta_shamsian'
+          this.entries[0].collection.urn === didaktaUrn
         );
       },
     },

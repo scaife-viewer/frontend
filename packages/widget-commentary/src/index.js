@@ -2,6 +2,7 @@
 import CommentaryWidget from './CommentaryWidget.vue';
 
 import CommentaryWidget2 from './CommentaryWidget2.vue';
+
 const CommentaryWidgetSV1 = CommentaryWidget;
 const CommentaryWidgetSV2 = CommentaryWidget2;
 

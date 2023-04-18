@@ -32,7 +32,6 @@
 
   import { LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
-  import { Reader } from '@scaife-viewer/widget-reader';
   import {
     LoaderBall,
     ErrorMessage,
@@ -46,7 +45,7 @@
       label: 'Fallback',
       textWidth: LAYOUT_WIDTH_WIDE,
     },
-    components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage, Reader },
+    components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage },
     props: {
       queryVariables: Object,
     },
@@ -65,6 +64,7 @@
     },
     methods: {
       debugEvent($event) {
+        console.log($event);
         console.log(document.getSelection().toString());
       },
       queryUpdate(data) {
@@ -81,7 +81,7 @@
         const $vm = this;
         this.$nextTick(() => {
           const CETEIcean = new CETEI();
-          CETEIcean.makeHTML5(content, function(teiData) {
+          CETEIcean.makeHTML5(content, teiData => {
             document.getElementById('TEI').appendChild(teiData);
             // TODO: Allow clicks to drive selection, e.g. the morphology
             // widget.
@@ -92,7 +92,7 @@
           });
         });
 
-        sass.compile(`[data-tei-fallback]{${css}}`, function(result) {
+        sass.compile(`[data-tei-fallback]{${css}}`, result => {
           $vm.css = result.text;
         });
       },

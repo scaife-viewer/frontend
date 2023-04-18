@@ -11,9 +11,7 @@
           </a>
         </div>
       </div>
-      <EmptyMessage v-else>
-        No metadata found.
-      </EmptyMessage>
+      <EmptyMessage v-else> No metadata found. </EmptyMessage>
     </template>
   </div>
 </template>
