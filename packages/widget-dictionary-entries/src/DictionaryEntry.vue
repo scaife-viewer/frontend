@@ -204,7 +204,7 @@
         const fallback = true;
         const config = this.$scaife.config.dictionaryEntries;
         return config ? config.selectDictionaries : fallback;
-      }
+      },
     },
     apollo: {
       // NOTE: this query gets all possible senses and everything needed

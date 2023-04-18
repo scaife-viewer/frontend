@@ -19,7 +19,9 @@
             {{ headword }}
             <span
               title="Indicates that the entry is resolved solely via citation"
-              v-if="showCitationResolutionHint && isResolvedByCitationOnly(entries)"
+              v-if="
+                showCitationResolutionHint && isResolvedByCitationOnly(entries)
+              "
               >*</span
             >
           </span>

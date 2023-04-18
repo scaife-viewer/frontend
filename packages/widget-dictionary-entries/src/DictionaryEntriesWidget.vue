@@ -86,7 +86,7 @@
         const fallback = false;
         const config = this.$scaife.config.dictionaryEntries;
         return config ? config.resolveUsingNormalizedLemmas : fallback;
-      }
+      },
     },
     apollo: {
       lemmaEntries: {
@@ -97,7 +97,10 @@
         // only if `dictionaryEntriesMode` is true
         query: gql`
           query DictionaryEntries($lemma: String!, $normalizeLemmas: Boolean!) {
-            dictionaryEntries(lemma: $lemma, normalizeLemmas: $normalizeLemmas ) {
+            dictionaryEntries(
+              lemma: $lemma
+              normalizeLemmas: $normalizeLemmas
+            ) {
               edges {
                 node {
                   id
@@ -112,7 +115,10 @@
           }
         `,
         variables() {
-          return { lemma: `${this.lemmas[0]}`, normalizeLemmas: this.resolveUsingNormalizedLemmas, };
+          return {
+            lemma: `${this.lemmas[0]}`,
+            normalizeLemmas: this.resolveUsingNormalizedLemmas,
+          };
         },
         update(data) {
           return data.dictionaryEntries.edges.map(e => e.node);
