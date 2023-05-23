@@ -9,13 +9,20 @@
 
       <div class="dictionary-entry-body" :key="entry.id">
         <!-- TODO: Use a tighter follow-on query here to reduce payload size -->
+
+        <template v-if="css">
+          <div
+            class="dictionary-entry-content"
+            id="CETEI_Container"
+            data-dictionary-css="true"
+          />
+          <component :is="'style'" v-if="prefixedCss" v-html="prefixedCss" type="text/css" />
+        </template>
         <div
           class="dictionary-entry-content"
-          v-if="entry.data.content"
+          v-else
           v-html="entry.data.content"
-          data-dictionary-css="true"
         />
-        <component :is="'style'" v-if="prefixedCss" v-html="prefixedCss" type="text/css" />
         <div class="senses">
           <LoaderBall v-if="$apollo.queries.senses.loading" />
           <div class="sense-list" v-else>
@@ -108,8 +115,16 @@
     watch: {
       css(newValue) {
         if (newValue) {
+          const css = this.entry.dictionary.data.css;
+          const content = this.entry.data.content;
           const $vm = this;
-          sass.compile(`[data-dictionary-css]{${newValue}}`, result => {
+          this.$nextTick(() => {
+            const CETEIcean = new CETEI();
+            CETEIcean.makeHTML5(content, teiData => {
+              document.getElementById('CETEI_Container').appendChild(teiData);
+            });
+          });
+          sass.compile(`[data-dictionary-css]{${css}}`, result => {
             $vm.prefixedCss = result.text;
           });
         } else {
