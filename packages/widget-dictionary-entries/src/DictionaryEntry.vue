@@ -13,7 +13,9 @@
           class="dictionary-entry-content"
           v-if="entry.data.content"
           v-html="entry.data.content"
+          data-dictionary-css="true"
         />
+        <component :is="'style'" v-if="prefixedCss" v-html="prefixedCss" type="text/css" />
         <div class="senses">
           <LoaderBall v-if="$apollo.queries.senses.loading" />
           <div class="sense-list" v-else>
@@ -84,6 +86,8 @@
   import Sense from './Sense.vue';
   import Controls from './Controls.vue';
 
+  const sass = require('sass.js');
+
   export default {
     props: {
       entryUrn: {
@@ -98,9 +102,20 @@
         passageSenseUrns: [],
         filteredSenses: [],
         selectedEntryValue: null,
+        prefixedCss: null,
       };
     },
     watch: {
+      css(newValue) {
+        if (newValue) {
+          const $vm = this;
+          sass.compile(`[data-dictionary-css]{${newValue}}`, result => {
+            $vm.prefixedCss = result.text;
+          });
+        } else {
+          this.prefixedCss = ''
+        }
+      },
       entry() {
         this.selectedEntryValue = {
           title: this.dictionarySelectionTitle(this.entry),
@@ -177,6 +192,9 @@
       },
     },
     computed: {
+      css() {
+        return this.entry ? this.entry.dictionary.data.css : null;
+      },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
@@ -296,6 +314,7 @@
                   dictionary {
                     id
                     label
+                    data
                   }
                 }
               }
