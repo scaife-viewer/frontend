@@ -10,7 +10,7 @@
       <div class="dictionary-entry-body" :key="entry.id">
         <!-- TODO: Use a tighter follow-on query here to reduce payload size -->
 
-        <template v-if="css">
+        <template v-if="teiEntry">
           <div
             class="dictionary-entry-content"
             id="CETEI_Container"
@@ -21,7 +21,7 @@
         <div
           class="dictionary-entry-content"
           v-else
-          v-html="entry.data.content"
+          v-html="entryContent"
         />
         <div class="senses">
           <LoaderBall v-if="$apollo.queries.senses.loading" />
@@ -113,10 +113,9 @@
       };
     },
     watch: {
-      css(newValue) {
-        if (newValue) {
-          const css = this.entry.dictionary.data.css;
-          const content = this.entry.data.content;
+      teiEntry(newValue) {
+        const {css, content} = newValue;
+        if (css && content) {
           const $vm = this;
           this.$nextTick(() => {
             const CETEIcean = new CETEI();
@@ -209,6 +208,15 @@
     computed: {
       css() {
         return this.entry ? this.entry.dictionary.data.css : null;
+      },
+      entryContent() {
+        return this.entry ? this.entry.data.content : "";
+      },
+      teiEntry() {
+        return {
+          css: this.css,
+          content: this.entryContent
+        }
       },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
