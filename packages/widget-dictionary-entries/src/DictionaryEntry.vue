@@ -16,13 +16,14 @@
             id="CETEI_Container"
             data-dictionary-css="true"
           />
-          <component :is="'style'" v-if="prefixedCss" v-html="prefixedCss" type="text/css" />
+          <component
+            :is="'style'"
+            v-if="prefixedCss"
+            v-html="prefixedCss"
+            type="text/css"
+          />
         </template>
-        <div
-          class="dictionary-entry-content"
-          v-else
-          v-html="entryContent"
-        />
+        <div class="dictionary-entry-content" v-else v-html="entryContent" />
         <div class="senses">
           <LoaderBall v-if="$apollo.queries.senses.loading" />
           <div class="sense-list" v-else>
@@ -114,7 +115,7 @@
     },
     watch: {
       teiEntry(newValue) {
-        const {css, content} = newValue;
+        const { css, content } = newValue;
         if (css && content) {
           const $vm = this;
           this.$nextTick(() => {
@@ -127,7 +128,7 @@
             $vm.prefixedCss = result.text;
           });
         } else {
-          this.prefixedCss = ''
+          this.prefixedCss = '';
         }
       },
       entry() {
@@ -210,13 +211,13 @@
         return this.entry ? this.entry.dictionary.data.css : null;
       },
       entryContent() {
-        return this.entry ? this.entry.data.content : "";
+        return this.entry ? this.entry.data.content : '';
       },
       teiEntry() {
         return {
           css: this.css,
-          content: this.entryContent
-        }
+          content: this.entryContent,
+        };
       },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
