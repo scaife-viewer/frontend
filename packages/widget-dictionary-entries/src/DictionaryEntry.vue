@@ -74,6 +74,7 @@
 
 <script>
   import gql from 'graphql-tag';
+  import CETEI from 'CETEIcean';
 
   import {
     MODULE_NS,
