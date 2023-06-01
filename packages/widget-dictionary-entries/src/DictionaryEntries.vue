@@ -16,7 +16,7 @@
       >
         <div class="headword" @click.prevent="entrySelected(entries[0])">
           <span>
-            {{ headword }}
+            <span v-html="headword"></span>
             <span
               title="Indicates that the entry is resolved solely via citation"
               v-if="
@@ -134,6 +134,7 @@
                 node {
                   id
                   headword
+                  headwordDisplay
                   headwordNormalized
                   headwordNormalizedStripped
                   urn

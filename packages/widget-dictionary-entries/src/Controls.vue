@@ -81,9 +81,7 @@
       </div>
     </div>
     <div class="headword">
-      <span>
-        {{ headword }}
-      </span>
+      <span v-html="headword" />
       <span>
         <span class="control-toggle" @click.prevent="$emit('clear')"
           ><icon class="icon" name="times"

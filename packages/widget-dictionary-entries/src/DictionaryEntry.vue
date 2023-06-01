@@ -3,7 +3,7 @@
     <div v-if="entry" class="dictionary-entry" :key="entry.id">
       <Portal to="dictionary-entries-widget-controls">
         <div class="portal-content">
-          <Controls :headword="entry.headword" @clear="clearEntry" />
+          <Controls :headword="entry.headwordDisplay" @clear="clearEntry" />
         </div>
       </Portal>
 
@@ -204,7 +204,7 @@
         return matches.length > -1 ? matches[0] : null;
       },
       dictionarySelectionTitle(entry) {
-        return `${entry.headword} :: ${entry.dictionary.label}`;
+        return `<span>${entry.headwordDisplay}</span><span> :: ${entry.dictionary.label}</span>`;
       },
     },
     computed: {
@@ -333,6 +333,7 @@
                 node {
                   id
                   headword
+                  headwordDisplay
                   urn
                   senseTree
                   data
@@ -367,6 +368,7 @@
                   id
                   urn
                   headword
+                  headwordDisplay
                   dictionary {
                     id
                     label
