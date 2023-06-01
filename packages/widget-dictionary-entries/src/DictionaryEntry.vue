@@ -459,4 +459,10 @@
   ::v-deep .depth-7 {
     margin-left: 2.1em;
   }
+  ::v-deep .sv-custom-selector--option,
+  ::v-deep .sv-custom-select--selected {
+    b {
+      font-weight: normal;
+    }
+  }
 </style>
