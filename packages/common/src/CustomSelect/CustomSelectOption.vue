@@ -1,6 +1,6 @@
 <template>
   <div class="sv-custom-selector--option" @click="onClick">
-    <div class="label">{{ option.title }}</div>
+    <div class="label" v-html="option.title" />
   </div>
 </template>
 
