@@ -81,6 +81,7 @@ const getDefaultState = () => ({
   nowPlaying: null,
   highlightedTranscription: null,
   selectedLine: null,
+  selectedScholion: null,
   selectedToken: null,
   selectedNamedEntities: [],
   selectedGrammaticalEntries: [],
@@ -163,6 +164,7 @@ const createStore = client => {
           const { mode } = rootState.route.query;
           return mode || DISPLAY_MODE_DEFAULT;
         },
+        selectedScholion: state => state.selectedScholion,
         selectedToken: state => state.selectedToken,
         selectedLemmas: state => state.selectedLemmas,
         selectedDictionaryUrn: state => state.selectedDictionaryOption.value,
@@ -240,8 +242,8 @@ const createStore = client => {
           state.highlightedTranscription = ref;
           state.selectedLine = ref;
         },
-        [SELECT_SCHOLION]: (state, coordinates) => {
-          state.selectedScholion = coordinates;
+        [SELECT_SCHOLION]: (state, scholion) => {
+          state.selectedScholion = scholion;
         },
         [STOP_AUDIO]: state => {
           state.nowPlaying = null;
@@ -343,6 +345,9 @@ const createStore = client => {
         },
         [SELECT_LINE]: ({ commit }, { ref }) => {
           commit(SELECT_LINE, ref);
+        },
+        [SELECT_SCHOLION]: ({ commit }, { scholion }) => {
+          commit(SELECT_SCHOLION, scholion);
         },
         [STOP_AUDIO]: ({ commit }) => {
           commit(STOP_AUDIO);

@@ -1,10 +1,7 @@
 <template>
   <div class="scholia" :key="urn.absolute">
     <EmptyMessage v-if="!lines || lines.length === 0" />
-    <div v-for="line in lines" :key="line.idx" class="line">
-      <span class="lemma" @click="onScholionClick(line)">{{ line.lemma }} </span>
-      <span class="comment">{{ line.comment }}</span>
-    </div>
+    <Scholion v-for="line in lines" :key="line.idx" :line="line" />
     <Attribution>
       <a href="http://www.homermultitext.org" target="_blank">
         Homer Multitext Project / Center for Hellenic Studies
@@ -16,7 +13,8 @@
 <script>
   import gql from 'graphql-tag';
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
-  import { MODULE_NS, SELECT_SCHOLION } from '@scaife-viewer/store';
+  import { MODULE_NS } from '@scaife-viewer/store';
+  import Scholion from './Scholion';
 
   export default {
     scaifeConfig: {
@@ -24,7 +22,7 @@
       location: 'sidebar',
       singleton: true,
     },
-    components: { Attribution, EmptyMessage },
+    components: { Attribution, EmptyMessage, Scholion },
     data() {
       return {
         scholiaCollectionUrn: this.$scaife.config.scholiaCollectionUrn,
@@ -34,14 +32,6 @@
       urn() {
         return this.$store.getters[`${MODULE_NS}/urn`];
       },
-    },
-    methods: {
-      onScholionClick(line) {
-        console.log(line)
-        this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
-        coordinates: this.line.roi.coordinatesValue,
-      });
-      }
     },
     apollo: {
       lines: {
@@ -55,7 +45,6 @@
                   data
                   roi {
                     coordinatesValue
-                    urn
                   }
                 }
               }
@@ -89,12 +78,4 @@
 </script>
 
 <style lang="scss" scoped>
-  .line {
-    font-family: var(--sv-widget-scholia-line-font-family, 'Noto Serif');
-    font-size: 14px;
-    .lemma {
-      font-weight: 700;
-    }
-    margin-bottom: 10px;
-  }
 </style>

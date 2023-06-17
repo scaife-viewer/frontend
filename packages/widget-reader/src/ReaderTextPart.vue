@@ -105,7 +105,7 @@
     align-items: baseline;
 
     .highlight {
-      background: var(
+      background-color: var(
         --sv-widget-reader-token-selected-entity-shadow-color,
         #9f9
       );

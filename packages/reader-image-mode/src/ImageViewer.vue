@@ -93,7 +93,10 @@ export default {
       return `image-viewer-${this.reference}`;
     },
     selectedLine() {
-      return this.$store.state[MODULE_NS].selectedLine
+      return this.$store.state[MODULE_NS].selectedLine;
+    },
+    selectedScholion() {
+      return this.$store.state[MODULE_NS].selectedScholion;
     },
     viewerOptions() {
       return {
@@ -164,25 +167,21 @@ export default {
         // regions of interest, although usually there
         // will only be one.
         line.roi.forEach(r => {
-          const overlay = createOverlay(r.coordinatesValue);
-          const location = r.coordinatesValue.split(',').map(s => parseFloat(s));
-          // Transform dimensions from percentages to pixels
-          const imageX = this.viewer.source.dimensions.x;
-          const imageY = this.viewer.source.dimensions.y;
-          const pixelDimensions = [
-            location[0] * imageX,
-            location[1] * imageY,
-            location[2] * imageX,
-            location[3] * imageY,
-          ];
-
-          const rect = this.viewer.viewport.imageToViewportRectangle(...pixelDimensions);
-          this.viewer.addOverlay({
-            element: overlay,
-            location: rect,
-          });
+          addRoiToViewer(r, this.viewer);
         });
       });
+    },
+    drawScholiaRoiOverlays() {
+      if (!this.viewer) {
+        return;
+      }
+
+      const selectedScholion = this.$store.state[MODULE_NS].selectedScholion;
+      const roi = selectedScholion.roi;
+
+      roi.forEach(r => {
+        addRoiToViewer(r, this.viewer);
+      })
     },
     initViewer() {
       if (!this.viewer) {
@@ -207,6 +206,28 @@ export default {
   },
 };
 
+function addRoiToViewer(roi, viewer) {
+  const overlay = createOverlay(roi.coordinatesValue);
+  const location = roi.coordinatesValue.split(',').map(s => parseFloat(s));
+  const pixelDimensions = calculatePixelDimensions(location, viewer.source.dimensions)
+
+  const rect = viewer.viewport.imageToViewportRectangle(...pixelDimensions);
+  viewer.addOverlay({
+    element: overlay,
+    location: rect,
+  });
+}
+
+function calculatePixelDimensions(location, {x: x, y: y}) {
+  // Transform dimensions from percentages to pixels
+  return [
+    location[0] * x,
+    location[1] * y,
+    location[2] * x,
+    location[3] * y,
+  ];
+}
+
 function createClickableOverlay(coordinatesValue) {
   const overlay = document.createElement('div');
   overlay.className = "roi-clickable";
@@ -224,14 +245,7 @@ function createOverlay(coordinatesValue) {
 
 function createRect(coordinatesValue, viewer) {
   const location = coordinatesValue.split(',').map(s => parseFloat(s));
-  const imageX = viewer.source.dimensions.x;
-  const imageY = viewer.source.dimensions.y;
-  const pixelDimensions = [
-    location[0] * imageX,
-    location[1] * imageY,
-    location[2] * imageX,
-    location[3] * imageY,
-  ];
+  const pixelDimensions = calculatePixelDimensions(location, viewer.source.dimensions);
 
   return viewer.viewport.imageToViewportRectangle(...pixelDimensions);
 }
