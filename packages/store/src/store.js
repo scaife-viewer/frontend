@@ -22,6 +22,7 @@ import {
   SET_TEXT_SIZE,
   SET_TEXT_WIDTH,
   SELECT_LINE,
+  SELECT_SCHOLION,
   SELECT_TOKEN,
   CLEAR_TOKEN,
   SET_SELECTED_LEMMAS,
@@ -238,6 +239,9 @@ const createStore = client => {
         [SELECT_LINE]: (state, ref) => {
           state.highlightedTranscription = ref;
           state.selectedLine = ref;
+        },
+        [SELECT_SCHOLION]: (state, coordinates) => {
+          state.selectedScholion = coordinates;
         },
         [STOP_AUDIO]: state => {
           state.nowPlaying = null;

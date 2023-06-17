@@ -2,7 +2,7 @@
   <div class="scholia" :key="urn.absolute">
     <EmptyMessage v-if="!lines || lines.length === 0" />
     <div v-for="line in lines" :key="line.idx" class="line">
-      <span class="lemma">{{ line.lemma }} </span>
+      <span class="lemma" @click="onScholionClick(line)">{{ line.lemma }} </span>
       <span class="comment">{{ line.comment }}</span>
     </div>
     <Attribution>
@@ -16,7 +16,7 @@
 <script>
   import gql from 'graphql-tag';
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, SELECT_SCHOLION } from '@scaife-viewer/store';
 
   export default {
     scaifeConfig: {
@@ -35,6 +35,14 @@
         return this.$store.getters[`${MODULE_NS}/urn`];
       },
     },
+    methods: {
+      onScholionClick(line) {
+        console.log(line)
+        this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
+        coordinates: this.line.roi.coordinatesValue,
+      });
+      }
+    },
     apollo: {
       lines: {
         query: gql`
@@ -45,6 +53,10 @@
                   id
                   idx
                   data
+                  roi {
+                    coordinatesValue
+                    urn
+                  }
                 }
               }
             }
@@ -64,6 +76,7 @@
               comment: e.node.data.comment,
               lemma: e.node.data.lemma,
               references: e.node.data.references,
+              roi: e.node.roi,
             };
           });
         },

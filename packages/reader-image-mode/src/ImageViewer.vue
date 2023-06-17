@@ -67,6 +67,13 @@ export default {
         return this.$store.state[MODULE_NS].selectedLine;
       }
     },
+    selectedScholion: {
+      immediate: true,
+      handler() {
+        this.clearRoiOverlays();
+        this.drawScholiaRoiOverlays();
+      }
+    },
     showClickableRois(show) {
       this.clearRoiOverlays();
 
