@@ -75,6 +75,7 @@ export default {
       }
     },
     showClickableRois(show) {
+      this.clearHighlights();
       this.clearRoiOverlays();
 
       if (show) {
@@ -118,6 +119,11 @@ export default {
         this.viewer.open([`${this.imageIdentifier}info.json`]);
       }
     },
+    clearHighlights() {
+      this.$store.dispatch(`${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`, {
+        ref: null,
+      });
+    },
     clearRoiOverlays() {
       if (this.viewer && this.viewer.currentOverlays.length > 0) {
         this.viewer.clearOverlays();
@@ -147,20 +153,14 @@ export default {
       if (!this.viewer) {
         return;
       }
-      const selectedLine = this.$store.state[MODULE_NS].selectedLine;
-      const roi = this.$props.roi;
 
-      /*
-        https://codepen.io/jacobwegner/pen/QWBqLXo
-        // "By default the viewport coordinates go from 0 to 1 along the horizontal axis,
-        // but from 0 to height / width on the vertical axis."
-        // https://github.com/openseadragon/openseadragon/issues/2046#issuecomment-940360219
-        // https://github.com/openseadragon/openseadragon/issues/1793
-        // This is why we have drift on the vertical axis: the percentage-based
-        // y / height coordinates from IIIF must be changed to their viewport coordinate values
-        // imageToViewportRectangle converts from an image in pixels
-        // to viewport units
-       */
+      const selectedLine = this.$store.state[MODULE_NS].selectedLine;
+
+      if (!selectedLine) {
+        return;
+      }
+
+      const roi = this.$props.roi;
 
       roi.filter(r => selectedLine.endsWith(r.ref)).forEach(line => {
         // it is possible for a line to have multiple
@@ -219,6 +219,18 @@ function addRoiToViewer(roi, viewer) {
 }
 
 function calculatePixelDimensions(location, {x: x, y: y}) {
+  /*
+  https://codepen.io/jacobwegner/pen/QWBqLXo
+  // "By default the viewport coordinates go from 0 to 1 along the horizontal axis,
+  // but from 0 to height / width on the vertical axis."
+  // https://github.com/openseadragon/openseadragon/issues/2046#issuecomment-940360219
+  // https://github.com/openseadragon/openseadragon/issues/1793
+  // This is why we have drift on the vertical axis: the percentage-based
+  // y / height coordinates from IIIF must be changed to their viewport coordinate values
+  // imageToViewportRectangle converts from an image in pixels
+  // to viewport units
+  */
+
   // Transform dimensions from percentages to pixels
   return [
     location[0] * x,
@@ -229,17 +241,14 @@ function calculatePixelDimensions(location, {x: x, y: y}) {
 }
 
 function createClickableOverlay(coordinatesValue) {
-  const overlay = document.createElement('div');
-  overlay.className = "roi-clickable";
-  overlay.id = coordinatesValue;
-
-  return overlay;
+  return createOverlay(coordinatesValue, 'roi-clickable');
 }
 
-function createOverlay(coordinatesValue) {
+function createOverlay(coordinatesValue, className = 'roi-highlight') {
   const overlay = document.createElement('div');
-  overlay.className = "roi-highlight";
+  overlay.className = className;
   overlay.id = coordinatesValue;
+
   return overlay;
 }
 

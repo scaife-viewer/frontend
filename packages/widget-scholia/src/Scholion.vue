@@ -22,7 +22,15 @@ export default {
     isScholionHiglighted() {
       const highlightedScholion = this.$store.getters[`${MODULE_NS}/selectedScholion`];
 
-      return (highlightedScholion || {}).idx === this.line.idx;
+      const scholionHighlightedByIndex = (highlightedScholion || {}).idx === this.line.idx;
+
+      if (scholionHighlightedByIndex) {
+        return true;
+      }
+
+      const highlightedTranscription = this.$store.getters[`${MODULE_NS}/highlightedTranscription`];
+
+      return this.line.references.some(ref => ref.endsWith(highlightedTranscription));
     },
   },
   methods: {
