@@ -11,7 +11,7 @@
 
 
 <script>
-import { MODULE_NS, SELECT_SCHOLION } from '@scaife-viewer/store';
+import { MODULE_NS, SELECT_SCHOLION, SELECT_LINE } from '@scaife-viewer/store';
 
 export default {
   name: 'Scholion',
@@ -22,10 +22,11 @@ export default {
     isScholionHiglighted() {
       const highlightedScholion = this.$store.getters[`${MODULE_NS}/selectedScholion`];
 
-      const scholionHighlightedByIndex = (highlightedScholion || {}).idx === this.line.idx;
-
-      if (scholionHighlightedByIndex) {
-        return true;
+      // NB: After the highlightedScholion is set for the first time,
+      // it becomes an Observer --- that's why we check for null/undefined
+      // of highlightedScholion.idx as well.
+      if (highlightedScholion !== null && highlightedScholion.idx != null) {
+        return isScholionHighlightedByIndex(highlightedScholion, this.line.idx);
       }
 
       const highlightedTranscription = this.$store.getters[`${MODULE_NS}/highlightedTranscription`];
@@ -34,13 +35,21 @@ export default {
     },
   },
   methods: {
-    onScholionClick(scholion) {
+    async onScholionClick(scholion) {
+      // reset token in case one was selected in the ReaderWidget
+      await this.$store.commit(`${MODULE_NS}/${SELECT_LINE}`, {
+        ref: null,
+      });
       this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
         scholion,
       });
     }
   },
 };
+
+function isScholionHighlightedByIndex(scholion, idx) {
+  return scholion.idx === idx;
+}
 </script>
 
 <style lang="scss" scoped>

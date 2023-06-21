@@ -156,7 +156,10 @@ export default {
 
       const selectedLine = this.$store.state[MODULE_NS].selectedLine;
 
-      if (!selectedLine) {
+      // Vue's observers can cause the existence check to pass,
+      // but `selectedLine` still won't have an `endsWith()`
+      // function to call unless it is a string
+      if (!selectedLine || typeof selectedLine !== 'string') {
         return;
       }
 
@@ -164,8 +167,7 @@ export default {
 
       roi.filter(r => selectedLine.endsWith(r.ref)).forEach(line => {
         // it is possible for a line to have multiple
-        // regions of interest, although usually there
-        // will only be one.
+        // regions of interest
         line.roi.forEach(r => {
           addRoiToViewer(r, this.viewer);
         });
@@ -177,7 +179,7 @@ export default {
       }
 
       const selectedScholion = this.$store.state[MODULE_NS].selectedScholion;
-      const roi = selectedScholion.roi;
+      const roi = selectedScholion.roi || [];
 
       roi.forEach(r => {
         addRoiToViewer(r, this.viewer);

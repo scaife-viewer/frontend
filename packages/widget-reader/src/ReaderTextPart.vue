@@ -32,14 +32,19 @@
 
 <script>
   import URN, { Icon } from '@scaife-viewer/common';
-  import { MODULE_NS, SELECT_LINE } from '@scaife-viewer/store';
+  import { MODULE_NS, SELECT_LINE, SELECT_SCHOLION } from '@scaife-viewer/store';
   import ReaderToken from './ReaderToken.vue';
 
   export default {
     props: ['textPart'],
     components: { Icon, ReaderToken },
     methods: {
-      onLineSelect() {
+      async onLineSelect() {
+        // reset scholion in case one was selected in the ScholiaWidget
+        await this.$store.commit(`${MODULE_NS}/${SELECT_SCHOLION}`, {
+          scholion: null,
+        });
+
         this.$store.dispatch(`${MODULE_NS}/${SELECT_LINE}`, {
           ref: this.textPart.ref,
         });
