@@ -189,10 +189,10 @@
     align-items: baseline;
     justify-content: left;
     & nav:last-child {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
     ::v-deep .ball-pulse {
-      margin-left: auto;
+      margin-inline-start: auto;
       padding-top: 40px;
     }
   }
