@@ -90,6 +90,7 @@
           if (firstEntry.tree) {
             const tree = firstEntry.tree[0];
             return {
+              description: firstEntry.description,
               items: tree.children.map(child => child.data),
               label: firstEntry.label,
             };
@@ -167,6 +168,7 @@
               edges {
                 node {
                   label
+                  description
                   uri
                   urn
                   tree
