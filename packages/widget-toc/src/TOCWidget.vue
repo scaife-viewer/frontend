@@ -1,7 +1,10 @@
 <template>
-  <div class="toc-widget" v-if="toc">
+  <div class="toc-widget">
     <LoaderBall v-if="$apollo.loading" />
-    <template v-else>
+    <EmptyMessage v-else-if="!toc">
+      No tables of contents found
+    </EmptyMessage>
+    <div class="toc-entries" v-else>
       <div class="lookahead-container">
         <Lookahead
           :placeholder="placeholder"
@@ -26,14 +29,19 @@
         :passage="passage"
         :showURNs="showURNs"
       />
-    </template>
+    </div>
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
 
-  import { Icon, LoaderBall, Lookahead } from '@scaife-viewer/common';
+  import {
+    EmptyMessage,
+    Icon,
+    LoaderBall,
+    Lookahead,
+  } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
 
   import TOC from './TOC.vue';
@@ -42,6 +50,7 @@
   export default {
     name: 'TOCWidget',
     components: {
+      EmptyMessage,
       Icon,
       Lookahead,
       LoaderBall,
@@ -58,7 +67,11 @@
     },
     computed: {
       toc() {
-        if (this.showingRootToc) {
+        if (
+          this.showingRootToc &&
+          this.rootEntries &&
+          this.rootEntries.length > 0
+        ) {
           // NOTE: Show the root entries
           return {
             label: '',
@@ -222,7 +235,7 @@
 </script>
 
 <style lang="scss" scoped>
-  div.toc-widget {
+  div.toc-entries {
     flex-direction: column;
     justify-content: flex-start;
     margin: 10px;

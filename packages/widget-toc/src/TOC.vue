@@ -2,7 +2,7 @@
   <aside class="toc-container">
     <h3>{{ toc.label }}</h3>
     <p class="u-legend">{{ toc.description }}</p>
-    <div class="toc-grid" v-if="toc.items.length">
+    <div class="toc-grid">
       <template v-for="(item, index) in toc.items">
         <span :key="`index-${index}`" class="ref">{{ index + 1 }}.</span>
         <div :key="`item-${index}`" class="item">
@@ -15,7 +15,6 @@
         </div>
       </template>
     </div>
-    <h4 v-else>No results.</h4>
   </aside>
 </template>
 
