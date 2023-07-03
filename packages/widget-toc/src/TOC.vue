@@ -65,6 +65,7 @@
     flex-direction: column;
     width: 100%;
   }
+  // TODO: Retire grid due to weird wrapping issues
   .toc-grid {
     display: grid;
     align-items: baseline;

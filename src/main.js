@@ -44,6 +44,7 @@ import { iconMap as commonIconMap } from '@scaife-viewer/common';
 import { iconMap as audioIconMap } from '@scaife-viewer/widget-audio';
 import { iconMap as neIconMap } from '@scaife-viewer/widget-named-entities';
 import { iconMap as deIconMap } from '@scaife-viewer/widget-dictionary-entries';
+import { iconMap as tocIconMap } from '@scaife-viewer/widget-toc';
 
 import App from './App.vue';
 import store, { apolloProvider } from './store';
@@ -59,6 +60,7 @@ Vue.use(SkeletonPlugin, {
     ...deIconMap,
     ...namedEntitesReaderIconMap,
     ...imageModeReaderIconMap,
+    ...tocIconMap,
   },
   config: {
     endpoints: {
