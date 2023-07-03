@@ -126,9 +126,6 @@
       reducer() {
         return reducers.tocReducer;
       },
-      endpoint() {
-        return this.$scaife.config.endpoints.tocEndpoint;
-      },
       returnToRootPayload() {
         return this.context === 'tocs'
           ? { path: 'tocs' }
@@ -138,32 +135,23 @@
         if (this.context === 'tocs') {
           return !this.$route.params.urn;
         }
-        if (this.$route.query.toc) {
-          return this.$route.query.toc === this.defaultTocUrn;
-        }
-        return this.defaultTocUrn
-          ? this.url === this.getTocUrl(this.defaultTocUrn)
-          : this.url === this.getTocUrl(this.rootTocUrn);
+        // TODO: Simplify this with either the explicit
+        // URN or a top-level query
+        return !this.$route.query.toc;
       },
+      // TODO: Distinguish between "root" and "default" in the UX
       defaultTocUrn() {
         return this.metadata && this.metadata.defaultTocUrn
           ? this.metadata.defaultTocUrn
           : null;
       },
+      // TODO: Simplify this with either the explicit
+      // URN or a top-level query
       rootTocUrn() {
         return 'urn:cite:scaife-viewer:toc.demo-root';
       },
       currentToc() {
         return this.$route.query.toc ? this.$route.query.toc : null;
-      },
-      url() {
-        if (this.$route.query.toc) {
-          return this.getTocUrl(this.$route.query.toc);
-        }
-        if (this.context === 'reader') {
-          return this.getTocUrl(this.defaultTocUrn || this.rootTocUrn);
-        }
-        return this.getTocUrl(this.$route.query.urn || this.rootTocUrn);
       },
     },
     apollo: {
@@ -228,9 +216,6 @@
       },
       filterData(data) {
         this.filtered = data;
-      },
-      getTocUrl(tocUrn) {
-        return `${this.endpoint}/tocs/${tocUrn.split(':').slice(-1)}.json`;
       },
     },
   };
