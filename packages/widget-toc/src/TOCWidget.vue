@@ -1,10 +1,10 @@
 <template>
-  <div class="toc-widget">
+  <div class="toc-widget" :class="{ 'with-entries': toc }">
     <LoaderBall v-if="$apollo.loading" />
     <EmptyMessage v-else-if="!toc">
       No tables of contents found
     </EmptyMessage>
-    <div class="toc-entries" v-else>
+    <div class="toc-entries" :key="currentToc" v-else>
       <div class="lookahead-container">
         <Lookahead
           :placeholder="placeholder"
@@ -65,6 +65,13 @@
         showURNs: false,
       };
     },
+    watch: {
+      toc: {
+        handler(value) {
+          this.filtered = value;
+        },
+      },
+    },
     computed: {
       toc() {
         if (
@@ -78,7 +85,7 @@
             items: this.rootEntries ? this.rootEntries : [],
           };
         }
-        if (this.tocEntries) {
+        if (this.tocEntries && this.tocEntries.length > 0) {
           const firstEntry = this.tocEntries[0];
           if (firstEntry.tree) {
             const tree = firstEntry.tree[0];
@@ -90,39 +97,6 @@
         }
         // NOTE: Should be unreachable
         return null;
-      },
-      entryQuery() {
-        if (this.$route.query.toc) {
-          return gql`
-            query($urn: String!) {
-              tocEntries(urn: $urn) {
-                edges {
-                  node {
-                    label
-                    uri
-                    urn
-                    tree
-                  }
-                }
-              }
-            }
-          `;
-        }
-        // Fall back to "root" entries; we may
-        // make this an explicit TOC.
-        return gql`
-          query {
-            tocEntries(depth: 1) {
-              edges {
-                node {
-                  label
-                  uri
-                  urn
-                }
-              }
-            }
-          }
-        `;
       },
       context() {
         return this.$route.name;
@@ -160,9 +134,6 @@
       },
       // TODO: Simplify this with either the explicit
       // URN or a top-level query
-      rootTocUrn() {
-        return 'urn:cite:scaife-viewer:toc.demo-root';
-      },
       currentToc() {
         return this.$route.query.toc ? this.$route.query.toc : null;
       },
@@ -235,11 +206,13 @@
 </script>
 
 <style lang="scss" scoped>
-  div.toc-entries {
-    flex-direction: column;
-    justify-content: flex-start;
-    margin: 10px;
-    width: calc(100% - 20px);
+  div.toc-widget {
+    &.with-entries {
+      margin: 10px;
+      width: calc(100% - 20px);
+      flex-direction: column;
+      justify-content: flex-start;
+    }
   }
   .lookahead-container {
     align-items: center;
