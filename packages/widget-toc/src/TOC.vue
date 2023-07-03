@@ -1,13 +1,13 @@
 <template>
   <aside class="toc-container">
-    <h3>{{ toc.title }}</h3>
+    <h3>{{ toc.label }}</h3>
     <p class="u-legend">{{ toc.description }}</p>
     <div class="toc-grid" v-if="toc.items.length">
       <template v-for="(item, index) in toc.items">
         <span :key="`index-${index}`" class="ref">{{ index + 1 }}.</span>
         <div :key="`item-${index}`" class="item">
           <router-link :to="getPayload(item.uri)">
-            {{ item.title }}
+            {{ item.label }}
           </router-link>
           <span v-if="showURNs">
             <tt>{{ item.uri }}</tt>

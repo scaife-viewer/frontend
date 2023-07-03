@@ -1,5 +1,5 @@
 const tocReducer = (data, query) => {
-  const lenses = { getTitle: obj => obj.title, getUri: obj => obj.uri };
+  const lenses = { getLabel: obj => obj.label, getUri: obj => obj.uri };
   return {
     ...data,
     items: data.items.filter(obj =>
