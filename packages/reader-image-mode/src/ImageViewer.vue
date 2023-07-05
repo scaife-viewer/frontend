@@ -39,7 +39,7 @@
 <script>
 import OpenSeadragon from 'openseadragon';
 import { Attribution } from '@scaife-viewer/common';
-import { MODULE_NS, HIGHLIGHT_TRANSCRIPTION } from '@scaife-viewer/store';
+import { MODULE_NS, HIGHLIGHT_TRANSCRIPTION, SELECT_SCHOLION } from '@scaife-viewer/store';
 
 export default {
   props: ['imageIdentifier', 'reference', 'roi'],
@@ -62,9 +62,16 @@ export default {
     selectedLine: {
       immediate: true,
       handler() {
+        const line = this.$store.state[MODULE_NS].selectedLine;
+
+        if (Boolean(line)) {
+          this.$data.showClickableRois = false;
+        }
+
         this.clearRoiOverlays();
         this.drawRoiOverlays();
-        return this.$store.state[MODULE_NS].selectedLine;
+
+        return line;
       }
     },
     selectedScholion: {
@@ -74,11 +81,15 @@ export default {
         this.drawScholiaRoiOverlays();
       }
     },
-    showClickableRois(show) {
-      this.clearHighlights();
+    async showClickableRois(show) {
       this.clearRoiOverlays();
 
       if (show) {
+        // because the store dispatches actions asynchronously,
+        // we need to wait for them to be committed before
+        // clearing the overlays, otherwise they don't
+        // get drawn correctly.
+        await this.clearHighlights();
         this.drawClickableRoiOverlays();
       }
     },
@@ -119,9 +130,12 @@ export default {
         this.viewer.open([`${this.imageIdentifier}info.json`]);
       }
     },
-    clearHighlights() {
-      this.$store.dispatch(`${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`, {
+    async clearHighlights() {
+      await this.$store.dispatch(`${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`, {
         ref: null,
+      });
+      return this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
+        scholion: null,
       });
     },
     clearRoiOverlays() {
@@ -178,7 +192,7 @@ export default {
         return;
       }
 
-      const selectedScholion = this.$store.state[MODULE_NS].selectedScholion;
+      const selectedScholion = this.$store.state[MODULE_NS].selectedScholion || {};
       const roi = selectedScholion.roi || [];
 
       roi.forEach(r => {
@@ -285,7 +299,7 @@ function createRect(coordinatesValue, viewer) {
     --sv-widget-reader-dictionary-resolved-background-color,
     #9ad5f5
   );
-  opacity: 0.1;
+  opacity: 0.3;
   cursor: pointer;
 
   &:hover {
