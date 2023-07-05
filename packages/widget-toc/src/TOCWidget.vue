@@ -75,6 +75,17 @@
       },
     },
     computed: {
+      passageWork() {
+        // FIXME: Fix this so we have "upTo" in URN module
+        if (this.passage) {
+          const [tgPart, workPart, ] = `${this.passage}`
+            .split(`${this.passage.nss}:`)[1]
+            .split(':')[0]
+            .split('.');
+          return `urn:cts:${this.passage.nss}:${tgPart}.${workPart}:`;
+        }
+        return '';
+      },
       emptyMessage() {
         return SHOW_RELEVANT_ONLY
           ? 'No relevant tables of contents found'
@@ -160,8 +171,8 @@
     apollo: {
       relevantEntries: {
         query: gql`
-          query($version: String!) {
-            tocEntries(depth: 1, version: $version) {
+          query($work: String!) {
+            tocEntries(depth: 1, work: $work) {
               edges {
                 node {
                   label
@@ -179,7 +190,7 @@
           return data.tocEntries.edges.map(e => e.node);
         },
         variables() {
-          return { version: this.passage.version };
+          return { work: this.passageWork };
         },
       },
       rootEntries: {
