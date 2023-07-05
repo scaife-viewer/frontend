@@ -2,7 +2,7 @@
   <div class="toc-widget" :class="{ 'with-entries': toc }">
     <LoaderBall v-if="$apollo.loading" />
     <EmptyMessage v-else-if="!toc">
-      No tables of contents found
+      {{ emptyMessage }}
     </EmptyMessage>
     <div class="toc-entries" :key="currentToc" v-else>
       <div class="lookahead-container">
@@ -47,6 +47,8 @@
   import TOC from './TOC.vue';
   import reducers from './reducers';
 
+  const SHOW_RELEVANT_ONLY = true;
+
   export default {
     name: 'TOCWidget',
     components: {
@@ -73,7 +75,23 @@
       },
     },
     computed: {
+      emptyMessage() {
+        return SHOW_RELEVANT_ONLY
+          ? 'No relevant tables of contents found'
+          : 'No tables of contents found';
+      },
       toc() {
+        if (
+          this.showingRootToc &&
+          this.relevantEntries &&
+          this.relevantEntries.length > 0
+        ) {
+          // NOTE: Show the root entries
+          return {
+            label: '',
+            items: this.relevantEntries ? this.relevantEntries : [],
+          };
+        }
         if (
           this.showingRootToc &&
           this.rootEntries &&
@@ -140,6 +158,30 @@
       },
     },
     apollo: {
+      relevantEntries: {
+        query: gql`
+          query($version: String!) {
+            tocEntries(depth: 1, version: $version) {
+              edges {
+                node {
+                  label
+                  uri
+                  urn
+                }
+              }
+            }
+          }
+        `,
+        skip() {
+          return !this.passage;
+        },
+        update(data) {
+          return data.tocEntries.edges.map(e => e.node);
+        },
+        variables() {
+          return { version: this.passage.version };
+        },
+      },
       rootEntries: {
         query: gql`
           query {
@@ -155,6 +197,9 @@
           }
         `,
         skip() {
+          if (SHOW_RELEVANT_ONLY) {
+            return true;
+          }
           return !!this.$route.query.toc;
         },
         update(data) {
