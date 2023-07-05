@@ -103,7 +103,7 @@
             items: this.rootEntries ? this.rootEntries : [],
           };
         }
-        if (this.tocEntries && this.tocEntries.length > 0) {
+        if (this.currentToc && this.tocEntries && this.tocEntries.length > 0) {
           const firstEntry = this.tocEntries[0];
           if (firstEntry.tree) {
             const tree = firstEntry.tree[0];
