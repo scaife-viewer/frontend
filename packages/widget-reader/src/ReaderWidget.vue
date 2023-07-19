@@ -34,9 +34,15 @@
     SET_PASSAGE,
     UPDATE_METADATA,
     DISPLAY_MODE_DEFAULT,
+    DISPLAY_MODE_INTERLINEAR,
   } from '@scaife-viewer/store';
 
   import PassageLanguageIsRtlMixin from './mixins';
+
+  const directionalDisplayModes = new Set([
+    DISPLAY_MODE_DEFAULT,
+    DISPLAY_MODE_INTERLINEAR,
+  ]);
 
   export default {
     mixins: [PassageLanguageIsRtlMixin],
@@ -147,16 +153,17 @@
       fullHeight() {
         return this.namedEntitiesMode;
       },
-      isDefaultDisplayMode() {
-        return (
-          this.$store.getters[`${MODULE_NS}/displayMode`] ===
-          DISPLAY_MODE_DEFAULT
+      displayModeIsDirectional() {
+        return directionalDisplayModes.has(
+          this.$store.getters[`${MODULE_NS}/displayMode`],
         );
       },
       textDirection() {
         // FIXME: Further localization required across
         // the other display modes
-        return this.passageIsRtl && this.isDefaultDisplayMode ? 'rtl' : 'ltr';
+        return this.passageIsRtl && this.displayModeIsDirectional
+          ? 'rtl'
+          : 'ltr';
       },
       pagerPrevious() {
         return this.textDirection === 'ltr' ? 'left' : 'right';
