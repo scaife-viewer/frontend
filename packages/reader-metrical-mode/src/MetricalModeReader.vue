@@ -45,6 +45,9 @@
         const lines = data.passageTextParts.edges.map(line => {
           const { id, ref, metricalAnnotations } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
+            // NOTE: spaceAfter is _not_ included here due to the use of
+            // v-html metricalHtml in ReaderTextPart.vue
+            // const { value, veRef, spaceAfter } = edge.node;
             const { value, veRef } = edge.node;
             return {
               value,
