@@ -54,12 +54,10 @@
       >
     </template>
     <template v-else-if="dictionaryEntriesMode">
-      <span :title="token.lemma" class="text">{{ token.value }}</span
-      >{{ ' ' }}
+      <span :title="token.lemma" class="text">{{ value }}</span>
     </template>
     <template v-else>
-      <span class="text">{{ token.value }}</span
-      >{{ ' ' }}
+      <span class="text">{{ value }}</span>
     </template>
   </span>
 </template>
@@ -132,6 +130,11 @@
       };
     },
     computed: {
+      value() {
+        return this.token.spaceAfter
+          ? `${this.token.value} `
+          : this.token.value;
+      },
       commentary() {
         // NOTE: backwards-compatible with SV 1
         return this.commentariesMode;

@@ -82,10 +82,13 @@
         const lines = parts.map(line => {
           const { id, ref } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef } = edge.node;
+            // TODO: Refactor a fragment / mixin for retrieving and setting
+            //  value, veRef and spaceAfter
+            const { value, veRef, spaceAfter } = edge.node;
             return {
               value,
               veRef,
+              spaceAfter,
               entities: tokenLookup[veRef],
             };
           });
@@ -162,6 +165,7 @@
                         id
                         veRef
                         value
+                        spaceAfter
                       }
                     }
                   }
