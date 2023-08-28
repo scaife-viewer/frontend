@@ -10,7 +10,7 @@
       <div class="dictionary-entry-body" :key="entry.id">
         <!-- TODO: Use a tighter follow-on query here to reduce payload size -->
 
-        <template v-if="teiEntry">
+        <template v-if="teiEntry.css">
           <div
             class="dictionary-entry-content"
             id="CETEI_Container"
