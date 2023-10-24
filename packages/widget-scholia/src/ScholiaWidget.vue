@@ -1,10 +1,7 @@
 <template>
   <div class="scholia" :key="urn.absolute">
     <EmptyMessage v-if="!lines || lines.length === 0" />
-    <div v-for="line in lines" :key="line.idx" class="line">
-      <span class="lemma">{{ line.lemma }} </span>
-      <span class="comment">{{ line.comment }}</span>
-    </div>
+    <Scholion v-for="line in lines" :key="line.idx" :line="line" />
     <Attribution>
       <a href="http://www.homermultitext.org" target="_blank">
         Homer Multitext Project / Center for Hellenic Studies
@@ -17,6 +14,7 @@
   import gql from 'graphql-tag';
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
+  import Scholion from './Scholion.vue';
 
   export default {
     scaifeConfig: {
@@ -24,7 +22,7 @@
       location: 'sidebar',
       singleton: true,
     },
-    components: { Attribution, EmptyMessage },
+    components: { Attribution, EmptyMessage, Scholion },
     data() {
       return {
         scholiaCollectionUrn: this.$scaife.config.scholiaCollectionUrn,
@@ -45,6 +43,9 @@
                   id
                   idx
                   data
+                  roi {
+                    coordinatesValue
+                  }
                 }
               }
             }
@@ -57,13 +58,14 @@
           };
         },
         update(data) {
-          return data.textAnnotations.edges.map(e => {
+          return data.textAnnotations.edges.map((e) => {
             return {
               idx: e.node.idx,
               dse: e.node.data.dse,
               comment: e.node.data.comment,
               lemma: e.node.data.lemma,
               references: e.node.data.references,
+              roi: e.node.roi,
             };
           });
         },
@@ -74,14 +76,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .line {
-    font-family: var(--sv-widget-scholia-line-font-family, 'Noto Serif');
-    font-size: 14px;
-    .lemma {
-      font-weight: 700;
-    }
-    margin-bottom: 10px;
-  }
-</style>

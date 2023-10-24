@@ -23,6 +23,7 @@
             <ImageViewer
               :imageIdentifier="image.url"
               :reference="image.refs[0]"
+              :roi="data.roi"
             />
           </div>
           <EmptyMessage
@@ -103,6 +104,10 @@
                   kind
                   urn
                   ref
+                  roi {
+                    data
+                    coordinatesValue
+                  }
                   tokens {
                     edges {
                       node {
@@ -144,12 +149,12 @@
       },
       queryUpdate(data) {
         const lines = data.passageTextParts.edges.map(line => {
-          const { id, kind, ref } = line.node;
+          const { id, kind, ref, roi } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
             const { value, veRef, spaceAfter } = edge.node;
             return { value, veRef, spaceAfter };
           });
-          return { id, kind, ref, tokens };
+          return { id, kind, ref, roi, tokens };
         });
         const linesMap = lines.reduce(
           (map, line) => ({
@@ -158,6 +163,7 @@
           }),
           {},
         );
+        const roi = lines.map(line => ({ref: line.ref, roi: line.roi}));
         // FIXME: Ensure relations are ordered on the server
         const images = data.imageAnnotations.edges.map(image => {
           const textParts = image.node.textParts.edges
@@ -179,6 +185,7 @@
           imageIdentifier: data.imageAnnotations.edges.length
             ? data.imageAnnotations.edges[0].node.imageIdentifier
             : null,
+          roi,
         };
       },
     },
@@ -205,6 +212,10 @@
       }
       .image-mode-container,
       .image-mode-container .image-folio {
+        // this property is causing the viewer
+        // to be too small when viewing only one
+        // or a few lines, e.g., at
+        // /explore-homer/urn:cts:greekLit:tlg0012.tlg001.msA-folios:12r.1.1?mode=folio
         height: unset;
       }
     }
