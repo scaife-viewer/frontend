@@ -4,7 +4,7 @@
       class="lemma"
       @click="onScholionClick(line)"
       :class="{ highlight: isScholionHiglighted }"
-      >{{ line.lemma }}</span
+      >{{ line.lemma || '*' }}</span
     >
     <span class="comment"> {{ line.comment }}</span>
   </div>
