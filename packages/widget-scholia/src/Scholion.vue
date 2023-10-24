@@ -52,7 +52,7 @@
     methods: {
       async onScholionClick(scholion) {
         // reset token in case one was selected in the ReaderWidget
-        await this.$store.commit(`${MODULE_NS}/${SELECT_LINE}`, {
+        await this.$store.dispatch(`${MODULE_NS}/${SELECT_LINE}`, {
           ref: null,
         });
         this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {

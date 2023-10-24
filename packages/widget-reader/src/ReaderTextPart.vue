@@ -49,7 +49,7 @@
     methods: {
       async onLineSelect() {
         // reset scholion in case one was selected in the ScholiaWidget
-        await this.$store.commit(`${MODULE_NS}/${SELECT_SCHOLION}`, {
+        await this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
           scholion: null,
         });
 
