@@ -58,7 +58,7 @@
           };
         },
         update(data) {
-          return data.textAnnotations.edges.map((e) => {
+          return data.textAnnotations.edges.map(e => {
             return {
               idx: e.node.idx,
               dse: e.node.data.dse,

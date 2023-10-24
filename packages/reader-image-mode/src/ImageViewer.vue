@@ -54,6 +54,60 @@
     SELECT_SCHOLION,
   } from '@scaife-viewer/store';
 
+  function createOverlay(coordinatesValue, className = 'roi-highlight') {
+    const overlay = document.createElement('div');
+    overlay.className = className;
+    overlay.id = coordinatesValue;
+
+    return overlay;
+  }
+
+  function calculatePixelDimensions(location, { x, y }) {
+    /*
+  https://codepen.io/jacobwegner/pen/QWBqLXo
+  "By default the viewport coordinates go from 0 to 1 along the
+  horizontal axis, but from 0 to height / width on the vertical axis."
+  https://github.com/openseadragon/openseadragon/issues/2046#issuecomment-940360219
+  https://github.com/openseadragon/openseadragon/issues/1793
+  This is why we have drift on the vertical axis: the percentage-based
+  y / height coordinates from IIIF must be changed to their viewport
+  coordinate values imageToViewportRectangle converts from an image in pixels
+  to viewport units
+  */
+
+    // Transform dimensions from percentages to pixels
+    return [location[0] * x, location[1] * y, location[2] * x, location[3] * y];
+  }
+
+  function addRoiToViewer(roi, viewer) {
+    const overlay = createOverlay(roi.coordinatesValue);
+    const location = roi.coordinatesValue.split(',').map(s => parseFloat(s));
+    const pixelDimensions = calculatePixelDimensions(
+      location,
+      viewer.source.dimensions,
+    );
+
+    const rect = viewer.viewport.imageToViewportRectangle(...pixelDimensions);
+    viewer.addOverlay({
+      element: overlay,
+      location: rect,
+    });
+  }
+
+  function createClickableOverlay(coordinatesValue) {
+    return createOverlay(coordinatesValue, 'roi-clickable');
+  }
+
+  function createRect(coordinatesValue, viewer) {
+    const location = coordinatesValue.split(',').map(s => parseFloat(s));
+    const pixelDimensions = calculatePixelDimensions(
+      location,
+      viewer.source.dimensions,
+    );
+
+    return viewer.viewport.imageToViewportRectangle(...pixelDimensions);
+  }
+
   export default {
     props: ['imageIdentifier', 'reference', 'roi'],
     data() {
@@ -157,8 +211,8 @@
         }
       },
       drawClickableRoiOverlays() {
-        this.$props.roi.forEach((r) =>
-          r.roi.forEach((roi) => {
+        this.$props.roi.forEach(r =>
+          r.roi.forEach(roi => {
             const element = createClickableOverlay(roi.coordinatesValue);
             const location = createRect(roi.coordinatesValue, this.viewer);
 
@@ -167,9 +221,10 @@
               location,
             });
 
+            // eslint-disable-next-line no-new
             new OpenSeadragon.MouseTracker({
               element,
-              clickHandler: (_evt) => {
+              clickHandler: () => {
                 this.$store.dispatch(
                   `${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`,
                   {
@@ -198,11 +253,11 @@
         const { roi } = this.$props;
 
         roi
-          .filter((r) => selectedLine.endsWith(r.ref))
-          .forEach((line) => {
+          .filter(r => selectedLine.endsWith(r.ref))
+          .forEach(line => {
             // it is possible for a line to have multiple
             // regions of interest
-            line.roi.forEach((r) => {
+            line.roi.forEach(r => {
               addRoiToViewer(r, this.viewer);
             });
           });
@@ -216,7 +271,7 @@
           this.$store.state[MODULE_NS].selectedScholion || {};
         const roi = selectedScholion.roi || [];
 
-        roi.forEach((r) => {
+        roi.forEach(r => {
           addRoiToViewer(r, this.viewer);
         });
       },
@@ -229,7 +284,7 @@
           this.errorMessage = null;
           this.displayViewer = true;
         };
-        const openFailedHandler = (err) => {
+        const openFailedHandler = err => {
           this.errorMessage = err.message;
           this.displayViewer = false;
         };
@@ -242,60 +297,6 @@
       this.displayViewer = false;
     },
   };
-
-  function addRoiToViewer(roi, viewer) {
-    const overlay = createOverlay(roi.coordinatesValue);
-    const location = roi.coordinatesValue.split(',').map((s) => parseFloat(s));
-    const pixelDimensions = calculatePixelDimensions(
-      location,
-      viewer.source.dimensions,
-    );
-
-    const rect = viewer.viewport.imageToViewportRectangle(...pixelDimensions);
-    viewer.addOverlay({
-      element: overlay,
-      location: rect,
-    });
-  }
-
-  function calculatePixelDimensions(location, { x, y }) {
-    /*
-  https://codepen.io/jacobwegner/pen/QWBqLXo
-  // "By default the viewport coordinates go from 0 to 1 along the horizontal axis,
-  // but from 0 to height / width on the vertical axis."
-  // https://github.com/openseadragon/openseadragon/issues/2046#issuecomment-940360219
-  // https://github.com/openseadragon/openseadragon/issues/1793
-  // This is why we have drift on the vertical axis: the percentage-based
-  // y / height coordinates from IIIF must be changed to their viewport coordinate values
-  // imageToViewportRectangle converts from an image in pixels
-  // to viewport units
-  */
-
-    // Transform dimensions from percentages to pixels
-    return [location[0] * x, location[1] * y, location[2] * x, location[3] * y];
-  }
-
-  function createClickableOverlay(coordinatesValue) {
-    return createOverlay(coordinatesValue, 'roi-clickable');
-  }
-
-  function createOverlay(coordinatesValue, className = 'roi-highlight') {
-    const overlay = document.createElement('div');
-    overlay.className = className;
-    overlay.id = coordinatesValue;
-
-    return overlay;
-  }
-
-  function createRect(coordinatesValue, viewer) {
-    const location = coordinatesValue.split(',').map((s) => parseFloat(s));
-    const pixelDimensions = calculatePixelDimensions(
-      location,
-      viewer.source.dimensions,
-    );
-
-    return viewer.viewport.imageToViewportRectangle(...pixelDimensions);
-  }
 </script>
 
 <style lang="scss">

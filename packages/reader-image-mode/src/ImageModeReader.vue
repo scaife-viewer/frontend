@@ -35,8 +35,9 @@
         <template v-else-if="showImage === 'image'">
           <div class="error" v-if="data.images.length > 1">
             <strong>WARNING:</strong> Multiple images are being shown; for best
-            results, paginate an image at a time (e.g. view
-            "{{ data.images.slice(0, 1)[0].refs.slice(0, 1)[0] }}")
+            results, paginate an image at a time (e.g. view "{{
+              data.images.slice(0, 1)[0].refs.slice(0, 1)[0]
+            }}")
           </div>
           <div class="image-only-mode-container">
             <div
@@ -172,7 +173,7 @@
           }),
           {},
         );
-        const roi = lines.map(line => ({ref: line.ref, roi: line.roi}));
+        const roi = lines.map(line => ({ ref: line.ref, roi: line.roi }));
         // FIXME: Ensure relations are ordered on the server
         const images = data.imageAnnotations.edges.map(image => {
           const textParts = image.node.textParts.edges

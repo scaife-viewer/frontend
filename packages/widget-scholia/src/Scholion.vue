@@ -28,8 +28,9 @@
     },
     computed: {
       isScholionHiglighted() {
-        const highlightedScholion =
-          this.$store.getters[`${MODULE_NS}/selectedScholion`];
+        const highlightedScholion = this.$store.getters[
+          `${MODULE_NS}/selectedScholion`
+        ];
 
         // NB: After the highlightedScholion is set for the first time,
         // it becomes an Observer --- that's why we check for null/undefined
@@ -41,10 +42,11 @@
           );
         }
 
-        const highlightedTranscription =
-          this.$store.getters[`${MODULE_NS}/highlightedTranscription`];
+        const highlightedTranscription = this.$store.getters[
+          `${MODULE_NS}/highlightedTranscription`
+        ];
 
-        return this.line.references.some((ref) =>
+        return this.line.references.some(ref =>
           ref.endsWith(highlightedTranscription),
         );
       },
