@@ -37,6 +37,7 @@
             v-for="image in data.images"
             :key="image.url"
             :imageIdentifier="image.url"
+            :style="'height: calc(100vh - 150px);'"
           />
         </template>
         <EmptyMessage class="reader-empty-annotations" v-else />
