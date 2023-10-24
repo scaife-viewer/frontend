@@ -114,6 +114,7 @@
                         id
                         veRef
                         value
+                        spaceAfter
                       }
                     }
                   }
@@ -150,8 +151,8 @@
         const lines = data.passageTextParts.edges.map(line => {
           const { id, kind, ref, roi } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef } = edge.node;
-            return { value, veRef };
+            const { value, veRef, spaceAfter } = edge.node;
+            return { value, veRef, spaceAfter };
           });
           return { id, kind, ref, roi, tokens };
         });
