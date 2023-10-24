@@ -33,11 +33,15 @@
         </div>
         <Reader v-else-if="showImage === 'text'" :textParts="data.lines" />
         <template v-else-if="showImage === 'image'">
-          <ImageViewer
-            v-for="image in data.images"
-            :key="image.url"
-            :imageIdentifier="image.url"
-          />
+          <div class="image-only-mode-container">
+            <div
+              class="image-folio"
+              v-for="image in data.images"
+              :key="image.imageIdentifier"
+            >
+              <ImageViewer :imageIdentifier="image.url" :roi="data.roi" />
+            </div>
+          </div>
         </template>
         <EmptyMessage class="reader-empty-annotations" v-else />
       </template>
@@ -213,8 +217,10 @@
     }
     &.text,
     &.image {
-      .image-mode-container {
-        grid-template-columns: 1fr;
+      .image-only-mode-container {
+        > .image-folio {
+          display: flex;
+        }
       }
     }
     .image-mode-container,
