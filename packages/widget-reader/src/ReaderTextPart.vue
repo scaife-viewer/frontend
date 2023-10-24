@@ -19,7 +19,11 @@
         v-if="metricalMode && metricalHtml"
         v-html="metricalHtml"
       />
-      <div class="line-text" :class="{highlight: isTranscriptionHighlighted}" v-else>
+      <div
+        class="line-text"
+        :class="{ highlight: isTranscriptionHighlighted }"
+        v-else
+      >
         <ReaderToken
           v-for="token in tokens"
           :key="token.veRef"
@@ -32,7 +36,11 @@
 
 <script>
   import URN, { Icon } from '@scaife-viewer/common';
-  import { MODULE_NS, SELECT_LINE, SELECT_SCHOLION } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SELECT_LINE,
+    SELECT_SCHOLION,
+  } from '@scaife-viewer/store';
   import ReaderToken from './ReaderToken.vue';
 
   export default {
@@ -93,7 +101,9 @@
         return refDepth === 3 ? this.textPart.ref.endsWith('2') : false;
       },
       isTranscriptionHighlighted() {
-        const highlightedRef = this.$store.getters[`${MODULE_NS}/highlightedTranscription`];
+        const highlightedRef = this.$store.getters[
+          `${MODULE_NS}/highlightedTranscription`
+        ];
 
         return highlightedRef === this.textPart.ref;
       },

@@ -14,7 +14,7 @@
   import gql from 'graphql-tag';
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
-  import Scholion from './Scholion';
+  import Scholion from './Scholion.vue';
 
   export default {
     scaifeConfig: {
@@ -58,7 +58,7 @@
           };
         },
         update(data) {
-          return data.textAnnotations.edges.map(e => {
+          return data.textAnnotations.edges.map((e) => {
             return {
               idx: e.node.idx,
               dse: e.node.data.dse,
@@ -76,6 +76,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-</style>

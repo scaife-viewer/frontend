@@ -188,12 +188,12 @@
           roi,
         };
       },
-    }
+    },
   };
 </script>
 
 <style lang="scss" scoped>
-.image-mode {
+  .image-mode {
     flex: 1;
     &.both {
       .image-mode-container {

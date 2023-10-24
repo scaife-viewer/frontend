@@ -12,11 +12,20 @@
           <a :id="`${reference}-zoom-out`" class="link" title="Zoom out">
             <icon name="search-minus" />
           </a>
-          <a :id="`${reference}-full-page`" class="link" title="Toggle full page">
+          <a
+            :id="`${reference}-full-page`"
+            class="link"
+            title="Toggle full page"
+          >
             <icon name="window-maximize" />
           </a>
-          <a :id="`${reference}-highlight-roi`" class="link" :class="{ active: showClickableRois }"
-            title="Highlight regions of interest" @click.prevent="showClickableRois = !showClickableRois">
+          <a
+            :id="`${reference}-highlight-roi`"
+            class="link"
+            :class="{ active: showClickableRois }"
+            title="Highlight regions of interest"
+            @click.prevent="showClickableRois = !showClickableRois"
+          >
             <icon name="highlighter" />
           </a>
         </small>
@@ -37,205 +46,220 @@
 </template>
 
 <script>
-import OpenSeadragon from 'openseadragon';
-import { Attribution } from '@scaife-viewer/common';
-import { MODULE_NS, HIGHLIGHT_TRANSCRIPTION, SELECT_SCHOLION } from '@scaife-viewer/store';
+  import OpenSeadragon from 'openseadragon';
+  import { Attribution } from '@scaife-viewer/common';
+  import {
+    MODULE_NS,
+    HIGHLIGHT_TRANSCRIPTION,
+    SELECT_SCHOLION,
+  } from '@scaife-viewer/store';
 
-export default {
-  props: ['imageIdentifier', 'reference', 'roi'],
-  data() {
-    return {
-      viewer: null,
-      displayViewer: false,
-      errorMessage: null,
-      showClickableRois: false,
-    };
-  },
-  components: { Attribution },
-  watch: {
-    imageIdentifier: {
-      immediate: true,
-      handler() {
-        this.updateImage();
+  export default {
+    props: ['imageIdentifier', 'reference', 'roi'],
+    data() {
+      return {
+        viewer: null,
+        displayViewer: false,
+        errorMessage: null,
+        showClickableRois: false,
+      };
+    },
+    components: { Attribution },
+    watch: {
+      imageIdentifier: {
+        immediate: true,
+        handler() {
+          this.updateImage();
+        },
+      },
+      selectedLine: {
+        immediate: true,
+        handler() {
+          const line = this.$store.state[MODULE_NS].selectedLine;
+
+          if (line) {
+            this.$data.showClickableRois = false;
+          }
+
+          this.clearRoiOverlays();
+          this.drawRoiOverlays();
+
+          return line;
+        },
+      },
+      selectedScholion: {
+        immediate: true,
+        handler() {
+          this.clearRoiOverlays();
+          this.drawScholiaRoiOverlays();
+        },
+      },
+      async showClickableRois(show) {
+        this.clearRoiOverlays();
+
+        if (show) {
+          // because the store dispatches actions asynchronously,
+          // we need to wait for them to be committed before
+          // clearing the overlays, otherwise they don't
+          // get drawn correctly.
+          await this.clearHighlights();
+          this.drawClickableRoiOverlays();
+        }
+      },
+      viewer: {
+        immediate: true,
+        handler() {
+          this.updateImage();
+        },
       },
     },
-    selectedLine: {
-      immediate: true,
-      handler() {
-        const line = this.$store.state[MODULE_NS].selectedLine;
+    computed: {
+      identifier() {
+        return `image-viewer-${this.reference}`;
+      },
+      selectedLine() {
+        return this.$store.state[MODULE_NS].selectedLine;
+      },
+      selectedScholion() {
+        return this.$store.state[MODULE_NS].selectedScholion;
+      },
+      viewerOptions() {
+        return {
+          // options: http://openseadragon.github.io/docs/OpenSeadragon.Viewer.html#Viewer
+          maxZoomLevel: 5,
+          showNavigator: true,
+          homeFillsViewer: true,
+          zoomInButton: `${this.reference}-zoom-in`,
+          zoomOutButton: `${this.reference}-zoom-out`,
+          homeButton: `${this.reference}-home`,
+          fullPageButton: `${this.reference}-full-page`,
+          id: this.identifier,
+        };
+      },
+    },
+    methods: {
+      updateImage() {
+        if (this.imageIdentifier && this.viewer) {
+          this.viewer.open([`${this.imageIdentifier}info.json`]);
+        }
+      },
+      async clearHighlights() {
+        await this.$store.dispatch(`${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`, {
+          ref: null,
+        });
+        return this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
+          scholion: null,
+        });
+      },
+      clearRoiOverlays() {
+        if (this.viewer && this.viewer.currentOverlays.length > 0) {
+          this.viewer.clearOverlays();
+        }
+      },
+      drawClickableRoiOverlays() {
+        this.$props.roi.forEach((r) =>
+          r.roi.forEach((roi) => {
+            const element = createClickableOverlay(roi.coordinatesValue);
+            const location = createRect(roi.coordinatesValue, this.viewer);
 
-        if (Boolean(line)) {
-          this.$data.showClickableRois = false;
+            this.viewer.addOverlay({
+              element,
+              location,
+            });
+
+            new OpenSeadragon.MouseTracker({
+              element,
+              clickHandler: (_evt) => {
+                this.$store.dispatch(
+                  `${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`,
+                  {
+                    ref: r.ref,
+                  },
+                );
+              },
+            });
+          }),
+        );
+      },
+      drawRoiOverlays() {
+        if (!this.viewer) {
+          return;
         }
 
-        this.clearRoiOverlays();
-        this.drawRoiOverlays();
+        const { selectedLine } = this.$store.state[MODULE_NS];
 
-        return line;
-      }
-    },
-    selectedScholion: {
-      immediate: true,
-      handler() {
-        this.clearRoiOverlays();
-        this.drawScholiaRoiOverlays();
-      }
-    },
-    async showClickableRois(show) {
-      this.clearRoiOverlays();
+        // Vue's observers can cause the existence check to pass,
+        // but `selectedLine` still won't have an `endsWith()`
+        // function to call unless it is a string
+        if (!selectedLine || typeof selectedLine !== 'string') {
+          return;
+        }
 
-      if (show) {
-        // because the store dispatches actions asynchronously,
-        // we need to wait for them to be committed before
-        // clearing the overlays, otherwise they don't
-        // get drawn correctly.
-        await this.clearHighlights();
-        this.drawClickableRoiOverlays();
-      }
-    },
-    viewer: {
-      immediate: true,
-      handler() {
-        this.updateImage();
-      },
-    },
-  },
-  computed: {
-    identifier() {
-      return `image-viewer-${this.reference}`;
-    },
-    selectedLine() {
-      return this.$store.state[MODULE_NS].selectedLine;
-    },
-    selectedScholion() {
-      return this.$store.state[MODULE_NS].selectedScholion;
-    },
-    viewerOptions() {
-      return {
-        // options: http://openseadragon.github.io/docs/OpenSeadragon.Viewer.html#Viewer
-        maxZoomLevel: 5,
-        showNavigator: true,
-        homeFillsViewer: true,
-        zoomInButton: `${this.reference}-zoom-in`,
-        zoomOutButton: `${this.reference}-zoom-out`,
-        homeButton: `${this.reference}-home`,
-        fullPageButton: `${this.reference}-full-page`,
-        id: this.identifier,
-      };
-    },
-  },
-  methods: {
-    updateImage() {
-      if (this.imageIdentifier && this.viewer) {
-        this.viewer.open([`${this.imageIdentifier}info.json`]);
-      }
-    },
-    async clearHighlights() {
-      await this.$store.dispatch(`${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`, {
-        ref: null,
-      });
-      return this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
-        scholion: null,
-      });
-    },
-    clearRoiOverlays() {
-      if (this.viewer && this.viewer.currentOverlays.length > 0) {
-        this.viewer.clearOverlays();
-      }
-    },
-    drawClickableRoiOverlays() {
-      this.$props.roi.forEach(r => r.roi.forEach(roi => {
-        const element = createClickableOverlay(roi.coordinatesValue);
-        const location = createRect(roi.coordinatesValue, this.viewer);
+        const { roi } = this.$props;
 
-        this.viewer.addOverlay({
-          element,
-          location,
-        });
-
-        new OpenSeadragon.MouseTracker({
-          element: element,
-          clickHandler: _evt => {
-            this.$store.dispatch(`${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`, {
-              ref: r.ref,
+        roi
+          .filter((r) => selectedLine.endsWith(r.ref))
+          .forEach((line) => {
+            // it is possible for a line to have multiple
+            // regions of interest
+            line.roi.forEach((r) => {
+              addRoiToViewer(r, this.viewer);
             });
-          },
-        });
-      }));
-    },
-    drawRoiOverlays() {
-      if (!this.viewer) {
-        return;
-      }
+          });
+      },
+      drawScholiaRoiOverlays() {
+        if (!this.viewer) {
+          return;
+        }
 
-      const selectedLine = this.$store.state[MODULE_NS].selectedLine;
+        const selectedScholion =
+          this.$store.state[MODULE_NS].selectedScholion || {};
+        const roi = selectedScholion.roi || [];
 
-      // Vue's observers can cause the existence check to pass,
-      // but `selectedLine` still won't have an `endsWith()`
-      // function to call unless it is a string
-      if (!selectedLine || typeof selectedLine !== 'string') {
-        return;
-      }
-
-      const roi = this.$props.roi;
-
-      roi.filter(r => selectedLine.endsWith(r.ref)).forEach(line => {
-        // it is possible for a line to have multiple
-        // regions of interest
-        line.roi.forEach(r => {
+        roi.forEach((r) => {
           addRoiToViewer(r, this.viewer);
         });
-      });
+      },
+      initViewer() {
+        if (!this.viewer) {
+          const instanceOptions = this.viewerOptions;
+          this.viewer = OpenSeadragon(instanceOptions);
+        }
+        const openHandler = () => {
+          this.errorMessage = null;
+          this.displayViewer = true;
+        };
+        const openFailedHandler = (err) => {
+          this.errorMessage = err.message;
+          this.displayViewer = false;
+        };
+        this.viewer.addHandler('open', openHandler, false);
+        this.viewer.addHandler('open-failed', openFailedHandler, false);
+      },
     },
-    drawScholiaRoiOverlays() {
-      if (!this.viewer) {
-        return;
-      }
-
-      const selectedScholion = this.$store.state[MODULE_NS].selectedScholion || {};
-      const roi = selectedScholion.roi || [];
-
-      roi.forEach(r => {
-        addRoiToViewer(r, this.viewer);
-      })
+    mounted() {
+      this.initViewer();
+      this.displayViewer = false;
     },
-    initViewer() {
-      if (!this.viewer) {
-        const instanceOptions = this.viewerOptions;
-        this.viewer = OpenSeadragon(instanceOptions);
-      }
-      const openHandler = () => {
-        this.errorMessage = null;
-        this.displayViewer = true;
-      };
-      const openFailedHandler = err => {
-        this.errorMessage = err.message;
-        this.displayViewer = false;
-      };
-      this.viewer.addHandler('open', openHandler, false);
-      this.viewer.addHandler('open-failed', openFailedHandler, false);
-    },
-  },
-  mounted() {
-    this.initViewer();
-    this.displayViewer = false;
-  },
-};
+  };
 
-function addRoiToViewer(roi, viewer) {
-  const overlay = createOverlay(roi.coordinatesValue);
-  const location = roi.coordinatesValue.split(',').map(s => parseFloat(s));
-  const pixelDimensions = calculatePixelDimensions(location, viewer.source.dimensions)
+  function addRoiToViewer(roi, viewer) {
+    const overlay = createOverlay(roi.coordinatesValue);
+    const location = roi.coordinatesValue.split(',').map((s) => parseFloat(s));
+    const pixelDimensions = calculatePixelDimensions(
+      location,
+      viewer.source.dimensions,
+    );
 
-  const rect = viewer.viewport.imageToViewportRectangle(...pixelDimensions);
-  viewer.addOverlay({
-    element: overlay,
-    location: rect,
-  });
-}
+    const rect = viewer.viewport.imageToViewportRectangle(...pixelDimensions);
+    viewer.addOverlay({
+      element: overlay,
+      location: rect,
+    });
+  }
 
-function calculatePixelDimensions(location, {x: x, y: y}) {
-  /*
+  function calculatePixelDimensions(location, { x, y }) {
+    /*
   https://codepen.io/jacobwegner/pen/QWBqLXo
   // "By default the viewport coordinates go from 0 to 1 along the horizontal axis,
   // but from 0 to height / width on the vertical axis."
@@ -247,116 +271,119 @@ function calculatePixelDimensions(location, {x: x, y: y}) {
   // to viewport units
   */
 
-  // Transform dimensions from percentages to pixels
-  return [
-    location[0] * x,
-    location[1] * y,
-    location[2] * x,
-    location[3] * y,
-  ];
-}
+    // Transform dimensions from percentages to pixels
+    return [location[0] * x, location[1] * y, location[2] * x, location[3] * y];
+  }
 
-function createClickableOverlay(coordinatesValue) {
-  return createOverlay(coordinatesValue, 'roi-clickable');
-}
+  function createClickableOverlay(coordinatesValue) {
+    return createOverlay(coordinatesValue, 'roi-clickable');
+  }
 
-function createOverlay(coordinatesValue, className = 'roi-highlight') {
-  const overlay = document.createElement('div');
-  overlay.className = className;
-  overlay.id = coordinatesValue;
+  function createOverlay(coordinatesValue, className = 'roi-highlight') {
+    const overlay = document.createElement('div');
+    overlay.className = className;
+    overlay.id = coordinatesValue;
 
-  return overlay;
-}
+    return overlay;
+  }
 
-function createRect(coordinatesValue, viewer) {
-  const location = coordinatesValue.split(',').map(s => parseFloat(s));
-  const pixelDimensions = calculatePixelDimensions(location, viewer.source.dimensions);
+  function createRect(coordinatesValue, viewer) {
+    const location = coordinatesValue.split(',').map((s) => parseFloat(s));
+    const pixelDimensions = calculatePixelDimensions(
+      location,
+      viewer.source.dimensions,
+    );
 
-  return viewer.viewport.imageToViewportRectangle(...pixelDimensions);
-}
+    return viewer.viewport.imageToViewportRectangle(...pixelDimensions);
+  }
 </script>
 
 <style lang="scss">
-.main-layout.main-layout-wide {
-  flex: 4;
+  .main-layout.main-layout-wide {
+    flex: 4;
 
-  .open-seadragon {
-    padding-left: 1rem;
-    border-left: 1px solid var(
-      --sv-reader-image-mode-wide-layout-openseadragon-border-color,
-      #dee2e6
-    );
+    .open-seadragon {
+      padding-left: 1rem;
+      border-left: 1px solid
+        var(
+          --sv-reader-image-mode-wide-layout-openseadragon-border-color,
+          #dee2e6
+        );
+    }
+
+    .image .open-seadragon {
+      border: none;
+      padding-left: 0;
+    }
   }
 
-  .image .open-seadragon {
-    border: none;
-    padding-left: 0;
+  .roi-clickable {
+    border: 4px solid
+      var(--sv-widget-reader-dictionary-resolved-background-color, #9ad5f5);
+    opacity: 0.3;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
-}
 
-.roi-clickable {
-  border: 4px solid var(
-    --sv-widget-reader-dictionary-resolved-background-color,
-    #9ad5f5
-  );
-  opacity: 0.3;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.8;
+  .roi-highlight {
+    border: 4px solid
+      var(--sv-widget-reader-token-selected-entity-shadow-color, #9f9);
+    opacity: 0.6;
   }
-}
-
-.roi-highlight {
-  border: 4px solid var(
-    --sv-widget-reader-token-selected-entity-shadow-color,
-    #9f9
-  );
-  opacity: 0.6;
-}
 </style>
 
 <style lang="scss" scoped>
-.open-seadragon {
-  flex: 1;
-  // height: calc(100vh - 150px);
-  display: flex;
-  flex-direction: column;
-
-  .viewer {
-    width: 100%;
+  .open-seadragon {
     flex: 1;
-  }
+    // height: calc(100vh - 150px);
+    display: flex;
+    flex-direction: column;
 
-  $link-base-color: var(--sv-reader-image-mode-openseadragon-hover-link-text-color, #fff);
-  $link-highlight-color: var(--sv-reader-image-mode-openseadragon-hover-link-background-color, #b45141);
+    .viewer {
+      width: 100%;
+      flex: 1;
+    }
 
-  .link {
-    font-size: 18px;
-    cursor: pointer;
-    margin: 0 0.5rem;
-    padding: 0.25rem;
-    border-radius: 3px;
-  }
+    $link-base-color: var(
+      --sv-reader-image-mode-openseadragon-hover-link-text-color,
+      #fff
+    );
+    $link-highlight-color: var(
+      --sv-reader-image-mode-openseadragon-hover-link-background-color,
+      #b45141
+    );
 
-  .active {
-    color: $link-base-color;
-    background: $link-highlight-color;
-  }
+    .link {
+      font-size: 18px;
+      cursor: pointer;
+      margin: 0 0.5rem;
+      padding: 0.25rem;
+      border-radius: 3px;
+    }
 
-  .link:hover {
-    color: $link-base-color;
-    background: $link-highlight-color;
-  }
+    .active {
+      color: $link-base-color;
+      background: $link-highlight-color;
+    }
 
-  .error {
-    margin: 10px 0px;
-    padding: 12px;
-    color: var(--sv-reader-image-mode-error-text-color, #d8000c);
-    background-color: var(--sv-reader-image-mode-error-background-color,
-        #ffd2d2);
-    vertical-align: middle;
-    max-width: 40em;
+    .link:hover {
+      color: $link-base-color;
+      background: $link-highlight-color;
+    }
+
+    .error {
+      margin: 10px 0px;
+      padding: 12px;
+      color: var(--sv-reader-image-mode-error-text-color, #d8000c);
+      background-color: var(
+        --sv-reader-image-mode-error-background-color,
+        #ffd2d2
+      );
+      vertical-align: middle;
+      max-width: 40em;
+    }
   }
-}
 </style>
