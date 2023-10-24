@@ -37,7 +37,6 @@
             v-for="image in data.images"
             :key="image.url"
             :imageIdentifier="image.url"
-            :style="'height: calc(100vh - 150px);'"
           />
         </template>
         <EmptyMessage class="reader-empty-annotations" v-else />
@@ -211,14 +210,6 @@
         }
         margin-bottom: 20px;
       }
-      .image-mode-container,
-      .image-mode-container .image-folio {
-        // this property is causing the viewer
-        // to be too small when viewing only one
-        // or a few lines, e.g., at
-        // /explore-homer/urn:cts:greekLit:tlg0012.tlg001.msA-folios:12r.1.1?mode=folio
-        height: unset;
-      }
     }
     &.text,
     &.image {
@@ -229,7 +220,6 @@
     .image-mode-container,
     .image-mode-container .image-folio {
       display: grid;
-      height: calc(100vh - 150px);
       &::v-deep .reader {
         overflow: auto;
       }

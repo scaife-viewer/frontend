@@ -338,7 +338,7 @@
 <style lang="scss" scoped>
   .open-seadragon {
     flex: 1;
-    // height: calc(100vh - 150px);
+    min-height: calc(100vh - 150px);
     display: flex;
     flex-direction: column;
 
