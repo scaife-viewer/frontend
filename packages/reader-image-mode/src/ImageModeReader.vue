@@ -33,6 +33,11 @@
         </div>
         <Reader v-else-if="showImage === 'text'" :textParts="data.lines" />
         <template v-else-if="showImage === 'image'">
+          <div class="error" v-if="data.images.length > 1">
+            <strong>WARNING:</strong> Multiple images are being shown; for best
+            results, paginate an image at a time (e.g. view
+            "{{ data.images.slice(0, 1)[0].refs.slice(0, 1)[0] }}")
+          </div>
           <div class="image-only-mode-container">
             <div
               class="image-folio"
@@ -230,5 +235,12 @@
         overflow: auto;
       }
     }
+  }
+  .error {
+    color: var(--sv-image-mode-reader-error-text-color, #b45141);
+    border: 1px solid #d9a8a0;
+    border-color: var(--sv-image-mode-reader-error-border-color);
+    padding: 0.5rem 0.75rem;
+    font-size: 80%;
   }
 </style>
