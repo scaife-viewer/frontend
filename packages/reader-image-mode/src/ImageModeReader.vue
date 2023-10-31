@@ -105,6 +105,8 @@
         },
       },
       query() {
+        // FIXME: textAnnotations from roi is not efficient;
+        // it would be better to mimic the query in widget-scholia
         return gql`
           query Folios($urn: String!) {
             passageTextParts(reference: $urn) {
@@ -117,6 +119,13 @@
                   roi {
                     data
                     coordinatesValue
+                    textAnnotations {
+                      edges {
+                        node {
+                          urn
+                        }
+                      }
+                    }
                   }
                   tokens {
                     edges {

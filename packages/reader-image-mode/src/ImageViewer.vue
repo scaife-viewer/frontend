@@ -54,9 +54,45 @@
     SELECT_SCHOLION,
   } from '@scaife-viewer/store';
 
-  function createOverlay(coordinatesValue, className = 'roi-highlight') {
+  function getClassForRoi(roi) {
+    // TODO: These are hardcoded to URNs
+    if (roi.data) {
+      const surface = roi.data['urn:cite2:hmt:va_dse.v1.surface:'];
+      if (surface) {
+        return 'hmt_scholia_6';
+      }
+    }
+    if (roi.textAnnotations.edges.length > 0) {
+      const firstEdge = roi.textAnnotations.edges[0];
+      const { urn } = firstEdge.node;
+      if (urn.startsWith('urn:cts:greekLit:tlg5026.msA.hmt:')) {
+        return 'hmt_scholia_1';
+      }
+      if (urn.startsWith('urn:cts:greekLit:tlg5026.msAext.hmt:')) {
+        return 'hmt_scholia_2';
+      }
+      if (urn.startsWith('urn:cts:greekLit:tlg5026.msAil.hmt:')) {
+        return 'hmt_scholia_3';
+      }
+      if (urn.startsWith('urn:cts:greekLit:tlg5026.msAim.hmt:')) {
+        return 'hmt_scholia_4';
+      }
+      if (urn.startsWith('urn:cts:greekLit:tlg5026.msAint.hmt:')) {
+        return 'hmt_scholia_5';
+      }
+    }
+    // FIXME: Determine what we want for our return value
+    // return 'hmt_scholia_0';
+    return null;
+  }
+
+  function createOverlay(roi, className = 'roi-highlight') {
+    const { coordinatesValue } = roi;
     const overlay = document.createElement('div');
-    overlay.className = className;
+    const additionalClassName = getClassForRoi(roi);
+    overlay.className = additionalClassName
+      ? `${className} ${additionalClassName}`
+      : className;
     overlay.id = coordinatesValue;
 
     return overlay;
@@ -78,9 +114,8 @@
     // Transform dimensions from percentages to pixels
     return [location[0] * x, location[1] * y, location[2] * x, location[3] * y];
   }
-
   function addRoiToViewer(roi, viewer) {
-    const overlay = createOverlay(roi.coordinatesValue);
+    const overlay = createOverlay(roi);
     const location = roi.coordinatesValue.split(',').map(s => parseFloat(s));
     const pixelDimensions = calculatePixelDimensions(
       location,
@@ -94,8 +129,8 @@
     });
   }
 
-  function createClickableOverlay(coordinatesValue) {
-    return createOverlay(coordinatesValue, 'roi-clickable');
+  function createClickableOverlay(roi) {
+    return createOverlay(roi, 'roi-clickable');
   }
 
   function createRect(coordinatesValue, viewer) {
@@ -214,7 +249,7 @@
       drawClickableRoiOverlays() {
         this.$props.roi.forEach(r =>
           r.roi.forEach(roi => {
-            const element = createClickableOverlay(roi.coordinatesValue);
+            const element = createClickableOverlay(roi);
             const location = createRect(roi.coordinatesValue, this.viewer);
 
             this.viewer.addOverlay({
@@ -320,9 +355,10 @@
   }
 
   .roi-clickable {
-    border: 4px solid
-      var(--sv-widget-reader-dictionary-resolved-background-color, #9ad5f5);
-    opacity: 0.3;
+    // TODO: Revisit styles after adding HMT borders
+    // border: 4px solid
+    //   var(--sv-widget-reader-dictionary-resolved-background-color, #9ad5f5);
+    // opacity: 0.3;
     cursor: pointer;
 
     &:hover {
@@ -331,9 +367,43 @@
   }
 
   .roi-highlight {
-    border: 4px solid
+    // TODO: Revisit styles after adding HMT borders
+    // border: 4px solid
+    //   var(--sv-widget-reader-token-selected-entity-shadow-color, #9f9);
+    // opacity: 0.6;
+    border: 2px solid
       var(--sv-widget-reader-token-selected-entity-shadow-color, #9f9);
-    opacity: 0.6;
+  }
+  // TODO: Refactor these classes as named constants for
+  // re-use with widget-scholia
+  // TODO: Prefer semantic class names
+  .hmt_scholia_0 {
+    border: 2px solid rgba(127, 127, 127, 1);
+    // background-color: rgba(127, 127, 127, 0.5);
+  }
+  .hmt_scholia_1 {
+    // urn:cts:greekLit:tlg5026.msA.hmt:
+    border: 2px solid rgba(165, 127, 89, 1);
+  }
+  .hmt_scholia_2 {
+    // urn:cts:greekLit:tlg5026.msAext.hmt:
+    border: 2px solid rgba(89, 89, 165, 1);
+  }
+  .hmt_scholia_3 {
+    // urn:cts:greekLit:tlg5026.msAil.hmt:
+    border: 2px solid rgba(18, 203, 196, 1);
+  }
+  .hmt_scholia_4 {
+    // urn:cts:greekLit:tlg5026.msAim.hmt:
+    border: 2px solid rgba(127, 165, 89, 1);
+  }
+  .hmt_scholia_5 {
+    // urn:cts:greekLit:tlg5026.msAint.hmt:
+    border: 2px solid rgba(60, 99, 130, 1);
+  }
+  .hmt_scholia_6 {
+    // urn:cts:greekLit:tlg0012.tlg001.msA:
+    border: 2px solid rgb(191, 63, 63);
   }
 </style>
 

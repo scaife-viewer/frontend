@@ -43,6 +43,7 @@
                   id
                   idx
                   data
+                  urn
                   roi {
                     coordinatesValue
                   }
@@ -59,13 +60,26 @@
         },
         update(data) {
           return data.textAnnotations.edges.map(e => {
+            // FIXME: This should be simplified
+            const roi = e.node.roi.map(roiObj => {
+              return {
+                ...roiObj,
+                textAnnotations: {
+                  edges: [
+                    {
+                      node: e.node,
+                    },
+                  ],
+                },
+              };
+            });
             return {
               idx: e.node.idx,
               dse: e.node.data.dse,
               comment: e.node.data.comment,
               lemma: e.node.data.lemma,
               references: e.node.data.references,
-              roi: e.node.roi,
+              roi,
             };
           });
         },
