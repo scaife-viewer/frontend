@@ -180,7 +180,8 @@
       viewerOptions() {
         return {
           // options: http://openseadragon.github.io/docs/OpenSeadragon.Viewer.html#Viewer
-          maxZoomLevel: 5,
+          minZoomImageRatio: 0.5,
+          maxZoomPixelRatio: 2.0,
           showNavigator: true,
           homeFillsViewer: true,
           zoomInButton: `${this.reference}-zoom-in`,
