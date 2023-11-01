@@ -2,6 +2,7 @@
   <div class="scholia" :key="urn.absolute">
     <EmptyMessage v-if="!lines || lines.length === 0" />
     <Scholion v-for="line in lines" :key="line.idx" :line="line" />
+    <Legend />
     <Attribution>
       <a href="http://www.homermultitext.org" target="_blank">
         Homer Multitext Project / Center for Hellenic Studies
@@ -15,6 +16,7 @@
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
   import Scholion from './Scholion.vue';
+  import Legend from './Legend.vue';
 
   export default {
     scaifeConfig: {
@@ -22,7 +24,7 @@
       location: 'sidebar',
       singleton: true,
     },
-    components: { Attribution, EmptyMessage, Scholion },
+    components: { Attribution, Legend, EmptyMessage, Scholion },
     data() {
       return {
         scholiaCollectionUrn: this.$scaife.config.scholiaCollectionUrn,
