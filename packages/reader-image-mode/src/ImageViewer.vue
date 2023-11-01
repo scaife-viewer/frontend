@@ -47,7 +47,20 @@
 
 <script>
   import OpenSeadragon from 'openseadragon';
-  import { Attribution } from '@scaife-viewer/common';
+  import {
+    Attribution,
+    SCHOLIA_KIND_MAIN,
+    SCHOLIA_KIND_EXTERIOR,
+    SCHOLIA_KIND_INTERLINEAR,
+    SCHOLIA_KIND_INTERMARGINAL,
+    SCHOLIA_KIND_INTERIOR,
+    // SCHOLIA_KIND_MISC,
+    SCHOLIA_URN_MAIN,
+    SCHOLIA_URN_EXTERIOR,
+    SCHOLIA_URN_INTERLINEAR,
+    SCHOLIA_URN_INTERMARGINAL,
+    SCHOLIA_URN_INTERIOR,
+  } from '@scaife-viewer/common';
   import {
     MODULE_NS,
     HIGHLIGHT_TRANSCRIPTION,
@@ -59,30 +72,30 @@
     if (roi.data) {
       const surface = roi.data['urn:cite2:hmt:va_dse.v1.surface:'];
       if (surface) {
-        return 'hmt_scholia_6';
+        return 'folio-text';
       }
     }
     if (roi.textAnnotations.edges.length > 0) {
       const firstEdge = roi.textAnnotations.edges[0];
       const { urn } = firstEdge.node;
-      if (urn.startsWith('urn:cts:greekLit:tlg5026.msA.hmt:')) {
-        return 'hmt_scholia_1';
+      if (urn.startsWith(SCHOLIA_URN_MAIN)) {
+        return SCHOLIA_KIND_MAIN;
       }
-      if (urn.startsWith('urn:cts:greekLit:tlg5026.msAext.hmt:')) {
-        return 'hmt_scholia_2';
+      if (urn.startsWith(SCHOLIA_URN_EXTERIOR)) {
+        return SCHOLIA_KIND_EXTERIOR;
       }
-      if (urn.startsWith('urn:cts:greekLit:tlg5026.msAil.hmt:')) {
-        return 'hmt_scholia_3';
+      if (urn.startsWith(SCHOLIA_URN_INTERLINEAR)) {
+        return SCHOLIA_KIND_INTERLINEAR;
       }
-      if (urn.startsWith('urn:cts:greekLit:tlg5026.msAim.hmt:')) {
-        return 'hmt_scholia_4';
+      if (urn.startsWith(SCHOLIA_URN_INTERMARGINAL)) {
+        return SCHOLIA_KIND_INTERMARGINAL;
       }
-      if (urn.startsWith('urn:cts:greekLit:tlg5026.msAint.hmt:')) {
-        return 'hmt_scholia_5';
+      if (urn.startsWith(SCHOLIA_URN_INTERIOR)) {
+        return SCHOLIA_KIND_INTERIOR;
       }
     }
     // FIXME: Determine what we want for our return value
-    // return 'hmt_scholia_0';
+    // return SCHOLIA_KIND_MISC;
     return null;
   }
 
@@ -370,39 +383,52 @@
     // TODO: Revisit styles after adding HMT borders
     // border: 4px solid
     //   var(--sv-widget-reader-token-selected-entity-shadow-color, #9f9);
-    // opacity: 0.6;
+    opacity: 0.6;
     border: 2px solid
       var(--sv-widget-reader-token-selected-entity-shadow-color, #9f9);
+    &.scholia-kind-misc {
+      background-color: rgba(127, 127, 127, 0.5);
+    }
+    &.scholia-kind-main {
+      background-color: rgba(165, 127, 89, 0.5);
+    }
+    &.scholia-kind-exterior {
+      background-color: rgba(89, 89, 165, 0.5);
+    }
+    &.scholia-kind-interlinear {
+      background-color: rgba(18, 203, 196, 0.5);
+    }
+    &.scholia-kind-intermarginal {
+      background-color: rgba(127, 165, 89, 0.5);
+    }
+    &.scholia-kind-interior {
+      background-color: rgba(60, 99, 130, 0.5);
+    }
+    &.folio-text {
+      background-color: rgba(191, 63, 63, 0.5);
+    }
   }
   // TODO: Refactor these classes as named constants for
   // re-use with widget-scholia
-  // TODO: Prefer semantic class names
-  .hmt_scholia_0 {
+  .scholia-kind-misc {
     border: 2px solid rgba(127, 127, 127, 1);
-    // background-color: rgba(127, 127, 127, 0.5);
   }
-  .hmt_scholia_1 {
-    // urn:cts:greekLit:tlg5026.msA.hmt:
+  .scholia-kind-main {
     border: 2px solid rgba(165, 127, 89, 1);
   }
-  .hmt_scholia_2 {
-    // urn:cts:greekLit:tlg5026.msAext.hmt:
+  .scholia-kind-exterior {
     border: 2px solid rgba(89, 89, 165, 1);
   }
-  .hmt_scholia_3 {
-    // urn:cts:greekLit:tlg5026.msAil.hmt:
+  .scholia-kind-interlinear {
     border: 2px solid rgba(18, 203, 196, 1);
   }
-  .hmt_scholia_4 {
-    // urn:cts:greekLit:tlg5026.msAim.hmt:
+  .scholia-kind-intermarginal {
     border: 2px solid rgba(127, 165, 89, 1);
   }
-  .hmt_scholia_5 {
-    // urn:cts:greekLit:tlg5026.msAint.hmt:
+  .scholia-kind-interior {
     border: 2px solid rgba(60, 99, 130, 1);
   }
-  .hmt_scholia_6 {
-    // urn:cts:greekLit:tlg0012.tlg001.msA:
+  .folio-text {
     border: 2px solid rgb(191, 63, 63);
   }
 </style>
