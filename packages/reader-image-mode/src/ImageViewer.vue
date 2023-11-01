@@ -180,9 +180,10 @@
         handler() {
           const line = this.$store.state[MODULE_NS].selectedLine;
 
-          if (line) {
-            this.$data.showClickableRois = false;
-          }
+          // if (line) {
+          //   debugger;
+          //   this.$data.showClickableRois = false;
+          // }
 
           this.clearRoiOverlays();
           this.drawRoiOverlays();
