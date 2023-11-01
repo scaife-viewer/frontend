@@ -76,6 +76,7 @@
               };
             });
             return {
+              urn: e.node.urn,
               idx: e.node.idx,
               dse: e.node.data.dse,
               comment: e.node.data.comment,
