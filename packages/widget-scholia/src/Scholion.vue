@@ -119,24 +119,41 @@
     }
 
     .badge {
-      // FIXME: refactor these with ImageViewer
       &.scholia-kind-misc {
-        color: rgba(127, 127, 127, 0.5);
+        color: var(
+          --sv-widget-reader-image-mode-scholia-kind-misc-color,
+          rgba(127, 127, 127, 0.5)
+        );
       }
       &.scholia-kind-main {
-        color: rgba(165, 127, 89, 0.5);
+        color: var(
+          --sv-widget-reader-image-mode-scholia-kind-main-color,
+          rgba(165, 127, 89, 0.5)
+        );
       }
       &.scholia-kind-exterior {
-        color: rgba(89, 89, 165, 0.5);
+        color: var(
+          --sv-widget-reader-image-mode-scholia-kind-exterior-color,
+          rgba(89, 89, 165, 0.5)
+        );
       }
       &.scholia-kind-interlinear {
-        color: rgba(18, 203, 196, 0.5);
+        color: var(
+          --sv-widget-reader-image-mode-scholia-kind-interlinear-color,
+          rgba(18, 203, 196, 0.5)
+        );
       }
       &.scholia-kind-intermarginal {
-        color: rgba(127, 165, 89, 0.5);
+        color: var(
+          --sv-widget-reader-image-mode-scholia-kind-intermarginal-color,
+          rgba(127, 165, 89, 0.5)
+        );
       }
       &.scholia-kind-interior {
-        color: rgba(60, 99, 130, 0.5);
+        color: var(
+          --sv-widget-reader-image-mode-scholia-kind-interior-color,
+          rgba(60, 99, 130, 0.5)
+        );
       }
     }
     margin-bottom: 10px;
