@@ -103,8 +103,9 @@
     const { coordinatesValue } = roi;
     const overlay = document.createElement('div');
     const additionalClassName = getClassForRoi(roi);
+    // TODO: Fix style scoping
     overlay.className = additionalClassName
-      ? `${className} ${additionalClassName}`
+      ? `${className} image-viewer-${additionalClassName}`
       : className;
     overlay.id = coordinatesValue;
 
@@ -386,49 +387,49 @@
     opacity: 0.6;
     border: 2px solid
       var(--sv-widget-reader-token-selected-entity-shadow-color, #9f9);
-    &.scholia-kind-misc {
+    &.image-viewer-scholia-kind-misc {
       background-color: rgba(127, 127, 127, 0.5);
     }
-    &.scholia-kind-main {
+    &.image-viewer-scholia-kind-main {
       background-color: rgba(165, 127, 89, 0.5);
     }
-    &.scholia-kind-exterior {
+    &.image-viewer-scholia-kind-exterior {
       background-color: rgba(89, 89, 165, 0.5);
     }
-    &.scholia-kind-interlinear {
+    &.image-viewer-scholia-kind-interlinear {
       background-color: rgba(18, 203, 196, 0.5);
     }
-    &.scholia-kind-intermarginal {
+    &.image-viewer-scholia-kind-intermarginal {
       background-color: rgba(127, 165, 89, 0.5);
     }
-    &.scholia-kind-interior {
+    &.image-viewer-scholia-kind-interior {
       background-color: rgba(60, 99, 130, 0.5);
     }
-    &.folio-text {
+    &.image-viewer-folio-text {
       background-color: rgba(191, 63, 63, 0.5);
     }
   }
   // TODO: Refactor these classes as named constants for
   // re-use with widget-scholia
-  .scholia-kind-misc {
+  .image-viewer-scholia-kind-misc {
     border: 2px solid rgba(127, 127, 127, 1);
   }
-  .scholia-kind-main {
+  .image-viewer-scholia-kind-main {
     border: 2px solid rgba(165, 127, 89, 1);
   }
-  .scholia-kind-exterior {
+  .image-viewer-scholia-kind-exterior {
     border: 2px solid rgba(89, 89, 165, 1);
   }
-  .scholia-kind-interlinear {
+  .image-viewer-scholia-kind-interlinear {
     border: 2px solid rgba(18, 203, 196, 1);
   }
-  .scholia-kind-intermarginal {
+  .image-viewer-scholia-kind-intermarginal {
     border: 2px solid rgba(127, 165, 89, 1);
   }
-  .scholia-kind-interior {
+  .image-viewer-scholia-kind-interior {
     border: 2px solid rgba(60, 99, 130, 1);
   }
-  .folio-text {
+  .image-viewer-folio-text {
     border: 2px solid rgb(191, 63, 63);
   }
 </style>
