@@ -272,9 +272,13 @@
             });
 
             // eslint-disable-next-line no-new
+            const userData = {
+              roi,
+            };
             new OpenSeadragon.MouseTracker({
               element,
-              clickHandler: () => {
+              clickHandler: event => {
+                debugger;
                 this.$store.dispatch(
                   `${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`,
                   {
@@ -282,6 +286,7 @@
                   },
                 );
               },
+              userData,
             });
           }),
         );
