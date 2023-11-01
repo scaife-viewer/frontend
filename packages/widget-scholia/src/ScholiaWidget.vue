@@ -2,6 +2,7 @@
   <div class="scholia" :key="urn.absolute">
     <EmptyMessage v-if="!lines || lines.length === 0" />
     <Scholion v-for="line in lines" :key="line.idx" :line="line" />
+    <Legend />
     <Attribution>
       <a href="http://www.homermultitext.org" target="_blank">
         Homer Multitext Project / Center for Hellenic Studies
@@ -15,6 +16,7 @@
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
   import Scholion from './Scholion.vue';
+  import Legend from './Legend.vue';
 
   export default {
     scaifeConfig: {
@@ -22,7 +24,7 @@
       location: 'sidebar',
       singleton: true,
     },
-    components: { Attribution, EmptyMessage, Scholion },
+    components: { Attribution, Legend, EmptyMessage, Scholion },
     data() {
       return {
         scholiaCollectionUrn: this.$scaife.config.scholiaCollectionUrn,
@@ -43,6 +45,7 @@
                   id
                   idx
                   data
+                  urn
                   roi {
                     coordinatesValue
                   }
@@ -58,14 +61,28 @@
           };
         },
         update(data) {
-          return data.textAnnotations.edges.map((e) => {
+          return data.textAnnotations.edges.map(e => {
+            // FIXME: This should be simplified
+            const roi = e.node.roi.map(roiObj => {
+              return {
+                ...roiObj,
+                textAnnotations: {
+                  edges: [
+                    {
+                      node: e.node,
+                    },
+                  ],
+                },
+              };
+            });
             return {
+              urn: e.node.urn,
               idx: e.node.idx,
               dse: e.node.data.dse,
               comment: e.node.data.comment,
               lemma: e.node.data.lemma,
               references: e.node.data.references,
-              roi: e.node.roi,
+              roi,
             };
           });
         },

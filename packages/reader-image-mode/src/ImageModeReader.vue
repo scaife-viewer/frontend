@@ -33,11 +33,21 @@
         </div>
         <Reader v-else-if="showImage === 'text'" :textParts="data.lines" />
         <template v-else-if="showImage === 'image'">
-          <ImageViewer
-            v-for="image in data.images"
-            :key="image.url"
-            :imageIdentifier="image.url"
-          />
+          <div class="error" v-if="data.images.length > 1">
+            <strong>WARNING:</strong> Multiple images are being shown; for best
+            results, paginate an image at a time (e.g. view "{{
+              data.images.slice(0, 1)[0].refs.slice(0, 1)[0]
+            }}")
+          </div>
+          <div class="image-only-mode-container">
+            <div
+              class="image-folio"
+              v-for="image in data.images"
+              :key="image.imageIdentifier"
+            >
+              <ImageViewer :imageIdentifier="image.url" :roi="data.roi" />
+            </div>
+          </div>
         </template>
         <EmptyMessage class="reader-empty-annotations" v-else />
       </template>
@@ -95,6 +105,8 @@
         },
       },
       query() {
+        // FIXME: textAnnotations from roi is not efficient;
+        // it would be better to mimic the query in widget-scholia
         return gql`
           query Folios($urn: String!) {
             passageTextParts(reference: $urn) {
@@ -107,6 +119,13 @@
                   roi {
                     data
                     coordinatesValue
+                    textAnnotations {
+                      edges {
+                        node {
+                          urn
+                        }
+                      }
+                    }
                   }
                   tokens {
                     edges {
@@ -163,7 +182,7 @@
           }),
           {},
         );
-        const roi = lines.map(line => ({ref: line.ref, roi: line.roi}));
+        const roi = lines.map(line => ({ ref: line.ref, roi: line.roi }));
         // FIXME: Ensure relations are ordered on the server
         const images = data.imageAnnotations.edges.map(image => {
           const textParts = image.node.textParts.edges
@@ -210,28 +229,28 @@
         }
         margin-bottom: 20px;
       }
-      .image-mode-container,
-      .image-mode-container .image-folio {
-        // this property is causing the viewer
-        // to be too small when viewing only one
-        // or a few lines, e.g., at
-        // /explore-homer/urn:cts:greekLit:tlg0012.tlg001.msA-folios:12r.1.1?mode=folio
-        height: unset;
-      }
     }
     &.text,
     &.image {
-      .image-mode-container {
-        grid-template-columns: 1fr;
+      .image-only-mode-container {
+        > .image-folio {
+          display: flex;
+        }
       }
     }
     .image-mode-container,
     .image-mode-container .image-folio {
       display: grid;
-      height: calc(100vh - 150px);
       &::v-deep .reader {
         overflow: auto;
       }
     }
+  }
+  .error {
+    color: var(--sv-image-mode-reader-error-text-color, #b45141);
+    border: 1px solid #d9a8a0;
+    border-color: var(--sv-image-mode-reader-error-border-color);
+    padding: 0.5rem 0.75rem;
+    font-size: 80%;
   }
 </style>
