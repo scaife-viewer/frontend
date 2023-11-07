@@ -319,8 +319,8 @@
     apollo: {
       lines: {
         query: gql`
-          query Scholia($urn: String!) {
-            textAnnotations(reference: $urn) {
+          query Commentaries($urn: String!) {
+            textAnnotations(reference: $urn, kind: "commentary") {
               edges {
                 node {
                   id

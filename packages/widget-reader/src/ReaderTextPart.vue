@@ -19,7 +19,11 @@
         v-if="metricalMode && metricalHtml"
         v-html="metricalHtml"
       />
-      <div class="line-text" v-else>
+      <div
+        class="line-text"
+        :class="{ highlight: isTranscriptionHighlighted }"
+        v-else
+      >
         <ReaderToken
           v-for="token in tokens"
           :key="token.veRef"
@@ -32,16 +36,25 @@
 
 <script>
   import URN, { Icon } from '@scaife-viewer/common';
-  import { MODULE_NS, SELECT_LINE } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SELECT_LINE,
+    SELECT_SCHOLION,
+  } from '@scaife-viewer/store';
   import ReaderToken from './ReaderToken.vue';
 
   export default {
     props: ['textPart'],
     components: { Icon, ReaderToken },
     methods: {
-      onLineSelect() {
+      async onLineSelect() {
+        // reset scholion in case one was selected in the ScholiaWidget
+        await this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
+          scholion: null,
+        });
+
         this.$store.dispatch(`${MODULE_NS}/${SELECT_LINE}`, {
-          ref: `${this.urn.version}${this.textPart.ref}`,
+          ref: this.textPart.ref,
         });
       },
     },
@@ -87,6 +100,13 @@
         const refDepth = (this.textPart.ref.match(/\./g) || []).length;
         return refDepth === 3 ? this.textPart.ref.endsWith('2') : false;
       },
+      isTranscriptionHighlighted() {
+        const highlightedRef = this.$store.getters[
+          `${MODULE_NS}/highlightedTranscription`
+        ];
+
+        return highlightedRef === this.textPart.ref;
+      },
     },
   };
 </script>
@@ -98,6 +118,13 @@
   .line {
     display: flex;
     align-items: baseline;
+
+    .highlight {
+      background-color: var(
+        --sv-widget-reader-token-selected-entity-shadow-color,
+        #9f9
+      );
+    }
     .line-ref {
       font-size: 10pt;
       color: var(--sv-widget-reader-line-ref-text-color, #69c);
