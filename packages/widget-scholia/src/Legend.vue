@@ -25,7 +25,6 @@
       SCHOLIA_KIND_CHOICES,
     },
     data() {
-      debugger;
       return {
         shown: false,
       };

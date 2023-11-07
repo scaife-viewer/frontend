@@ -279,7 +279,6 @@
             new OpenSeadragon.MouseTracker({
               element,
               clickHandler: event => {
-                debugger;
                 this.$store.dispatch(
                   `${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`,
                   {
