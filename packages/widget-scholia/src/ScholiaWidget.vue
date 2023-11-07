@@ -39,7 +39,11 @@
       lines: {
         query: gql`
           query Scholia($urn: String!, $collectionUrn: ID) {
-            textAnnotations(reference: $urn, collection_Urn: $collectionUrn) {
+            textAnnotations(
+              reference: $urn,
+              collection_Urn: $collectionUrn,
+              kind: "scholia"
+            ) {
               edges {
                 node {
                   id

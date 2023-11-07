@@ -180,9 +180,10 @@
         handler() {
           const line = this.$store.state[MODULE_NS].selectedLine;
 
-          if (line) {
-            this.$data.showClickableRois = false;
-          }
+          // if (line) {
+          //   debugger;
+          //   this.$data.showClickableRois = false;
+          // }
 
           this.clearRoiOverlays();
           this.drawRoiOverlays();
@@ -272,9 +273,13 @@
             });
 
             // eslint-disable-next-line no-new
+            const userData = {
+              roi,
+            };
             new OpenSeadragon.MouseTracker({
               element,
-              clickHandler: () => {
+              clickHandler: event => {
+                debugger;
                 this.$store.dispatch(
                   `${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`,
                   {
@@ -282,6 +287,7 @@
                   },
                 );
               },
+              userData,
             });
           }),
         );
