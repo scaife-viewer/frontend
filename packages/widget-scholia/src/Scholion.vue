@@ -1,9 +1,13 @@
 <template>
   <div class="line" :class="{ highlight: isScholionHiglighted }">
-    <span class="lemma" @click="onScholionClick(line)"
-      ><Icon class="badge" :class="kindClass" :name="'square'" />{{
-        line.lemma || '*'
-      }}</span
+    <span class="lemma-container" @click="onScholionClick(line)"
+      ><span :class="{ hover }" class="lemma-legend" @mouseleave="hover = false"
+        ><span class="badge-container" @mouseover="hover = true"
+          ><Icon :class="kindClass" class="badge" :name="'square'"/></span
+        ><span v-if="hover" class="inline-legend-label">{{
+          kindLabel
+        }}</span></span
+      ><span class="lemma-content">{{ line.lemma || '*' }}</span></span
     >
     <span class="comment"> {{ line.comment }}</span>
   </div>
@@ -17,6 +21,7 @@
   } from '@scaife-viewer/store';
 
   import {
+    SCHOLIA_KIND_CHOICES,
     SCHOLIA_KIND_MAIN,
     SCHOLIA_KIND_EXTERIOR,
     SCHOLIA_KIND_INTERLINEAR,
@@ -39,6 +44,11 @@
     props: {
       line: Object,
     },
+    data() {
+      return {
+        hover: false,
+      };
+    },
     computed: {
       kindClass() {
         const { urn } = this.line;
@@ -58,6 +68,9 @@
           return SCHOLIA_KIND_INTERIOR;
         }
         return SCHOLIA_KIND_MISC;
+      },
+      kindLabel() {
+        return SCHOLIA_KIND_CHOICES.get(this.kindClass);
       },
       isScholionHiglighted() {
         const highlightedScholion = this.$store.getters[
@@ -99,8 +112,11 @@
 
 <style lang="scss" scoped>
   .line {
-    font-family: var(--sv-widget-scholia-line-font-family, 'Noto Serif');
-    font-size: 14px;
+    .lemma-content,
+    .comment {
+      font-family: var(--sv-widget-scholia-line-font-family, 'Noto Serif');
+      font-size: 14px;
+    }
     &.highlight {
       background: var(--sv-widget-scholia-selected-background-color, #f8f9fa);
       margin-left: -10px;
@@ -108,12 +124,17 @@
       border-left: 3px solid
         var(--sv-widget-scholia-selected-border-color, #343a40);
     }
-
-    .lemma {
+    .lemma-container {
       cursor: pointer;
-      font-weight: 700;
-
-      &:hover {
+      .inline-legend-label {
+        margin-inline-start: 0.25rem;
+        margin-inline-end: 0.5rem;
+        color: var(--sv-widget-scholia-inline-legend-label-text-color, #868e96);
+      }
+      .lemma-content {
+        font-weight: 700;
+      }
+      &:hover > .lemma-content {
         text-decoration: underline;
       }
     }
