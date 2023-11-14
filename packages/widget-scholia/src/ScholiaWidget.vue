@@ -1,8 +1,8 @@
 <template>
   <div class="scholia" :key="urn.absolute">
+    <Legend />
     <EmptyMessage v-if="!lines || lines.length === 0" />
     <Scholion v-for="line in lines" :key="line.idx" :line="line" />
-    <Legend />
     <Attribution>
       <a href="http://www.homermultitext.org" target="_blank">
         Homer Multitext Project / Center for Hellenic Studies

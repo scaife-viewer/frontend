@@ -4,67 +4,25 @@
       !shown ? `Show Legend` : `Hide Legend`
     }}</a>
     <div v-if="shown">
-      <div class="legend-item">
-        <Icon
-          :class="$options.constants.SCHOLIA_KIND_MISC"
-          :name="'square'"
-        />Misc
-      </div>
-      <div class="legend-item">
-        <Icon
-          :class="$options.constants.SCHOLIA_KIND_MAIN"
-          :name="'square'"
-        />Main
-      </div>
-      <div class="legend-item">
-        <Icon
-          :class="$options.constants.SCHOLIA_KIND_EXTERIOR"
-          :name="'square'"
-        />Exterior
-      </div>
-      <div class="legend-item">
-        <Icon
-          :class="$options.constants.SCHOLIA_KIND_INTERLINEAR"
-          :name="'square'"
-        />Interlinear
-      </div>
-      <div class="legend-item">
-        <Icon
-          class="badge scholia-kind-intermarginal"
-          :class="$options.constants.SCHOLIA_KIND_INTERMARGINAL"
-          :name="'square'"
-        />Intermarginal
-      </div>
-      <div class="legend-item">
-        <Icon
-          class="badge scholia-kind-interior"
-          :class="$options.constants.SCHOLIA_KIND_INTERIOR"
-          :name="'square'"
-        />Interior
+      <div
+        class="legend-item"
+        v-for="([kindName, kindLabel], kindIdx) in $options.constants
+          .SCHOLIA_KIND_CHOICES"
+        :key="kindIdx"
+      >
+        <Icon :class="kindName" :name="'square'" />{{ kindLabel }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {
-    SCHOLIA_KIND_MAIN,
-    SCHOLIA_KIND_EXTERIOR,
-    SCHOLIA_KIND_INTERLINEAR,
-    SCHOLIA_KIND_INTERMARGINAL,
-    SCHOLIA_KIND_INTERIOR,
-    SCHOLIA_KIND_MISC,
-  } from '@scaife-viewer/common';
+  import { SCHOLIA_KIND_CHOICES } from '@scaife-viewer/common';
 
   export default {
     name: 'Legend',
     constants: {
-      SCHOLIA_KIND_MAIN,
-      SCHOLIA_KIND_EXTERIOR,
-      SCHOLIA_KIND_INTERLINEAR,
-      SCHOLIA_KIND_INTERMARGINAL,
-      SCHOLIA_KIND_INTERIOR,
-      SCHOLIA_KIND_MISC,
+      SCHOLIA_KIND_CHOICES,
     },
     data() {
       return {
