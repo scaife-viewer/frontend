@@ -13,6 +13,7 @@ import normalizeString from './language-utils';
 import displayName from './display-mode-utils';
 import {
   TOKEN_ANNOTATION_TOGGLES,
+  SCHOLIA_KIND_CHOICES,
   SCHOLIA_KIND_MAIN,
   SCHOLIA_KIND_EXTERIOR,
   SCHOLIA_KIND_INTERLINEAR,
@@ -41,6 +42,7 @@ export {
   iconMap,
   normalizeString,
   TOKEN_ANNOTATION_TOGGLES,
+  SCHOLIA_KIND_CHOICES,
   SCHOLIA_KIND_MAIN,
   SCHOLIA_KIND_EXTERIOR,
   SCHOLIA_KIND_INTERLINEAR,
