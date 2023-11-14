@@ -260,12 +260,26 @@
           return this.passage.textGroup === 'tlg0012';
         }
         if (propertyName === SHOW_RELATIONSHIP) {
-          return this.passage.nss === 'greekLit';
+          // TODO: Consistency with field names
+          return this.collectionFields
+            ? this.collectionFields.morph
+            : this.passage.nss === 'greekLit';
+        }
+        if (propertyName === SHOW_GLOSS) {
+          return this.collectionFields
+            ? this.collectionFields.gloss
+            : this.passage.nss === 'greekLit';
         }
         return true;
       },
     },
     computed: {
+      collectionFields() {
+        if (!this.selectedCollection) {
+          return {};
+        }
+        return this.selectedCollection.data.fields;
+      },
       passageHasTrees() {
         return this.treeCollections && this.treeCollections.length > 0;
       },
@@ -471,6 +485,7 @@
                   id
                   label
                   urn
+                  data
                 }
               }
             }
@@ -484,6 +499,7 @@
             return {
               value: e.node.urn,
               title: e.node.label,
+              data: e.node.data,
             };
           })[0];
         },
