@@ -78,7 +78,7 @@
           const { id, ref } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
             const token = edge.node;
-            const { value, veRef } = token;
+            const { value, veRef, spaceAfter } = token;
 
             // TODO: Improve encapsulation of additional annotation data
             const firstAnnotationEdge =
@@ -91,6 +91,7 @@
             let tokenAttrs = {
               value,
               veRef,
+              spaceAfter,
             };
             if (lemma) {
               lemmas.push(lemma);
@@ -147,6 +148,7 @@
                         id
                         veRef
                         value
+                        spaceAfter
                         annotations(first: 1) {
                           edges {
                             node {
