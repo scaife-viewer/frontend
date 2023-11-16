@@ -58,6 +58,7 @@ Vue.use(SkeletonPlugin, {
     ...audioIconMap,
     ...neIconMap,
     ...deIconMap,
+    ...tocIconMap,
     ...namedEntitesReaderIconMap,
     ...imageModeReaderIconMap,
     ...tocIconMap,

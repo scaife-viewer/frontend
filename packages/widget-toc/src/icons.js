@@ -1,10 +1,6 @@
-import {
-  faHome,
-  faEye,
-  faEyeSlash,
-} from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faHome } from '@fortawesome/free-solid-svg-icons';
 
-const iconMap = [faHome, faEye, faEyeSlash].reduce((map, obj) => {
+const iconMap = [faEye, faEyeSlash, faHome].reduce((map, obj) => {
   return { ...map, [obj.iconName]: obj };
 }, {});
 

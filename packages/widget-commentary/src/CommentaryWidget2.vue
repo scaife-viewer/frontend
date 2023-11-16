@@ -329,8 +329,12 @@
     apollo: {
       lines: {
         query: gql`
-          query Scholia($urn: String!, $collectionUrn: ID) {
-            textAnnotations(reference: $urn, collection_Urn: $collectionUrn) {
+          query Commentaries($urn: String!, $collectionUrn: ID) {
+            textAnnotations(
+              reference: $urn,
+              collection_Urn: $collectionUrn,
+              kind: "commentary"
+            ) {
               edges {
                 node {
                   id
