@@ -7,7 +7,7 @@ on:
     paths:
       - 'packages/**'
       - 'src/**'
-      - .github/workflows/ci-frontend.yml
+      - .github/workflows/ci.yml
 
 jobs:
 
