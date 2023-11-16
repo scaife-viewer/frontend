@@ -21,6 +21,7 @@ jobs:
         with:
           node-version: 12.x
           cache: 'yarn'
+      - run: yarn set version 3.6.4
       - run: yarn install --frozen-lockfile
       - name: Run linting checks
         run: yarn run lint
