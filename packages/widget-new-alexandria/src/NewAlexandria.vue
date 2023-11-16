@@ -1,8 +1,6 @@
 <template>
   <aside class="new-alexandria-container">
-    <p v-if="!comments || comments.length === 0">
-      No comments found.
-    </p>
+    <p v-if="!comments || comments.length === 0">No comments found.</p>
     <div
       v-else
       v-for="comment in comments"

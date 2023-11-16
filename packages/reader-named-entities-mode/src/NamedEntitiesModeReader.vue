@@ -17,7 +17,7 @@
           @show="onShowMap"
         />
         <div class="entity-mode-container">
-          <Reader class="entity-reader" :lines="data.lines" />
+          <Reader class="entity-reader" :textParts="data.lines" />
           <div class="map" v-if="showMap && data.coordinatesList.length > 0">
             <SelectableEntityMap
               :key="`${mapState}-${sidebars}`"
@@ -37,7 +37,7 @@
 
   import { Reader } from '@scaife-viewer/widget-reader';
   import { LoaderBall, ErrorMessage } from '@scaife-viewer/common';
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   import SelectableEntityMap from './SelectableEntityMap.vue';
   import EntityMapToolbar from './EntityMapToolbar.vue';
@@ -46,7 +46,7 @@
   export default {
     readerConfig: {
       label: 'Named Entities',
-      layout: 'wide',
+      layout: LAYOUT_WIDTH_WIDE,
     },
     props: {
       queryVariables: Object,
@@ -82,11 +82,13 @@
         const lines = parts.map(line => {
           const { id, ref } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef, lemma } = edge.node;
+            // TODO: Refactor a fragment / mixin for retrieving and setting
+            //  value, veRef and spaceAfter
+            const { value, veRef, spaceAfter } = edge.node;
             return {
               value,
               veRef,
-              lemma,
+              spaceAfter,
               entities: tokenLookup[veRef],
             };
           });
@@ -163,7 +165,7 @@
                         id
                         veRef
                         value
-                        lemma
+                        spaceAfter
                       }
                     }
                   }

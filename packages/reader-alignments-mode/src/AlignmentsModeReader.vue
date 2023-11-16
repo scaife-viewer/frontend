@@ -3,18 +3,49 @@
     <LoaderBall v-if="$apollo.loading" />
     <ErrorMessage v-else-if="errors" />
     <template v-else-if="passageHasAlignments">
-      <CustomSelect
-        v-model="selectedAlignment"
-        :options="textAlignments"
-        placeholder="Select an alignment..."
-      />
-      <component
-        v-if="recordsExistForPassage"
-        :is="alignmentsComponent"
-        :data="textAlignmentRecords"
-        :textSize="textSize"
-        :textWidth="textWidth"
-      />
+      <div class="toolbar">
+        <CustomSelect
+          v-model="selectedAlignment"
+          :options="textAlignments"
+          placeholder="Select an alignment..."
+        />
+        <div
+          v-if="isTextPartAlignment && hoveringEnabled"
+          class="toggle-container"
+        >
+          <a
+            href
+            @click.prevent="highlightUnaligned = !highlightUnaligned"
+            class="toggle-control"
+          >
+            {{ !highlightUnaligned ? 'Show ' : 'Hide ' }} unaligned tokens
+          </a>
+        </div>
+      </div>
+      <template v-if="recordsExistForPassage">
+        <component
+          :is="alignmentsComponent"
+          :data="textAlignmentRecords"
+          :textSize="textSize"
+          :textWidth="textWidth"
+          :highlightUnaligned="highlightUnaligned"
+        />
+        <template v-if="showMetadata">
+          <!--
+            FIXME: Remove hard-coded URNs once we have a solution for missing
+            data
+          -->
+          <div class="collapse-control metadata-control">
+            <a href @click.prevent="onMetadataCollapse">{{
+              metadataCollapsed ? 'Show Metadata' : 'Hide Metadata'
+            }}</a>
+          </div>
+          <AlignmentsMetadata
+            v-if="!metadataCollapsed"
+            :alignment="selectedAlignment"
+          />
+        </template>
+      </template>
       <EmptyMessage
         v-else-if="canSelectAnotherAlignment"
         class="empty-annotations"
@@ -34,15 +65,17 @@
     ReaderLink,
     CustomSelect,
   } from '@scaife-viewer/common';
-  import { MODULE_NS } from '@scaife-viewer/store';
+  import { MODULE_NS, LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
+  import AlignmentsMetadata from './AlignmentsMetadata.vue';
   import TextPartTokenAlignments from './TextPartTokenAlignments.vue';
-  import RecordTokenAlignment from './RecordTokenAlignments.vue';
+  import RecordTokenAlignments from './RecordTokenAlignments.vue';
+  import RegroupedAlignmentsPrototype from './RegroupedAlignmentsPrototype.vue';
 
   export default {
     readerConfig: {
       label: 'Alignments',
-      layout: 'wide',
+      layout: LAYOUT_WIDTH_WIDE,
     },
     props: {
       queryVariables: Object,
@@ -50,6 +83,9 @@
     data() {
       return {
         errors: false,
+        highlightUnaligned:
+          this.$scaife.config.highlightUnalignedTokens || false,
+        metadataCollapsed: true,
       };
     },
     components: {
@@ -57,10 +93,17 @@
       EmptyMessage,
       ErrorMessage,
       ReaderLink,
+      AlignmentsMetadata,
     },
     computed: {
       passageHasAlignments() {
         return this.textAlignments && this.textAlignments.length > 0;
+      },
+      showMetadata() {
+        const critoAlignments = this.textAlignments.filter(
+          alignment => alignment.value.indexOf('crito') > -1,
+        );
+        return critoAlignments.length > 0;
       },
       recordsExistForPassage() {
         return (
@@ -88,10 +131,32 @@
       },
       //
       alignmentsComponent() {
-        const hint = this.textAlignmentRecords.displayHint;
-        return hint === 'records'
-          ? RecordTokenAlignment
-          : TextPartTokenAlignments;
+        const { displayHint } = this.textAlignmentRecords;
+        if (displayHint === 'records') {
+          return RecordTokenAlignments;
+        }
+        if (displayHint === 'regroupedRecords') {
+          return RegroupedAlignmentsPrototype;
+        }
+        return TextPartTokenAlignments;
+      },
+      displayOptions() {
+        const defaults = { hoveringEnabled: true };
+        return (
+          (this.textAlignmentRecords &&
+            this.textAlignmentRecords.displayOptions) ||
+          defaults
+        );
+      },
+      hoveringEnabled() {
+        const value = this.displayOptions.hoveringEnabled;
+        return value === undefined ? true : value;
+      },
+      isTextPartAlignment() {
+        return (
+          this.recordsExistForPassage &&
+          this.alignmentsComponent !== RecordTokenAlignments
+        );
       },
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
@@ -130,6 +195,7 @@
           return {
             id: node.id,
             label: node.label,
+            items: node.items,
             relations: node.relations.edges.map(e => {
               return {
                 id: e.id,
@@ -138,6 +204,9 @@
             }),
           };
         });
+      },
+      onMetadataCollapse() {
+        this.metadataCollapsed = !this.metadataCollapsed;
       },
     },
     apollo: {
@@ -221,11 +290,14 @@
                 metadata {
                   passageReferences
                   displayHint
+                  displayOptions
+                  languageMap
                 }
                 edges {
                   node {
                     id
                     label
+                    items
                     relations {
                       edges {
                         node {
@@ -295,6 +367,8 @@
             alignmentRecords,
             references: data.textAlignmentRecords.metadata.passageReferences,
             displayHint: data.textAlignmentRecords.metadata.displayHint,
+            displayOptions: data.textAlignmentRecords.metadata.displayOptions,
+            languageMap: data.textAlignmentRecords.metadata.languageMap,
           };
         },
         error() {
@@ -312,5 +386,19 @@
   .empty-annotations {
     text-align: center;
     margin-top: 1rem;
+  }
+  .toolbar {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 1em;
+  }
+  .toggle-container {
+    padding-inline-start: 1em;
+  }
+  .collapse-control {
+    font-size: 80%;
+    margin-bottom: 0.5em;
   }
 </style>

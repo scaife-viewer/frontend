@@ -1,16 +1,15 @@
-import { Icon, LoaderBall } from '@scaife-viewer/common';
+import { Icon, LoaderBall, displayName } from '@scaife-viewer/common';
 
 import FixedSkeleton from './FixedSkeleton.vue';
 import EditableSkeleton from './EditableSkeleton.vue';
 
-import utils from './utils';
 import iconMap from './icons';
 
 class Skeleton {
   constructor(widgets) {
     this.widgets = widgets.reduce((map, obj) => {
       // eslint-disable-next-line no-param-reassign
-      map[utils.displayName(obj.scaifeConfig.displayName)] = obj;
+      map[displayName(obj.scaifeConfig.displayName)] = obj;
       return map;
     }, {});
   }

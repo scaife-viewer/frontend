@@ -10,9 +10,9 @@
       <ErrorMessage v-else-if="error">
         There was an error loading the requested data.
       </ErrorMessage>
-      <EmptyMessage v-else-if="data.lines.length === 0" />
+      <EmptyMessage v-else-if="data.textParts.length === 0" />
       <template v-else>
-        <Reader :lines="data.lines" />
+        <Reader :textParts="data.textParts" />
       </template>
     </template>
   </ApolloQuery>
@@ -46,13 +46,14 @@
                 node {
                   id
                   ref
+                  kind
                   tokens {
                     edges {
                       node {
                         id
                         veRef
                         value
-                        lemma
+                        spaceAfter
                       }
                     }
                   }
@@ -65,23 +66,24 @@
     },
     methods: {
       queryUpdate(data) {
-        const lines = data.passageTextParts.edges.map(line => {
-          const { id, ref } = line.node;
-          const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef, lemma } = edge.node;
+        const textParts = data.passageTextParts.edges.map(textPart => {
+          const { id, ref, kind } = textPart.node;
+          const tokens = textPart.node.tokens.edges.map(edge => {
+            const { value, veRef, spaceAfter } = edge.node;
             return {
               value,
               veRef,
-              lemma,
+              spaceAfter,
             };
           });
           return {
             id,
             ref,
+            kind,
             tokens,
           };
         });
-        return { lines };
+        return { textParts };
       },
     },
   };
@@ -92,7 +94,7 @@
     flex: 1;
   }
   .text {
-    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+    font-family: var(--sv-widget-reader-text-font-family, 'Noto Serif');
     margin: 1em 0;
 
     &.text-xs {

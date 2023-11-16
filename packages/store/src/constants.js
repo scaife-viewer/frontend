@@ -1,3 +1,4 @@
+// TODO: revisit keykey
 export const MODULE_NS = 'scaife';
 
 // Skeleton
@@ -13,6 +14,10 @@ export const SET_MAIN_LAYOUT_WIDTH_NORMAL = 'setMainLayoutWidthNormal';
 export const SET_MAIN_LAYOUT_WIDTH_WIDE = 'setMainLayoutWidthWide';
 export const SET_MAIN_LAYOUT_WIDTH_WIDER = 'setMainLayoutWidthWider';
 
+export const LAYOUT_WIDTH_NORMAL = 'normal';
+export const LAYOUT_WIDTH_WIDE = 'wide';
+export const LAYOUT_WIDTH_WIDER = 'wider';
+
 export const FETCH_METADATA = 'fetchMetadata';
 export const UPDATE_METADATA = 'updateMetadata';
 export const FETCH_LIBRARY = 'fetchLibrary';
@@ -22,11 +27,17 @@ export const SET_CITATION_DISPLAY = 'setCitationDisplay';
 
 export const SELECT_NAMED_ENTITIES = 'selectNamedEntities';
 export const CLEAR_NAMED_ENTITIES = 'clearNamedEntities';
+export const SELECT_GRAMMATICAL_ENTRIES = 'selectGrammaticalEntries';
+export const CLEAR_GRAMMATICAL_ENTRIES = 'clearGrammaticalEnries';
+export const HIGHLIGHT_TRANSCRIPTION = 'highlightTranscription';
 export const SET_TEXT_SIZE = 'setTextSize';
 export const SET_TEXT_WIDTH = 'setTextWidth';
 export const SELECT_LINE = 'selectLine';
+export const SELECT_SCHOLION = 'selectScholion';
 export const SELECT_TOKEN = 'selectToken';
 export const CLEAR_TOKEN = 'clearToken';
+// @@@ Change from `SET` to `SELECT` and `CLEAR` actions
+export const SET_SELECTED_LEMMAS = 'setSelectedLemmas';
 
 export const PLAY_AUDIO = 'playAudio';
 export const STOP_AUDIO = 'stopAudio';
@@ -35,8 +46,12 @@ export const DISPLAY_MODE_ALIGNMENTS = 'alignments';
 export const DISPLAY_MODE_FOLIO = 'folio';
 export const DISPLAY_MODE_INTERLINEAR = 'interlinear';
 export const DISPLAY_MODE_METRICAL = 'metrical';
+export const DISPLAY_MODE_DICTIONARY_ENTRIES = 'dictionary-entries';
 export const DISPLAY_MODE_NAMED_ENTITIES = 'named-entities';
+export const DISPLAY_MODE_COMMENTARIES = 'commentaries';
 export const DISPLAY_MODE_SYNTAX_TREES = 'syntax-trees';
+export const DISPLAY_MODE_GRAMMATICAL_ENTRIES = 'grammatical-entries';
+export const DISPLAY_MODE_FALLBACK = 'fallback';
 export const DISPLAY_MODE_DEFAULT = 'default';
 
 export const CITATION_DISPLAY_REFS = 'refs';
@@ -47,3 +62,17 @@ export const SENSE_EXPANSION_PASSAGE = 'passage';
 export const SENSE_EXPANSION_EXPANDED = 'expanded';
 export const SENSE_EXPANSION_COLLAPSED = 'collapsed';
 export const SENSE_EXPANSION_MANUAL = 'manual';
+
+export const SET_SELECTED_DICTIONARY_OPTION = 'setSelectedDictionaryOption';
+
+export const TOGGLE_READER_SYNC_COMMENTARY = 'toggleReaderSyncCommentary';
+export const SET_COMMENTARIES = 'setCommentaries';
+export const SET_SELECTED_COMMENTARIES = 'setSelectedCommentaries';
+export const CLEAR_SELECTED_COMMENTARIES = 'clearSelectedCommentaries';
+
+export const SHOW_TRANSLITERATION = 'showTransliteration';
+export const SHOW_LEMMA = 'showLemma';
+export const SHOW_RELATIONSHIP = 'showRelationship';
+export const SHOW_MORPH_TAG = 'showMorphTag';
+export const SHOW_GRAMMATICAL_TAGS = 'showGrammaticalTags';
+export const SHOW_GLOSS = 'showGloss';

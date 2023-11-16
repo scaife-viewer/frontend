@@ -19,10 +19,11 @@
             v-for="image in data.images"
             :key="image.imageIdentifier"
           >
-            <Reader :lines="image.lines" />
+            <Reader :textParts="image.lines" />
             <ImageViewer
               :imageIdentifier="image.url"
               :reference="image.refs[0]"
+              :roi="data.roi"
             />
           </div>
           <EmptyMessage
@@ -30,13 +31,23 @@
             v-if="data.images === undefined || data.images.length === 0"
           />
         </div>
-        <Reader v-else-if="showImage === 'text'" :lines="data.lines" />
+        <Reader v-else-if="showImage === 'text'" :textParts="data.lines" />
         <template v-else-if="showImage === 'image'">
-          <ImageViewer
-            v-for="image in data.images"
-            :key="image.url"
-            :imageIdentifier="image.url"
-          />
+          <div class="error" v-if="data.images.length > 1">
+            <strong>WARNING:</strong> Multiple images are being shown; for best
+            results, paginate an image at a time (e.g. view "{{
+              data.images.slice(0, 1)[0].refs.slice(0, 1)[0]
+            }}")
+          </div>
+          <div class="image-only-mode-container">
+            <div
+              class="image-folio"
+              v-for="image in data.images"
+              :key="image.imageIdentifier"
+            >
+              <ImageViewer :imageIdentifier="image.url" :roi="data.roi" />
+            </div>
+          </div>
         </template>
         <EmptyMessage class="reader-empty-annotations" v-else />
       </template>
@@ -54,6 +65,7 @@
     ErrorMessage,
     EmptyMessage,
   } from '@scaife-viewer/common';
+  import { LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   import ImageViewer from './ImageViewer.vue';
   import ImageViewerToolbar from './ImageViewerToolbar.vue';
@@ -62,7 +74,7 @@
   export default {
     readerConfig: {
       label: 'Folio Images',
-      layout: 'wide',
+      layout: LAYOUT_WIDTH_WIDE,
     },
     props: {
       queryVariables: Object,
@@ -93,6 +105,8 @@
         },
       },
       query() {
+        // FIXME: textAnnotations from roi is not efficient;
+        // it would be better to mimic the query in widget-scholia
         return gql`
           query Folios($urn: String!) {
             passageTextParts(reference: $urn) {
@@ -102,13 +116,24 @@
                   kind
                   urn
                   ref
+                  roi {
+                    data
+                    coordinatesValue
+                    textAnnotations {
+                      edges {
+                        node {
+                          urn
+                        }
+                      }
+                    }
+                  }
                   tokens {
                     edges {
                       node {
                         id
                         veRef
                         value
-                        lemma
+                        spaceAfter
                       }
                     }
                   }
@@ -125,6 +150,7 @@
                     edges {
                       node {
                         id
+                        idx
                         ref
                       }
                     }
@@ -142,12 +168,12 @@
       },
       queryUpdate(data) {
         const lines = data.passageTextParts.edges.map(line => {
-          const { id, kind, ref } = line.node;
+          const { id, kind, ref, roi } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef, lemma } = edge.node;
-            return { value, veRef, lemma };
+            const { value, veRef, spaceAfter } = edge.node;
+            return { value, veRef, spaceAfter };
           });
-          return { id, kind, ref, tokens };
+          return { id, kind, ref, roi, tokens };
         });
         const linesMap = lines.reduce(
           (map, line) => ({
@@ -156,8 +182,13 @@
           }),
           {},
         );
+        const roi = lines.map(line => ({ ref: line.ref, roi: line.roi }));
+        // FIXME: Ensure relations are ordered on the server
         const images = data.imageAnnotations.edges.map(image => {
-          const refs = image.node.textParts.edges.map(e => e.node.ref);
+          const textParts = image.node.textParts.edges
+            .map(e => e.node)
+            .sort((a, b) => a.idx - b.idx);
+          const refs = textParts.map(textPart => textPart.ref);
           const refLines = refs
             .map(r => linesMap[r])
             .filter(line => line !== undefined);
@@ -173,6 +204,7 @@
           imageIdentifier: data.imageAnnotations.edges.length
             ? data.imageAnnotations.edges[0].node.imageIdentifier
             : null,
+          roi,
         };
       },
     },
@@ -197,24 +229,28 @@
         }
         margin-bottom: 20px;
       }
-      .image-mode-container,
-      .image-mode-container .image-folio {
-        height: unset;
-      }
     }
     &.text,
     &.image {
-      .image-mode-container {
-        grid-template-columns: 1fr;
+      .image-only-mode-container {
+        > .image-folio {
+          display: flex;
+        }
       }
     }
     .image-mode-container,
     .image-mode-container .image-folio {
       display: grid;
-      height: calc(100vh - 150px);
       &::v-deep .reader {
         overflow: auto;
       }
     }
+  }
+  .error {
+    color: var(--sv-image-mode-reader-error-text-color, #b45141);
+    border: 1px solid #d9a8a0;
+    border-color: var(--sv-image-mode-reader-error-border-color);
+    padding: 0.5rem 0.75rem;
+    font-size: 80%;
   }
 </style>

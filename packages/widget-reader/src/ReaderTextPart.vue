@@ -1,19 +1,29 @@
 <template>
-  <div class="reader-line" :class="{ 'playing-audio': playingAudio }">
+  <div
+    class="reader-line"
+    :class="{
+      'playing-audio': playingAudio,
+      'half-line-end': isHalfLineEnd,
+    }"
+  >
     <section class="tokens" v-if="interlinearMode">
       <ReaderToken v-for="token in tokens" :key="token.veRef" :token="token" />
     </section>
     <div class="line" v-else>
       <div class="line-ref" @click="onLineSelect">
         <Icon v-if="playingAudio" name="volume-up" />
-        {{ line.ref }}
+        {{ textPart.ref }}
       </div>
       <div
         class="line-text metrical"
         v-if="metricalMode && metricalHtml"
         v-html="metricalHtml"
       />
-      <div class="line-text" v-else>
+      <div
+        class="line-text"
+        :class="{ highlight: isTranscriptionHighlighted }"
+        v-else
+      >
         <ReaderToken
           v-for="token in tokens"
           :key="token.veRef"
@@ -26,16 +36,25 @@
 
 <script>
   import URN, { Icon } from '@scaife-viewer/common';
-  import { MODULE_NS, SELECT_LINE } from '@scaife-viewer/store';
+  import {
+    MODULE_NS,
+    SELECT_LINE,
+    SELECT_SCHOLION,
+  } from '@scaife-viewer/store';
   import ReaderToken from './ReaderToken.vue';
 
   export default {
-    props: ['line'],
+    props: ['textPart'],
     components: { Icon, ReaderToken },
     methods: {
-      onLineSelect() {
+      async onLineSelect() {
+        // reset scholion in case one was selected in the ScholiaWidget
+        await this.$store.dispatch(`${MODULE_NS}/${SELECT_SCHOLION}`, {
+          scholion: null,
+        });
+
         this.$store.dispatch(`${MODULE_NS}/${SELECT_LINE}`, {
-          ref: `${this.urn.version}${this.line.ref}`,
+          ref: this.textPart.ref,
         });
       },
     },
@@ -49,18 +68,18 @@
         }
         const parts = this.$store.state[MODULE_NS].nowPlaying.split(':');
         const ref = parts[parts.length - 1];
-        return this.line.ref === ref;
+        return this.textPart.ref === ref;
       },
       tokens() {
-        return this.line.tokens;
+        return this.textPart.tokens;
       },
       interlinearMode() {
         return this.$store.getters[`${MODULE_NS}/interlinearMode`];
       },
       metricalHtml() {
         return (
-          this.line.metricalAnnotations[0] &&
-          this.line.metricalAnnotations[0].htmlContent
+          this.textPart.metricalAnnotations[0] &&
+          this.textPart.metricalAnnotations[0].htmlContent
         );
       },
       metricalMode() {
@@ -68,6 +87,25 @@
       },
       metrical() {
         return this.metricalMode && this.metricalHtml;
+      },
+      isHalfLineEnd() {
+        // NOTE: This is our first attempt to provide
+        // additional formatting to text parts based on
+        // their kind and is subject to change.
+        // In particular, it is not yet very extensible.
+        const { kind } = this.textPart;
+        if (!kind === 'half-line') {
+          return false;
+        }
+        const refDepth = (this.textPart.ref.match(/\./g) || []).length;
+        return refDepth === 3 ? this.textPart.ref.endsWith('2') : false;
+      },
+      isTranscriptionHighlighted() {
+        const highlightedRef = this.$store.getters[
+          `${MODULE_NS}/highlightedTranscription`
+        ];
+
+        return highlightedRef === this.textPart.ref;
       },
     },
   };
@@ -80,6 +118,13 @@
   .line {
     display: flex;
     align-items: baseline;
+
+    .highlight {
+      background-color: var(
+        --sv-widget-reader-token-selected-entity-shadow-color,
+        #9f9
+      );
+    }
     .line-ref {
       font-size: 10pt;
       color: var(--sv-widget-reader-line-ref-text-color, #69c);
@@ -96,6 +141,13 @@
     }
     .line-text {
       margin-left: 1em;
+    }
+  }
+
+  .half-line-end {
+    .line-text {
+      margin-inline-start: 5%;
+      margin-block-end: 10px;
     }
   }
 

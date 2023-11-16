@@ -31,10 +31,14 @@
         return { path: 'tocs', query: { urn } };
       },
       getCitePayloadInReaderContext(urn) {
+        const query = {
+          ...this.$route.query,
+          toc: urn.toString(),
+        };
         return {
           name: 'reader',
           params: { urn: this.passage.toString() },
-          query: { toc: urn.toString() },
+          query,
         };
       },
       getPayload(urn) {
@@ -43,7 +47,10 @@
             ? this.getCitePayloadInTocsContext(urn)
             : this.getCitePayloadInReaderContext(urn);
         }
-        const query = { toc: this.$route.query.toc };
+        const query = {
+          ...this.$route.query,
+          toc: this.$route.query.toc,
+        };
         return this.$route.query.toc
           ? { name: 'reader', params: { urn }, query }
           : { name: 'reader', params: { urn } };
@@ -61,7 +68,13 @@
   .toc-grid {
     display: grid;
     align-items: baseline;
-    grid-template-columns: auto 9.25fr;
+    // NOTE: Prior behavior was auto 9.25fr;
+    // This may be better implemented as an ordered
+    // unordered list than a grid
+    grid-template-columns: var(
+      --sv-widget-toc-toc-grid-grid-template-columns,
+      auto
+    );
     grid-column-gap: 1em;
     > * {
       margin-bottom: 0.33em;
@@ -75,8 +88,11 @@
     color: var(--sv-widget-toc-ref-text-color, #69c);
     font-family: var(--sv-widget-toc-ref-font-family, 'Noto Sans');
     text-align: left;
+    // NOTE: Set to block to display refs
+    display: var(--sv-widget-toc-ref-display, none);
   }
   .item {
     flex-direction: column;
+    display: var(--sv-widget-toc-item-display, grid);
   }
 </style>

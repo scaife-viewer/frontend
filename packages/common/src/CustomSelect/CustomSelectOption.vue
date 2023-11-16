@@ -1,6 +1,6 @@
 <template>
-  <div class="custom-selector--option" @click="onClick">
-    <div class="label">{{ option.title }}</div>
+  <div class="sv-custom-selector--option" @click="onClick">
+    <div class="label" v-html="option.title" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .custom-selector--option {
+  .sv-custom-selector--option {
     padding: 0.5rem 0.75rem;
     display: flex;
     &:hover {

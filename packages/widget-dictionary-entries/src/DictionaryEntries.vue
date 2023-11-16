@@ -4,20 +4,26 @@
     <EmptyMessage v-else-if="entries.length === 0" />
     <template v-else>
       <Lookahead
-        placeholder="Filter LGO entries"
+        :placeholder="placeholder"
         :reducer="lookaheadReducer"
         :data="entries"
         @filter-data="onFilter"
       />
       <div
-        v-for="entry in filteredEntries"
-        :key="entry.id"
-        :title="entry.urn"
+        v-for="[headword, entries] in entriesByHeadwordMap"
+        :key="entries[0].id"
         class="dictionary-entry"
       >
-        <div class="headword" @click.prevent="entrySelected(entry)">
+        <div class="headword" @click.prevent="entrySelected(entries[0])">
           <span>
-            {{ entry.headword }}
+            <span class="headword-normal" v-html="headword"></span>
+            <span
+              title="Indicates that the entry is resolved solely via citation"
+              v-if="
+                showCitationResolutionHint && isResolvedByCitationOnly(entries)
+              "
+              >*</span
+            >
           </span>
         </div>
       </div>
@@ -41,6 +47,7 @@
     scaifeConfig: {
       displayName: 'Dictionary Entries',
     },
+    props: ['placeholder'],
     data() {
       return {
         entries: [],
@@ -71,8 +78,11 @@
       lookaheadReducer(data, query) {
         const normalizedQuery = normalizeString(query);
         return data.filter(entry =>
-          entry.headwordNormalized.includes(normalizedQuery),
+          entry.headwordNormalizedStripped.includes(normalizedQuery),
         );
+      },
+      isResolvedByCitationOnly(entries) {
+        return entries.filter(entry => !entry.matchesPassageLemma).length > 0;
       },
     },
     watch: {
@@ -87,20 +97,48 @@
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
+      entriesByHeadwordMap() {
+        const byHeadword = new Map();
+        if (!this.filteredEntries) {
+          return byHeadword;
+        }
+        this.filteredEntries.forEach(entry => {
+          const key = entry.headwordNormalized;
+          const lookupValue = byHeadword.get(key) || [];
+          lookupValue.push(entry);
+          byHeadword.set(key, lookupValue);
+        });
+        return byHeadword;
+      },
+      showCitationResolutionHint() {
+        const fallback = true;
+        const config = this.$scaife.config.dictionaryEntries;
+        return config ? config.showCitationResolutionHint : fallback;
+      },
     },
     apollo: {
       entries: {
         // TODO: Allow site developers or users to specify
         // dictionary
+        // TODO: Allow site developers to specify if we query dictionaries
+        // using citations via or lemmas _and_ citations
         query: gql`
           query DictionaryEntries($urn: String!) {
-            dictionaryEntries(reference: $urn) {
+            dictionaryEntries(
+              reference: $urn
+              resolveUsingLemmas: true
+              resolveUsingLemmasAndCitations: true
+              normalizeLemmas: false
+            ) {
               edges {
                 node {
                   id
                   headword
+                  headwordDisplay
                   headwordNormalized
+                  headwordNormalizedStripped
                   urn
+                  matchesPassageLemma
                 }
               }
             }
@@ -123,6 +161,13 @@
 <style lang="scss" scoped>
   .dictionary-entry {
     margin: 0.375rem 0;
+  }
+  .headword-normal {
+    ::v-deep b {
+      &:not(:hover) {
+        font-weight: normal;
+      }
+    }
   }
   .headword {
     display: flex;

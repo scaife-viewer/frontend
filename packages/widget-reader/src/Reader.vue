@@ -2,16 +2,30 @@
   <div class="reader">
     <div
       class="reader-container text"
-      :class="[`text-${textSize}`, `text-width-${textWidth}`]"
+      :class="[`text-${textSize}`, `text-width-${textWidth}`, textDirection]"
     >
-      <ReaderLine v-for="line in lines" :key="line.id" :line="line" />
+      <ReaderTextPart
+        v-for="textPart in textParts"
+        :key="textPart.id"
+        :textPart="textPart"
+      />
 
-      <Attribution v-if="showMetricalCredit" class="metrical-attribution">
+      <Attribution v-if="showMetricalCredit" class="reader-attribution">
         Metrical annotation &copy; 2016
         <a href="https://hypotactic.com/" target="_blank">David Chamberlain</a>
         under
         <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank"
           >CC BY 4.0 License</a
+        >
+      </Attribution>
+      <Attribution v-if="showGammarCredit" class="reader-attribution">
+        From the
+        <a href="https://github.com/farnoosh-shamsian/Didakta" target="_blank"
+          >Didakta Modular Grammar</a
+        >
+        by
+        <a href="https://orcid.org/0000-0003-3743-4278" target="_blank"
+          >Farnoosh Shamsian</a
         >
       </Attribution>
       <EmptyMessage class="reader-empty-annotations" v-if="showMetricalEmpty" />
@@ -22,11 +36,13 @@
 <script>
   import { Attribution, EmptyMessage } from '@scaife-viewer/common';
   import { MODULE_NS } from '@scaife-viewer/store';
-  import ReaderLine from './ReaderLine.vue';
+  import ReaderTextPart from './ReaderTextPart.vue';
+  import PassageLanguageIsRtlMixin from './mixins';
 
   export default {
-    components: { Attribution, EmptyMessage, ReaderLine },
-    props: ['lines'],
+    mixins: [PassageLanguageIsRtlMixin],
+    components: { Attribution, EmptyMessage, ReaderTextPart },
+    props: ['textParts'],
     computed: {
       textSize() {
         return this.$store.state[MODULE_NS].readerTextSize;
@@ -34,26 +50,43 @@
       textWidth() {
         return this.$store.state[MODULE_NS].readerTextWidth;
       },
+      textDirection() {
+        return this.passageIsRtl ? 'rtl' : 'ltr';
+      },
       metricalMode() {
         return this.$store.getters[`${MODULE_NS}/metricalMode`];
       },
+      grammaticalEntriesMode() {
+        return this.$store.getters[`${MODULE_NS}/grammaticalEntriesMode`];
+      },
       showMetricalCredit() {
-        if (!this.metricalModel) {
+        if (!this.metricalMode) {
           return false;
         }
-        const hasContent =
-          this.lines.filter(line => {
-            const { metricalAnnotations } = line;
-            return metricalAnnotations[0] && metricalAnnotations[0].htmlContent;
-          }).length > 0;
-        return hasContent;
+        return this.metricalLines.length > 0;
+      },
+      showGammarCredit() {
+        if (!this.grammaticalEntriesMode) {
+          return false;
+        }
+        const tokensHaveEntries =
+          this.textParts
+            .map(textPart => {
+              return textPart.tokens.map(token => {
+                const entries = token.grammaticalEntries;
+                return entries && entries.length > 0;
+              });
+            })
+            .flat()
+            .filter(hasEntries => hasEntries).length > 0;
+        return tokensHaveEntries;
       },
       metricalLines() {
         if (!this.metricalMode) {
           return [];
         }
-        return this.lines.filter(line => {
-          const { metricalAnnotations } = line;
+        return this.textParts.filter(textPart => {
+          const { metricalAnnotations } = textPart;
           const annotation = metricalAnnotations[0];
           const htmlContent = annotation && annotation.htmlContent;
           return htmlContent !== undefined;
@@ -75,7 +108,7 @@
     justify-content: center;
   }
   .text {
-    font-family: var(--widget-reader-text-font-family, 'Noto Serif');
+    font-family: var(--sv-widget-reader-text-font-family, 'Noto Serif');
     margin: 1em 0;
 
     &.text-xs {
@@ -91,6 +124,35 @@
       line-height: 1.8;
     }
     &.text-xl {
+      line-height: 1.9;
+    }
+  }
+  .text.rtl {
+    font-family: var(
+      --sv-widget-reader-text-font-family-rtl,
+      'Amiri',
+      'Noto Serif'
+    );
+    margin: 1em 0;
+
+    &.text-xs {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    &.text-sm {
+      font-size: 20px;
+      line-height: 1.6;
+    }
+    &.text-md {
+      font-size: 24px;
+      line-height: 1.7;
+    }
+    &.text-lg {
+      font-size: 28px;
+      line-height: 1.8;
+    }
+    &.text-xl {
+      font-size: 32px;
       line-height: 1.9;
     }
   }
@@ -116,7 +178,7 @@
     font-size: 24px;
   }
 
-  .metrical-attribution {
+  .reader-attribution {
     margin-top: 1rem;
     text-align: center;
   }
@@ -136,5 +198,8 @@
 
   .text-width-full {
     max-width: 100%;
+  }
+  .reader-container {
+    flex: 4;
   }
 </style>

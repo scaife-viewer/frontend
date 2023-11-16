@@ -81,9 +81,7 @@
       </div>
     </div>
     <div class="headword">
-      <span>
-        {{ headword }}
-      </span>
+      <span v-html="headword" />
       <span>
         <span class="control-toggle" @click.prevent="$emit('clear')"
           ><icon class="icon" name="times"
@@ -197,6 +195,8 @@
   }
   .control-rows {
     margin-bottom: 1em;
+    background: #f7f7f7;
+    padding: 0 0.5em;
   }
   .control-row {
     margin-top: 0.5em;

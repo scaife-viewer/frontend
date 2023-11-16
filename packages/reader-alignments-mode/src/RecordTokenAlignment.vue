@@ -57,14 +57,26 @@
       },
     },
     computed: {
+      usesItems() {
+        // TODO: Further refactor these components
+        // and the parent GraphQL query to only query
+        // for items when the displayHint calls for it.
+        // This works for now with minimal impact on
+        // query / render speed.
+        return this.record.items !== null;
+      },
       label() {
         return this.record.label;
       },
       left() {
-        return this.extractLines(this.record.relations[0]);
+        return this.usesItems
+          ? this.record.items[0]
+          : this.extractLines(this.record.relations[0]);
       },
       right() {
-        return this.extractLines(this.record.relations[1]);
+        return this.usesItems
+          ? this.record.items[1]
+          : this.extractLines(this.record.relations[1]);
       },
     },
   };
@@ -93,7 +105,7 @@
     text-align: center;
     font-size: 12pt;
     color: var(--sv-alignments-alignment-ref-text-color, #69c);
-    font-family: 'Noto Sans';
+    font-family: var(--sv-alignments-ref-font-family, 'Noto Sans');
     margin-bottom: 5px;
   }
   .left .line {
@@ -102,7 +114,7 @@
     .line-ref {
       font-size: 10pt;
       color: var(--sv-alignments-line-ref-text-color, #69c);
-      font-family: 'Noto Sans';
+      font-family: var(--sv-alignments-line-ref-font-family, 'Noto Sans');
       min-width: 4em;
       text-align: right;
     }

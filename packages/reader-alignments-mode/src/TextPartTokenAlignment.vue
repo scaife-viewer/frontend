@@ -1,6 +1,11 @@
 <template>
-  <div class="text-alignment">
-    <div class="line" v-for="line in content" :key="line.ref">
+  <div :class="['text-alignment', direction]">
+    <div
+      class="line"
+      v-for="line in content"
+      :key="line.id"
+      :class="{ 'half-line-end': isHalfLineEnd(line) }"
+    >
       <div
         class="text-alignment-ref"
         @mouseenter="onLineEnter(line)"
@@ -23,8 +28,8 @@
             @mouseenter="onTokenEnter(token)"
             @mouseleave="onTokenExit"
           >
-            <span class="word-value">
-              {{ token.wordValue }}
+            <span class="value">
+              {{ token.value }}
             </span>
             <AlignmentRecordPicker
               :records="recordsForToken(token)"
@@ -50,11 +55,12 @@
       'textWidth',
       'tokenMap',
       'recordMap',
+      'direction',
     ],
     components: { AlignmentRecordPicker },
     methods: {
       emptyAlignments(token) {
-        const { start_idx: startIdx, end_idx: endIdx } = this.reference;
+        const { startIdx, endIdx } = this.reference;
         return token.idx < startIdx || token.idx > endIdx;
       },
       recordsForToken(token) {
@@ -92,6 +98,10 @@
       onTokenExit() {
         this.$emit('hovered', [], null);
       },
+      isHalfLineEnd(textPart) {
+        const refDepth = (textPart.ref.match(/\./g) || []).length;
+        return refDepth === 3 ? textPart.ref.endsWith('2') : false;
+      },
     },
   };
 </script>
@@ -101,17 +111,39 @@
     margin-bottom: 20px;
     flex: 1;
   }
+  .text-alignment.rtl {
+    direction: rtl;
+    padding-inline-start: 1rem;
+    // FIXME: Proper rtl font support, including Amiri note below
+    .line {
+      font-family: var(
+        --sv-alignments-line-font-family-rtl,
+        'Amiri',
+        'Noto Sans'
+      );
+    }
+    .text-md {
+      font-size: 24px;
+      line-height: 1.7;
+    }
+  }
   .text-alignment-ref {
     text-align: center;
     font-size: 12pt;
     color: var(--sv-alignments-alignment-ref-text-color, #69c);
-    font-family: 'Noto Sans';
+    font-family: var(--sv-alignments-alignment-ref-font-family, 'Noto Sans');
     margin-bottom: 5px;
-    padding-right: 0.5rem;
+    padding-inline-end: 0.5rem;
   }
   .line {
     display: flex;
     font-family: var(--sv-alignments-line-font-family, 'Noto Serif');
+  }
+  .half-line-end {
+    .tokens {
+      margin-inline-start: 5%;
+      margin-block-end: 10px;
+    }
   }
 
   .token:hover > ::v-deep.alignment-records-picker {
@@ -142,6 +174,10 @@
         #00f
       );
     }
+    background: var(
+      --sv-reader-token-alignments-mode-highlight-background-color,
+      #fea
+    );
   }
 
   .text-xs .line {

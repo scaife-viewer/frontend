@@ -16,13 +16,26 @@
         :selected-entities="selectedEntities"
         @select="onSelect"
       />
+      <Attribution v-if="showKempAttribution">
+        <a
+          href="https://medium.com/pelagios/beyond-translation-building-better-greek-scholars-561ab331a1bc"
+          target="_blank"
+        >
+          Annotated by Josh Kemp
+        </a>
+      </Attribution>
     </template>
   </div>
 </template>
 
 <script>
   import gql from 'graphql-tag';
-  import { Lookahead, LoaderBall, EmptyMessage } from '@scaife-viewer/common';
+  import {
+    Attribution,
+    Lookahead,
+    LoaderBall,
+    EmptyMessage,
+  } from '@scaife-viewer/common';
   import {
     MODULE_NS,
     SELECT_NAMED_ENTITIES,
@@ -42,6 +55,7 @@
       };
     },
     components: {
+      Attribution,
       Lookahead,
       LoaderBall,
       EmptyMessage,
@@ -69,8 +83,8 @@
     watch: {
       entities: {
         immediate: true,
-        handler() {
-          this.filteredEntities = this.entities;
+        handler(newValue) {
+          this.filteredEntities = newValue;
         },
       },
     },
@@ -83,6 +97,16 @@
       },
       selectedToken() {
         return this.$store.state[MODULE_NS].selectedToken;
+      },
+      showKempAttribution() {
+        // FIXME: Refactor to load attribution from the
+        // namedEntityCollection metadata
+        const odysseyUrnPrefix =
+          'urn:cite2:beyond-translation:named_entity_collection.atlas_v1:od_';
+        return (
+          this.entities.length > 0 &&
+          this.entities[0].collection.urn.startsWith(odysseyUrnPrefix)
+        );
       },
     },
     apollo: {
@@ -98,6 +122,9 @@
                   url
                   kind
                   data
+                  collection {
+                    urn
+                  }
                 }
               }
             }

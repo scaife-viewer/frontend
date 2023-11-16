@@ -12,7 +12,7 @@
       </ErrorMessage>
       <EmptyMessage v-else-if="!(data || data.hasAnnotations)" />
       <template v-else>
-        <Reader :lines="data.lines" />
+        <Reader :textParts="data.lines" />
       </template>
     </template>
   </ApolloQuery>
@@ -21,6 +21,8 @@
 <script>
   import gql from 'graphql-tag';
   import { ApolloQuery } from 'vue-apollo';
+
+  import { LAYOUT_WIDTH_WIDE } from '@scaife-viewer/store';
 
   import { Reader } from '@scaife-viewer/widget-reader';
   import {
@@ -32,7 +34,7 @@
   export default {
     readerConfig: {
       label: 'Metrical Annotations',
-      textWidth: 'wide',
+      textWidth: LAYOUT_WIDTH_WIDE,
     },
     components: { ApolloQuery, LoaderBall, ErrorMessage, EmptyMessage, Reader },
     props: {
@@ -43,11 +45,13 @@
         const lines = data.passageTextParts.edges.map(line => {
           const { id, ref, metricalAnnotations } = line.node;
           const tokens = line.node.tokens.edges.map(edge => {
-            const { value, veRef, lemma } = edge.node;
+            // NOTE: spaceAfter is _not_ included here due to the use of
+            // v-html metricalHtml in ReaderTextPart.vue
+            // const { value, veRef, spaceAfter } = edge.node;
+            const { value, veRef } = edge.node;
             return {
               value,
               veRef,
-              lemma,
             };
           });
           return {
@@ -91,7 +95,6 @@
                         id
                         veRef
                         value
-                        lemma
                       }
                     }
                   }
