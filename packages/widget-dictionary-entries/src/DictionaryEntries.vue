@@ -16,7 +16,7 @@
       >
         <div class="headword" @click.prevent="entrySelected(entries[0])">
           <span>
-            {{ headword }}
+            <span class="headword-normal" v-html="headword"></span>
             <span
               title="Indicates that the entry is resolved solely via citation"
               v-if="
@@ -134,6 +134,7 @@
                 node {
                   id
                   headword
+                  headwordDisplay
                   headwordNormalized
                   headwordNormalizedStripped
                   urn
@@ -160,6 +161,13 @@
 <style lang="scss" scoped>
   .dictionary-entry {
     margin: 0.375rem 0;
+  }
+  .headword-normal {
+    ::v-deep b {
+      &:not(:hover) {
+        font-weight: normal;
+      }
+    }
   }
   .headword {
     display: flex;

@@ -2,7 +2,7 @@
   <div class="sv-custom-select">
     <div class="sv-custom-select--selected" @click="open = !open">
       <div class="title">
-        <div v-if="value" class="label">{{ value.title }}</div>
+        <div v-if="value" class="label" v-html="value.title" />
         <div v-else-if="placeholder" class="placeholder label">
           {{ placeholder }}
         </div>
