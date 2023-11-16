@@ -3,17 +3,27 @@
     <div v-if="entry" class="dictionary-entry" :key="entry.id">
       <Portal to="dictionary-entries-widget-controls">
         <div class="portal-content">
-          <Controls :headword="entry.headword" @clear="clearEntry" />
+          <Controls :headword="entry.headwordDisplay" @clear="clearEntry" />
         </div>
       </Portal>
 
       <div class="dictionary-entry-body" :key="entry.id">
         <!-- TODO: Use a tighter follow-on query here to reduce payload size -->
-        <div
-          class="dictionary-entry-content"
-          v-if="entry.data.content"
-          v-html="entry.data.content"
-        />
+
+        <template v-if="teiEntry.css">
+          <div
+            class="dictionary-entry-content"
+            id="CETEI_Container"
+            data-dictionary-css="true"
+          />
+          <component
+            :is="'style'"
+            v-if="prefixedCss"
+            v-html="prefixedCss"
+            type="text/css"
+          />
+        </template>
+        <div class="dictionary-entry-content" v-else v-html="entryContent" />
         <div class="senses">
           <LoaderBall v-if="$apollo.queries.senses.loading" />
           <div class="sense-list" v-else>
@@ -64,6 +74,7 @@
 
 <script>
   import gql from 'graphql-tag';
+  import CETEI from 'CETEIcean';
 
   import {
     MODULE_NS,
@@ -84,6 +95,8 @@
   import Sense from './Sense.vue';
   import Controls from './Controls.vue';
 
+  const sass = require('sass.js');
+
   export default {
     props: {
       entryUrn: {
@@ -98,9 +111,27 @@
         passageSenseUrns: [],
         filteredSenses: [],
         selectedEntryValue: null,
+        prefixedCss: null,
       };
     },
     watch: {
+      teiEntry(newValue) {
+        const { css, content } = newValue;
+        if (css && content) {
+          const $vm = this;
+          this.$nextTick(() => {
+            const CETEIcean = new CETEI();
+            CETEIcean.makeHTML5(content, teiData => {
+              document.getElementById('CETEI_Container').appendChild(teiData);
+            });
+          });
+          sass.compile(`[data-dictionary-css]{${css}}`, result => {
+            $vm.prefixedCss = result.text;
+          });
+        } else {
+          this.prefixedCss = '';
+        }
+      },
       entry() {
         this.selectedEntryValue = {
           title: this.dictionarySelectionTitle(this.entry),
@@ -173,10 +204,22 @@
         return matches.length > -1 ? matches[0] : null;
       },
       dictionarySelectionTitle(entry) {
-        return `${entry.headword} :: ${entry.dictionary.label}`;
+        return `<span>${entry.headwordDisplay}</span><span> :: ${entry.dictionary.label}</span>`;
       },
     },
     computed: {
+      css() {
+        return this.entry ? this.entry.dictionary.data.css : null;
+      },
+      entryContent() {
+        return this.entry ? this.entry.data.content : '';
+      },
+      teiEntry() {
+        return {
+          css: this.css,
+          content: this.entryContent,
+        };
+      },
       passage() {
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
@@ -290,12 +333,14 @@
                 node {
                   id
                   headword
+                  headwordDisplay
                   urn
                   senseTree
                   data
                   dictionary {
                     id
                     label
+                    data
                   }
                 }
               }
@@ -323,6 +368,7 @@
                   id
                   urn
                   headword
+                  headwordDisplay
                   dictionary {
                     id
                     label
@@ -412,5 +458,11 @@
   }
   ::v-deep .depth-7 {
     margin-left: 2.1em;
+  }
+  ::v-deep .sv-custom-selector--option,
+  ::v-deep .sv-custom-select--selected {
+    b {
+      font-weight: normal;
+    }
   }
 </style>
