@@ -3,8 +3,8 @@
     <p v-if="!comments || comments.length === 0">No comments found.</p>
     <div
       v-else
-      v-for="(comment, index) in comments"
-      :key="index"
+      v-for="comment in comments"
+      :key="comment._id"
       class="comment"
     >
       <h4>{{ comment.latestRevision.title }}</h4>

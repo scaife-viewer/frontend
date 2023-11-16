@@ -39,13 +39,13 @@
         return this.$store.getters[`${MODULE_NS}/passage`];
       },
       endpoint() {
-        return 'https://commentary-api.chs.harvard.edu/graphql';
+        // TODO: Vanity domain
+        return 'https://chs-homer-proxy.herokuapp.com/homer-chs-proxy/graphql/';
       },
       params() {
         const gqlQuery = `{
           commentsOn(urn: "${this.passage}") {
             _id
-            updated
             latestRevision {
               title
               text
