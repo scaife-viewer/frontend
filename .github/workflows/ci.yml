@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
+      - name: Install deps using Yarn from Cache
+        uses: bahmutov/npm-install@v1.4.3
       - name: Run linting checks
         run: yarn run lint
