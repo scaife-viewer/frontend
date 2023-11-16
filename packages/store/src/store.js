@@ -18,9 +18,11 @@ import {
   SET_CITATION_DISPLAY,
   SELECT_NAMED_ENTITIES,
   CLEAR_NAMED_ENTITIES,
+  HIGHLIGHT_TRANSCRIPTION,
   SET_TEXT_SIZE,
   SET_TEXT_WIDTH,
   SELECT_LINE,
+  SELECT_SCHOLION,
   SELECT_TOKEN,
   CLEAR_TOKEN,
   SET_SELECTED_LEMMAS,
@@ -77,7 +79,9 @@ const getDefaultState = () => ({
   readerTextSize: 'md',
   readerTextWidth: 'normal',
   nowPlaying: null,
+  highlightedTranscription: null,
   selectedLine: null,
+  selectedScholion: null,
   selectedToken: null,
   selectedNamedEntities: [],
   selectedGrammaticalEntries: [],
@@ -124,7 +128,7 @@ const createStore = client => {
         firstCitationSchemeLabel: (_, getters) => {
           return getters.metadata ? getters.metadata.citationScheme[0] : '';
         },
-
+        highlightedTranscription: state => state.highlightedTranscription,
         interlinearMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_INTERLINEAR;
         },
@@ -160,6 +164,7 @@ const createStore = client => {
           const { mode } = rootState.route.query;
           return mode || DISPLAY_MODE_DEFAULT;
         },
+        selectedScholion: state => state.selectedScholion,
         selectedToken: state => state.selectedToken,
         selectedLemmas: state => state.selectedLemmas,
         selectedDictionaryUrn: state => state.selectedDictionaryOption.value,
@@ -226,11 +231,19 @@ const createStore = client => {
         [CLEAR_TOKEN]: state => {
           state.selectedToken = null;
         },
+        [HIGHLIGHT_TRANSCRIPTION]: (state, ref) => {
+          state.highlightedTranscription = ref;
+          state.selectedLine = ref;
+        },
         [SET_SELECTED_LEMMAS]: (state, { lemmas }) => {
           state.selectedLemmas = lemmas;
         },
         [SELECT_LINE]: (state, ref) => {
+          state.highlightedTranscription = ref;
           state.selectedLine = ref;
+        },
+        [SELECT_SCHOLION]: (state, scholion) => {
+          state.selectedScholion = scholion;
         },
         [STOP_AUDIO]: state => {
           state.nowPlaying = null;
@@ -324,11 +337,17 @@ const createStore = client => {
         [CLEAR_TOKEN]: ({ commit }) => {
           commit(CLEAR_TOKEN);
         },
+        [HIGHLIGHT_TRANSCRIPTION]: ({ commit }, { ref }) => {
+          commit(HIGHLIGHT_TRANSCRIPTION, ref);
+        },
         [SELECT_TOKEN]: ({ commit }, { token }) => {
           commit(SELECT_TOKEN, token);
         },
         [SELECT_LINE]: ({ commit }, { ref }) => {
           commit(SELECT_LINE, ref);
+        },
+        [SELECT_SCHOLION]: ({ commit }, { scholion }) => {
+          commit(SELECT_SCHOLION, scholion);
         },
         [STOP_AUDIO]: ({ commit }) => {
           commit(STOP_AUDIO);
