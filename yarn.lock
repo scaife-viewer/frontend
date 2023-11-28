@@ -13246,6 +13246,19 @@ map-promisified@latest:
   languageName: node
   linkType: hard
 
+"sass@npm:1.60.0":
+  version: 1.60.0
+  resolution: "sass@npm:1.60.0"
+  dependencies:
+    chokidar: ">=3.0.0 <4.0.0"
+    immutable: ^4.0.0
+    source-map-js: ">=0.6.2 <2.0.0"
+  bin:
+    sass: sass.js
+  checksum: 06e163c37af466ec194cf2ed8dab616372afeb19322d356947d48ea664fc38398ae77c4d91bea9cb0ace954ce289d5518d0f8555ecc49f6bf2539a8ef52fc580
+  languageName: node
+  linkType: hard
+
 "sass@npm:^1.18.0":
   version: 1.26.10
   resolution: "sass@npm:1.26.10"
@@ -13254,19 +13267,6 @@ map-promisified@latest:
   bin:
     sass: sass.js
   checksum: ac995d1838353444ba7e93b50f0958eb2cb18ab387f393b38f687185efa5598e73e6a96ad31cf944cde1138bc491ded586142d5230adc072be44d780d1ecdde7
-  languageName: node
-  linkType: hard
-
-"sass@npm:^1.69.5":
-  version: 1.69.5
-  resolution: "sass@npm:1.69.5"
-  dependencies:
-    chokidar: ">=3.0.0 <4.0.0"
-    immutable: ^4.0.0
-    source-map-js: ">=0.6.2 <2.0.0"
-  bin:
-    sass: sass.js
-  checksum: c66f4f02882e7aa7aa49703824dadbb5a174dcd05e3cd96f17f73687889aab6027d078b518e2c04b594dfd89b2f574824bf935c7aee46c770aa6be9aafcc49f2
   languageName: node
   linkType: hard
 
@@ -13302,7 +13302,7 @@ map-promisified@latest:
     rollup-plugin-replace: ^2.2.0
     rollup-plugin-terser: ^6.1.0
     rollup-plugin-vue: ^5.1.9
-    sass: ^1.69.5
+    sass: 1.60.0
     sass-loader: ^9.0.3
     vue: ^2.6.10
     vue-router: ^3.4.2
