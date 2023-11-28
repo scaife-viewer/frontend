@@ -1542,19 +1542,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@scaife-viewer/common@^0.4.0, @scaife-viewer/common@workspace:packages/common":
+"@scaife-viewer/common@^0.6.0, @scaife-viewer/common@workspace:packages/common":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/common@workspace:packages/common"
   dependencies:
     "@fortawesome/fontawesome-svg-core": ^1.2.28
     "@fortawesome/free-solid-svg-icons": ^5.14.0
     "@fortawesome/vue-fontawesome": ^0.1.8
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/store": ^0.6.0
     lodash.debounce: ^4.0.8
   languageName: unknown
   linkType: soft
 
-"@scaife-viewer/entity-map@^0.5.0-beta.2, @scaife-viewer/entity-map@workspace:packages/entity-map":
+"@scaife-viewer/entity-map@^0.6.0, @scaife-viewer/entity-map@workspace:packages/entity-map":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/entity-map@workspace:packages/entity-map"
   dependencies:
@@ -1567,9 +1567,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/reader-alignments-mode@workspace:packages/reader-alignments-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-attributions": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-attributions": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1578,9 +1578,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/reader-commentaries-mode@workspace:packages/reader-commentaries-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-reader": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-reader": ^0.6.0
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
   languageName: unknown
@@ -1590,9 +1590,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/reader-dictionary-entries-mode@workspace:packages/reader-dictionary-entries-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-reader": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-reader": ^0.6.0
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
   languageName: unknown
@@ -1602,9 +1602,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/reader-grammatical-entries-mode@workspace:packages/reader-grammatical-entries-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-reader": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-reader": ^0.6.0
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
   languageName: unknown
@@ -1615,9 +1615,9 @@ __metadata:
   resolution: "@scaife-viewer/reader-image-mode@workspace:packages/reader-image-mode"
   dependencies:
     "@fortawesome/free-solid-svg-icons": ^5.14.0
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-reader": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-reader": ^0.6.0
     graphql-tag: ^2.10.3
     openseadragon: ^2.4.2
     vue-apollo: ^3.0.4
@@ -1628,9 +1628,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/reader-interlinear-mode@workspace:packages/reader-interlinear-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-reader": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-reader": ^0.6.0
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
   languageName: unknown
@@ -1640,9 +1640,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/reader-metrical-mode@workspace:packages/reader-metrical-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-reader": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-reader": ^0.6.0
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
   languageName: unknown
@@ -1653,10 +1653,10 @@ __metadata:
   resolution: "@scaife-viewer/reader-named-entities-mode@workspace:packages/reader-named-entities-mode"
   dependencies:
     "@fortawesome/free-solid-svg-icons": ^5.14.0
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/entity-map": ^0.5.0-beta.2
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-reader": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/entity-map": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-reader": ^0.6.0
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
   languageName: unknown
@@ -1666,10 +1666,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/reader-syntax-trees-mode@workspace:packages/reader-syntax-trees-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/vue-treant": ^0.5.0-beta.1
-    "@scaife-viewer/widget-attributions": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/vue-treant": ^0.6.0
+    "@scaife-viewer/widget-attributions": ^0.6.0
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
   languageName: unknown
@@ -1679,9 +1679,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/reader-tei-fallback-mode@workspace:packages/reader-tei-fallback-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
-    "@scaife-viewer/widget-reader": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
+    "@scaife-viewer/widget-reader": ^0.6.0
     CETEIcean: ^1.7.1
     graphql-tag: ^2.10.3
     sass.js: ^0.11.1
@@ -1694,22 +1694,22 @@ __metadata:
   resolution: "@scaife-viewer/skeleton@workspace:packages/skeleton"
   dependencies:
     "@fortawesome/free-solid-svg-icons": ^5.14.0
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     portal-vue: ^2.1.7
   languageName: unknown
   linkType: soft
 
-"@scaife-viewer/store@^0.5.0-beta.1, @scaife-viewer/store@workspace:packages/store":
+"@scaife-viewer/store@^0.6.0, @scaife-viewer/store@workspace:packages/store":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/store@workspace:packages/store"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
+    "@scaife-viewer/common": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
 
-"@scaife-viewer/vue-treant@^0.5.0-beta.1, @scaife-viewer/vue-treant@workspace:packages/vue-treant":
+"@scaife-viewer/vue-treant@^0.6.0, @scaife-viewer/vue-treant@workspace:packages/vue-treant":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/vue-treant@workspace:packages/vue-treant"
   dependencies:
@@ -1719,11 +1719,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@scaife-viewer/widget-attributions@^0.5.0-beta.1, @scaife-viewer/widget-attributions@workspace:packages/widget-attributions":
+"@scaife-viewer/widget-attributions@^0.6.0, @scaife-viewer/widget-attributions@workspace:packages/widget-attributions":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-attributions@workspace:packages/widget-attributions"
   dependencies:
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.11.0
   languageName: unknown
   linkType: soft
@@ -1733,8 +1733,8 @@ __metadata:
   resolution: "@scaife-viewer/widget-audio@workspace:packages/widget-audio"
   dependencies:
     "@fortawesome/free-solid-svg-icons": ^5.14.0
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1743,8 +1743,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-commentary@workspace:packages/widget-commentary"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.12.6
   languageName: unknown
   linkType: soft
@@ -1754,8 +1754,8 @@ __metadata:
   resolution: "@scaife-viewer/widget-dictionary-entries@workspace:packages/widget-dictionary-entries"
   dependencies:
     "@fortawesome/free-solid-svg-icons": ^5.15.2
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     CETEIcean: ^1.8.0
     graphql-tag: ^2.10.3
     portal-vue: ^2.1.7
@@ -1767,8 +1767,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-display-mode@workspace:packages/widget-display-mode"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.11.0
   languageName: unknown
   linkType: soft
@@ -1777,7 +1777,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-embed@workspace:packages/widget-embed"
   dependencies:
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/store": ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -1785,8 +1785,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-grammatical-entries@workspace:packages/widget-grammatical-entries"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1795,8 +1795,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-library@workspace:packages/widget-library"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1805,7 +1805,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-metadata@workspace:packages/widget-metadata"
   dependencies:
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/store": ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -1813,8 +1813,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-morphology@workspace:packages/widget-morphology"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -1823,9 +1823,9 @@ __metadata:
   resolution: "@scaife-viewer/widget-named-entities@workspace:packages/widget-named-entities"
   dependencies:
     "@fortawesome/free-solid-svg-icons": ^5.14.0
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/entity-map": ^0.5.0-beta.2
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/entity-map": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1834,7 +1834,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-new-alexandria@workspace:packages/widget-new-alexandria"
   dependencies:
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
     query-string: ^6.11.0
   languageName: unknown
@@ -1844,8 +1844,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-passage-ancestors@workspace:packages/widget-passage-ancestors"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1854,8 +1854,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-passage-children@workspace:packages/widget-passage-children"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1864,8 +1864,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-passage-citation-toc@workspace:packages/widget-passage-citation-toc"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
     lodash.capitalize: ^4.2.1
   languageName: unknown
@@ -1875,8 +1875,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-passage-lemma-traversal@workspace:packages/widget-passage-lemma-traversal"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1885,8 +1885,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-passage-reference@workspace:packages/widget-passage-reference"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1895,8 +1895,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-passage-siblings@workspace:packages/widget-passage-siblings"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1905,17 +1905,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-reader-sv1@workspace:packages/widget-reader-sv1"
   dependencies:
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/store": ^0.6.0
     keykey: ^3.0.0
   languageName: unknown
   linkType: soft
 
-"@scaife-viewer/widget-reader@^0.5.0-beta.1, @scaife-viewer/widget-reader@workspace:packages/widget-reader":
+"@scaife-viewer/widget-reader@^0.6.0, @scaife-viewer/widget-reader@workspace:packages/widget-reader":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-reader@workspace:packages/widget-reader"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql: ^15.0.0
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
@@ -1926,8 +1926,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-repo-metadata@workspace:packages/widget-repo-metadata"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.11.0
   languageName: unknown
   linkType: soft
@@ -1936,8 +1936,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-scholia@workspace:packages/widget-scholia"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1946,7 +1946,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-text-size@workspace:packages/widget-text-size"
   dependencies:
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/store": ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -1954,7 +1954,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-text-width@workspace:packages/widget-text-width"
   dependencies:
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/store": ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -1963,8 +1963,8 @@ __metadata:
   resolution: "@scaife-viewer/widget-toc@workspace:packages/widget-toc"
   dependencies:
     "@fortawesome/free-solid-svg-icons": ^6.4.2
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
   languageName: unknown
   linkType: soft
 
@@ -1972,8 +1972,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-token-annotations@workspace:packages/widget-token-annotations"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1982,8 +1982,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-word-list@workspace:packages/widget-word-list"
   dependencies:
-    "@scaife-viewer/common": ^0.4.0
-    "@scaife-viewer/store": ^0.5.0-beta.1
+    "@scaife-viewer/common": ^0.6.0
+    "@scaife-viewer/store": ^0.6.0
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
