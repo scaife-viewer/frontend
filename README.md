@@ -42,3 +42,11 @@ yarn install
 ```
  npx lerna add graphql-tag --scope=@scaife-viewer/<package-name>
  ```
+
+## Release new packages
+
+```
+yarn release
+```
+
+This will run the [lerna publish command](https://github.com/lerna/lerna/tree/f6e7a13e60fefc523d701efddfcf0ed41a77749b/commands/publish#readme).  You will need to be a member of the [scaife-viewer NPM.js organization](https://www.npmjs.com/settings/scaife-viewer/members) to publish new releases.
