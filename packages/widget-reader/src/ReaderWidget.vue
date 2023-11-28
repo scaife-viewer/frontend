@@ -41,6 +41,8 @@
     MODULE_NS,
     SET_PASSAGE,
     UPDATE_METADATA,
+    SET_TEXT_WIDTH,
+    CHANGE_SIDEBAR_VISIBILITY,
     DISPLAY_MODE_DEFAULT,
   } from '@scaife-viewer/store';
 
@@ -181,8 +183,17 @@
     mounted() {
       if (this.$route.query.iframe === 'y') {
         this.showPagination = false;
-        this.$store.state[MODULE_NS].leftVisible = false;
-        this.$store.state[MODULE_NS].rightVisible = false;
+        this.$store.dispatch(`${MODULE_NS}/${CHANGE_SIDEBAR_VISIBILITY}`, {
+          side: 'left',
+          bool: false,
+        });
+        this.$store.dispatch(`${MODULE_NS}/${CHANGE_SIDEBAR_VISIBILITY}`, {
+          side: 'right',
+          bool: false,
+        });
+        this.$store.dispatch(`${MODULE_NS}/${SET_TEXT_WIDTH}`, {
+          width: 'wide',
+        });
       }
     },
   };
