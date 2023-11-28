@@ -8,6 +8,8 @@ on:
       - 'packages/**'
       - 'src/**'
       - .github/workflows/ci.yml
+      - package.json
+      - yarn.lock
 
 jobs:
 
