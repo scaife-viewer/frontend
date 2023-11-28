@@ -13,11 +13,19 @@
         :skip="urn === null"
       >
         <template v-slot="{ result: { data } }">
-          <Paginator :urn="data && data.previous" :direction="pagerPrevious" />
+          <Paginator
+            v-if="showPagination"
+            :urn="data && data.previous"
+            :direction="pagerPrevious"
+          />
 
           <component :is="readerComponent" :query-variables="queryVariables" />
 
-          <Paginator :urn="data && data.next" :direction="pagerNext" />
+          <Paginator
+            v-if="showPagination"
+            :urn="data && data.next"
+            :direction="pagerNext"
+          />
         </template>
       </ApolloQuery>
     </section>
@@ -45,6 +53,11 @@
       Paginator,
     },
     scaifeConfig: {},
+    data() {
+      return {
+        showPagination: true,
+      };
+    },
     methods: {
       setVersionMetadata() {
         if (this.urn === null) {
@@ -164,6 +177,13 @@
       pagerNext() {
         return this.textDirection === 'ltr' ? 'right' : 'left';
       },
+    },
+    mounted() {
+      if (this.$route.query.iframe === 'y') {
+        this.showPagination = false;
+        this.$store.state[MODULE_NS].leftVisible = false;
+        this.$store.state[MODULE_NS].rightVisible = false;
+      }
     },
   };
 </script>
