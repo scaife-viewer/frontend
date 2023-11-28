@@ -8,6 +8,8 @@
 </template>
 
 <script>
+  import { EMBED_MODE } from '@scaife-viewer/store';
+
   export default {
     name: 'EmbedWidget',
     scaifeConfig: {
@@ -24,7 +26,7 @@
           name: 'reader',
           params: this.$route.params,
           query: {
-            iframe: 'y',
+            [EMBED_MODE]: 'y',
             ...this.$route.query,
           },
         });

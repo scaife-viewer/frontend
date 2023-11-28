@@ -44,6 +44,7 @@
     SET_TEXT_WIDTH,
     CHANGE_SIDEBAR_VISIBILITY,
     DISPLAY_MODE_DEFAULT,
+    EMBED_MODE,
   } from '@scaife-viewer/store';
 
   import PassageLanguageIsRtlMixin from './mixins';
@@ -181,7 +182,7 @@
       },
     },
     mounted() {
-      if (this.$route.query.iframe === 'y') {
+      if (this.$route.query[EMBED_MODE] === 'y') {
         this.showPagination = false;
         this.$store.dispatch(`${MODULE_NS}/${CHANGE_SIDEBAR_VISIBILITY}`, {
           side: 'left',
