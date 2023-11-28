@@ -1773,6 +1773,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@scaife-viewer/widget-embed@workspace:packages/widget-embed":
+  version: 0.0.0-use.local
+  resolution: "@scaife-viewer/widget-embed@workspace:packages/widget-embed"
+  languageName: unknown
+  linkType: soft
+
 "@scaife-viewer/widget-grammatical-entries@workspace:packages/widget-grammatical-entries":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-grammatical-entries@workspace:packages/widget-grammatical-entries"

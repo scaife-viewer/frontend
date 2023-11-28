@@ -8,6 +8,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "nodeLinker": "node-modules",
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production rollup -c ./build/rollup.config.js",
