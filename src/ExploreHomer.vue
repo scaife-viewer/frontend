@@ -43,6 +43,7 @@
   import NewAlexandriaWidget from '@scaife-viewer/widget-new-alexandria';
   import TextSizeWidget from '@scaife-viewer/widget-text-size';
   import TextWidthWidget from '@scaife-viewer/widget-text-width';
+  import EmbedWidget from '@scaife-viewer/widget-embed';
 
   import {
     MODULE_NS,
@@ -91,6 +92,7 @@
           NewAlexandriaWidget,
           ScholiaWidget,
           CommentaryWidgetSV2,
+          EmbedWidget,
         ];
       },
       main() {
