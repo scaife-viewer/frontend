@@ -4,7 +4,26 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
-- _wip for `0.5.0-beta.1`_
+## 0.5.0-beta (2021-11-16)
+
+### Fixes
+- `entity-map`
+  - Fixes an issue with coordinates X / Y values being flipped
+
+### Features
+
+- `reader-aligments-mode`
+  - adds a configuration option to highlight unaligned tokens
+  - add a new "regrouped" token display mode (for Hafez)
+- `reader-syntax-trees-mode`
+  - adds toggles to show / hide word attributes
+  - improves layout of sentences
+  - show metadata / attributions
+- `widget-named-entities`
+  - adds attributions support
+- `widget-reader`
+  - adds a configuration option to set RTL languages and CSS variable for Amiri font
+
 
 ## 0.4.1 (2021-03-29)
 
