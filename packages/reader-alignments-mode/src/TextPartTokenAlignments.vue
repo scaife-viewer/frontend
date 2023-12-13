@@ -62,6 +62,7 @@
                   id
                   idx
                   value
+                  spaceAfter
                 }
               }
             }

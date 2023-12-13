@@ -35,8 +35,8 @@
               :records="recordsForToken(token)"
               @hovered="onPickerHover"
             /> </span
-          >{{ ' ' }}
-        </template>
+          >{{ token.spaceAfter ? ' ' : '' }}</template
+        >
       </div>
     </div>
   </div>
