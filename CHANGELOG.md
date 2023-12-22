@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 0.6.1 (2023-12-2)
+
+## Fixes
+- `vue-treant`
+  - Tweak tree container styles [#84](https://github.com/scaife-viewer/frontend/pull/84)
+
 ## 0.6.0 (2023-11-18)
 
 NOTE: Please see [Beyond Translation releases](https://github.com/scaife-viewer/beyond-translation-site/releases) for additional context / information.
