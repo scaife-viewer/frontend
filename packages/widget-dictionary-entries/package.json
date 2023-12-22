@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-dictionary-entries",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
