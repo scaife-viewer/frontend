@@ -337,8 +337,9 @@
 <style src="./vendor/Treant.css"></style>
 <style lang="scss">
   .tree-container {
-    // NOTE: This is set to ensure that the entire tree can be drawn
+    // NOTE: These are set to ensure that the entire tree can be drawn
     width: 100vw;
+    overflow-x: visible !important;
   }
   .controls-container {
     display: flex;
