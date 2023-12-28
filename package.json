@@ -8,6 +8,7 @@
   "workspaces": [
     "packages/*"
   ],
+  "nodeLinker": "node-modules",
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production rollup -c ./build/rollup.config.js",
@@ -43,10 +44,11 @@
     "eslint": "^7.11.0",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-vue": "^7.0.1",
+    "sass": "1.60.0",
     "sass-loader": "^9.0.3",
     "vue-router": "^3.4.2",
     "vuex": "^3.5.1",
     "vuex-router-sync": "^5.0.0"
   },
-  "packageManager": "yarn@2.4.2"
+  "packageManager": "yarn@3.6.4"
 }

@@ -331,8 +331,8 @@
         query: gql`
           query Commentaries($urn: String!, $collectionUrn: ID) {
             textAnnotations(
-              reference: $urn,
-              collection_Urn: $collectionUrn,
+              reference: $urn
+              collection_Urn: $collectionUrn
               kind: "commentary"
             ) {
               edges {

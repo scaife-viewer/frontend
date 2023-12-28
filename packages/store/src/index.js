@@ -62,6 +62,7 @@ import {
   SHOW_GLOSS,
   SELECT_GRAMMATICAL_ENTRIES,
   CLEAR_GRAMMATICAL_ENTRIES,
+  EMBED_MODE,
 } from './constants';
 import createStore from './store';
 
@@ -130,4 +131,5 @@ export {
   SHOW_GLOSS,
   SELECT_GRAMMATICAL_ENTRIES,
   CLEAR_GRAMMATICAL_ENTRIES,
+  EMBED_MODE,
 };

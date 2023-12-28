@@ -13,11 +13,19 @@
         :skip="urn === null"
       >
         <template v-slot="{ result: { data } }">
-          <Paginator :urn="data && data.previous" :direction="pagerPrevious" />
+          <Paginator
+            v-if="showPagination"
+            :urn="data && data.previous"
+            :direction="pagerPrevious"
+          />
 
           <component :is="readerComponent" :query-variables="queryVariables" />
 
-          <Paginator :urn="data && data.next" :direction="pagerNext" />
+          <Paginator
+            v-if="showPagination"
+            :urn="data && data.next"
+            :direction="pagerNext"
+          />
         </template>
       </ApolloQuery>
     </section>
@@ -33,7 +41,10 @@
     MODULE_NS,
     SET_PASSAGE,
     UPDATE_METADATA,
+    SET_TEXT_WIDTH,
+    CHANGE_SIDEBAR_VISIBILITY,
     DISPLAY_MODE_DEFAULT,
+    EMBED_MODE,
   } from '@scaife-viewer/store';
 
   import PassageLanguageIsRtlMixin from './mixins';
@@ -45,6 +56,11 @@
       Paginator,
     },
     scaifeConfig: {},
+    data() {
+      return {
+        showPagination: true,
+      };
+    },
     methods: {
       setVersionMetadata() {
         if (this.urn === null) {
@@ -164,6 +180,22 @@
       pagerNext() {
         return this.textDirection === 'ltr' ? 'right' : 'left';
       },
+    },
+    mounted() {
+      if (this.$route.query[EMBED_MODE] === 'y') {
+        this.showPagination = false;
+        this.$store.dispatch(`${MODULE_NS}/${CHANGE_SIDEBAR_VISIBILITY}`, {
+          side: 'left',
+          bool: false,
+        });
+        this.$store.dispatch(`${MODULE_NS}/${CHANGE_SIDEBAR_VISIBILITY}`, {
+          side: 'right',
+          bool: false,
+        });
+        this.$store.dispatch(`${MODULE_NS}/${SET_TEXT_WIDTH}`, {
+          width: 'wide',
+        });
+      }
     },
   };
 </script>
