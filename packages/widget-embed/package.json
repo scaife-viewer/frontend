@@ -1,5 +1,6 @@
 {
-  "name": "@scaife-viewer/widget-reader-sv1",
+  "name": "@scaife-viewer/widget-embed",
+  "packageManager": "yarn@3.6.4",
   "version": "0.6.0",
   "main": "src/index.js",
   "publishConfig": {
@@ -8,7 +9,6 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/store": "^0.6.0",
-    "keykey": "^3.0.0"
+    "@scaife-viewer/store": "^0.6.0"
   }
 }

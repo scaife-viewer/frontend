@@ -40,8 +40,8 @@
         query: gql`
           query Scholia($urn: String!, $collectionUrn: ID) {
             textAnnotations(
-              reference: $urn,
-              collection_Urn: $collectionUrn,
+              reference: $urn
+              collection_Urn: $collectionUrn
               kind: "scholia"
             ) {
               edges {

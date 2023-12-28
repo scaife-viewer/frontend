@@ -31,7 +31,7 @@ export const SCHOLIA_KIND_CHOICES = new Map([
   [SCHOLIA_KIND_INTERMARGINAL, 'Intermarginal'],
   [SCHOLIA_KIND_INTERIOR, 'Interior'],
   [SCHOLIA_KIND_MISC, 'Miscellaneous'],
-])
+]);
 
 export const SCHOLIA_URN_MAIN = 'urn:cts:greekLit:tlg5026.msA.hmt:';
 export const SCHOLIA_URN_EXTERIOR = 'urn:cts:greekLit:tlg5026.msAext.hmt:';

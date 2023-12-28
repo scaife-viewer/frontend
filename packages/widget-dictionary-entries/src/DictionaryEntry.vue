@@ -204,7 +204,10 @@
         return matches.length > -1 ? matches[0] : null;
       },
       dictionarySelectionTitle(entry) {
-        return `<span>${entry.headwordDisplay}</span><span> :: ${entry.dictionary.label}</span>`;
+        return (
+          `<span>${entry.headwordDisplay}</span>` +
+          `<span> :: ${entry.dictionary.label}</span>`
+        );
       },
     },
     computed: {

@@ -1,12 +1,7 @@
 <template>
   <aside class="new-alexandria-container">
     <p v-if="!comments || comments.length === 0">No comments found.</p>
-    <div
-      v-else
-      v-for="comment in comments"
-      :key="comment._id"
-      class="comment"
-    >
+    <div v-else v-for="comment in comments" :key="comment._id" class="comment">
       <h4>{{ comment.latestRevision.title }}</h4>
       <h5 class="commenter-name" v-if="comment.commenters.length > 0">
         {{ comment.commenters[0].name }}

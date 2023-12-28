@@ -272,12 +272,13 @@
               location,
             });
 
-            // eslint-disable-next-line no-new
             const userData = {
               roi,
             };
+            // eslint-disable-next-line no-new
             new OpenSeadragon.MouseTracker({
               element,
+              // eslint-disable-next-line no-unused-vars
               clickHandler: event => {
                 this.$store.dispatch(
                   `${MODULE_NS}/${HIGHLIGHT_TRANSCRIPTION}`,
