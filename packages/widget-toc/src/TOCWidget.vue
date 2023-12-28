@@ -1,7 +1,7 @@
 <template>
   <div class="toc-widget" :class="{ 'with-entries': toc }">
     <LoaderBall v-if="$apollo.loading" />
-    <EmptyMessage v-else-if="!toc">
+    <EmptyMessage v-else-if="!toc || toc.items.length === 0">
       {{ emptyMessage }}
     </EmptyMessage>
     <div class="toc-entries" :key="currentToc" v-else>
@@ -47,8 +47,6 @@
   import TOC from './TOC.vue';
   import reducers from './reducers';
 
-  const SHOW_RELEVANT_ONLY = true;
-
   export default {
     name: 'TOCWidget',
     components: {
@@ -79,17 +77,18 @@
         return this.passage ? this.passage.upTo('work') : '';
       },
       emptyMessage() {
-        return SHOW_RELEVANT_ONLY
+        return this.showRelevantTOCs
           ? 'No relevant tables of contents found'
           : 'No tables of contents found';
       },
       toc() {
         if (
+          this.showRelevantTOCs &&
           this.showingRootToc &&
           this.relevantEntries &&
           this.relevantEntries.length > 0
         ) {
-          // NOTE: Show the root entries
+          // NOTE: Show the relevant entries
           return {
             label: '',
             items: this.relevantEntries ? this.relevantEntries : [],
@@ -101,9 +100,10 @@
           this.rootEntries.length > 0
         ) {
           // NOTE: Show the root entries
+          const rootEntries = this.rootEntries ? this.rootEntries : [];
           return {
             label: '',
-            items: this.rootEntries ? this.rootEntries : [],
+            items: this.showRelevantTOCs ? [] : rootEntries,
           };
         }
         if (this.currentToc && this.tocEntries && this.tocEntries.length > 0) {
@@ -200,7 +200,7 @@
           }
         `,
         skip() {
-          if (SHOW_RELEVANT_ONLY) {
+          if (this.showRelevantTOCs) {
             return true;
           }
           return !!this.$route.query.toc;
@@ -251,6 +251,13 @@
       filterData(data) {
         this.filtered = data;
       },
+      shouldShowRelevantTOCs() {
+        const configValue = this.$scaife.config.showRelevantTOCs;
+        return configValue === undefined ? true : configValue;
+      },
+    },
+    created() {
+      this.showRelevantTOCs = this.shouldShowRelevantTOCs();
     },
   };
 </script>
