@@ -76,15 +76,7 @@
     },
     computed: {
       passageWork() {
-        // FIXME: Fix this so we have "upTo" in URN module
-        if (this.passage) {
-          const [tgPart, workPart, ] = `${this.passage}`
-            .split(`${this.passage.nss}:`)[1]
-            .split(':')[0]
-            .split('.');
-          return `urn:cts:${this.passage.nss}:${tgPart}.${workPart}:`;
-        }
-        return '';
+        return this.passage ? this.passage.upTo('work') : '';
       },
       emptyMessage() {
         return SHOW_RELEVANT_ONLY
