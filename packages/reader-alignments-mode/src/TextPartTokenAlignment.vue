@@ -22,7 +22,11 @@
             :key="token.id"
             class="token"
             :class="[
-              { selected: selected(token), empty: emptyAlignments(token) },
+              {
+                selected: selected(token),
+                empty: emptyAlignments(token),
+                'is-unaligned': highlightUnaligned && isUnaligned(token),
+              },
               `a${hoveringAt}`,
             ]"
             @mouseenter="onTokenEnter(token)"
@@ -53,10 +57,12 @@
       'hoveringOn',
       'textSize',
       'textWidth',
+      'highlightUnaligned',
       'tokenMap',
       'recordMap',
       'direction',
     ],
+
     components: { AlignmentRecordPicker },
     methods: {
       emptyAlignments(token) {
@@ -101,6 +107,9 @@
       isHalfLineEnd(textPart) {
         const refDepth = (textPart.ref.match(/\./g) || []).length;
         return refDepth === 3 ? textPart.ref.endsWith('2') : false;
+      },
+      isUnaligned(token) {
+        return this.tokenMap[token.id] === undefined;
       },
     },
   };
@@ -148,6 +157,9 @@
 
   .token:hover > ::v-deep.alignment-records-picker {
     opacity: 1;
+  }
+  .token.is-unaligned {
+    color: var(--sv-alignments-token-no-alignments-text-color, #f06e6e);
   }
   .token.empty {
     color: var(--sv-alignments-token-no-alignments-text-color, #ccc);

@@ -5,6 +5,7 @@
       :content="first"
       :tokenMap="tokenMap"
       :recordMap="recordMap"
+      :highlightUnaligned="highlightUnaligned"
       :hoveringAt="hoveredIndex"
       :hoveringOn="hoveredAlignmentTokens"
       :textSize="textSize"
@@ -17,6 +18,7 @@
       :content="second"
       :tokenMap="tokenMap"
       :recordMap="recordMap"
+      :highlightUnaligned="highlightUnaligned"
       :hoveringAt="hoveredIndex"
       :hoveringOn="hoveredAlignmentTokens"
       :textSize="textSize"
@@ -29,6 +31,7 @@
       :content="third"
       :tokenMap="tokenMap"
       :recordMap="recordMap"
+      :highlightUnaligned="highlightUnaligned"
       :hoveringAt="hoveredIndex"
       :hoveringOn="hoveredAlignmentTokens"
       :textSize="textSize"
@@ -81,7 +84,7 @@
     });
 
   export default {
-    props: ['data', 'textSize', 'textWidth'],
+    props: ['data', 'textSize', 'textWidth', 'highlightUnaligned'],
     components: { EmptyMessage, TextPartTokenAlignment },
     computed: {
       versionsCount() {
