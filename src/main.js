@@ -11,6 +11,7 @@ import {
   DISPLAY_MODE_DICTIONARY_ENTRIES,
   DISPLAY_MODE_NAMED_ENTITIES,
   DISPLAY_MODE_COMMENTARIES,
+  DISPLAY_MODE_TEXTUAL_NOTES,
   DISPLAY_MODE_SYNTAX_TREES,
   DISPLAY_MODE_GRAMMATICAL_ENTRIES,
   DISPLAY_MODE_FALLBACK,
@@ -81,6 +82,8 @@ Vue.use(SkeletonPlugin, {
       [DISPLAY_MODE_DICTIONARY_ENTRIES]: DictionaryEntriesModeReader,
       [DISPLAY_MODE_NAMED_ENTITIES]: NamedEntitiesModeReader,
       [DISPLAY_MODE_COMMENTARIES]: CommentariesModeReader,
+      // TODO: Add TextualNotesModeReader
+      [DISPLAY_MODE_TEXTUAL_NOTES]: CommentariesModeReader,
       [DISPLAY_MODE_ALIGNMENTS]: AlignmentsModeReader,
       [DISPLAY_MODE_SYNTAX_TREES]: SyntaxTreesModeReader,
       [DISPLAY_MODE_GRAMMATICAL_ENTRIES]: GrammaticalEntriesModeReader,

@@ -164,7 +164,11 @@
       },
       // TODO: Splat from store; revisit docs
       commentariesMode() {
-        return this.$store.getters[`${MODULE_NS}/commentariesMode`];
+        // TODO: Add textualNotesMode
+        return (
+          this.$store.getters[`${MODULE_NS}/commentariesMode`] ||
+          this.$store.getters[`${MODULE_NS}/textualNotesMode`]
+        );
       },
       entities() {
         return (this.token && this.token.entities) || [];
@@ -267,6 +271,7 @@
       //   //
       //   return this.$store.state[MODULE_NS].syncCommentary;
       // },
+      // TODO: Textual notes
       commentaries() {
         if (!this.commentary) {
           return [];

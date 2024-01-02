@@ -37,6 +37,7 @@ import {
   DISPLAY_MODE_DICTIONARY_ENTRIES,
   DISPLAY_MODE_NAMED_ENTITIES,
   DISPLAY_MODE_COMMENTARIES,
+  DISPLAY_MODE_TEXTUAL_NOTES,
   DISPLAY_MODE_DEFAULT,
   DISPLAY_MODE_FALLBACK,
   SENSE_EXPANSION_PASSAGE,
@@ -146,6 +147,9 @@ const createStore = client => {
         },
         commentariesMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_COMMENTARIES;
+        },
+        textualNotesMode: (_, getters) => {
+          return getters.displayMode === DISPLAY_MODE_TEXTUAL_NOTES;
         },
         fallbackMode: (_, getters) => {
           return getters.displayMode === DISPLAY_MODE_FALLBACK;
