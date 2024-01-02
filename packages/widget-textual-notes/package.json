@@ -1,0 +1,17 @@
+{
+  "name": "@scaife-viewer/widget-textual-notes",
+  "packageManager": "yarn@3.6.4",
+  "version": "0.6.0",
+  "main": "src/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Eldarion",
+  "license": "MIT",
+  "dependencies": {
+    "@scaife-viewer/common": "^0.6.0",
+    "@scaife-viewer/store": "^0.6.0",
+    "@scaife-viewer/widget-commentary": "^0.6.0",
+    "graphql-tag": "^2.12.6"
+  }
+}

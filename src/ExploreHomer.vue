@@ -16,6 +16,7 @@
 
   import ReaderWidget from '@scaife-viewer/widget-reader';
   import { CommentaryWidgetSV2 } from '@scaife-viewer/widget-commentary';
+  import TextualNotesWidget from '@scaife-viewer/widget-textual-notes';
   import RepoMetadataWidget from '@scaife-viewer/widget-repo-metadata';
   import MetadataWidget from '@scaife-viewer/widget-metadata';
   // FIXME: Restore once we've synchronized ATLAS branches
@@ -90,6 +91,7 @@
           MorphologyWidget,
           WordListWidget,
           NewAlexandriaWidget,
+          TextualNotesWidget,
           ScholiaWidget,
           CommentaryWidgetSV2,
           EmbedWidget,
