@@ -88,7 +88,7 @@
 
   export default {
     scaifeConfig: {
-      displayName: 'Textual Notes'
+      displayName: 'Textual Notes',
     },
     name: 'TextualNotesWidget',
     // TODO: Provide attribution functionality
@@ -326,12 +326,8 @@
     apollo: {
       lines: {
         query: gql`
-          query Commentaries($urn: String!, $collectionUrn: ID) {
-            textAnnotations(
-              reference: $urn
-              collection_Urn: $collectionUrn
-              kind: "commentary"
-            ) {
+          query TextualNotes($urn: String!, $collectionUrn: ID) {
+            textualNotes(reference: $urn, collection_Urn: $collectionUrn) {
               edges {
                 node {
                   id
@@ -349,7 +345,7 @@
           };
         },
         update(data) {
-          const annotations = data.textAnnotations.edges.map(e => ({
+          const annotations = data.textualNotes.edges.map(e => ({
             id: e.node.id,
             idx: e.node.idx,
             data: e.node.data,
