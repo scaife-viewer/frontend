@@ -194,7 +194,7 @@
       filteredLines: {
         immediate: true,
         handler(newVal) {
-          if (newVal) {
+          if (newVal.length) {
             // TODO: Proper mutation
             // OPTION B: Filter via selected lines
             const lookup = this.buildTokenLookup(newVal);
