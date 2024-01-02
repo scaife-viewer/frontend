@@ -30,7 +30,11 @@
   } from '@scaife-viewer/common';
 
   const displayNameCallback = (rootGetters, $scaife) => {
-    return $scaife.config.commentariesDisplayModeLabel || 'Commentaries';
+    const callback = $scaife.config.commentariesDisplayModeLabel;
+    if (callback) {
+      return callback(rootGetters, $scaife)
+    }
+    return 'Commentaries';
   };
 
   export default {
