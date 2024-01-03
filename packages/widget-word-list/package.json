@@ -1,6 +1,6 @@
 {
   "name": "@scaife-viewer/widget-word-list",
-  "version": "0.6.0",
+  "version": "0.6.2",
   "main": "src/index.js",
   "publishConfig": {
     "access": "public"
@@ -8,8 +8,8 @@
   "author": "Eldarion",
   "license": "MIT",
   "dependencies": {
-    "@scaife-viewer/common": "^0.6.0",
-    "@scaife-viewer/store": "^0.6.0",
+    "@scaife-viewer/common": "^0.6.2",
+    "@scaife-viewer/store": "^0.6.2",
     "graphql-tag": "^2.10.3"
   }
 }
