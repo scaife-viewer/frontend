@@ -1569,7 +1569,7 @@ __metadata:
   dependencies:
     "@scaife-viewer/common": ^0.6.0
     "@scaife-viewer/store": ^0.6.0
-    "@scaife-viewer/widget-attributions": ^0.6.0
+    "@scaife-viewer/widget-attributions": ^0.6.1
     graphql-tag: ^2.10.3
   languageName: unknown
   linkType: soft
@@ -1668,8 +1668,8 @@ __metadata:
   dependencies:
     "@scaife-viewer/common": ^0.6.0
     "@scaife-viewer/store": ^0.6.0
-    "@scaife-viewer/vue-treant": ^0.6.0
-    "@scaife-viewer/widget-attributions": ^0.6.0
+    "@scaife-viewer/vue-treant": ^0.6.1
+    "@scaife-viewer/widget-attributions": ^0.6.1
     graphql-tag: ^2.10.3
     vue-apollo: ^3.0.4
   languageName: unknown
@@ -1709,7 +1709,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@scaife-viewer/vue-treant@^0.6.0, @scaife-viewer/vue-treant@workspace:packages/vue-treant":
+"@scaife-viewer/vue-treant@^0.6.1, @scaife-viewer/vue-treant@workspace:packages/vue-treant":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/vue-treant@workspace:packages/vue-treant"
   dependencies:
@@ -1719,7 +1719,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@scaife-viewer/widget-attributions@^0.6.0, @scaife-viewer/widget-attributions@workspace:packages/widget-attributions":
+"@scaife-viewer/widget-attributions@^0.6.1, @scaife-viewer/widget-attributions@workspace:packages/widget-attributions":
   version: 0.0.0-use.local
   resolution: "@scaife-viewer/widget-attributions@workspace:packages/widget-attributions"
   dependencies:
@@ -1965,6 +1965,7 @@ __metadata:
     "@fortawesome/free-solid-svg-icons": ^6.4.2
     "@scaife-viewer/common": ^0.6.0
     "@scaife-viewer/store": ^0.6.0
+    graphql-tag: ^2.12.6
   languageName: unknown
   linkType: soft
 
