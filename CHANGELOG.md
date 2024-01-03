@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+## 0.6.2 (2024-1-3)
+
+### Features
+- `reader-syntax-trees-mode`
+  - Expose fields from syntax trees collection (#80)
+- `reader-widget`
+  - Improve RTL display for Arabic passages (#80)
+- `common`
+  - Backport `URN.upTo` from `scaife-viewer/scafie-viewer` (#85)
+- `widget-tocs`
+  - Fetch TOCs from GraphQL / ATLAS (#85)
+
 ## 0.6.1 (2023-12-2)
 
 ### Fixes
