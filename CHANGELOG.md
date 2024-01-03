@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ## 0.6.1 (2023-12-2)
 
-## Fixes
+### Fixes
 - `vue-treant`
   - Tweak tree container styles [#84](https://github.com/scaife-viewer/frontend/pull/84)
 
@@ -16,11 +16,11 @@ NOTE: Please see [Beyond Translation releases](https://github.com/scaife-viewer/
 
 Changes in the `0.6.0` release were developed to support features on [scaife.perseus.org](https://scaife.perseus.org), [Beyond Translation](https://beyond-translation.perseus.org) and [Brill's Scholarly Editions](https://scholarlyeditions.brill.com/).
 
-## Fixes
+### Fixes
 - `common`
   - fix style collision with bootstrap in `CustomSelect` component
 
-## Features
+### Features
 
 - `common`
   - Parse text group from URNs
