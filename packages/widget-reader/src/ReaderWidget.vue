@@ -44,10 +44,16 @@
     SET_TEXT_WIDTH,
     CHANGE_SIDEBAR_VISIBILITY,
     DISPLAY_MODE_DEFAULT,
+    DISPLAY_MODE_INTERLINEAR,
     EMBED_MODE,
   } from '@scaife-viewer/store';
 
   import PassageLanguageIsRtlMixin from './mixins';
+
+  const directionalDisplayModes = new Set([
+    DISPLAY_MODE_DEFAULT,
+    DISPLAY_MODE_INTERLINEAR,
+  ]);
 
   export default {
     mixins: [PassageLanguageIsRtlMixin],
@@ -163,16 +169,17 @@
       fullHeight() {
         return this.namedEntitiesMode;
       },
-      isDefaultDisplayMode() {
-        return (
-          this.$store.getters[`${MODULE_NS}/displayMode`] ===
-          DISPLAY_MODE_DEFAULT
+      displayModeIsDirectional() {
+        return directionalDisplayModes.has(
+          this.$store.getters[`${MODULE_NS}/displayMode`],
         );
       },
       textDirection() {
         // FIXME: Further localization required across
         // the other display modes
-        return this.passageIsRtl && this.isDefaultDisplayMode ? 'rtl' : 'ltr';
+        return this.passageIsRtl && this.displayModeIsDirectional
+          ? 'rtl'
+          : 'ltr';
       },
       pagerPrevious() {
         return this.textDirection === 'ltr' ? 'left' : 'right';
@@ -221,10 +228,10 @@
     align-items: baseline;
     justify-content: left;
     & nav:last-child {
-      margin-left: auto;
+      margin-inline-start: auto;
     }
     ::v-deep .ball-pulse {
-      margin-left: auto;
+      margin-inline-start: auto;
       padding-top: 40px;
     }
   }

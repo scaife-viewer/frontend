@@ -130,17 +130,17 @@
       color: var(--sv-widget-reader-line-ref-text-color, #69c);
       font-family: var(--sv-widget-reader-line-ref-font-family, 'Noto Sans');
       min-width: 4em;
-      margin-left: 1em;
-      text-align: right;
+      margin-inline-start: 1em;
+      text-align: end;
       cursor: pointer;
       > svg {
-        margin-left: -10px;
-        margin-right: 10px;
+        margin-inline-start: -10px;
+        margin-inline-end: 10px;
         color: var(--sv-widget-reader-line-ref-svg-color, #495057);
       }
     }
     .line-text {
-      margin-left: 1em;
+      margin-inline-start: 1em;
     }
   }
 
@@ -174,19 +174,19 @@
       padding: 1px 3px;
     }
     span.syll:first-child {
-      border-left: 2px solid
+      border-inline-start: 2px solid
         var(--sv-widget-reader-metrical-syll-first-border-color, black);
     }
     span.syll.caesura:first-child {
-      border-left: 3px solid
+      border-inline-start: 3px solid
         var(--sv-widget-reader-metrical-syll-caesura-first-border-color, blue);
     }
     span.syll:not(:first-child) {
-      border-left: 1px dotted
+      border-inline-start: 1px dotted
         var(--sv-widget-reader-metrical-syll-first-border-color, black);
     }
     span.syll.caesura:not(:first-child) {
-      border-left: 3px dotted
+      border-inline-start: 3px dotted
         var(--sv-widget-reader-metrical-syll-caesura-first-border-color, blue);
     }
 

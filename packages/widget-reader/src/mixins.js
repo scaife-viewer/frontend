@@ -1,6 +1,6 @@
 import { MODULE_NS } from '@scaife-viewer/store';
 
-const RTL_LANGUAGES = new Set(['far']);
+const RTL_LANGUAGES = new Set(['far', 'ara']);
 
 const PassageLanguageIsRtlMixin = {
   computed: {
