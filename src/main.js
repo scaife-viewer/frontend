@@ -61,12 +61,9 @@ Vue.use(SkeletonPlugin, {
     ...tocIconMap,
     ...namedEntitesReaderIconMap,
     ...imageModeReaderIconMap,
+    ...tocIconMap,
   },
   config: {
-    endpoints: {
-      // FIXME: GraphQL
-      tocEndpoint: 'http://localhost:8000',
-    },
     entityMap: {
       accessToken:
         // eslint-disable-next-line max-len
